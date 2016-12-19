@@ -11,10 +11,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "outDir": "dist/",
-        "removeComments": false,
-        "sourceMap": false,
         "strictNullChecks": true,
-        "stripInternal": true,
         "target": "es6"
     },
     "include": [

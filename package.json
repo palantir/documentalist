@@ -29,8 +29,7 @@
     "typescript": "^2.1.4"
   },
   "scripts": {
-    "md": "remarkable",
-    "toc": "markdown-toc",
+    "tsc": "tsc --project . && echo 'OK'",
     "watch": "tsc --project . --watch"
   },
   "license": "UNLICENSED"
