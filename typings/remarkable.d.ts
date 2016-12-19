@@ -62,7 +62,7 @@ declare module "remarkable" {
              * @param env     the key-value store created by the parsing rules
              * @returns HTML code
              */
-            (tokens: string[], idx: number, options: any, env: any): string;
+            (tokens: any[], idx: number, options: any, env: any): string;
         }
 
         interface Renderer {
@@ -106,10 +106,6 @@ declare module "remarkable" {
         set(options: Remarkable.Options): void;
 
         use<T>(plugin: Remarkable.Plugin<T>, pluginOptions?: T): void;
-    }
-
-    namespace Remarkable {
-        // to support `import * as Remarkable from "remarkable"`
     }
 
     export = Remarkable;

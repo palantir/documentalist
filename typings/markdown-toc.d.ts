@@ -25,24 +25,28 @@ declare module "markdown-toc" {
             /** Array of heading objects for creating a custom TOC. */
             json: toc.Heading[];
 
-            /**
-             * Insert a table of contents immediately after an opening `<!-- toc -->` code comment, or replace
-             * an existing TOC if both an opening comment and a closing comment (`<!-- tocstop -->`) are found.
-             *
-             * _(This strategy works well since code comments in markdown are hidden when viewed as HTML,
-             * like when viewing a README on GitHub README for example)._
-             */
-            insert(): string;
         }
+
+        /**
+         * Insert a table of contents immediately after an opening `<!-- toc -->` code comment, or replace
+         * an existing TOC if both an opening comment and a closing comment (`<!-- tocstop -->`) are found.
+         *
+         * _(This strategy works well since code comments in markdown are hidden when viewed as HTML,
+         * like when viewing a README on GitHub README for example)._
+         *
+         * @returns a new markdown string that includes the table of contents
+         */
+        function insert(markdown: string): string;
 
         /**
          * Use as a Remarkable plugin:
          *
          * `new Remarkable().use(toc.plugin(options))`
          */
-        const plugin: Remarkable.Plugin<Options>;
+        function plugin(options?: Options): Remarkable.Plugin<Options>;
 
         // TODO: utility functions https://github.com/jonschlinkert/markdown-toc#utility-functions
+        function slugify(source: string): string;
     }
 
     export = toc;
