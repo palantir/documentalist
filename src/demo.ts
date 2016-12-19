@@ -1,3 +1,4 @@
+import { writeFileSync } from "fs";
 import * as glob from "glob";
 import * as Highlights from "highlights";
 import Documentarian from "./";
@@ -18,9 +19,14 @@ function highlight(fileContents: string, language: string) {
 }
 
 const doc = new Documentarian({ highlight });
-// user is responsible for globbing (makes for easy CLI usage too)
-doc.add(...glob.sync("../blueprint-public/packages/core/src/**/*.md"));
 
-console.log(doc.get("components"));
-console.log("\n******\n");
-console.log(doc.tree());
+// user is responsible for globbing (makes for easy CLI usage too)
+const BLUEPRINT_DIR = "../blueprint-public/packages/core/src";
+console.log(
+    doc.add(...glob.sync(`${BLUEPRINT_DIR}/**/*.md`)),
+);
+
+writeFileSync("dist/data.json", JSON.stringify({
+    layout: doc.tree(BLUEPRINT_DIR),
+    pages: doc.read(),
+}, null, 2));
