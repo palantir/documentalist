@@ -21,14 +21,17 @@
     "react": "^15.4.1",
     "react-addons-css-transition-group": "^15.4.1",
     "react-dom": "^15.4.1",
-    "remarkable": "^1.7.1",
-    "ts-node": "^1.7.2"
+    "remarkable": "^1.7.1"
   },
   "devDependencies": {
+    "@types/mocha": "^2.2.33",
+    "mocha": "^3.2.0",
+    "ts-node": "^1.7.2",
     "tslint": "^4.0.2",
     "typescript": "^2.1.4"
   },
   "scripts": {
+    "test": "mocha --compilers ts:ts-node/register",
     "tsc": "tsc --project . && echo 'OK'",
     "watch": "tsc --project . --watch"
   },
