@@ -21,4 +21,6 @@ const doc = new Documentarian({ highlight });
 // user is responsible for globbing (makes for easy CLI usage too)
 doc.add(...glob.sync("../blueprint-public/packages/core/src/**/*.md"));
 
+console.log(doc.get("components"));
+console.log("\n******\n");
 console.log(doc.tree());

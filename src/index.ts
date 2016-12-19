@@ -3,8 +3,6 @@ import * as yaml from "js-yaml";
 import * as toc from "markdown-toc";
 import * as Remarkable from "remarkable";
 
-const METADATA_REGEX = /^---\n?((?:.|\n)*)\n---\n/;
-
 export interface IOptions {
     // TODO: expose all Remarkable options?
 
@@ -69,33 +67,40 @@ export default class Documentarian {
         };
     }
 
+    /**
+     * Reads the given set of markdown files and adds their data to the internal storage.
+     * Returns an array of the new references added.
+     */
     public add(...filepaths: string[]) {
-        filepaths.sort((a, b) => b.localeCompare(a));
-        filepaths.map<IPageData<any>>((filepath) => {
-            const contents = fs.readFileSync(filepath, "utf-8");
-            const match = METADATA_REGEX.exec(contents);
-            if (match === null) {
-                return {
-                    contents: this.markdown.render(contents),
-                    headings: toc(contents).json,
-                    metadata: {},
-                    path: filepath,
-                };
-            } else {
-                const mdContents = contents.substr(match[0].length);
-                return {
-                    contents: this.markdown.render(mdContents),
-                    headings: toc(mdContents).json,
-                    metadata: yaml.load(match[1]),
-                    path: filepath,
-                };
-            }
-        }).forEach((data) => {
-            this.data.set(data.headings[0].slug, data)
-        });
+        return filepaths
+            .sort((a, b) => b.localeCompare(a))
+            .map(readFile)
+            .map(extractMetadata)
+            .map((data, index) => ({
+                ...data,
+                headings: toc(data.contents).json,
+                path: filepaths[index],
+            }))
+            .map<IPageData<IMetadata>>((data) => {
+                // process `contents` based on corresponding option.
+                // at this point, `contents` becomes an optional property.
+                const { contents } = this.options;
+                if (contents === false) {
+                    delete data.contents;
+                } else if (contents === "html") {
+                    data.contents = this.markdown.render(data.contents);
+                }
+                return data;
+            })
+            .map((data) => {
+                const ref = data.headings[0].slug;
+                this.data.set(ref, data);
+                return ref;
+            });
     }
 
-    public get() { return this.data; }
+    /** Returns the data for a given page reference, if it exists. */
+    public get(ref: string) { return this.data.get(ref); }
 
     /**
      * Attempt to produce a tree layout of known pages.
@@ -119,4 +124,22 @@ export default class Documentarian {
         });
         return pages;
     }
+}
+
+/**
+ * UTILITY FUNCTIONS
+ */
+
+const METADATA_REGEX = /^---\n?((?:.|\n)*)\n---\n/;
+function extractMetadata(markdown: string) {
+    const match = METADATA_REGEX.exec(markdown);
+    if (match === null) {
+        return { contents: markdown, metadata: {} };
+    }
+    const contents = markdown.substr(match[0].length);
+    return { contents, metadata: yaml.load(match[1]) };
+}
+
+function readFile(path: string) {
+    return fs.readFileSync(path, "utf-8");
 }
