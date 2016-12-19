@@ -40,7 +40,7 @@ export interface IPageData<M extends IMetadata> {
     path: string;
 }
 
-export default class Documentarian {
+export default class Documentalist {
     public markdown: Remarkable;
 
     /** A map of page reference to page data */

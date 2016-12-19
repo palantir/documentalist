@@ -1,7 +1,7 @@
 import { writeFileSync } from "fs";
 import * as glob from "glob";
 import * as Highlights from "highlights";
-import Documentarian from "./";
+import Documentalist from "./";
 
 // user is responsible for syntax highlighting.
 // so they can configure it however they need, so long as it's synchronous.
@@ -18,7 +18,7 @@ function highlight(fileContents: string, language: string) {
     return highlighter.highlightSync({ fileContents, scopeName });
 }
 
-const doc = new Documentarian({ highlight });
+const doc = new Documentalist({ highlight });
 
 // user is responsible for globbing (makes for easy CLI usage too)
 const BLUEPRINT_DIR = "../blueprint-public/packages/core/src";
