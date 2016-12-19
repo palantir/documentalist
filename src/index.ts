@@ -9,13 +9,22 @@ export interface IOptions {
     // TODO: expose all Remarkable options?
 
     /**
+     * What form of `contents` to return for each page:
+     * - `false` will omit the contents from the output data.
+     * - `"html"` will return rendered HTML contents _(default)_.
+     * - `"raw"` will return raw unprocessed markdown contents.
+     * @default "html"
+     */
+    contents: false | "html" | "raw";
+
+    /**
      * CSS class for anchor inside headings.
      * TODO: is this enough customization? or provide render callback?
      */
-    headingAnchorClassName?: string;
+    headingAnchorClassName: string;
 
     /** Expose syntax highlighting so user can choose highlighter and languages. */
-    highlight?: (source: string, language: string) => string;
+    highlight: (source: string, language: string) => string;
 }
 
 export interface IMetadata {
@@ -24,7 +33,7 @@ export interface IMetadata {
 }
 
 export interface IPageData<M extends IMetadata> {
-    contents: string;
+    contents?: string;
     headings: toc.Heading[];
     metadata: M;
     path: string;
@@ -36,9 +45,18 @@ export default class Documentarian {
     /** A map of page reference to page data */
     private data: Map<string, IPageData<IMetadata>> = new Map();
 
-    constructor(options: IOptions = {}) {
+    private options: IOptions;
+
+    constructor(options: Partial<IOptions> = {}) {
+        this.options = {
+            contents: "html",
+            headingAnchorClassName: "docs-anchor",
+            highlight: (source) => source,
+            ...options,
+        };
+
         this.markdown = new Remarkable({
-            highlight: options.highlight,
+            highlight: this.options.highlight,
             html: true,
             langPrefix: "",
         });
@@ -46,7 +64,7 @@ export default class Documentarian {
         this.markdown.renderer.rules["heading_open"] = (tokens, index) => {
             const slug = toc.slugify(tokens[index + 1].content);
             return `<h${tokens[index].hLevel} id="${slug}">`
-                + `<a class="${options.headingAnchorClassName || ""}" href="#${slug}">#</a>`
+                + `<a class="${this.options.headingAnchorClassName || ""}" href="#${slug}">#</a>`
                 + "&nbsp;";
         };
     }
