@@ -5,7 +5,6 @@ import * as Remarkable from "remarkable";
 import * as utils from "./utils";
 
 export type PageObject = { [child: string]: PageObject };
-// export type PageValue = string | PageObject;
 
 export interface IOptions {
     // TODO: expose all Remarkable options?
