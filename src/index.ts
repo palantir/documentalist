@@ -1,7 +1,11 @@
-import * as fs from "fs";
-import * as yaml from "js-yaml";
 import * as toc from "markdown-toc";
+import * as path from "path";
 import * as Remarkable from "remarkable";
+
+import * as utils from "./utils";
+
+export type PageObject = { [child: string]: PageObject };
+// export type PageValue = string | PageObject;
 
 export interface IOptions {
     // TODO: expose all Remarkable options?
@@ -73,13 +77,12 @@ export default class Documentarian {
      */
     public add(...filepaths: string[]) {
         return filepaths
-            .sort((a, b) => b.localeCompare(a))
-            .map(readFile)
-            .map(extractMetadata)
+            .map(utils.readFile)
+            .map(utils.extractMetadata)
             .map((data, index) => ({
                 ...data,
                 headings: toc(data.contents).json,
-                path: filepaths[index],
+                path: path.resolve(filepaths[index]),
             }))
             .map<IPageData<IMetadata>>((data) => {
                 // process `contents` based on corresponding option.
@@ -102,44 +105,27 @@ export default class Documentarian {
     /** Returns the data for a given page reference, if it exists. */
     public get(ref: string) { return this.data.get(ref); }
 
+    /** Returns a plain object mapping page references to their data. */
+    public read() {
+        const object: { [key: string]: IPageData<IMetadata> } = {};
+        for (const [key, val] of this.data.entries()) {
+            object[key] = val;
+        }
+        return object;
+    }
+
     /**
      * Attempt to produce a tree layout of known pages.
-     * Metadata `section` field is used to nest a page inside another page.
+     * Path structure is used to nest pages.
      */
-    public tree() {
-        const pages: any = {};
-        this.data.forEach((data) => {
-            const title = data.headings[0].content;
-            const section = data.metadata.section;
-
-            if (section === undefined) {
-                pages[title] = {} as any;
-                return;
-            }
-
-            if (pages[section] === undefined) {
-                pages[section] = {} as any;
-            }
-            pages[section][title] = {} as any;
-        });
-        return pages;
+    public tree(cwd: string) {
+        let root: PageObject = {};
+        for (const [ref, data] of this.data) {
+            // TODO: this is a dumb way of doing this :(
+            const namespaces = path.relative(cwd, path.dirname(data.path)).split("/").slice(0, -1);
+            namespaces.push(ref);
+            root = utils.namespaceify(namespaces, root);
+        }
+        return root;
     }
-}
-
-/**
- * UTILITY FUNCTIONS
- */
-
-const METADATA_REGEX = /^---\n?((?:.|\n)*)\n---\n/;
-function extractMetadata(markdown: string) {
-    const match = METADATA_REGEX.exec(markdown);
-    if (match === null) {
-        return { contents: markdown, metadata: {} };
-    }
-    const contents = markdown.substr(match[0].length);
-    return { contents, metadata: yaml.load(match[1]) };
-}
-
-function readFile(path: string) {
-    return fs.readFileSync(path, "utf-8");
 }
