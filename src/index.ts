@@ -1,8 +1,11 @@
 import * as toc from "markdown-toc";
 import * as path from "path";
 import * as Remarkable from "remarkable";
-
+import { TreeNode } from "./";
 import * as utils from "./utils";
+
+export type TreeNode = { children: TreeDict, sections: string[], reference: string };
+export type TreeDict = Map<string, TreeNode>;
 
 export type PageObject = { [child: string]: PageObject };
 
@@ -29,8 +32,17 @@ export interface IOptions {
 }
 
 export interface IMetadata {
-    /** the section ID to which this page belongs */
-    section?: string;
+    /**
+     * The section reference to which this page belongs.
+     * A reference is typically the first header of a file, but can be overridden in IMetadata.
+     */
+    page?: string;
+
+    /**
+     * Unique ID for finding this section.
+     * The default value is the slug of the first heading in the file.
+     */
+    reference?: string;
 }
 
 export interface IPageData<M extends IMetadata> {
@@ -95,7 +107,11 @@ export default class Documentalist {
                 return data;
             })
             .map((data) => {
-                const ref = data.headings[0].slug;
+                const ref = this.getPageReference(data);
+                if (this.data.has(ref)) {
+                    console.warn(`Found duplicate reference "${ref}"; overwriting previous data.`);
+                    console.warn("Rename headings or use metadata `reference` key to disambiguate.");
+                }
                 this.data.set(ref, data);
                 return ref;
             });
@@ -117,14 +133,42 @@ export default class Documentalist {
      * Attempt to produce a tree layout of known pages.
      * Path structure is used to nest pages.
      */
-    public tree(cwd: string) {
-        let root: PageObject = {};
+    public tree() {
+        const roots: TreeDict = new Map();
+
         for (const [ref, data] of this.data) {
-            // TODO: this is a dumb way of doing this :(
-            const namespaces = path.relative(cwd, path.dirname(data.path)).split("/").slice(0, -1);
-            namespaces.push(ref);
-            root = utils.namespaceify(namespaces, root);
+            const thisPage: TreeNode = {
+                children: new Map(),
+                reference: ref,
+                sections: data.headings.map((h) => h.slug),
+            };
+            if (data.metadata.page == null) {
+                roots.set(ref, thisPage);
+            } else {
+                const pageRef = data.metadata.page; // .split(".");
+                let page = roots.get(pageRef);
+                if (page == null) {
+                    page = {
+                        children: new Map(),
+                        reference: pageRef,
+                        sections: [],
+                    };
+                    roots.set(pageRef, page);
+                }
+                page.children.set(ref, thisPage);
+            }
         }
-        return root;
+
+        return roots;
+    }
+
+    private getPageReference(page: IPageData<IMetadata>) {
+        if (page.metadata.reference != null) {
+            return page.metadata.reference;
+        } else if (page.headings.length > 0) {
+            return page.headings[0].slug;
+        } else {
+            return path.basename(page.path, path.extname(page.path));
+        }
     }
 }
