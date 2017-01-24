@@ -1,13 +1,11 @@
-import * as toc from "markdown-toc";
-import * as path from "path";
+import { slugify } from "markdown-toc";
 import * as Remarkable from "remarkable";
-import { TreeNode } from "./";
-import * as utils from "./utils";
+import { IMetadata, Page } from "./page";
+
+type DocPage = Page<IMetadata>;
 
 export type TreeNode = { children: TreeDict, sections: string[], reference: string };
-export type TreeDict = Map<string, TreeNode>;
-
-export type PageObject = { [child: string]: PageObject };
+export type TreeDict = { [page: string]: TreeNode };
 
 export interface IOptions {
     // TODO: expose all Remarkable options?
@@ -31,32 +29,11 @@ export interface IOptions {
     highlight: (source: string, language: string) => string;
 }
 
-export interface IMetadata {
-    /**
-     * The section reference to which this page belongs.
-     * A reference is typically the first header of a file, but can be overridden in IMetadata.
-     */
-    page?: string;
-
-    /**
-     * Unique ID for finding this section.
-     * The default value is the slug of the first heading in the file.
-     */
-    reference?: string;
-}
-
-export interface IPageData<M extends IMetadata> {
-    contents?: string;
-    headings: toc.Heading[];
-    metadata: M;
-    path: string;
-}
-
 export default class Documentalist {
     public markdown: Remarkable;
 
     /** A map of page reference to page data */
-    private data: Map<string, IPageData<IMetadata>> = new Map();
+    private pages: Map<string, DocPage> = new Map();
 
     private options: IOptions;
 
@@ -75,7 +52,7 @@ export default class Documentalist {
         });
 
         this.markdown.renderer.rules["heading_open"] = (tokens, index) => {
-            const slug = toc.slugify(tokens[index + 1].content);
+            const slug = slugify(tokens[index + 1].content);
             return `<h${tokens[index].hLevel} id="${slug}">`
                 + `<a class="${this.options.headingAnchorClassName || ""}" href="#${slug}">#</a>`
                 + "&nbsp;";
@@ -88,42 +65,36 @@ export default class Documentalist {
      */
     public add(...filepaths: string[]) {
         return filepaths
-            .map(utils.readFile)
-            .map(utils.extractMetadata)
-            .map((data, index) => ({
-                ...data,
-                headings: toc(data.contents).json,
-                path: path.resolve(filepaths[index]),
-            }))
-            .map<IPageData<IMetadata>>((data) => {
+            .map<DocPage>(Page.fromFile)
+            .map((page) => {
                 // process `contents` based on corresponding option.
                 // at this point, `contents` becomes an optional property.
                 const { contents } = this.options;
                 if (contents === false) {
-                    delete data.contents;
+                    delete page.data.contents;
                 } else if (contents === "html") {
-                    data.contents = this.markdown.render(data.contents);
+                    page.data.contents = this.markdown.render(page.data.contents);
                 }
-                return data;
+                return page;
             })
-            .map((data) => {
-                const ref = this.getPageReference(data);
-                if (this.data.has(ref)) {
+            .map((page) => {
+                const ref = page.reference;
+                if (this.pages.has(ref)) {
                     console.warn(`Found duplicate reference "${ref}"; overwriting previous data.`);
                     console.warn("Rename headings or use metadata `reference` key to disambiguate.");
                 }
-                this.data.set(ref, data);
+                this.pages.set(ref, page);
                 return ref;
             });
     }
 
     /** Returns the data for a given page reference, if it exists. */
-    public get(ref: string) { return this.data.get(ref); }
+    public get(ref: string) { return this.pages.get(ref); }
 
     /** Returns a plain object mapping page references to their data. */
     public read() {
-        const object: { [key: string]: IPageData<IMetadata> } = {};
-        for (const [key, val] of this.data.entries()) {
+        const object: { [key: string]: DocPage } = {};
+        for (const [key, val] of this.pages.entries()) {
             object[key] = val;
         }
         return object;
@@ -134,41 +105,30 @@ export default class Documentalist {
      * Path structure is used to nest pages.
      */
     public tree() {
-        const roots: TreeDict = new Map();
+        const roots: TreeDict = {};
 
-        for (const [ref, data] of this.data) {
+        for (const [ref, page] of this.pages) {
+            const { headings, metadata } = page.data;
             const thisPage: TreeNode = {
-                children: new Map(),
+                children: {},
                 reference: ref,
-                sections: data.headings.map((h) => h.slug),
+                sections: headings.map((h) => h.slug),
             };
-            if (data.metadata.page == null) {
-                roots.set(ref, thisPage);
+            if (metadata.parent == null) {
+                roots[ref] = { ...thisPage, ...roots[ref] };
             } else {
-                const pageRef = data.metadata.page; // .split(".");
-                let page = roots.get(pageRef);
-                if (page == null) {
-                    page = {
-                        children: new Map(),
-                        reference: pageRef,
-                        sections: [],
-                    };
-                    roots.set(pageRef, page);
+                const parentRef = metadata.parent; // TODO: .split(".");
+                let parent = roots[parentRef];
+                if (parent == null) {
+                    // fake minimal page so we can add children.
+                    // expecting rest of data to come along later.
+                    parent = { children: {} } as TreeNode;
+                    roots[parentRef] = parent;
                 }
-                page.children.set(ref, thisPage);
+                parent.children[ref] = thisPage;
             }
         }
 
         return roots;
-    }
-
-    private getPageReference(page: IPageData<IMetadata>) {
-        if (page.metadata.reference != null) {
-            return page.metadata.reference;
-        } else if (page.headings.length > 0) {
-            return page.headings[0].slug;
-        } else {
-            return path.basename(page.path, path.extname(page.path));
-        }
     }
 }

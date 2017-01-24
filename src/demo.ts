@@ -21,12 +21,15 @@ function highlight(fileContents: string, language: string) {
 const doc = new Documentalist({ highlight });
 
 // user is responsible for globbing (makes for easy CLI usage too)
-const BLUEPRINT_DIR = "../blueprint-public/packages/core/src";
+const BLUEPRINT_DIR = "../blueprint-public/packages/core";
 console.log(
-    doc.add(...glob.sync(`${BLUEPRINT_DIR}/**/*.md`)),
+    doc.add(
+        ...glob.sync(`${BLUEPRINT_DIR}/docs/*.md`),
+        ...glob.sync(`${BLUEPRINT_DIR}/src/**/*.md`),
+    ),
 );
 
 writeFileSync("dist/data.json", JSON.stringify({
-    layout: doc.tree(BLUEPRINT_DIR),
+    layout: doc.tree(),
     pages: doc.read(),
 }, null, 2));
