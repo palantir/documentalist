@@ -2,7 +2,7 @@
 
 Here are the docs for the component interface
 
-@reference ./component.tsx IInterface
+@reference ./component.tsx IInterfaceName
 
 #### These Docs
 

@@ -4,7 +4,7 @@ import * as Remarkable from "remarkable";
 import { IMetadata, Page } from "./page";
 import * as utils from "./utils";
 
-type DocPage = Page<IMetadata>;
+export type DocPage = Page<IMetadata>;
 
 export type TreeNode = { children: TreeDict, sections: string[], reference: string };
 export type TreeDict = { [page: string]: TreeNode };
