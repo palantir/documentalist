@@ -1,0 +1,10 @@
+body {
+    font-family: sans-serif;
+}
+
+/**
+ * This is a comment on .myclass
+ */
+.myclass {
+    background-color: deeppink;
+}

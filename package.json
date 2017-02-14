@@ -6,6 +6,7 @@
   "dependencies": {
     "@types/js-yaml": "^3.5.28",
     "@types/node": "^6.0.52",
+    "commander": "^2.9.0",
     "js-yaml": "^3.7.0",
     "markdown-toc": "^1.0.2",
     "remarkable": "^1.7.1"
@@ -16,9 +17,12 @@
     "glob": "^7.1.1",
     "highlights": "^1.4.1",
     "mocha": "^3.2.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
     "ts-node": "^1.7.2",
+    "ts-quick-docs": "^0.5.1",
     "tslint": "^4.0.2",
-    "typescript": "^2.1.4"
+    "typescript": "2.1.5"
   },
   "scripts": {
     "demo": "ts-node src/demo.ts",
