@@ -15,7 +15,7 @@ program
     .option("--css [glob]", "A glob of CSS files")
     .parse(process.argv);
 
-let addedFiles = false
+let addedFiles = false;
 const documentation = {};
 const doc = new Documentalist();
 

@@ -2,7 +2,6 @@ import * as Remarkable from "remarkable";
 import * as yaml from "js-yaml";
 import * as toc from "markdown-toc";
 
-
 export type ContentNode = string | { tag: string, value: string | true };
 
 /** ignored @tag names */

@@ -26,7 +26,8 @@
     "typescript": "2.1.5"
   },
   "scripts": {
-    "demo": "ts-node src/demo.ts",
+    "demo": "./cli.js --ts 'test/fixtures/**/*.{ts,tsx}' --md 'test/fixtures/**/*.md' --css 'test/fixtures/**/*.css' > dist/data.json",
+    "html": "ts-node src/htmlRender",
     "test": "mocha --compilers ts:ts-node/register",
     "tsc": "tsc --project . && echo 'OK'",
     "watch": "tsc --project . --watch"
