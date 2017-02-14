@@ -37,7 +37,7 @@ export interface IOptions {
     highlight: (source: string, language: string) => string;
 }
 
-export default class Documentalist {
+export class Documentalist {
     public markdown: Remarkable;
 
     /** A map of page reference to page data */

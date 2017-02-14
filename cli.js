@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 
 // Example Usage
-// ./cli.js --ts "test/fixtures/**/*.{ts,tsx}" --md "test/fixtures/**/*.md"
+// ./cli.js --ts 'test/fixtures/**/*.{ts,tsx}' --md 'test/fixtures/**/*.md' --css 'test/fixtures/**/*.css'
 
 const program = require("commander");
+const fs = require("fs");
 const glob = require("glob");
-const Documentalist = require("./dist/").default;
+const { Documentalist } = require("./dist/");
 
 program
     .description("Generate documentation JSON")
@@ -20,17 +21,21 @@ const doc = new Documentalist();
 
 if (program.typescript) {
     addedFiles = true;
-    const typescriptFiles = glob.sync(program.typescript);
+    // const { TypescriptPlugin } = require("./dist/plugins/typescript");
     const tsdoc = require("ts-quick-docs");
-    documentation.entities = tsdoc.fromFiles(typescriptFiles, {});
+    documentation.entities = tsdoc.fromFiles(glob.sync(program.typescript), {});
+}
+
+if (program.css) {
+    addedFiles = true;
+    const { CssPlugin } = require("./dist/plugins/css");
+    documentation.css = new CssPlugin().compile(doc, glob.sync(program.css));
 }
 
 if (program.markdown) {
     addedFiles = true;
-    const markdownFiles = glob.sync(program.markdown);
-    doc.add(...markdownFiles);
-    documentation.layout = doc.tree();
-    documentation.pages = doc.read();
+    const { MarkdownPlugin } = require("./dist/plugins/markdown");
+    documentation.docs = new MarkdownPlugin().compile(doc, glob.sync(program.markdown));
 }
 
 if (addedFiles) {

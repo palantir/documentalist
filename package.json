@@ -9,6 +9,7 @@
     "commander": "^2.9.0",
     "js-yaml": "^3.7.0",
     "markdown-toc": "^1.0.2",
+    "postcss": "^5.2.13",
     "remarkable": "^1.7.1"
   },
   "devDependencies": {

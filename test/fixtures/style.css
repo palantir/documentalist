@@ -4,7 +4,16 @@ body {
 
 /**
  * This is a comment on .myclass
+ *
+ * # Markdown header
+ * This could even add a reference to another rule like:
+ *
+ * @rule .otherRule
  */
 .myclass {
     background-color: deeppink;
+}
+
+.otherRule {
+    position: backwards;
 }

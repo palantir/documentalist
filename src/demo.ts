@@ -1,7 +1,7 @@
 import { writeFileSync } from "fs";
 import * as glob from "glob";
 import * as Highlights from "highlights";
-import Documentalist from "./";
+import { Documentalist } from "./";
 
 // user is responsible for syntax highlighting.
 // so they can configure it however they need, so long as it's synchronous.
