@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { IDocEntry, IInterfaceEntry } from "ts-quick-docs/dist/interfaces";
-import { DocPage } from "./";
+import { DocPage } from "./plugins/markdown";
 import { IDocumentalistData } from "./client";
 
 // tslint:disable-next-line:no-var-requires
@@ -10,7 +10,6 @@ const data = require("../dist/data.json") as IDocumentalistData;
 function isInterfaceEntity(entity: IDocEntry): entity is IInterfaceEntry {
     return entity.type === "interface";
 }
-
 
 type TagRenderFn = (value: string | true, page: DocPage) => string;
 const TAGS: { [tag: string]: TagRenderFn } = {
@@ -31,8 +30,8 @@ const TAGS: { [tag: string]: TagRenderFn } = {
     },
 };
 
-Object.keys(data.pages).map((pageName) => {
-    const page = data.pages[pageName];
+Object.keys(data.docs.pages).map((pageName) => {
+    const page = data.docs.pages[pageName];
     if (page.data.contents === undefined) {
         console.log(`skipping empty page '${page.reference}'`);
         return;

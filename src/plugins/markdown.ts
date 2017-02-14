@@ -8,7 +8,7 @@ import { Documentalist } from "..";
 
 export type TreeNode = { children: TreeDict, sections: string[], reference: string };
 export type TreeDict = { [page: string]: TreeNode };
-type DocPage = Page<IMetadata>;
+export type DocPage = Page<IMetadata>;
 
 export class MarkdownPlugin implements IPlugin {
     /** A map of page reference to page data */
