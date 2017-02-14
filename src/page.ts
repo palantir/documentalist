@@ -1,7 +1,6 @@
 import * as toc from "markdown-toc";
 import * as path from "path";
-
-export type ContentNode = string | { tag: string, value: string | true };
+import { ContentNode } from ".";
 
 export interface IMetadata {
     /**
@@ -19,8 +18,9 @@ export interface IMetadata {
 
 export interface IPageData<M> {
     absolutePath: string;
+    contentRaw: string;
     contents?: ContentNode[];
-    headings: toc.Heading[];
+    heading: toc.Heading[];
     metadata: M;
 }
 
@@ -35,8 +35,8 @@ export class Page<M extends IMetadata> {
 function getReference(data: IPageData<IMetadata>) {
     if (data.metadata.reference != null) {
         return data.metadata.reference;
-    } else if (data.headings.length > 0) {
-        return data.headings[0].slug;
+    } else if (data.heading.length > 0) {
+        return data.heading[0].slug;
     } else {
         return path.basename(data.absolutePath, path.extname(data.absolutePath));
     }

@@ -2,7 +2,7 @@ import { Comment, Declaration, Root, Rule } from "postcss";
 import * as postcss from "postcss";
 import { readFileSync } from "fs";
 import { IPlugin } from "./plugin";
-import { Documentalist } from "..";
+import { Documentalist, ContentNode } from "..";
 
 export interface IDeclaration {
     prop: string;
@@ -10,10 +10,11 @@ export interface IDeclaration {
 }
 
 export interface IRule {
-    comment?: string;
+    comment?: ContentNode[];
     commentRaw?: string;
     selector: string;
     declarations: IDeclaration[];
+    metadata?: any;
 }
 
 export interface ICss {
@@ -22,18 +23,18 @@ export interface ICss {
 }
 
 export class CssPlugin implements IPlugin {
-    public compile(_documentalist: Documentalist, cssFiles: string[]) {
+    public compile(documentalist: Documentalist, cssFiles: string[]) {
         const csses = [] as ICss[];
         cssFiles.forEach((filePath: string) => {
             const cssContent = readFileSync(filePath, "utf8");
             const cssResult = {filePath, rules: []};
-            postcss([this.processor(cssResult)]).process(cssContent).css; // .css makes this synchronous
+            postcss([this.processor(documentalist, cssResult)]).process(cssContent).css; // .css makes this synchronous
             csses.push(cssResult);
         });
         return csses;
     }
 
-    private processor(cssResult: ICss) {
+    private processor(documentalist: Documentalist, cssResult: ICss) {
         return (css: Root) => {
             css.walkRules((rule: Rule) => {
                 const ruleResult = {
@@ -43,11 +44,15 @@ export class CssPlugin implements IPlugin {
 
                 const prevNode = rule.prev();
                 if (prevNode != null && prevNode.type === "comment") {
-                    const text = (prevNode as Comment).text
-                        .replace(/^ *\*+/, "")
-                        .replace(/\n *\*+/g, "\n"); // trim asterisks, maintain newlines
-                    ruleResult.commentRaw = text;
-                    ruleResult.comment = text; // TODO apply markdown to comment blocks
+                    const block = (prevNode as Comment).text
+                        .replace(/^ *\*+ */, "")
+                        .replace(/\n *\*+ */g, "\n")
+                        .trim(); // trim asterisks, maintain newlines
+
+                    const { content, metadata, renderedContent } = documentalist.renderBlock(block);
+                    ruleResult.metadata = metadata
+                    ruleResult.commentRaw = content;
+                    ruleResult.comment = renderedContent;
                 }
 
                 rule.walkDecls((decl: Declaration) => {

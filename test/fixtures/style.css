@@ -3,6 +3,13 @@ body {
 }
 
 /**
+ * ---
+ * key: value
+ * list:
+ *   - item0
+ *   - item1
+ * ---
+ *
  * This is a comment on .myclass
  *
  * # Markdown header

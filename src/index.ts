@@ -1,19 +1,23 @@
-import * as toc from "markdown-toc";
-import * as path from "path";
 import * as Remarkable from "remarkable";
-import { IMetadata, Page } from "./page";
-import * as utils from "./utils";
+import * as yaml from "js-yaml";
+import * as toc from "markdown-toc";
 
-type DocPage = Page<IMetadata>;
 
-export type TreeNode = { children: TreeDict, sections: string[], reference: string };
-export type TreeDict = { [page: string]: TreeNode };
+export type ContentNode = string | { tag: string, value: string | true };
 
 /** ignored @tag names */
 const RESERVED_WORDS = [
     "import",
     "include",
 ];
+
+/**
+ *  matches the triple-dash metadata block on the first line of markdown file.
+ * first capture group contains YAML content.
+ */
+const METADATA_REGEX = /^---\n?((?:.|\n)*)\n---\n/;
+const TAG_REGEX = /^@(\w+)(?:\s([^$@]+))?$/;
+const TAG_SPLIT_REGEX = /^(@[a-zA-Z\d]+(?:\s+[^\n]+)?)$/gm;
 
 export interface IOptions {
     // TODO: expose all Remarkable options?
@@ -39,10 +43,6 @@ export interface IOptions {
 
 export class Documentalist {
     public markdown: Remarkable;
-
-    /** A map of page reference to page data */
-    private pages: Map<string, DocPage> = new Map();
-
     private options: IOptions;
 
     constructor(options: Partial<IOptions> = {}) {
@@ -67,87 +67,49 @@ export class Documentalist {
         };
     }
 
-    /**
-     * Reads the given set of markdown files and adds their data to the internal storage.
-     * Returns an array of the new references added.
-     */
-    public add(...filepaths: string[]) {
-        return filepaths
-            .map<DocPage>((filepath) => {
-                const absolutePath = path.resolve(filepath);
-                const { contents, metadata } = utils.extractMetadata(utils.readFile(absolutePath));
-                return new Page<IMetadata>({
-                    absolutePath,
-                    contents: this.renderContents(contents),
-                    headings: toc(contents).json,
-                    metadata,
-                });
-            })
-            .map((page) => {
-                const ref = page.reference;
-                if (this.pages.has(ref)) {
-                    console.warn(`Found duplicate reference "${ref}"; overwriting previous data.`);
-                    console.warn("Rename headings or use metadata `reference` key to disambiguate.");
-                }
-                this.pages.set(ref, page);
-                return ref;
-            });
+    public renderBlock(blockContent: string) {
+        const { content, metadata } = this.extractMetadata(blockContent);
+        const renderedContent = this.renderContents(content);
+        return { content, metadata, renderedContent }
     }
 
-    /** Returns the data for a given page reference, if it exists. */
-    public get(ref: string) { return this.pages.get(ref); }
-
-    /** Returns a plain object mapping page references to their data. */
-    public read() {
-        const object: { [key: string]: DocPage } = {};
-        for (const [key, val] of this.pages.entries()) {
-            object[key] = val;
-        }
-        return object;
-    }
-
-    /**
-     * Attempt to produce a tree layout of known pages.
-     * Path structure is used to nest pages.
-     */
-    public tree() {
-        const roots: TreeDict = {};
-
-        for (const [ref, page] of this.pages) {
-            const { headings, metadata } = page.data;
-            const thisPage: TreeNode = {
-                children: {},
-                reference: ref,
-                sections: headings.map((h) => h.slug),
-            };
-            if (metadata.parent == null) {
-                roots[ref] = { ...thisPage, ...roots[ref] };
-            } else {
-                const parentRef = metadata.parent; // TODO: .split(".");
-                let parent = roots[parentRef];
-                if (parent == null) {
-                    // fake minimal page so we can add children.
-                    // expecting rest of data to come along later.
-                    parent = { children: {} } as TreeNode;
-                    roots[parentRef] = parent;
-                }
-                parent.children[ref] = thisPage;
-            }
-        }
-
-        return roots;
-    }
-
-    private renderContents(contents: string) {
+    private renderContents(content: string, reservedTagWords = RESERVED_WORDS) {
         if (this.options.contents === false) {
             return undefined;
         }
-
-        const splitContents = utils.extractTags(contents, RESERVED_WORDS);
+        const splitContents = this.parseTags(content, reservedTagWords);
         if (this.options.contents === "html") {
             return splitContents.map((node) => typeof node === "string" ? this.markdown.render(node) : node);
         } else {
             return splitContents;
         }
+    }
+
+    /**
+     * Extracts optional YAML frontmatter metadata block from the beginning of a
+     * markdown file and parses it to a JS object.
+     */
+    private extractMetadata(text: string) {
+        const match = METADATA_REGEX.exec(text);
+        if (match === null) {
+            return { content: text, metadata: {} };
+        }
+
+        const content = text.substr(match[0].length);
+        return { content, metadata: yaml.load(match[1]) || {} };
+    }
+
+    private parseTags(content: string, reservedWords: string[]) {
+        return content.split(TAG_SPLIT_REGEX).map((str): ContentNode => {
+            const match = TAG_REGEX.exec(str);
+            if (match === null || reservedWords.indexOf(match[1]) >= 0) {
+                return str;
+            } else {
+                return {
+                    tag: match[1],
+                    value: match[2] || true,
+                };
+            }
+        });
     }
 }

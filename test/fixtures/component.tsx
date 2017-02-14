@@ -8,7 +8,9 @@ export interface IInterfaceName {
     name: string;
 
     /**
-     * An optional object of options
+     * An optional object of options.
+     *
+     * @default {"true": false}
      */
     options?: any;
 }
