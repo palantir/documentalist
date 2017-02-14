@@ -1,6 +1,7 @@
 import * as toc from "markdown-toc";
 import * as path from "path";
-import { extractMetadata, readFile } from "./utils";
+
+export type ContentNode = string | { tag: string, value: string | true };
 
 export interface IMetadata {
     /**
@@ -18,23 +19,12 @@ export interface IMetadata {
 
 export interface IPageData<M> {
     absolutePath: string;
-    contents: string;
+    contents?: ContentNode[];
     headings: toc.Heading[];
     metadata: M;
 }
 
 export class Page<M extends IMetadata> {
-    public static fromFile<M>(filepath: string) {
-        const absolutePath = path.resolve(filepath);
-        const { contents, metadata } = extractMetadata(readFile(absolutePath));
-        return new Page<M>({
-            absolutePath,
-            contents,
-            headings: toc(contents).json,
-            metadata,
-        })
-    }
-
     public readonly reference: string;
 
     public constructor(public data: IPageData<M>) {

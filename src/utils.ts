@@ -1,5 +1,6 @@
 import { readFileSync } from "fs";
 import * as yaml from "js-yaml";
+import { ContentNode } from "./page";
 
 /**
  * UTILITY FUNCTIONS
@@ -27,7 +28,7 @@ export function namespaceify(namespaces: string[], root: NSObject = {}): NSObjec
     let head = root;
     while (namespaces.length > 0) {
         // we know it won't be undefined from while condition
-        const ns = <string>namespaces.shift();
+        const ns = <string> namespaces.shift();
         if (head[ns] === undefined) {
             head[ns] = {};
         }
@@ -38,4 +39,19 @@ export function namespaceify(namespaces: string[], root: NSObject = {}): NSObjec
 
 export function readFile(path: string) {
     return readFileSync(path, "utf-8");
+}
+
+export function extractTags(contents: string, reservedWords: string[] = []) {
+    const FLAG_REGEX = /^@(\w+)(?:\s([^$@]+))?$/;
+    return contents.split(/^(@[a-zA-Z\d]+(?:\s+[^\n]+))$/gm).map((str): ContentNode => {
+        const match = FLAG_REGEX.exec(str);
+        if (match === null || reservedWords.indexOf(match[1]) >= 0) {
+            return str;
+        } else {
+            return {
+                tag: match[1],
+                value: match[2] || true,
+            };
+        }
+    });
 }

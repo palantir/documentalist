@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import "mocha";
-import { extractMetadata, namespaceify } from "../src/utils";
+import { extractMetadata, extractTags, namespaceify } from "../src/utils";
 
 describe("extractMetadata", () => {
     const METADATA = "---\nhello: world\nsize: 1000\n---\n";
@@ -46,5 +46,32 @@ describe("namespaceify", () => {
                 x: { y: {} },
             },
         );
-    })
+    });
+});
+
+describe("extractTags", () => {
+    it("returns a single-element array for string without @tags", () => {
+        const contents = extractTags("simple string");
+        assert.deepEqual(contents, ["simple string"]);
+    });
+
+    it("converts @tag to object in array", () => {
+        const contents = extractTags(FILE);
+        assert.equal(contents.length, 3);
+        assert.deepEqual(contents[1], { tag: "interface", value: "IButtonProps" });
+    });
+
+    it("reservedWords will ignore matching @tag", () => {
+        const contents = extractTags(FILE, ["interface"]);
+        assert.equal(contents.length, 3);
+        // reserved @tag is emitted as separate string cuz it's still split by regex
+        assert.deepEqual(contents[1], "@interface IButtonProps");
+    });
+
+    const FILE = `
+# Title
+description
+@interface IButtonProps
+more description
+    `;
 });

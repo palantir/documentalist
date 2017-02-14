@@ -1,11 +1,19 @@
-import { slugify } from "markdown-toc";
+import * as toc from "markdown-toc";
+import * as path from "path";
 import * as Remarkable from "remarkable";
 import { IMetadata, Page } from "./page";
+import * as utils from "./utils";
 
 type DocPage = Page<IMetadata>;
 
 export type TreeNode = { children: TreeDict, sections: string[], reference: string };
 export type TreeDict = { [page: string]: TreeNode };
+
+/** ignored @tag names */
+const RESERVED_WORDS = [
+    "import",
+    "include",
+];
 
 export interface IOptions {
     // TODO: expose all Remarkable options?
@@ -52,7 +60,7 @@ export default class Documentalist {
         });
 
         this.markdown.renderer.rules["heading_open"] = (tokens, index) => {
-            const slug = slugify(tokens[index + 1].content);
+            const slug = toc.slugify(tokens[index + 1].content);
             return `<h${tokens[index].hLevel} id="${slug}">`
                 + `<a class="${this.options.headingAnchorClassName || ""}" href="#${slug}">#</a>`
                 + "&nbsp;";
@@ -65,17 +73,15 @@ export default class Documentalist {
      */
     public add(...filepaths: string[]) {
         return filepaths
-            .map<DocPage>(Page.fromFile)
-            .map((page) => {
-                // process `contents` based on corresponding option.
-                // at this point, `contents` becomes an optional property.
-                const { contents } = this.options;
-                if (contents === false) {
-                    delete page.data.contents;
-                } else if (contents === "html") {
-                    page.data.contents = this.markdown.render(page.data.contents);
-                }
-                return page;
+            .map<DocPage>((filepath) => {
+                const absolutePath = path.resolve(filepath);
+                const { contents, metadata } = utils.extractMetadata(utils.readFile(absolutePath));
+                return new Page<IMetadata>({
+                    absolutePath,
+                    contents: this.renderContents(contents),
+                    headings: toc(contents).json,
+                    metadata,
+                });
             })
             .map((page) => {
                 const ref = page.reference;
@@ -130,5 +136,18 @@ export default class Documentalist {
         }
 
         return roots;
+    }
+
+    private renderContents(contents: string) {
+        if (this.options.contents === false) {
+            return undefined;
+        }
+
+        const splitContents = utils.extractTags(contents, RESERVED_WORDS);
+        if (this.options.contents === "html") {
+            return splitContents.map((node) => typeof node === "string" ? this.markdown.render(node) : node);
+        } else {
+            return splitContents;
+        }
     }
 }
