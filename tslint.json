@@ -6,6 +6,11 @@
     "no-console": [
       false
     ],
-    "no-string-literal": false
+    "no-string-literal": false,
+    "variable-name": [
+      true,
+      "allow-leading-underscore",
+      "allow-pascal-case"
+    ]
   }
 }

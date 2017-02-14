@@ -1,9 +1,8 @@
-import * as Remarkable from "remarkable";
 import * as yaml from "js-yaml";
 import * as toc from "markdown-toc";
+import * as Remarkable from "remarkable";
 
 export type ContentNode = string | { tag: string, value: string | true };
-
 
 /**
  * Matches the triple-dash metadata block on the first line of markdown file.
@@ -80,7 +79,7 @@ export class Documentalist {
     public renderBlock(blockContent: string, reservedTagWords = RESERVED_WORDS) {
         const { content, metadata } = this.extractMetadata(blockContent);
         const renderedContent = this.renderContents(content, reservedTagWords);
-        return { content, metadata, renderedContent }
+        return { content, metadata, renderedContent };
     }
 
     /**

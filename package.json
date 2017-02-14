@@ -21,7 +21,7 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "ts-node": "^1.7.2",
-    "ts-quick-docs": "^0.5.2",
+    "ts-quick-docs": "^0.5.3",
     "tslint": "^4.0.2",
     "typescript": "2.1.5"
   },
