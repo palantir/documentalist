@@ -23,6 +23,8 @@ export interface ICss {
 }
 
 export class CssPlugin implements IPlugin {
+    public name = "css";
+
     public compile(documentalist: Documentalist, cssFiles: string[]) {
         const csses = [] as ICss[];
         cssFiles.forEach((filePath: string) => {

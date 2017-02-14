@@ -19,22 +19,26 @@ let addedFiles = false;
 const documentation = {};
 const doc = new Documentalist();
 
+function usePlugin(plugin, files) {
+    documentation[plugin.name] = plugin.compile(doc, glob.sync(files));
+}
+
 if (program.typescript) {
     addedFiles = true;
     const { TypescriptPlugin } = require("./dist/plugins/typescript");
-    documentation.entities = new TypescriptPlugin().compile(doc, glob.sync(program.typescript));
+    usePlugin(new TypescriptPlugin(), program.typescript);
 }
 
 if (program.css) {
     addedFiles = true;
     const { CssPlugin } = require("./dist/plugins/css");
-    documentation.css = new CssPlugin().compile(doc, glob.sync(program.css));
+    usePlugin(new CssPlugin(), program.css);
 }
 
 if (program.markdown) {
     addedFiles = true;
     const { MarkdownPlugin } = require("./dist/plugins/markdown");
-    documentation.docs = new MarkdownPlugin().compile(doc, glob.sync(program.markdown));
+    usePlugin(new MarkdownPlugin(), program.markdown);
 }
 
 if (addedFiles) {

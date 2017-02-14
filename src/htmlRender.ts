@@ -32,18 +32,24 @@ const TAGS: { [tag: string]: TagRenderFn } = {
 
 Object.keys(data.docs.pages).map((pageName) => {
     const page = data.docs.pages[pageName];
+
     if (page.data.contents === undefined) {
         console.log(`skipping empty page '${page.reference}'`);
         return;
     }
+
     const contents = page.data.contents.reduce<string>((acc, content) => {
         if (typeof content === "string") {
             return acc + content;
-        } else {
+        } else if (TAGS[content.tag]) {
             return acc + TAGS[content.tag](content.value, page);
+        } else {
+            console.warn("Warning, unhandled tag", content.tag);
+            return acc;
         }
     }, "");
+
     const filename = `dist/${page.reference}.html`;
     fs.writeFileSync(filename, contents);
     console.log(`write ${filename}`);
-})
+});

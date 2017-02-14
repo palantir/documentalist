@@ -4,19 +4,30 @@ import * as toc from "markdown-toc";
 
 export type ContentNode = string | { tag: string, value: string | true };
 
-/** ignored @tag names */
+
+/**
+ * Matches the triple-dash metadata block on the first line of markdown file.
+ * The first capture group contains YAML content.
+ */
+const METADATA_REGEX = /^---\n?((?:.|\n)*)\n---\n/;
+
+/**
+ * Splits text content for lines that begin with `@tagname`.
+ */
+const TAG_REGEX = /^@(\w+)(?:\s([^$@]+))?$/;
+const TAG_SPLIT_REGEX = /^(@[a-zA-Z\d]+(?:\s+[^\n]+)?)$/gm;
+
+/**
+ * Ignored `@tag` names. Some languages already support `@tags`, so to separate
+ * Documentalist tags, we use these default reserved words to avoid conflicts.
+ *
+ * Plugins may define their own reserved words when calling the `renderBlock`
+ * method.
+ */
 const RESERVED_WORDS = [
     "import",
     "include",
 ];
-
-/**
- *  matches the triple-dash metadata block on the first line of markdown file.
- * first capture group contains YAML content.
- */
-const METADATA_REGEX = /^---\n?((?:.|\n)*)\n---\n/;
-const TAG_REGEX = /^@(\w+)(?:\s([^$@]+))?$/;
-const TAG_SPLIT_REGEX = /^(@[a-zA-Z\d]+(?:\s+[^\n]+)?)$/gm;
 
 export interface IOptions {
     // TODO: expose all Remarkable options?
@@ -66,13 +77,18 @@ export class Documentalist {
         };
     }
 
-    public renderBlock(blockContent: string) {
+    public renderBlock(blockContent: string, reservedTagWords = RESERVED_WORDS) {
         const { content, metadata } = this.extractMetadata(blockContent);
-        const renderedContent = this.renderContents(content);
+        const renderedContent = this.renderContents(content, reservedTagWords);
         return { content, metadata, renderedContent }
     }
 
-    private renderContents(content: string, reservedTagWords = RESERVED_WORDS) {
+    /**
+     * Converts the content string into an array of `ContentNode`s. If the
+     * `contents` option is `html`, the string nodes will also be rendered with
+     * markdown.
+     */
+    private renderContents(content: string, reservedTagWords: string[]) {
         if (this.options.contents === false) {
             return undefined;
         }
@@ -98,6 +114,11 @@ export class Documentalist {
         return { content, metadata: yaml.load(match[1]) || {} };
     }
 
+    /**
+     * Splits the content string when it encounters a line that begins with a
+     * `@tag`. You may prevent this splitting by specifying an array of reserved
+     * tag names.
+     */
     private parseTags(content: string, reservedWords: string[]) {
         return content.split(TAG_SPLIT_REGEX).map((str): ContentNode => {
             const match = TAG_REGEX.exec(str);

@@ -11,6 +11,8 @@ export type TreeDict = { [page: string]: TreeNode };
 export type DocPage = Page<IMetadata>;
 
 export class MarkdownPlugin implements IPlugin {
+    public name = "docs";
+
     /** A map of page reference to page data */
     private pages: Map<string, DocPage> = new Map();
 
