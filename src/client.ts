@@ -1,4 +1,3 @@
-import { IDocEntry } from "ts-quick-docs/dist/interfaces";
 import { DocPage, TreeDict } from "./plugins/markdown";
 
 export interface IMarkdownDocs {
@@ -8,5 +7,5 @@ export interface IMarkdownDocs {
 
 export interface IDocumentalistData {
     docs: IMarkdownDocs;
-    entities: IDocEntry[];
+    ts: any[];
 }

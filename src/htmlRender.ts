@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
 import { IDocEntry, IInterfaceEntry } from "ts-quick-docs/dist/interfaces";
-import { DocPage } from "./plugins/markdown";
 import { IDocumentalistData } from "./client";
+import { DocPage } from "./plugins/markdown";
 
 // tslint:disable-next-line:no-var-requires
 const data = require("../dist/data.json") as IDocumentalistData;
@@ -17,7 +17,7 @@ const TAGS: { [tag: string]: TagRenderFn } = {
         if (value === true) { throw new Error("@reference expects argument"); }
         const [relative, name] = value.split(" ");
         const filepath = path.relative(process.cwd(), path.resolve(path.dirname(page.data.absolutePath), relative));
-        const entity = data.entities.find((e) => e.name === name && e.fileName === filepath);
+        const entity = data.ts.find((e) => e.name === name && e.fileName === filepath);
         if (entity === undefined) {
             throw new Error(`@reference '${name}' not found in '${filepath}'`);
         }
