@@ -21,9 +21,8 @@ const doc = new Documentalist();
 
 if (program.typescript) {
     addedFiles = true;
-    // const { TypescriptPlugin } = require("./dist/plugins/typescript");
-    const tsdoc = require("ts-quick-docs");
-    documentation.entities = tsdoc.fromFiles(glob.sync(program.typescript), {});
+    const { TypescriptPlugin } = require("./dist/plugins/typescript");
+    documentation.entities = new TypescriptPlugin().compile(doc, glob.sync(program.typescript));
 }
 
 if (program.css) {

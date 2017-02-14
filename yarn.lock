@@ -1258,9 +1258,9 @@ ts-node@^1.7.2:
     xtend "^4.0.0"
     yn "^1.2.0"
 
-ts-quick-docs@^0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/ts-quick-docs/-/ts-quick-docs-0.5.1.tgz#272db525deb4e8c7d49c9f40ce49db70a7cc1354"
+ts-quick-docs@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/ts-quick-docs/-/ts-quick-docs-0.5.2.tgz#85fd31c5e2e5f62544748c52ae5867391a8743e1"
   dependencies:
     typescript "2.1"
 
