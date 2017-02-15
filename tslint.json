@@ -12,5 +12,10 @@
       "allow-leading-underscore",
       "allow-pascal-case"
     ]
+  },
+  "jsRules": {
+    "no-console": [
+      false
+    ]
   }
 }

@@ -11,9 +11,8 @@ const { Documentalist } = require("./dist/");
 
 const argv = yargs
     .version(require("./package.json").version)
-    .describe("Generate documentation JSON")
-    .usage("[options] <files>")
-    .demandCommand(1)
+    .usage("$0 [options] <files>")
+    .demandCommand(1, "Requires at least one file")
     // TODO: how to specify plugin on CLI?
     // .option("--use [pattern:plugin]", "Use a plugin to process files matching the pattern")
     .argv;
@@ -34,7 +33,6 @@ const doc = new Documentalist();
 plugins.forEach(({ pattern, plugin }) => {
     doc.use(new RegExp(pattern), plugin);
 });
-const documentation = doc.traverse(argv._[0]);
+const documentation = doc.traverse(...argv._);
 
-// tslint:disable-next-line:no-console
 console.log(JSON.stringify(documentation, null, 2));

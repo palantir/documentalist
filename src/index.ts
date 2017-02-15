@@ -92,9 +92,11 @@ export class Documentalist {
         return this;
     }
 
-    public traverse(filesGlob: string) {
+    public traverse(...filesGlobs: string[]) {
         const documentation: any = {};
-        const files = glob.sync(filesGlob);
+        const files = filesGlobs
+            .map((filesGlob) => glob.sync(filesGlob))
+            .reduce((a, b) => a.concat(b));
         for (const { pattern, plugin } of this.plugins) {
             documentation[plugin.name] = plugin.compile(this, files.filter((f) => pattern.test(f)));
         }
