@@ -6,9 +6,18 @@ import { Documentalist } from "..";
 import { IMetadata, Page } from "../page";
 import { IPlugin } from "./plugin";
 
-export type TreeNode = { children: TreeDict, sections: string[], reference: string };
-export type TreeDict = { [page: string]: TreeNode };
+export type TreeDict = { [page: string]: ITreeNode };
 export type DocPage = Page<IMetadata>;
+
+export interface ITreeEntry {
+    reference: string;
+    title: string;
+}
+
+export interface ITreeNode extends ITreeEntry {
+    children: TreeDict;
+    sections: ITreeEntry[];
+}
 
 export class MarkdownPlugin implements IPlugin {
     public name = "docs";
@@ -70,10 +79,11 @@ export class MarkdownPlugin implements IPlugin {
 
         for (const [ref, page] of this.pages) {
             const { heading, metadata } = page.data;
-            const thisPage: TreeNode = {
+            const thisPage: ITreeNode = {
                 children: {},
                 reference: ref,
-                sections: heading.map((h) => h.slug),
+                sections: heading.map((h) => ({ reference: h.slug, title: h.content })),
+                title: page.data.heading[0].content,
             };
             if (metadata.parent == null) {
                 roots[ref] = { ...thisPage, ...roots[ref] };
@@ -83,7 +93,7 @@ export class MarkdownPlugin implements IPlugin {
                 if (parent == null) {
                     // fake minimal page so we can add children.
                     // expecting rest of data to come along later.
-                    parent = { children: {} } as TreeNode;
+                    parent = { children: {} } as ITreeNode;
                     roots[parentRef] = parent;
                 }
                 parent.children[ref] = thisPage;
