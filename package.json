@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "documentation for the rest of us",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "dependencies": {
     "@types/js-yaml": "^3.5.28",
     "@types/node": "^6.0.52",
