@@ -3,47 +3,38 @@
 // Example Usage
 // ./cli.js --ts 'test/fixtures/**/*.{ts,tsx}' --md 'test/fixtures/**/*.md' --css 'test/fixtures/**/*.css'
 
-const program = require("commander");
+// const program = require("commander");
+const yargs = require("yargs");
 const fs = require("fs");
 const glob = require("glob");
 const { Documentalist } = require("./dist/");
 
-program
-    .description("Generate documentation JSON")
-    .option("--ts, --typescript [glob]", "A glob of typescript files")
-    .option("--md, --markdown [glob]", "A glob of markdown files")
-    .option("--css [glob]", "A glob of CSS files")
-    .parse(process.argv);
+const argv = yargs
+    .version(require("./package.json").version)
+    .describe("Generate documentation JSON")
+    .usage("[options] <files>")
+    .demandCommand(1)
+    // TODO: how to specify plugin on CLI?
+    // .option("--use [pattern:plugin]", "Use a plugin to process files matching the pattern")
+    .argv;
 
-let addedFiles = false;
-const documentation = {};
+// ensure `use` option is always an array
+const plugins = [].concat(argv.use)
+    .filter((use) => use !== undefined)
+    .map((/** @type {string} */ use) => {
+        const [pattern, plugin] = use.split(":");
+        if (plugin === undefined) {
+            console.error("invalid --use option '%s'", use);
+            process.exit(1);
+        }
+        return { pattern, plugin };
+    });
+
 const doc = new Documentalist();
+plugins.forEach(({ pattern, plugin }) => {
+    doc.use(new RegExp(pattern), plugin);
+});
+const documentation = doc.traverse(argv._[0]);
 
-function usePlugin(plugin, files) {
-    documentation[plugin.name] = plugin.compile(doc, glob.sync(files));
-}
-
-if (program.typescript) {
-    addedFiles = true;
-    const { TypescriptPlugin } = require("./dist/plugins/typescript");
-    usePlugin(new TypescriptPlugin(), program.typescript);
-}
-
-if (program.css) {
-    addedFiles = true;
-    const { CssPlugin } = require("./dist/plugins/css");
-    usePlugin(new CssPlugin(), program.css);
-}
-
-if (program.markdown) {
-    addedFiles = true;
-    const { MarkdownPlugin } = require("./dist/plugins/markdown");
-    usePlugin(new MarkdownPlugin(), program.markdown);
-}
-
-if (addedFiles) {
-    console.log(JSON.stringify(documentation, null, 2));
-} else {
-    console.log("  ERROR: Must include some files");
-    program.help();
-}
+// tslint:disable-next-line:no-console
+console.log(JSON.stringify(documentation, null, 2));

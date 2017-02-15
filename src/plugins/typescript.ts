@@ -9,7 +9,7 @@ export class TypescriptPlugin implements IPlugin {
     public name = "ts";
 
     public compile(_documentalist: Documentalist, markdownFiles: string[]) {
-        // TODO apply markdown to comment blocks
+        // TODO apply markdown to comment blocks all the way down
         return tsdoc.fromFiles(markdownFiles, {}).map((entry) => {
             return {
                 ...entry,

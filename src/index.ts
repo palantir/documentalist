@@ -1,6 +1,12 @@
+import * as glob from "glob";
 import * as yaml from "js-yaml";
 import * as toc from "markdown-toc";
 import * as Remarkable from "remarkable";
+
+import { CssPlugin } from "./plugins/css";
+import { MarkdownPlugin } from "./plugins/markdown";
+import { IPlugin } from "./plugins/plugin";
+import { TypescriptPlugin } from "./plugins/typescript";
 
 export type ContentNode = string | { tag: string, value: string | true };
 
@@ -51,8 +57,9 @@ export interface IOptions {
 }
 
 export class Documentalist {
-    public markdown: Remarkable;
+    private markdown: Remarkable;
     private options: IOptions;
+    private plugins: Array<{ pattern: RegExp, plugin: IPlugin }> = [];
 
     constructor(options: Partial<IOptions> = {}) {
         this.options = {
@@ -74,6 +81,24 @@ export class Documentalist {
                 + `<a class="${this.options.headingAnchorClassName || ""}" href="#${slug}">#</a>`
                 + "&nbsp;";
         };
+
+        this.use(/\.md$/, new MarkdownPlugin());
+        this.use(/\.s?css$/, new CssPlugin());
+        this.use(/\.tsx?$/, new TypescriptPlugin());
+    }
+
+    public use(pattern: RegExp, plugin: IPlugin) {
+        this.plugins.push({ pattern, plugin });
+        return this;
+    }
+
+    public traverse(filesGlob: string) {
+        const documentation: any = {};
+        const files = glob.sync(filesGlob);
+        for (const { pattern, plugin } of this.plugins) {
+            documentation[plugin.name] = plugin.compile(this, files.filter((f) => pattern.test(f)));
+        }
+        return documentation;
     }
 
     public renderBlock(blockContent: string, reservedTagWords = RESERVED_WORDS) {

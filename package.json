@@ -6,16 +6,17 @@
   "dependencies": {
     "@types/js-yaml": "^3.5.28",
     "@types/node": "^6.0.52",
-    "commander": "^2.9.0",
+    "@types/yargs": "^6.6.0",
+    "glob": "^7.1.1",
     "js-yaml": "^3.7.0",
     "markdown-toc": "^1.0.2",
     "postcss": "^5.2.13",
-    "remarkable": "^1.7.1"
+    "remarkable": "^1.7.1",
+    "yargs": "^6.6.0"
   },
   "devDependencies": {
     "@types/glob": "^5.0.30",
     "@types/mocha": "^2.2.33",
-    "glob": "^7.1.1",
     "highlights": "^1.4.1",
     "mocha": "^3.2.0",
     "react": "^15.4.2",

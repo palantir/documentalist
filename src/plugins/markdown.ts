@@ -1,10 +1,10 @@
+import { readFileSync } from "fs";
 import * as toc from "markdown-toc";
 import * as path from "path";
-import { readFileSync } from "fs";
 
-import { IPlugin } from "./plugin";
-import { IMetadata, Page } from "../page";
 import { Documentalist } from "..";
+import { IMetadata, Page } from "../page";
+import { IPlugin } from "./plugin";
 
 export type TreeNode = { children: TreeDict, sections: string[], reference: string };
 export type TreeDict = { [page: string]: TreeNode };
@@ -37,8 +37,8 @@ export class MarkdownPlugin implements IPlugin {
                 const { content, metadata, renderedContent } = documentalist.renderBlock(fileContents);
                 const page = new Page<IMetadata>({
                     absolutePath,
-                    contents: renderedContent,
                     contentRaw: content,
+                    contents: renderedContent,
                     heading: toc(content).json,
                     metadata,
                 });
