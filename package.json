@@ -11,6 +11,7 @@
     "js-yaml": "^3.7.0",
     "markdown-toc": "^1.0.2",
     "postcss": "^5.2.13",
+    "postcss-scss": "^0.4.1",
     "remarkable": "^1.7.1",
     "yargs": "^6.6.0"
   },

@@ -1,5 +1,6 @@
 import { Comment, Declaration, Root, Rule } from "postcss";
 import * as postcss from "postcss";
+import * as postcssScss from "postcss-scss";
 import { readFileSync } from "fs";
 import { IPlugin } from "./plugin";
 import { Documentalist, ContentNode } from "..";
@@ -30,7 +31,7 @@ export class CssPlugin implements IPlugin {
         cssFiles.forEach((filePath: string) => {
             const cssContent = readFileSync(filePath, "utf8");
             const cssResult = {filePath, rules: []};
-            postcss([this.processor(documentalist, cssResult)]).process(cssContent).css; // .css makes this synchronous
+            postcss([this.processor(documentalist, cssResult)]).process(cssContent, { syntax: postcssScss }).css; // .css makes this synchronous
             csses.push(cssResult);
         });
         return csses;
