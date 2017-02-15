@@ -8,23 +8,19 @@
 
 ## Usage
 
-```ts
-import Documentalist from "documentalist";
-import * as glob from "glob";
+`Documentalist` comes pre-configured with support for the following languages:
 
-const docs = new Documentalist();
-docs.add(
-  ...glob.sync("docs/*.md"),
-  ...glob.sync("src/components/**/*.md"),
-);
+- `.md` files for longform documentation and overall structure
+- `.ts`, `.tsx` files for JSDoc comments on interfaces in TypeScript source code
+- `.css`, `.scss` files for comments on CSS selectors
 
-const data = {
-    // a nested object of page refs denoting their layout.
-    layout: doc.tree(BLUEPRINT_DIR),
-    // a key-value store of all page data.
-    // page data includes HTML contents, metadata object, and array of headings.
-    pages: doc.read(),
-};
+```js
+const { Documentalist } = require("documentalist");
+const { writeFileSync } = require("fs");
 
-writeFileSync("dist/data.json", JSON.stringify(data, null, 2));
+const dm = new Documentalist();
+const docs = dm.traverse("src/**/*");
+
+writeFileSync("docs.json", JSON.stringify(docs, null, 2));
 ```
+
