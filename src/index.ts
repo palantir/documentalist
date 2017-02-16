@@ -56,8 +56,14 @@ export interface IOptions {
     highlight: (source: string, language: string) => string;
 }
 
+export interface IBlock {
+    content: string;
+    metadata: any;
+    renderedContent: ContentNode[] | undefined;
+}
+
 export class Documentalist {
-    private markdown: Remarkable;
+    public markdown: Remarkable;
     private options: IOptions;
     private plugins: Array<{ pattern: RegExp, plugin: IPlugin }> = [];
 
@@ -103,7 +109,7 @@ export class Documentalist {
         return documentation;
     }
 
-    public renderBlock(blockContent: string, reservedTagWords = RESERVED_WORDS) {
+    public renderBlock(blockContent: string, reservedTagWords = RESERVED_WORDS): IBlock {
         const { content, metadata } = this.extractMetadata(blockContent);
         const renderedContent = this.renderContents(content, reservedTagWords);
         return { content, metadata, renderedContent };
