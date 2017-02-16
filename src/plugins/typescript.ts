@@ -1,20 +1,35 @@
-import tsdoc, { IJsDocTags, IPropertyEntry } from "ts-quick-docs";
-import { Documentalist } from "..";
+import tsdoc, { IJsDocTags } from "ts-quick-docs";
+import { Documentalist, IBlock } from "..";
 import { IPlugin } from "./plugin";
 
-// so the return type of `compile()` can be named
-export { IJsDocTags, IPropertyEntry };
+export interface IDocEntry {
+    documentation: IBlock;
+    fileName: string;
+    name: string;
+    tags: IJsDocTags;
+    type: string;
+}
+
+export interface IPropertyEntry extends IDocEntry {
+    optional?: boolean;
+}
+
+export interface IInterfaceEntry extends IDocEntry {
+    extends?: string[];
+    properties?: IPropertyEntry[];
+}
 
 export class TypescriptPlugin implements IPlugin {
     public name = "ts";
 
     public compile(_documentalist: Documentalist, markdownFiles: string[]) {
-        // TODO apply markdown to comment blocks all the way down
-        return tsdoc.fromFiles(markdownFiles, {}).map((entry) => {
-            return {
-                ...entry,
+        return tsdoc.fromFiles(markdownFiles, {}).map<IInterfaceEntry>((entry) => ({
+            ...entry,
+            documentation: _documentalist.renderBlock(entry.documentation),
+            properties: entry.properties!.map<IPropertyEntry>((prop) => ({
+                ...prop,
                 documentation: _documentalist.renderBlock(entry.documentation),
-            };
-        });
+            })),
+        }));
     }
 }

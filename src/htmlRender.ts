@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { IDocEntry, IInterfaceEntry } from "ts-quick-docs/dist/interfaces";
-import { IDocumentalistData } from "./client";
+import { IDocEntry, IDocumentalistData, IInterfaceEntry } from "./client";
 import { Page } from "./page";
 
 // tslint:disable-next-line:no-var-requires
