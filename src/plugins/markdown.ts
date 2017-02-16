@@ -6,7 +6,6 @@ import { Documentalist } from "..";
 import { IMetadata, Page } from "../page";
 import { IPlugin } from "./plugin";
 
-export type TreeDict = { [page: string]: ITreeNode };
 export type DocPage = Page<IMetadata>;
 
 export interface ITreeEntry {
@@ -15,7 +14,8 @@ export interface ITreeEntry {
 }
 
 export interface ITreeNode extends ITreeEntry {
-    children: TreeDict;
+    children: ITreeNode[];
+    parent: string | undefined;
     sections: ITreeEntry[];
 }
 
@@ -48,7 +48,7 @@ export class MarkdownPlugin implements IPlugin {
                     absolutePath,
                     contentRaw: content,
                     contents: renderedContent,
-                    heading: toc(content).json,
+                    headings: toc(content).json,
                     metadata,
                 });
                 const ref = page.reference;
@@ -75,31 +75,44 @@ export class MarkdownPlugin implements IPlugin {
      * Path structure is used to nest pages.
      */
     public tree() {
-        const roots: TreeDict = {};
+        const pageNodes: Map<string, ITreeNode> = new Map();
 
+        // sparse map of tree nodes with empty `children`
         for (const [ref, page] of this.pages) {
-            const { heading, metadata } = page.data;
+            // first heading becomes page title
+            const [title, ...headings] = page.data.headings;
             const thisPage: ITreeNode = {
-                children: {},
+                children: [],
+                parent: page.data.metadata.parent,
                 reference: ref,
-                sections: heading.map((h) => ({ reference: h.slug, title: h.content })),
-                title: page.data.heading[0].content,
+                sections: headings.map((h) => ({ reference: h.slug, title: h.content })),
+                title: title.content,
             };
-            if (metadata.parent == null) {
-                roots[ref] = { ...thisPage, ...roots[ref] };
-            } else {
-                const parentRef = metadata.parent; // TODO: .split(".");
-                let parent = roots[parentRef];
-                if (parent == null) {
-                    // fake minimal page so we can add children.
-                    // expecting rest of data to come along later.
-                    parent = { children: {} } as ITreeNode;
-                    roots[parentRef] = parent;
+            pageNodes.set(ref, thisPage);
+        }
+
+        // populate `children` using parent references
+        for (const page of pageNodes.values()) {
+            if (page.parent !== undefined) {
+                if (!pageNodes.has(page.parent)) {
+                    throw new Error(`Unknown parent reference '${page.parent}' in '${page.reference}'`);
                 }
-                parent.children[ref] = thisPage;
+                pageNodes.get(page.parent)!.children.push(page);
             }
         }
 
+        // now find the roots (nodes without parents)
+        const roots: ITreeNode[] = [];
+        for (const page of pageNodes.values()) {
+            page.children.sort(alphabetizeNodesByTitle);
+            if (page.parent === undefined) {
+                roots.push(page);
+            }
+        }
         return roots;
     }
+}
+
+function alphabetizeNodesByTitle(a: ITreeNode, b: ITreeNode) {
+    return a.title.localeCompare(b.title);
 }

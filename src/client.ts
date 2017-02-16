@@ -1,4 +1,4 @@
-import { DocPage, TreeDict } from "./plugins/markdown";
+import { DocPage, ITreeNode } from "./plugins/markdown";
 
 export * from "./plugins/css";
 export * from "./plugins/markdown";
@@ -6,7 +6,7 @@ export * from "./plugins/plugin";
 export * from "./plugins/typescript";
 
 export interface IMarkdownDocs {
-    layout: TreeDict;
+    layout: ITreeNode[];
     pages: { [key: string]: DocPage };
 }
 
