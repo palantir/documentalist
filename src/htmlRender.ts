@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { IDocEntry, IInterfaceEntry } from "ts-quick-docs/dist/interfaces";
 import { IDocumentalistData } from "./client";
-import { DocPage } from "./plugins/markdown";
+import { Page } from "./page";
 
 // tslint:disable-next-line:no-var-requires
 const data = require("../dist/data.json") as IDocumentalistData;
@@ -11,7 +11,7 @@ function isInterfaceEntity(entity: IDocEntry): entity is IInterfaceEntry {
     return entity.type === "interface";
 }
 
-type TagRenderFn = (value: string | true, page: DocPage) => string;
+type TagRenderFn = (value: string | true, page: Page) => string;
 const TAGS: { [tag: string]: TagRenderFn } = {
     reference: (value, page) => {
         if (value === true) { throw new Error("@reference expects argument"); }
