@@ -1,4 +1,3 @@
-import * as toc from "markdown-toc";
 import * as path from "path";
 import { ContentNode } from "./";
 import { IMetadata, IPageData } from "./page";
@@ -17,11 +16,19 @@ export interface IMetadata {
     reference?: string;
 }
 
+export interface IHeading {
+    content: string;
+    i: number;
+    lvl: number;
+    seen: number;
+    slug: string;
+}
+
 export interface IPageData<M> {
     absolutePath: string;
     contentRaw: string;
     contents?: ContentNode[];
-    headings: toc.Heading[];
+    headings: IHeading[];
     metadata: M;
 }
 

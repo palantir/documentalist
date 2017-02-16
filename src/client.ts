@@ -5,6 +5,8 @@ export * from "./plugins/markdown";
 export * from "./plugins/plugin";
 export * from "./plugins/typescript";
 
+import { IInterfaceEntry } from "ts-quick-docs";
+
 export interface IMarkdownDocs {
     layout: ITreeNode[];
     pages: { [key: string]: DocPage };
@@ -12,5 +14,5 @@ export interface IMarkdownDocs {
 
 export interface IDocumentalistData {
     docs: IMarkdownDocs;
-    ts: any[];
+    ts: IInterfaceEntry[];
 }
