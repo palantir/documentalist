@@ -1,5 +1,5 @@
 import * as path from "path";
-import { ContentNode } from "./";
+import { ContentNode, isTag } from "./";
 
 export interface IMetadata {
     /**
@@ -28,7 +28,6 @@ export interface IPageData {
     absolutePath: string;
     contentRaw: string;
     contents?: ContentNode[];
-    headings: IHeading[];
     metadata: IMetadata;
 }
 
@@ -36,24 +35,28 @@ export class Page {
     public readonly reference: string;
 
     public constructor(public data: IPageData) {
-        this.reference = getQualifiedReference(data);
+        this.reference = getReference(data);
     }
 }
 
 function getReference(data: IPageData) {
     if (data.metadata.reference != null) {
         return data.metadata.reference;
-    } else if (data.headings.length > 0) {
-        return data.headings[0].slug;
-    } else {
-        return path.basename(data.absolutePath, path.extname(data.absolutePath));
     }
+    if (data.contents !== undefined) {
+        const first = data.contents[0];
+        if (isTag(first) && first.tag.match(/^#+$/)) {
+            return first.value as string;
+        }
+    }
+
+    return path.basename(data.absolutePath, path.extname(data.absolutePath));
 }
 
-function getQualifiedReference(data: IPageData) {
-    const ref = getReference(data);
-    if (data.metadata.parent !== undefined) {
-        return [data.metadata.parent, ref].join(".");
-    }
-    return ref;
-}
+// function getQualifiedReference(data: IPageData) {
+//     const ref = getReference(data);
+//     if (data.metadata.parent !== undefined) {
+//         return [data.metadata.parent, ref].join(".");
+//     }
+//     return ref;
+// }

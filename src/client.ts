@@ -9,6 +9,8 @@ export { ITreeEntry, ITreeNode } from "./plugins/markdown";
 export { IPlugin } from "./plugins/plugin";
 export { IDocEntry, IInterfaceEntry, IPropertyEntry } from "./plugins/typescript";
 
+export { Page };
+
 export interface IMarkdownDocs {
     layout: ITreeNode[];
     pages: { [key: string]: Page };

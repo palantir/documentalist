@@ -29,7 +29,7 @@
     "typescript": "2.1.5"
   },
   "scripts": {
-    "demo": "./cli.js test/fixtures/* > dist/data.json",
+    "demo": "./cli.js q'test/fixtures/**/*'",
     "html": "ts-node src/htmlRender",
     "test": "mocha --compilers ts:ts-node/register",
     "tsc": "tsc --project . && echo 'OK'",
