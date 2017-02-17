@@ -27,7 +27,7 @@ export interface IHeading {
 export interface IPageData {
     absolutePath: string;
     contentRaw: string;
-    contents?: ContentNode[];
+    contents: ContentNode[];
     metadata: IMetadata;
 }
 

@@ -1,6 +1,5 @@
 import * as glob from "glob";
 import * as yaml from "js-yaml";
-import * as toc from "markdown-toc";
 import * as Remarkable from "remarkable";
 
 import { CssPlugin } from "./plugins/css";
@@ -45,21 +44,6 @@ const RESERVED_WORDS = [
 export interface IOptions {
     // TODO: expose all Remarkable options?
 
-    /**
-     * What form of `contents` to return for each page:
-     * - `false` will omit the contents from the output data.
-     * - `"html"` will return rendered HTML contents _(default)_.
-     * - `"raw"` will return raw unprocessed markdown contents.
-     * @default "html"
-     */
-    contents: false | "html" | "raw";
-
-    /**
-     * CSS class for anchor inside headings.
-     * TODO: is this enough customization? or provide render callback?
-     */
-    headingAnchorClassName: string;
-
     /** Expose syntax highlighting so user can choose highlighter and languages. */
     highlight: (source: string, language: string) => string;
 }
@@ -67,7 +51,7 @@ export interface IOptions {
 export interface IBlock {
     content: string;
     metadata: any;
-    renderedContent: ContentNode[] | undefined;
+    renderedContent: ContentNode[];
 }
 
 export class Documentalist {
@@ -88,13 +72,6 @@ export class Documentalist {
             html: true,
             langPrefix: "",
         });
-
-        this.markdown.renderer.rules["heading_open"] = (tokens, index) => {
-            const slug = toc.slugify(tokens[index + 1].content);
-            return `<h${tokens[index].hLevel} id="${slug}">`
-                + `<a class="${this.options.headingAnchorClassName || ""}" href="#${slug}">#</a>`
-                + "&nbsp;";
-        };
 
         this.use(/\.md$/, new MarkdownPlugin());
         this.use(/\.s?css$/, new CssPlugin());
@@ -129,15 +106,8 @@ export class Documentalist {
      * markdown.
      */
     private renderContents(content: string, reservedTagWords: string[]) {
-        if (this.options.contents === false) {
-            return undefined;
-        }
         const splitContents = this.parseTags(content, reservedTagWords);
-        if (this.options.contents === "html") {
-            return splitContents.map((node) => typeof node === "string" ? this.markdown.render(node) : node);
-        } else {
-            return splitContents;
-        }
+        return splitContents.map((node) => typeof node === "string" ? this.markdown.render(node) : node);
     }
 
     /**
