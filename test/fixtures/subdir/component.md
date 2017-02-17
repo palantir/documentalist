@@ -1,4 +1,4 @@
-#@ Component
+@# Component
 
 # Hello world
 
