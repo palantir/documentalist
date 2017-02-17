@@ -1,15 +1,17 @@
-import { DocPage, ITreeNode } from "./plugins/markdown";
+import { Page } from "./page";
+import { ITreeNode } from "./plugins/markdown";
+import { IInterfaceEntry } from "./plugins/typescript";
 
-export * from "./plugins/css";
-export * from "./plugins/markdown";
-export * from "./plugins/plugin";
-export * from "./plugins/typescript";
-
-import { IInterfaceEntry } from "ts-quick-docs";
+// explicitly export all the interfaces
+export { IBlock } from "./";
+export { ICss, IDeclaration, IRule } from "./plugins/css";
+export { ITreeEntry, ITreeNode } from "./plugins/markdown";
+export { IPlugin } from "./plugins/plugin";
+export { IDocEntry, IInterfaceEntry, IPropertyEntry } from "./plugins/typescript";
 
 export interface IMarkdownDocs {
     layout: ITreeNode[];
-    pages: { [key: string]: DocPage };
+    pages: { [key: string]: Page };
 }
 
 export interface IDocumentalistData {

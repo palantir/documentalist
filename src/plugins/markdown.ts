@@ -3,10 +3,8 @@ import * as toc from "markdown-toc";
 import * as path from "path";
 
 import { Documentalist } from "..";
-import { IMetadata, Page } from "../page";
+import { Page } from "../page";
 import { IPlugin } from "./plugin";
-
-export type DocPage = Page<IMetadata>;
 
 export interface ITreeEntry {
     reference: string;
@@ -23,7 +21,7 @@ export class MarkdownPlugin implements IPlugin {
     public name = "docs";
 
     /** A map of page reference to page data */
-    private pages: Map<string, DocPage> = new Map();
+    private pages: Map<string, Page> = new Map();
 
     public compile(documentalist: Documentalist, markdownFiles: string[]) {
         this.parsePages(documentalist, markdownFiles);
@@ -40,11 +38,11 @@ export class MarkdownPlugin implements IPlugin {
      */
     public parsePages(documentalist: Documentalist, markdownFiles: string[]) {
         return markdownFiles
-            .map<DocPage>((filepath) => {
+            .map<Page>((filepath) => {
                 const absolutePath = path.resolve(filepath);
                 const fileContents = readFileSync(absolutePath, "utf8");
                 const { content, metadata, renderedContent } = documentalist.renderBlock(fileContents);
-                const page = new Page<IMetadata>({
+                const page = new Page({
                     absolutePath,
                     contentRaw: content,
                     contents: renderedContent,
@@ -63,7 +61,7 @@ export class MarkdownPlugin implements IPlugin {
 
     /** Returns a plain object mapping page references to their data. */
     public read() {
-        const object: { [key: string]: DocPage } = {};
+        const object: { [key: string]: Page } = {};
         for (const [key, val] of this.pages.entries()) {
             object[key] = val;
         }
