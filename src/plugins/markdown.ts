@@ -59,9 +59,6 @@ export class MarkdownPlugin implements IPlugin {
             .map((page) => {
                 if (page.contents) {
                     const newContent = page.contents.reduce((array, content) => {
-                        if (content === "") {
-                            return array;
-                        }
                         if (typeof content === "string" || content.tag !== "include") {
                             return array.concat(content);
                         }

@@ -107,7 +107,9 @@ export class Documentalist {
      */
     private renderContents(content: string, reservedTagWords: string[]) {
         const splitContents = this.parseTags(content, reservedTagWords);
-        return splitContents.map((node) => typeof node === "string" ? this.markdown.render(node) : node);
+        return splitContents
+            .map((node) => typeof node === "string" ? this.markdown.render(node) : node)
+            .filter((node) => node !== "");
     }
 
     /**

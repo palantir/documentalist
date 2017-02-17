@@ -34,15 +34,15 @@ export type PartialPageData = Pick<IPageData, "absolutePath" | "contentRaw" | "c
 
 export function makePage(props: PartialPageData): IPageData {
     const title = getTitle(props);
-    const reference = getReference(props, title);
+    const reference = getReference(props);
     return { ...props, reference, title };
 }
 
-function getReference(data: PartialPageData, title: string) {
+function getReference(data: PartialPageData) {
     if (data.metadata.reference != null) {
         return data.metadata.reference;
     }
-    return title || path.basename(data.absolutePath, path.extname(data.absolutePath));
+    return path.basename(data.absolutePath, path.extname(data.absolutePath));
 }
 
 function getTitle(data: PartialPageData) {
