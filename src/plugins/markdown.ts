@@ -26,7 +26,7 @@ export class MarkdownPlugin implements IPlugin {
     public compile(documentalist: Documentalist, markdownFiles: string[]) {
         this.parsePages(documentalist, markdownFiles);
         return {
-            layout: this.tree(),
+            // layout: this.tree(),
             pages: this.read(),
         } as any;
         // TODO clear pages after compile
