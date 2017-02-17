@@ -1,4 +1,4 @@
-@page docs
+@page the-docs
 
 Some text here cuz why not?
 

@@ -1,16 +1,16 @@
-# The Docs
+@# The Docs
 
 @include warning
 
 Here are the docs for the component interface
 
-@reference IInterfaceName ./component.tsx
-
-#### These Docs
+@#### These Docs
 
 Please take a look
 
-### Other docs
+@### Other docs
 
 Lorem Ipsum
 
+
+@page component
