@@ -1,5 +1,5 @@
 import { IPageData } from "./page";
-import { ITreeEntry, ITreeNode } from "./plugins/markdown";
+import { ITreeEntry } from "./plugins/markdown";
 import { IInterfaceEntry } from "./plugins/typescript";
 import { ITag, isTag, ContentNode } from "./";
 
@@ -11,13 +11,8 @@ export { ITreeEntry, ITreeNode } from "./plugins/markdown";
 export { IPlugin } from "./plugins/plugin";
 export { IDocEntry, IInterfaceEntry, IPropertyEntry } from "./plugins/typescript";
 
-export interface IMarkdownDocs {
-    layout: ITreeNode[];
-    pages: { [key: string]: IPageData };
-}
-
 export interface IDocumentalistData {
-    docs: IMarkdownDocs;
+    docs: { [key: string]: IPageData };
     ts: IInterfaceEntry[];
 }
 
@@ -28,7 +23,7 @@ export function visitNavigables(data: IDocumentalistData, initialPage: IPageData
         initialPage.contents.forEach((node: ContentNode, i: number) => {
             if (isTag(node)) {
                 if (node.tag == "page") {
-                    const subpage = data.docs.pages[node.value as string];
+                    const subpage = data.docs[node.value as string];
                     visitor({
                         title: "top " + subpage.reference,
                         reference: subpage.reference
@@ -48,38 +43,49 @@ export function visitNavigables(data: IDocumentalistData, initialPage: IPageData
 
 export interface INavigableNode extends ITreeEntry {
     level: number;
+}
+
+export interface INavigablePageNode extends INavigableNode {
     children: INavigableNode[];
 }
 
-function initPageNode(page: IPageData, level: number): INavigableNode {
+export interface INavigableTagNode extends INavigableNode {
+    pageReference: string;
+}
+
+function slugify(str: string) {
+    return str.toLowerCase().replace(/\W/g, "-");
+}
+
+function initPageNode(page: IPageData, level: number): INavigablePageNode {
     return {
-        title: page.reference,
+        title: page.title,
         reference: page.reference,
         level,
         children: [],
     };
 }
 
-function initHeaderNode(node: ITag, level: number): INavigableNode {
+function initHeaderNode(node: ITag, level: number, pageReference: string): INavigableTagNode {
     return {
         title: node.value.toString(),
-        reference: node.value.toString(),
+        reference: slugify(node.value.toString()),
+        pageReference,
         level,
-        children: [],
     }
 }
 
 export function createNavigableTree(data: IDocumentalistData, page: IPageData, level = 0) {
-    const pageNode: INavigableNode = initPageNode(page, level);
+    const pageNode: INavigablePageNode = initPageNode(page, level);
     if (page.contents != null) {
         page.contents.forEach((node: ContentNode, i: number) => {
             if (isTag(node)) {
                 if (node.tag == "page") {
-                    const subpage = data.docs.pages[node.value as string];
+                    const subpage = data.docs[node.value as string];
                     pageNode.children.push(createNavigableTree(data, subpage, level + 1));
                 }
                 if (i != 0 && node.tag.match(/^#+$/)) {
-                    pageNode.children.push(initHeaderNode(node, level + 1));
+                    pageNode.children.push(initHeaderNode(node, level + 1, page.reference));
                 }
             }
         });

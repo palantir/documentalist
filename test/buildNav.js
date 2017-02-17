@@ -14,6 +14,6 @@ const { createNavigableTree } = require("../dist/client");
 
 readStdin((stdin) => {
     const docs = JSON.parse(stdin);
-    const navigable = createNavigableTree(docs, docs.docs.pages.nav);
+    const navigable = createNavigableTree(docs, docs.docs.nav);
     console.log(JSON.stringify(navigable, null, 2));
 });
