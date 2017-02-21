@@ -1,9 +1,11 @@
-import { Comment, Declaration, Root, Rule } from "postcss";
-import * as postcss from "postcss";
-import * as postcssScss from "postcss-scss";
 import { readFileSync } from "fs";
+import * as postcss from "postcss";
+import { Comment, Root, Rule } from "postcss";
+import * as postcssScss from "postcss-scss";
+
+import { Documentalist } from "..";
+import { ContentNode } from "../client";
 import { IPlugin } from "./plugin";
-import { Documentalist, ContentNode } from "..";
 
 export interface IDeclaration {
     prop: string;

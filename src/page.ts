@@ -1,34 +1,5 @@
 import * as path from "path";
-import { ContentNode, isTag } from "./";
-import { PartialPageData } from "./page";
-
-export interface IMetadata {
-    /**
-     * The section reference to which this page belongs.
-     * A reference is typically the first header of a file, but can be overridden in IMetadata.
-     */
-    parent?: string;
-
-    /**
-     * Unique ID for finding this section.
-     * The default value is the slug of the first heading in the file.
-     */
-    reference?: string;
-
-    title?: string;
-
-    /** Metadata is parsed from YAML front matter in files and can contain arbitrary data. */
-    [key: string]: any;
-}
-
-export interface IPageData {
-    absolutePath: string;
-    contentRaw: string;
-    contents: ContentNode[];
-    metadata: IMetadata;
-    reference: string;
-    title: string;
-}
+import { IPageData, isTag } from "./client";
 
 export type PartialPageData = Pick<IPageData, "absolutePath" | "contentRaw" | "contents" | "metadata">;
 
@@ -57,11 +28,3 @@ function getTitle(data: PartialPageData) {
 
     return "(untitled)";
 }
-
-// function getQualifiedReference(data: IPageData) {
-//     const ref = getReference(data);
-//     if (data.metadata.parent !== undefined) {
-//         return [data.metadata.parent, ref].join(".");
-//     }
-//     return ref;
-// }

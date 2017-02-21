@@ -1,21 +1,10 @@
 import { readFileSync } from "fs";
 import * as path from "path";
 
-import { ContentNode, Documentalist } from "..";
-import { IPageData, makePage } from "../page";
+import { Documentalist } from "..";
+import { ContentNode, IPageData } from "../client";
+import { makePage } from "../page";
 import { IPlugin } from "./plugin";
-
-export interface ITreeEntry {
-    depth?: number;
-    reference: string;
-    title: string;
-}
-
-export interface ITreeNode extends ITreeEntry {
-    children: ITreeNode[];
-    parent: string | undefined;
-    sections: ITreeEntry[];
-}
 
 export class MarkdownPlugin implements IPlugin {
     public name = "docs";

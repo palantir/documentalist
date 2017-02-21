@@ -2,21 +2,11 @@ import * as glob from "glob";
 import * as yaml from "js-yaml";
 import * as Remarkable from "remarkable";
 
+import { ContentNode } from "./client";
 import { CssPlugin } from "./plugins/css";
 import { MarkdownPlugin } from "./plugins/markdown";
 import { IPlugin } from "./plugins/plugin";
 import { TypescriptPlugin } from "./plugins/typescript";
-
-export interface ITag {
-    tag: string;
-    value: string | true;
-}
-
-export type ContentNode = string | ITag;
-
-export function isTag(node: ContentNode): node is ITag {
-    return (node as ITag).tag !== undefined;
-}
 
 /**
  * Matches the triple-dash metadata block on the first line of markdown file.
@@ -27,7 +17,7 @@ const METADATA_REGEX = /^---\n?((?:.|\n)*)\n---\n/;
 /**
  * Splits text content for lines that begin with `@tagname`.
  */
-const TAG_REGEX = /^@(\S+)(?:\s([^$@]+))?$/;
+const TAG_REGEX = /^@(\S+)(?:\s+([^\n]+))?$/;
 const TAG_SPLIT_REGEX = /^(@\S+(?:\s+[^\n]+)?)$/gm;
 
 /**
@@ -139,7 +129,7 @@ export class Documentalist {
             } else {
                 return {
                     tag: match[1],
-                    value: match[2] || true,
+                    value: match[2],
                 };
             }
         });
