@@ -2,7 +2,7 @@ import * as glob from "glob";
 import * as yaml from "js-yaml";
 import * as Remarkable from "remarkable";
 
-import { ContentNode } from "./client";
+import { StringOrTag } from "./client";
 import { CssPlugin } from "./plugins/css";
 import { MarkdownPlugin } from "./plugins/markdown";
 import { IPlugin } from "./plugins/plugin";
@@ -41,7 +41,7 @@ export interface IOptions {
 export interface IBlock {
     content: string;
     metadata: any;
-    renderedContent: ContentNode[];
+    renderedContent: StringOrTag[];
 }
 
 export class Documentalist {
@@ -122,7 +122,7 @@ export class Documentalist {
      * tag names.
      */
     private parseTags(content: string, reservedWords: string[]) {
-        return content.split(TAG_SPLIT_REGEX).map((str): ContentNode => {
+        return content.split(TAG_SPLIT_REGEX).map((str): StringOrTag => {
             const match = TAG_REGEX.exec(str);
             if (match === null || reservedWords.indexOf(match[1]) >= 0) {
                 return str;

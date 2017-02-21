@@ -2,7 +2,7 @@ import { readFileSync } from "fs";
 import * as path from "path";
 
 import { Documentalist } from "..";
-import { ContentNode, IPageData } from "../client";
+import { IPageData, StringOrTag } from "../client";
 import { makePage } from "../page";
 import { IPlugin } from "./plugin";
 
@@ -45,7 +45,7 @@ export class MarkdownPlugin implements IPlugin {
                             throw new Error(`Unknown @include reference '${content.value}' in '${page.reference}'`);
                         }
                         return array.concat(pageToInclude.contents!);
-                    }, [] as ContentNode[]);
+                    }, [] as StringOrTag[]);
                     page.contents = newContent;
                 }
                 return page;

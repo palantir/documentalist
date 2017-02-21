@@ -4,7 +4,7 @@ import { Comment, Root, Rule } from "postcss";
 import * as postcssScss from "postcss-scss";
 
 import { Documentalist } from "..";
-import { ContentNode } from "../client";
+import { StringOrTag } from "../client";
 import { IPlugin } from "./plugin";
 
 export interface IDeclaration {
@@ -13,7 +13,7 @@ export interface IDeclaration {
 }
 
 export interface IRule {
-    comment?: ContentNode[];
+    comment?: StringOrTag[];
     commentRaw?: string;
     selector: string;
     declarations: IDeclaration[];

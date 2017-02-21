@@ -7,10 +7,10 @@ export interface ITag {
 }
 
 /** An entry in `contents` array: either an HTML string or an `@tag`. */
-export type ContentNode = string | ITag;
+export type StringOrTag = string | ITag;
 
 /** type guard to determine if a `contents` node is an `@tag` statement */
-export function isTag(node: ContentNode): node is ITag {
+export function isTag(node: StringOrTag): node is ITag {
     return (node as ITag).tag !== undefined;
 }
 
@@ -54,7 +54,7 @@ export interface IPageData {
     contentRaw: string;
 
     /** Parsed nodes of source file. An array of rendered HTML strings or `@tag` objects. */
-    contents: ContentNode[];
+    contents: StringOrTag[];
 
     /** Arbitrary YAML metadata parsed from front matter of source file */
     metadata: IMetadata;
@@ -110,7 +110,7 @@ function initHeadingNode({ value: title }: ITag, depth: number, pageReference: s
 export function createNavigableTree(pages: { [key: string]: IPageData }, page: IPageData, depth = 0) {
     const pageNode: IPageNode = initPageNode(page, depth);
     if (page.contents != null) {
-        page.contents.forEach((node: ContentNode, i: number) => {
+        page.contents.forEach((node: StringOrTag, i: number) => {
             if (isTag(node)) {
                 if (node.tag === "page") {
                     const subpage = pages[node.value as string];
