@@ -15,7 +15,7 @@ import { TypescriptPlugin } from "./plugins/typescript";
 const METADATA_REGEX = /^---\n?((?:.|\n)*)\n---\n/;
 
 /**
- * Splits text content for lines that begin with `@tagname`.
+ * Splits text content for lines that begin with `@tagName`.
  */
 const TAG_REGEX = /^@(\S+)(?:\s+([^\n]+))?$/;
 const TAG_SPLIT_REGEX = /^(@\S+(?:\s+[^\n]+)?)$/gm;

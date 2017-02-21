@@ -93,8 +93,13 @@ export interface IHeadingNode extends ITreeEntry {
     pageReference: string;
 }
 
+/** Type guard for `IPageNode`, useful for its `children` array. */
+export function isPageNode(node: any): node is IPageNode {
+    return (node as IPageNode).children !== undefined;
+}
+
 /** Merge an array of strings into one handy slug. */
-function slugify(...strings: string[]) {
+export function slugify(...strings: string[]) {
     return strings.map((str) => str.toLowerCase().replace(/\W/g, "-")).join(".");
 }
 
@@ -102,11 +107,15 @@ function initPageNode({ reference, title }: IPageData, depth: number): IPageNode
     return { children: [], depth, reference, title };
 }
 
-function initHeadingNode({ value: title }: ITag, depth: number, pageReference: string): IHeadingNode {
-    const reference = slugify(pageReference, title);
-    return { depth, pageReference, reference, title };
+function initHeadingNode({ value }: ITag, depth: number, pageReference: string): IHeadingNode {
+    const reference = slugify(pageReference, value);
+    return { depth, pageReference, reference, title: value };
 }
 
+/**
+ * Organizes the pages into a tree structure by traversing
+ * their contents for `@#+` and `@page` tags.
+ */
 export function createNavigableTree(pages: { [key: string]: IPageData }, page: IPageData, depth = 0) {
     const pageNode: IPageNode = initPageNode(page, depth);
     if (page.contents != null) {
