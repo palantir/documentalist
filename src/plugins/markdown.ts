@@ -20,22 +20,11 @@ export interface ITreeNode extends ITreeEntry {
 export class MarkdownPlugin implements IPlugin {
     public name = "docs";
 
-    /** Returns a plain object mapping page references to their data. */
-    public compile(documentalist: Documentalist, markdownFiles: string[]) {
-        const pageStore = this.parsePages(documentalist, markdownFiles);
-
-        const object: { [key: string]: IPageData } = {};
-        for (const [key, val] of pageStore.entries()) {
-            object[key] = val;
-        }
-        return object;
-    }
-
     /**
      * Reads the given set of markdown files and adds their data to the internal storage.
-     * Returns an array of the new references added.
+     * Returns a plain object mapping page references to their data.
      */
-    public parsePages(documentalist: Documentalist, markdownFiles: string[]) {
+    public compile(documentalist: Documentalist, markdownFiles: string[]) {
         const pageStore: Map<string, IPageData> = new Map();
         markdownFiles
             .map((filepath) => {
@@ -72,6 +61,14 @@ export class MarkdownPlugin implements IPlugin {
                 }
                 return page;
             });
-        return pageStore;
+        return mapToObject(pageStore);
     }
+}
+
+function mapToObject<T>(map: Map<string, T>): { [key: string]: T } {
+    const object: { [key: string]: T } = {};
+    for (const [key, val] of map.entries()) {
+        object[key] = val;
+    }
+    return object;
 }

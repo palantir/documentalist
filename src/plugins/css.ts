@@ -31,7 +31,9 @@ export class CssPlugin implements IPlugin {
         cssFiles.forEach((filePath: string) => {
             const cssContent = readFileSync(filePath, "utf8");
             const cssResult = {filePath, rules: []};
-            postcss([this.processor(documentalist, cssResult)]).process(cssContent, { syntax: postcssScss }).css; // .css makes this synchronous
+            postcss([this.processor(documentalist, cssResult)])
+                .process(cssContent, { syntax: postcssScss })
+                .css; // this statement makes the whole thing synchronous
             csses.push(cssResult);
         });
         return csses;
@@ -41,8 +43,8 @@ export class CssPlugin implements IPlugin {
         return (css: Root) => {
             css.walkRules((rule: Rule) => {
                 const ruleResult = {
-                    selector: rule.selector,
                     declarations: [],
+                    selector: rule.selector,
                 } as IRule;
 
                 const prevNode = rule.prev();
@@ -53,17 +55,13 @@ export class CssPlugin implements IPlugin {
                         .trim(); // trim asterisks, maintain newlines
 
                     const { content, metadata, renderedContent } = documentalist.renderBlock(block);
-                    ruleResult.metadata = metadata
+                    ruleResult.metadata = metadata;
                     ruleResult.commentRaw = content;
                     ruleResult.comment = renderedContent;
                 }
 
-                rule.walkDecls((decl: Declaration) => {
-                    ruleResult.declarations.push({
-                        prop: decl.prop,
-                        value: decl.value,
-                    });
-                });
+                rule.walkDecls(({ prop, value }) => ruleResult.declarations.push({ prop, value }));
+
                 cssResult.rules.push(ruleResult);
             });
         };
