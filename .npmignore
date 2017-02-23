@@ -1,0 +1,7 @@
+**/*
+!README.md
+!LICENSE
+!PATENTS
+!package.json
+!typings/**/*
+!dist/**/*

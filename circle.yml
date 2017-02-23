@@ -2,7 +2,9 @@ dependencies:
   override:
     - npm install yarn
     - $(npm bin)/yarn install
-test: true
+test:
+  override:
+    - npm test
 deployment:
   preview:
     branch: /.*/
@@ -10,7 +12,7 @@ deployment:
     tag: /release-.*/
     owner: palantir
     commands:
-      - npm run build
+      - npm run tsc
       # Publish
       - echo -e "$NPM_USER\n$NPM_PASS\n$NPM_EMAIL" | npm login
       - npm publish

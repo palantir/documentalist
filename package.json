@@ -36,6 +36,7 @@
     "typescript": "2.1.5"
   },
   "scripts": {
+    "clean": "rm -rf dist",
     "demo": "./cli.js 'test/fixtures/**/*'",
     "test": "mocha --compilers ts:ts-node/register 'test/**/*Tests.ts'",
     "tsc": "tsc --project . && echo 'OK'",

@@ -9,7 +9,6 @@
  * repository.
  */
 
-// const program = require("commander");
 const yargs = require("yargs");
 const fs = require("fs");
 const glob = require("glob");
