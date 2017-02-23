@@ -1,7 +1,6 @@
 dependencies:
   override:
-    - npm install yarn
-    - $(npm bin)/yarn install
+    - npm install
 test:
   override:
     - npm test
