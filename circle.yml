@@ -6,8 +6,10 @@ test:
   override:
     - npm test
 deployment:
-  preview:
-    branch: /.*/
+  # preview:
+  #   branch: /.*/
+  #   commands:
+  #     - build preview etc.
   npm:
     tag: /release-.*/
     owner: palantir
