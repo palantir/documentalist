@@ -5,5 +5,11 @@
  * repository.
  */
 
-export * from "./documentalist";
-export * from "./client";
+import "mocha";
+import { expect } from "chai";
+
+describe("Tree", () => {
+    it("uh", () => {
+        expect(true).to.be.true;
+    });
+});

@@ -1,0 +1,28 @@
+general:
+  artifacts:
+    - docs
+    - preview
+dependencies:
+  pre:
+    - case $CIRCLE_NODE_INDEX in 0) nvm use 4.2 ;; 1) nvm use 5.7 ;; 2) nvm use 6.1 ;; esac
+test:
+  override:
+    - npm test
+    - npm run test:sauce
+deployment:
+  preview:
+    branch: /.*/
+    commands:
+      - npm run preview # build the preview bundle
+      - ./preview/demo.js # comment back on github
+  npm:
+    tag: /release-.*/
+    owner: palantir
+    commands:
+      - npm run build
+      # Confirm we are ready to publish
+      - git diff HEAD..origin/master --quiet || (echo "dist not built"; exit 1)
+      - npm run -s check_version || (echo "package.json version not updated"; exit 1)
+      # Publish
+      - echo -e "$NPM_USER\n$NPM_PASS\n$NPM_EMAIL" | npm login
+      - npm publish
