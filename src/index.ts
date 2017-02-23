@@ -7,13 +7,15 @@
 
 import * as glob from "glob";
 import * as yaml from "js-yaml";
-import * as Remarkable from "remarkable";
-
-import { StringOrTag } from "./client";
+import * as marked from "marked";
+import { IDocumentalistData, StringOrTag } from "./client";
 import { CssPlugin } from "./plugins/css";
 import { MarkdownPlugin } from "./plugins/markdown";
 import { IPlugin } from "./plugins/plugin";
 import { TypescriptPlugin } from "./plugins/typescript";
+
+// re-export all client interfaces cuz they're perfectly valid on the server
+export * from "./client";
 
 /**
  * Matches the triple-dash metadata block on the first line of markdown file.
@@ -38,13 +40,6 @@ const RESERVED_WORDS = [
     "import",
 ];
 
-export interface IOptions {
-    // TODO: expose all Remarkable options?
-
-    /** Expose syntax highlighting so user can choose highlighter and languages. */
-    highlight: (source: string, language: string) => string;
-}
-
 export interface IBlock {
     content: string;
     metadata: any;
@@ -52,24 +47,9 @@ export interface IBlock {
 }
 
 export class Documentalist {
-    public markdown: Remarkable;
-    private options: IOptions;
     private plugins: Array<{ pattern: RegExp, plugin: IPlugin }> = [];
 
-    constructor(options: Partial<IOptions> = {}) {
-        this.options = {
-            contents: "html",
-            headingAnchorClassName: "docs-anchor",
-            highlight: (source) => source,
-            ...options,
-        };
-
-        this.markdown = new Remarkable({
-            highlight: this.options.highlight,
-            html: true,
-            langPrefix: "",
-        });
-
+    constructor(private markedOptions: MarkedOptions = {}) {
         this.use(/\.md$/, new MarkdownPlugin());
         this.use(/\.s?css$/, new CssPlugin());
         this.use(/\.tsx?$/, new TypescriptPlugin());
@@ -81,7 +61,7 @@ export class Documentalist {
     }
 
     public traverse(...filesGlobs: string[]) {
-        const documentation: any = {};
+        const documentation = {} as IDocumentalistData;
         const files = filesGlobs
             .map((filesGlob) => glob.sync(filesGlob))
             .reduce((a, b) => a.concat(b));
@@ -105,7 +85,7 @@ export class Documentalist {
     private renderContents(content: string, reservedTagWords: string[]) {
         const splitContents = this.parseTags(content, reservedTagWords);
         return splitContents
-            .map((node) => typeof node === "string" ? this.markdown.render(node) : node)
+            .map((node) => typeof node === "string" ? marked(node, this.markedOptions) : node)
             .filter((node) => node !== "");
     }
 

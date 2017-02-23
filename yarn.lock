@@ -13,6 +13,10 @@
   version "3.5.28"
   resolved "https://registry.yarnpkg.com/@types/js-yaml/-/js-yaml-3.5.28.tgz#efd7614f8eb1b924c41235ff653b7370da467fac"
 
+"@types/marked@^0.0.28":
+  version "0.0.28"
+  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-0.0.28.tgz#44ba754e9fa51432583e8eb30a7c4dd249b52faa"
+
 "@types/minimatch@*":
   version "2.0.29"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-2.0.29.tgz#5002e14f75e2d71e564281df0431c8c1b4a2a36a"
@@ -788,6 +792,10 @@ markdown-toc@^1.0.2:
     remarkable "^1.7.1"
     repeat-string "^1.6.1"
     strip-color "^0.1.0"
+
+marked@^0.3.6:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-0.3.6.tgz#b2c6c618fccece4ef86c4fc6cb8a7cbf5aeda8d7"
 
 "minimatch@2 || 3", minimatch@^3.0.2:
   version "3.0.3"
