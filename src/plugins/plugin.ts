@@ -7,8 +7,12 @@
 
 import { Documentalist } from "..";
 
-export interface IPlugin {
-    name: string;
+export interface IFile {
+    path: string;
+    read: () => string;
+}
 
-    compile: (doc: Documentalist, files: string[]) => any;
+export interface IPlugin<T> {
+    name: string;
+    compile: (doc: Documentalist, files: IFile[]) => T;
 }

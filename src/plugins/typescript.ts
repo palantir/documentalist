@@ -7,7 +7,7 @@
 
 import tsdoc, { IJsDocTags } from "ts-quick-docs";
 import { Documentalist, IBlock } from "..";
-import { IPlugin } from "./plugin";
+import { IFile, IPlugin } from "./plugin";
 
 export interface IDocEntry {
     documentation: IBlock;
@@ -26,11 +26,11 @@ export interface IInterfaceEntry extends IDocEntry {
     properties: IPropertyEntry[];
 }
 
-export class TypescriptPlugin implements IPlugin {
+export class TypescriptPlugin implements IPlugin<IInterfaceEntry[]> {
     public name = "ts";
 
-    public compile(documentalist: Documentalist, files: string[]) {
-        return tsdoc.fromFiles(files, {}).map<IInterfaceEntry>((entry) => ({
+    public compile(documentalist: Documentalist, files: IFile[]) {
+        return tsdoc.fromFiles(files.map((f) => f.path), {}).map<IInterfaceEntry>((entry) => ({
             ...entry,
             documentation: documentalist.renderBlock(entry.documentation),
             properties: entry.properties!.map<IPropertyEntry>((prop) => ({

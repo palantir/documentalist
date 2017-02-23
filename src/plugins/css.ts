@@ -5,14 +5,13 @@
  * repository.
  */
 
-import { readFileSync } from "fs";
 import * as postcss from "postcss";
 import { Comment, Root, Rule } from "postcss";
 import * as postcssScss from "postcss-scss";
 
 import { Documentalist } from "..";
 import { StringOrTag } from "../client";
-import { IPlugin } from "./plugin";
+import { IFile, IPlugin } from "./plugin";
 
 export interface IDeclaration {
     prop: string;
@@ -32,14 +31,14 @@ export interface ICss {
     rules: IRule[];
 }
 
-export class CssPlugin implements IPlugin {
+export class CssPlugin implements IPlugin<ICss[]> {
     public name = "css";
 
-    public compile(documentalist: Documentalist, cssFiles: string[]) {
+    public compile(documentalist: Documentalist, cssFiles: IFile[]) {
         const csses = [] as ICss[];
-        cssFiles.forEach((filePath: string) => {
-            const cssContent = readFileSync(filePath, "utf8");
-            const cssResult = {filePath, rules: []};
+        cssFiles.forEach((file) => {
+            const cssContent = file.read();
+            const cssResult = {filePath: file.path, rules: []};
             postcss([this.processor(documentalist, cssResult)])
                 .process(cssContent, { syntax: postcssScss })
                 .css; // this statement makes the whole thing synchronous

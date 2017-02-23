@@ -5,11 +5,13 @@
  * repository.
  */
 
+import * as fs from "fs";
 import * as glob from "glob";
 import * as yaml from "js-yaml";
 import * as marked from "marked";
+import * as path from "path";
 import { IDocumentalistData, StringOrTag } from "./client";
-import { CssPlugin, IPlugin, MarkdownPlugin, TypescriptPlugin } from "./plugins";
+import { CssPlugin, IFile, IPlugin, MarkdownPlugin, TypescriptPlugin } from "./plugins";
 
 /**
  * Matches the triple-dash metadata block on the first line of markdown file.
@@ -41,7 +43,7 @@ export interface IBlock {
 }
 
 export class Documentalist {
-    private plugins: Array<{ pattern: RegExp, plugin: IPlugin }> = [];
+    private plugins: Array<{ pattern: RegExp, plugin: IPlugin<any> }> = [];
 
     constructor(private markedOptions: MarkedOptions = {}) {
         this.use(/\.md$/, new MarkdownPlugin());
@@ -49,18 +51,20 @@ export class Documentalist {
         this.use(/\.tsx?$/, new TypescriptPlugin());
     }
 
-    public use(pattern: RegExp, plugin: IPlugin) {
+    public use(pattern: RegExp, plugin: IPlugin<any>) {
         this.plugins.push({ pattern, plugin });
         return this;
     }
 
     public traverse(...filesGlobs: string[]) {
+        const files = this.globFiles(filesGlobs);
+        return this.documentFiles(files);
+    }
+
+    public documentFiles(files: IFile[]) {
         const documentation = {} as IDocumentalistData;
-        const files = filesGlobs
-            .map((filesGlob) => glob.sync(filesGlob))
-            .reduce((a, b) => a.concat(b));
         for (const { pattern, plugin } of this.plugins) {
-            documentation[plugin.name] = plugin.compile(this, files.filter((f) => pattern.test(f)));
+            documentation[plugin.name] = plugin.compile(this, files.filter((f) => pattern.test(f.path)));
         }
         return documentation;
     }
@@ -69,6 +73,19 @@ export class Documentalist {
         const { content, metadata } = this.extractMetadata(blockContent);
         const renderedContent = this.renderContents(content, reservedTagWords);
         return { content, metadata, renderedContent };
+    }
+
+    private globFiles(filesGlobs: string[]) {
+        return filesGlobs
+            .map((filesGlob) => glob.sync(filesGlob))
+            .reduce((a, b) => a.concat(b))
+            .map((fileName) => {
+                const absolutePath = path.resolve(fileName);
+                return {
+                    path: absolutePath,
+                    read: () => fs.readFileSync(absolutePath, "utf8"),
+                };
+            });
     }
 
     /**

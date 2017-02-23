@@ -5,27 +5,26 @@
  * repository.
  */
 
-import { readFileSync } from "fs";
-import * as path from "path";
-
 import { Documentalist } from "..";
 import { IPageData, StringOrTag } from "../client";
 import { makePage } from "../page";
-import { IPlugin } from "./plugin";
+import { IFile, IPlugin } from "./plugin";
 
-export class MarkdownPlugin implements IPlugin {
+export type IPageMap = { [key: string]: IPageData };
+
+export class MarkdownPlugin implements IPlugin<IPageMap> {
     public name = "docs";
 
     /**
      * Reads the given set of markdown files and adds their data to the internal storage.
      * Returns a plain object mapping page references to their data.
      */
-    public compile(documentalist: Documentalist, markdownFiles: string[]) {
+    public compile(documentalist: Documentalist, markdownFiles: IFile[]) {
         const pageStore: Map<string, IPageData> = new Map();
         markdownFiles
-            .map((filepath) => {
-                const absolutePath = path.resolve(filepath);
-                const fileContents = readFileSync(absolutePath, "utf8");
+            .map((file) => {
+                const absolutePath = file.path;
+                const fileContents = file.read();
                 const { content, metadata, renderedContent } = documentalist.renderBlock(fileContents);
                 const page = makePage({
                     absolutePath,
