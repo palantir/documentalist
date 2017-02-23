@@ -107,7 +107,7 @@ export function isPageNode(node: any): node is IPageNode {
 
 /** Merge an array of strings into one handy slug. */
 export function slugify(...strings: string[]) {
-    return strings.map((str) => str.toLowerCase().replace(/\W/g, "-")).join(".");
+    return strings.map((str) => str.toLowerCase().replace(/[^\w.]/g, "-")).join(".");
 }
 
 function initPageNode({ reference, title }: IPageData, depth: number): IPageNode {
@@ -136,7 +136,8 @@ export function createNavigableTree(pages: { [key: string]: IPageData }, page: I
                     pageNode.children.push(createNavigableTree(pages, subpage, depth + 1));
                 }
                 if (i !== 0 && node.tag.match(/^#+$/)) {
-                    pageNode.children.push(initHeadingNode(node, node.tag.length, page.reference));
+                    // use heading strength - 1 cuz h1 is the title
+                    pageNode.children.push(initHeadingNode(node, depth + node.tag.length - 1, page.reference));
                 }
             }
         });

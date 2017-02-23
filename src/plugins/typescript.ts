@@ -16,19 +16,19 @@ export interface IPropertyEntry extends IDocEntry {
 
 export interface IInterfaceEntry extends IDocEntry {
     extends?: string[];
-    properties?: IPropertyEntry[];
+    properties: IPropertyEntry[];
 }
 
 export class TypescriptPlugin implements IPlugin {
     public name = "ts";
 
-    public compile(_documentalist: Documentalist, markdownFiles: string[]) {
-        return tsdoc.fromFiles(markdownFiles, {}).map<IInterfaceEntry>((entry) => ({
+    public compile(documentalist: Documentalist, files: string[]) {
+        return tsdoc.fromFiles(files, {}).map<IInterfaceEntry>((entry) => ({
             ...entry,
-            documentation: _documentalist.renderBlock(entry.documentation),
+            documentation: documentalist.renderBlock(entry.documentation),
             properties: entry.properties!.map<IPropertyEntry>((prop) => ({
                 ...prop,
-                documentation: _documentalist.renderBlock(entry.documentation),
+                documentation: documentalist.renderBlock(prop.documentation),
             })),
         }));
     }
