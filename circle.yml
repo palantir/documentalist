@@ -14,8 +14,9 @@ deployment:
   preview:
     branch: /.*/
     commands:
+      - npm run tsc
       - npm run docs
-      - node theme/demo.js
+      - node theme/bot.js
   npm:
     tag: /release-.*/
     owner: palantir
