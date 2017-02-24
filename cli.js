@@ -38,6 +38,6 @@ const doc = new Documentalist();
 plugins.forEach(({ pattern, plugin }) => {
     doc.use(new RegExp(pattern), plugin);
 });
-const documentation = doc.traverse(...argv._);
+const documentation = doc.documentGlobs(...argv._);
 
 console.log(JSON.stringify(documentation, null, 2));

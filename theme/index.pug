@@ -1,0 +1,73 @@
+- ts.sort((a, b) => a.name.localeCompare(b.name))
+
+html
+  head
+    title Documentalist
+  style.
+    body {
+      background-color: #EEE;
+      color: #555;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    a {
+      color: #888;
+      text-decoration: none;
+    }
+
+    .hidden {
+      display: none;
+    }
+  link(rel='stylesheet', href='assets/index.css')
+body
+  #nav
+    a(href="#") Documentalist
+
+    h3 Interfaces
+    for iface in ts
+      if iface.type == "interface"
+        a(href='#' + iface.name)
+          .nav-item= iface.name
+
+    .copyright
+      | &copy; Copyright 2017-present Palantir
+
+
+  #content
+
+  mixin joinContent(doc)
+    if doc.renderedContent
+      | !{doc.renderedContent.join('')}
+
+  mixin interface(iface)
+    .interface-block(id=iface.name)
+      h2= iface.name
+
+      +joinContent(iface.documentation)
+
+      .interface-properties
+        table
+          for prop in iface.properties
+            tr
+              td.prop-name(valign="top")= prop.name
+              td.prop-type(valign="top")
+                pre= prop.type
+              td.prop-docs(valign="top")
+                +joinContent(prop.documentation)
+
+
+  .hidden(data-route="default")
+    for block in docs.docs.contents
+      if typeof block === "string"
+        | !{block}
+      else if block.tag === "interface"
+        - var iface = ts.find((i) => i.name === block.value);
+        +interface(iface)
+
+  for iface in ts
+    if iface.type == "interface"
+      .hidden(data-route=iface.name)
+        +interface(iface)
+
+
+  script(type='text/javascript', src='assets/index.js')

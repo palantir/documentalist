@@ -1,0 +1,645 @@
+
+<html>
+  <head>
+    <title>Documentalist</title>
+  </head>
+  <style>
+    body {
+      background-color: #EEE;
+      color: #555;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+    
+    a {
+      color: #888;
+      text-decoration: none;
+    }
+    
+    .hidden {
+      display: none;
+    }
+  </style>
+  <link rel="stylesheet" href="assets/index.css"/>
+</html>
+<body>
+  <div id="nav"><a href="#">Documentalist</a>
+    <h3>Interfaces</h3><a href="#IApi">
+      <div class="nav-item">IApi</div></a><a href="#IBlock">
+      <div class="nav-item">IBlock</div></a><a href="#ICss">
+      <div class="nav-item">ICss</div></a><a href="#IDeclaration">
+      <div class="nav-item">IDeclaration</div></a><a href="#IDocEntry">
+      <div class="nav-item">IDocEntry</div></a><a href="#IDocumentalistData">
+      <div class="nav-item">IDocumentalistData</div></a><a href="#IFile">
+      <div class="nav-item">IFile</div></a><a href="#IHeadingNode">
+      <div class="nav-item">IHeadingNode</div></a><a href="#IInterfaceEntry">
+      <div class="nav-item">IInterfaceEntry</div></a><a href="#IMetadata">
+      <div class="nav-item">IMetadata</div></a><a href="#IPageData">
+      <div class="nav-item">IPageData</div></a><a href="#IPageNode">
+      <div class="nav-item">IPageNode</div></a><a href="#IPlugin">
+      <div class="nav-item">IPlugin</div></a><a href="#IPropertyEntry">
+      <div class="nav-item">IPropertyEntry</div></a><a href="#IRule">
+      <div class="nav-item">IRule</div></a><a href="#ITag">
+      <div class="nav-item">ITag</div></a><a href="#ITreeEntry">
+      <div class="nav-item">ITreeEntry</div></a>
+    <div class="copyright">&copy; Copyright 2017-present Palantir</div>
+  </div>
+  <div id="content"></div>
+  <div class="hidden" data-route="default"><h1 id="documentalist">Documentalist</h1>
+<p><strong>Documentalist</strong> is a library for parsing documentation from <strong>CSS</strong>,
+<strong>Typescript</strong>, and <strong>Markdown</strong> files. The output is a well-formed JSON object
+that can be fed directly into any number of static site generators.</p>
+<p>In fact, this documentation is made with <strong>Documentalist</strong> fed through a simple
+<strong>Pug</strong> template.</p>
+<h3 id="command-line">Command Line</h3>
+<p>Install</p>
+<pre><code class="lang-bash">npm install documentalist
+</code></pre>
+<p>Create some documentation data:</p>
+<pre><code class="lang-bash">documentalist &#39;src/**/*&#39; &gt; docs.json
+</code></pre>
+<h3 id="api">API</h3>
+<pre><code class="lang-typescript">
+// demo here
+</code></pre>
+
+      <div class="interface-block" id="IApi">
+        <h2>IApi</h2>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">documentFiles</td>
+              <td class="prop-type" valign="top">
+                <pre>(files: IFile[]) =&gt; IDocumentalistData</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">documentGlobs</td>
+              <td class="prop-type" valign="top">
+                <pre>(...filesGlobs: string[]) =&gt; IDocumentalistData</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">renderBlock</td>
+              <td class="prop-type" valign="top">
+                <pre>(blockContent: string, reservedTagWords?: string[]) =&gt; IBlock</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">use</td>
+              <td class="prop-type" valign="top">
+                <pre>(pattern: RegExp, plugin: IPlugin&lt;any&gt;) =&gt; IApi</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div><h3 id="plugins">Plugins</h3>
+<p>Documentalist uses a plugin architecture to support arbitrary file types.</p>
+
+  </div>
+  <div class="hidden" data-route="IApi">
+      <div class="interface-block" id="IApi">
+        <h2>IApi</h2>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">documentFiles</td>
+              <td class="prop-type" valign="top">
+                <pre>(files: IFile[]) =&gt; IDocumentalistData</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">documentGlobs</td>
+              <td class="prop-type" valign="top">
+                <pre>(...filesGlobs: string[]) =&gt; IDocumentalistData</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">renderBlock</td>
+              <td class="prop-type" valign="top">
+                <pre>(blockContent: string, reservedTagWords?: string[]) =&gt; IBlock</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">use</td>
+              <td class="prop-type" valign="top">
+                <pre>(pattern: RegExp, plugin: IPlugin&lt;any&gt;) =&gt; IApi</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IBlock">
+      <div class="interface-block" id="IBlock">
+        <h2>IBlock</h2>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">content</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">metadata</td>
+              <td class="prop-type" valign="top">
+                <pre>any</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">renderedContent</td>
+              <td class="prop-type" valign="top">
+                <pre>StringOrTag[]</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="ICss">
+      <div class="interface-block" id="ICss">
+        <h2>ICss</h2>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">filePath</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">rules</td>
+              <td class="prop-type" valign="top">
+                <pre>IRule[]</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IDeclaration">
+      <div class="interface-block" id="IDeclaration">
+        <h2>IDeclaration</h2>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">prop</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">value</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IDocEntry">
+      <div class="interface-block" id="IDocEntry">
+        <h2>IDocEntry</h2>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">documentation</td>
+              <td class="prop-type" valign="top">
+                <pre>IBlock</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">fileName</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">name</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">tags</td>
+              <td class="prop-type" valign="top">
+                <pre>IJsDocTags</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">type</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IDocumentalistData">
+      <div class="interface-block" id="IDocumentalistData">
+        <h2>IDocumentalistData</h2><p>The root type of data exported by Documentalist.
+Each plugin emits its data in a separate key.</p>
+
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">docs</td>
+              <td class="prop-type" valign="top">
+                <pre>{ [key: string]: IPageData; }</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">ts</td>
+              <td class="prop-type" valign="top">
+                <pre>IInterfaceEntry[]</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IFile">
+      <div class="interface-block" id="IFile">
+        <h2>IFile</h2>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">path</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">read</td>
+              <td class="prop-type" valign="top">
+                <pre>() =&gt; string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IHeadingNode">
+      <div class="interface-block" id="IHeadingNode">
+        <h2>IHeadingNode</h2><p>An <code>@#+</code> tag belongs to a specific page. </p>
+
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">pageReference</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IInterfaceEntry">
+      <div class="interface-block" id="IInterfaceEntry">
+        <h2>IInterfaceEntry</h2>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">extends</td>
+              <td class="prop-type" valign="top">
+                <pre>string[]</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">properties</td>
+              <td class="prop-type" valign="top">
+                <pre>IPropertyEntry[]</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IMetadata">
+      <div class="interface-block" id="IMetadata">
+        <h2>IMetadata</h2><p>Metadata is parsed from YAML front matter in files and can contain arbitrary data.
+A few keys are understood by Documentalist and, if defined in front matter,
+will override default behavior.</p>
+<pre><code class="lang-md">---
+reference: overview
+title: &quot;Welcome to the Jungle&quot;
+---
+actual contents of file...
+</code></pre>
+
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">reference</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top"><p>Unique ID for addressing this page.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">title</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top"><p>Human-friendly title of this page, for display in the UI.#` tag</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IPageData">
+      <div class="interface-block" id="IPageData">
+        <h2>IPageData</h2><p>A single Documentalist page, parsed from a single source file.</p>
+
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">absolutePath</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top"><p>Absolute path of source file. </p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">contentRaw</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top"><p>Raw unmodified contents of source file (excluding the metadata). </p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">contents</td>
+              <td class="prop-type" valign="top">
+                <pre>StringOrTag[]</pre>
+              </td>
+              <td class="prop-docs" valign="top"><p>Parsed nodes of source file. An array of rendered HTML strings or <code>@tag</code> objects. </p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">metadata</td>
+              <td class="prop-type" valign="top">
+                <pre>IMetadata</pre>
+              </td>
+              <td class="prop-docs" valign="top"><p>Arbitrary YAML metadata parsed from front matter of source file </p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">reference</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top"><p>Unique identifier for addressing this page. </p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">title</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top"><p>Human-friendly title of this page. </p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IPageNode">
+      <div class="interface-block" id="IPageNode">
+        <h2>IPageNode</h2><p>A page has ordered children composed of <code>@#+</code> and <code>@page</code> tags. </p>
+
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">children</td>
+              <td class="prop-type" valign="top">
+                <pre>(IPageNode | IHeadingNode)[]</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IPlugin">
+      <div class="interface-block" id="IPlugin">
+        <h2>IPlugin</h2>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">compile</td>
+              <td class="prop-type" valign="top">
+                <pre>(doc: Documentalist, files: IFile[]) =&gt; T</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">name</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IPropertyEntry">
+      <div class="interface-block" id="IPropertyEntry">
+        <h2>IPropertyEntry</h2>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">optional</td>
+              <td class="prop-type" valign="top">
+                <pre>boolean</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IRule">
+      <div class="interface-block" id="IRule">
+        <h2>IRule</h2>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">comment</td>
+              <td class="prop-type" valign="top">
+                <pre>StringOrTag[]</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">commentRaw</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">declarations</td>
+              <td class="prop-type" valign="top">
+                <pre>IDeclaration[]</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">metadata</td>
+              <td class="prop-type" valign="top">
+                <pre>any</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">selector</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="ITag">
+      <div class="interface-block" id="ITag">
+        <h2>ITag</h2><p>Represents a single <code>@tag &lt;value&gt;</code> line from a file. </p>
+
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">tag</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">value</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="ITreeEntry">
+      <div class="interface-block" id="ITreeEntry">
+        <h2>ITreeEntry</h2><p>One page entry in a layout tree. </p>
+
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">depth</td>
+              <td class="prop-type" valign="top">
+                <pre>number</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">reference</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">title</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+              <td class="prop-docs" valign="top">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <script type="text/javascript" src="assets/index.js"></script>
+</body>

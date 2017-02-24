@@ -28,6 +28,7 @@
     "chai": "^3.5.0",
     "highlights": "^1.4.1",
     "mocha": "^3.2.0",
+    "pug-cli": "^1.0.0-alpha6",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "ts-node": "^1.7.2",
@@ -37,6 +38,7 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
+    "docs": "./theme/render.sh",
     "demo": "./cli.js 'test/fixtures/**/*'",
     "test": "mocha --compilers ts:ts-node/register 'test/**/*Tests.ts'",
     "tsc": "tsc --project . && echo 'OK'",

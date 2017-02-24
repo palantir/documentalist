@@ -1,14 +1,21 @@
+general:
+  artifacts:
+    - docs
+machine:
+  node:
+    version: 7.5.0
 dependencies:
   override:
     - npm install
 test:
   override:
+    - nv
     - npm test
 deployment:
-  # preview:
-  #   branch: /.*/
-  #   commands:
-  #     - build preview etc.
+  preview:
+    branch: /.*/
+    commands:
+      - npm run docs
   npm:
     tag: /release-.*/
     owner: palantir

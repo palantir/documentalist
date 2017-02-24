@@ -1,0 +1,65 @@
+
+#nav > div {
+    display: inline-block;
+}
+
+#nav {
+    position: absolute;
+    top: 0;
+    width: 200px;
+    padding: 40px 20px;
+}
+
+#content {
+    position: absolute;
+    top: 40px;
+    left: 250px;
+    right: 0;
+}
+
+#content > :first-child {
+    padding-top: 0px;
+    margin-top: 0px;
+}
+
+.copyright {
+    position: fixed;
+    bottom: 20px;
+    left: 10px;
+    color: #AAA;
+    font-size: 10px;
+}
+
+.interface-block {
+    margin-bottom: 40px;
+    margin-right: 40px;
+}
+
+.interface-properties {
+    background-color: white;
+    border-radius: 5px;
+    padding: 20px 20px;
+}
+
+.interface-properties table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.interface-properties .prop-name {
+    font-weight: bold;
+    width: 150px;
+}
+
+.interface-properties .prop-docs {
+    max-width: 300px;
+}
+
+td {
+    padding: 10px 0px;
+    border-top: 1px solid #CCC;
+}
+
+tr:first-child td {
+    border-top: none;
+}

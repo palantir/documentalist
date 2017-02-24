@@ -42,7 +42,14 @@ export interface IBlock {
     renderedContent: StringOrTag[];
 }
 
-export class Documentalist {
+export interface IApi {
+    documentGlobs: (...filesGlobs: string[]) => IDocumentalistData;
+    documentFiles: (files: IFile[]) => IDocumentalistData;
+    renderBlock: (blockContent: string, reservedTagWords?: string[]) => IBlock;
+    use: (pattern: RegExp, plugin: IPlugin<any>) => IApi;
+}
+
+export class Documentalist implements IApi {
     private plugins: Array<{ pattern: RegExp, plugin: IPlugin<any> }> = [];
 
     constructor(private markedOptions: MarkedOptions = {}) {
@@ -56,7 +63,7 @@ export class Documentalist {
         return this;
     }
 
-    public traverse(...filesGlobs: string[]) {
+    public documentGlobs(...filesGlobs: string[]) {
         const files = this.globFiles(filesGlobs);
         return this.documentFiles(files);
     }
