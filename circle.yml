@@ -9,13 +9,13 @@ dependencies:
     - npm install
 test:
   override:
-    - nv
     - npm test
 deployment:
   preview:
     branch: /.*/
     commands:
       - npm run docs
+      - node theme/demo.js
   npm:
     tag: /release-.*/
     owner: palantir

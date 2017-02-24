@@ -216,6 +216,10 @@ character-parser@^2.1.1:
   dependencies:
     is-regex "^1.0.3"
 
+circle-github-bot@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/circle-github-bot/-/circle-github-bot-0.4.0.tgz#d1702cea19277db4333936647828cd433fbcafd9"
+
 clean-css@^3.3.0:
   version "3.4.25"
   resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-3.4.25.tgz#9e9a52d5c1e6bc5123e1b2783fa65fe958946ede"
