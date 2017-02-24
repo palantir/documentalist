@@ -9,13 +9,14 @@ dependencies:
     - npm install
 test:
   override:
-    - nv
     - npm test
 deployment:
   preview:
     branch: /.*/
     commands:
+      - npm run tsc
       - npm run docs
+      - node theme/bot.js
   npm:
     tag: /release-.*/
     owner: palantir
