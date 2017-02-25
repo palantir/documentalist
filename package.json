@@ -10,11 +10,10 @@
   "dependencies": {
     "glob": "^7.1.1",
     "js-yaml": "^3.7.0",
-    "markdown-toc": "^1.0.2",
     "marked": "^0.3.6",
     "postcss": "^5.2.13",
     "postcss-scss": "^0.4.1",
-    "remarkable": "^1.7.1",
+    "ts-quick-docs": "^0.5.3",
     "yargs": "^6.6.0"
   },
   "devDependencies": {
@@ -29,17 +28,19 @@
     "circle-github-bot": "^0.4.0",
     "highlights": "^1.4.1",
     "mocha": "^3.2.0",
+    "npm-run-all": "^4.0.2",
     "pug-cli": "^1.0.0-alpha6",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "ts-node": "^1.7.2",
-    "ts-quick-docs": "^0.5.3",
     "tslint": "^4.0.2",
     "typescript": "2.1.5"
   },
   "scripts": {
-    "clean": "rm -rf dist",
-    "docs": "./theme/render.sh",
+    "autodoc": "pug -O \"$(./cli.js \"./src/**/*\")\" ./theme/index.pug --pretty -o ./docs",
+    "clean": "rm -rf dist docs/*",
+    "copy": "cp -rf theme/assets docs/.",
+    "docs": "run-s copy autodoc",
     "demo": "./cli.js 'test/fixtures/**/*'",
     "test": "mocha --compilers ts:ts-node/register 'test/**/*Tests.ts'",
     "tsc": "tsc --project . && echo 'OK'",
