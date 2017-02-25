@@ -43,9 +43,19 @@ export interface IBlock {
 }
 
 export interface IApi {
+    /** Process the given globs and emit all the data. */
     documentGlobs: (...filesGlobs: string[]) => IDocumentalistData;
+
+    /** Process the given list of files and emit all the data. */
     documentFiles: (files: IFile[]) => IDocumentalistData;
+
+    /**
+     * Render a block of content by extracting metadata front matter and
+     * splitting text content into rendered HTML strings and `{ tag, value }` objects.
+     */
     renderBlock: (blockContent: string, reservedTagWords?: string[]) => IBlock;
+
+    /** Use a plugin to process the files matching the pattern. */
     use: (pattern: RegExp, plugin: IPlugin<any>) => IApi;
 }
 
@@ -64,7 +74,7 @@ export class Documentalist implements IApi {
     }
 
     public documentGlobs(...filesGlobs: string[]) {
-        const files = this.globFiles(filesGlobs);
+        const files = this.expandGlobs(filesGlobs);
         return this.documentFiles(files);
     }
 
@@ -82,7 +92,8 @@ export class Documentalist implements IApi {
         return { content, metadata, renderedContent };
     }
 
-    private globFiles(filesGlobs: string[]) {
+    /** Expand an array of globs and flatten to a single array of files. */
+    private expandGlobs(filesGlobs: string[]) {
         return filesGlobs
             .map((filesGlob) => glob.sync(filesGlob))
             .reduce((a, b) => a.concat(b))
