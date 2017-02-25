@@ -69,33 +69,30 @@ that can be fed directly into any number of static site generators.</p>
             <tr>
               <td class="prop-name" valign="top">documentFiles</td>
               <td class="prop-type" valign="top">
-                <pre>(files: IFile[]) =&gt; IDocumentalistData</pre>
-              </td>
-              <td class="prop-docs" valign="top">
+                <pre>(files: IFile[]) =&gt; IDocumentalistData</pre><p>Process the given list of files and emit all the data. </p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">documentGlobs</td>
               <td class="prop-type" valign="top">
-                <pre>(...filesGlobs: string[]) =&gt; IDocumentalistData</pre>
-              </td>
-              <td class="prop-docs" valign="top">
+                <pre>(...filesGlobs: string[]) =&gt; IDocumentalistData</pre><p>Process the given globs and emit all the data. </p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">renderBlock</td>
               <td class="prop-type" valign="top">
-                <pre>(blockContent: string, reservedTagWords?: string[]) =&gt; IBlock</pre>
-              </td>
-              <td class="prop-docs" valign="top">
+                <pre>(blockContent: string, reservedTagWords?: string[]) =&gt; IBlock</pre><p>Render a block of content by extracting metadata front matter and
+splitting text content into rendered HTML strings and <code>{ tag, value }</code> objects.</p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">use</td>
               <td class="prop-type" valign="top">
-                <pre>(pattern: RegExp, plugin: IPlugin&lt;any&gt;) =&gt; IApi</pre>
-              </td>
-              <td class="prop-docs" valign="top">
+                <pre>(pattern: RegExp, plugin: IPlugin&lt;any&gt;) =&gt; IApi</pre><p>Use a plugin to process the files matching the pattern. </p>
+
               </td>
             </tr>
           </table>
@@ -112,33 +109,30 @@ that can be fed directly into any number of static site generators.</p>
             <tr>
               <td class="prop-name" valign="top">documentFiles</td>
               <td class="prop-type" valign="top">
-                <pre>(files: IFile[]) =&gt; IDocumentalistData</pre>
-              </td>
-              <td class="prop-docs" valign="top">
+                <pre>(files: IFile[]) =&gt; IDocumentalistData</pre><p>Process the given list of files and emit all the data. </p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">documentGlobs</td>
               <td class="prop-type" valign="top">
-                <pre>(...filesGlobs: string[]) =&gt; IDocumentalistData</pre>
-              </td>
-              <td class="prop-docs" valign="top">
+                <pre>(...filesGlobs: string[]) =&gt; IDocumentalistData</pre><p>Process the given globs and emit all the data. </p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">renderBlock</td>
               <td class="prop-type" valign="top">
-                <pre>(blockContent: string, reservedTagWords?: string[]) =&gt; IBlock</pre>
-              </td>
-              <td class="prop-docs" valign="top">
+                <pre>(blockContent: string, reservedTagWords?: string[]) =&gt; IBlock</pre><p>Render a block of content by extracting metadata front matter and
+splitting text content into rendered HTML strings and <code>{ tag, value }</code> objects.</p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">use</td>
               <td class="prop-type" valign="top">
-                <pre>(pattern: RegExp, plugin: IPlugin&lt;any&gt;) =&gt; IApi</pre>
-              </td>
-              <td class="prop-docs" valign="top">
+                <pre>(pattern: RegExp, plugin: IPlugin&lt;any&gt;) =&gt; IApi</pre><p>Use a plugin to process the files matching the pattern. </p>
+
               </td>
             </tr>
           </table>
@@ -155,23 +149,17 @@ that can be fed directly into any number of static site generators.</p>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">metadata</td>
               <td class="prop-type" valign="top">
                 <pre>any</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">renderedContent</td>
               <td class="prop-type" valign="top">
                 <pre>StringOrTag[]</pre>
-              </td>
-              <td class="prop-docs" valign="top">
               </td>
             </tr>
           </table>
@@ -188,15 +176,11 @@ that can be fed directly into any number of static site generators.</p>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">rules</td>
               <td class="prop-type" valign="top">
                 <pre>IRule[]</pre>
-              </td>
-              <td class="prop-docs" valign="top">
               </td>
             </tr>
           </table>
@@ -213,15 +197,11 @@ that can be fed directly into any number of static site generators.</p>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">value</td>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
-              </td>
-              <td class="prop-docs" valign="top">
               </td>
             </tr>
           </table>
@@ -238,15 +218,11 @@ that can be fed directly into any number of static site generators.</p>
               <td class="prop-type" valign="top">
                 <pre>IBlock</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">fileName</td>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
-              </td>
-              <td class="prop-docs" valign="top">
               </td>
             </tr>
             <tr>
@@ -254,23 +230,17 @@ that can be fed directly into any number of static site generators.</p>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">tags</td>
               <td class="prop-type" valign="top">
                 <pre>IJsDocTags</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">type</td>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
-              </td>
-              <td class="prop-docs" valign="top">
               </td>
             </tr>
           </table>
@@ -289,15 +259,11 @@ Each plugin emits its data in a separate key.</p>
               <td class="prop-type" valign="top">
                 <pre>{ [key: string]: IPageData; }</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">ts</td>
               <td class="prop-type" valign="top">
                 <pre>IInterfaceEntry[]</pre>
-              </td>
-              <td class="prop-docs" valign="top">
               </td>
             </tr>
           </table>
@@ -314,15 +280,11 @@ Each plugin emits its data in a separate key.</p>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">read</td>
               <td class="prop-type" valign="top">
                 <pre>() =&gt; string</pre>
-              </td>
-              <td class="prop-docs" valign="top">
               </td>
             </tr>
           </table>
@@ -340,8 +302,6 @@ Each plugin emits its data in a separate key.</p>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
           </table>
         </div>
@@ -357,15 +317,11 @@ Each plugin emits its data in a separate key.</p>
               <td class="prop-type" valign="top">
                 <pre>string[]</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">properties</td>
               <td class="prop-type" valign="top">
                 <pre>IPropertyEntry[]</pre>
-              </td>
-              <td class="prop-docs" valign="top">
               </td>
             </tr>
           </table>
@@ -389,18 +345,14 @@ actual contents of file...
             <tr>
               <td class="prop-name" valign="top">reference</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-              <td class="prop-docs" valign="top"><p>Unique ID for addressing this page.</p>
+                <pre>string</pre><p>Unique ID for addressing this page.</p>
 
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">title</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-              <td class="prop-docs" valign="top"><p>Human-friendly title of this page, for display in the UI.#` tag</p>
+                <pre>string</pre><p>Human-friendly title of this page, for display in the UI.#` tag</p>
 
               </td>
             </tr>
@@ -417,54 +369,42 @@ actual contents of file...
             <tr>
               <td class="prop-name" valign="top">absolutePath</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-              <td class="prop-docs" valign="top"><p>Absolute path of source file. </p>
+                <pre>string</pre><p>Absolute path of source file. </p>
 
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">contentRaw</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-              <td class="prop-docs" valign="top"><p>Raw unmodified contents of source file (excluding the metadata). </p>
+                <pre>string</pre><p>Raw unmodified contents of source file (excluding the metadata). </p>
 
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">contents</td>
               <td class="prop-type" valign="top">
-                <pre>StringOrTag[]</pre>
-              </td>
-              <td class="prop-docs" valign="top"><p>Parsed nodes of source file. An array of rendered HTML strings or <code>@tag</code> objects. </p>
+                <pre>StringOrTag[]</pre><p>Parsed nodes of source file. An array of rendered HTML strings or <code>@tag</code> objects. </p>
 
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">metadata</td>
               <td class="prop-type" valign="top">
-                <pre>IMetadata</pre>
-              </td>
-              <td class="prop-docs" valign="top"><p>Arbitrary YAML metadata parsed from front matter of source file </p>
+                <pre>IMetadata</pre><p>Arbitrary YAML metadata parsed from front matter of source file </p>
 
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">reference</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-              <td class="prop-docs" valign="top"><p>Unique identifier for addressing this page. </p>
+                <pre>string</pre><p>Unique identifier for addressing this page. </p>
 
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">title</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-              <td class="prop-docs" valign="top"><p>Human-friendly title of this page. </p>
+                <pre>string</pre><p>Human-friendly title of this page. </p>
 
               </td>
             </tr>
@@ -483,8 +423,6 @@ actual contents of file...
               <td class="prop-type" valign="top">
                 <pre>(IPageNode | IHeadingNode)[]</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
           </table>
         </div>
@@ -500,15 +438,11 @@ actual contents of file...
               <td class="prop-type" valign="top">
                 <pre>(doc: Documentalist, files: IFile[]) =&gt; T</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">name</td>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
-              </td>
-              <td class="prop-docs" valign="top">
               </td>
             </tr>
           </table>
@@ -525,8 +459,6 @@ actual contents of file...
               <td class="prop-type" valign="top">
                 <pre>boolean</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
           </table>
         </div>
@@ -542,15 +474,11 @@ actual contents of file...
               <td class="prop-type" valign="top">
                 <pre>StringOrTag[]</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">commentRaw</td>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
-              </td>
-              <td class="prop-docs" valign="top">
               </td>
             </tr>
             <tr>
@@ -558,23 +486,17 @@ actual contents of file...
               <td class="prop-type" valign="top">
                 <pre>IDeclaration[]</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">metadata</td>
               <td class="prop-type" valign="top">
                 <pre>any</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">selector</td>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
-              </td>
-              <td class="prop-docs" valign="top">
               </td>
             </tr>
           </table>
@@ -592,15 +514,11 @@ actual contents of file...
               <td class="prop-type" valign="top">
                 <pre>string</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">value</td>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
-              </td>
-              <td class="prop-docs" valign="top">
               </td>
             </tr>
           </table>
@@ -618,23 +536,17 @@ actual contents of file...
               <td class="prop-type" valign="top">
                 <pre>number</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">reference</td>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
               </td>
-              <td class="prop-docs" valign="top">
-              </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">title</td>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
-              </td>
-              <td class="prop-docs" valign="top">
               </td>
             </tr>
           </table>
