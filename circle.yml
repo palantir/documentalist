@@ -5,23 +5,24 @@ machine:
   node:
     version: 7.5.0
 dependencies:
+  cache_directories:
+    - ~/.cache/yarn
   override:
-    - npm install
+    - yarn
 test:
   override:
-    - npm test
+    - yarn tsc
+    - yarn test
 deployment:
   preview:
     branch: /.*/
     commands:
-      - npm run tsc
-      - npm run docs
+      - yarn docs
       - node theme/bot.js
   npm:
     tag: /release-.*/
     owner: palantir
     commands:
-      - npm run tsc
       # Publish
       - echo -e "$NPM_USER\n$NPM_PASS\n$NPM_EMAIL" | npm login
       - npm publish
