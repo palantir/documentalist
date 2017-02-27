@@ -38,7 +38,6 @@
 .interface-properties {
     background-color: white;
     border-radius: 5px;
-    padding: 20px 20px;
 }
 
 .interface-properties table {
@@ -49,6 +48,7 @@
 .interface-properties .prop-name {
     font-weight: bold;
     width: 150px;
+    padding-left: 20px;
 }
 
 .interface-properties .prop-docs {
@@ -56,7 +56,7 @@
 }
 
 td {
-    padding: 10px 0px;
+    padding: 20px 0px;
     border-top: 1px solid #CCC;
 }
 

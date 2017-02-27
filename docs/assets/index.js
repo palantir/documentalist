@@ -5,8 +5,9 @@ class Router {
     }
 
     start() {
-        window.addEventListener("hashchange", this.route.bind(this));
-        window.addEventListener("load", this.route.bind(this));
+        const routeHandler = () => this.route();
+        window.addEventListener("hashchange", routeHandler);
+        window.addEventListener("load", routeHandler);
         this.route();
     }
 
@@ -18,9 +19,9 @@ class Router {
         const hashRoute = location.hash.slice(1) || "default";
         const route = this.routes[hashRoute];
 
-        if (this.el && route && route != this.currentRoute) {
+        if (this.el && route && route !== this.currentRoute) {
             this.currentRoute = route;
-            route.render(this.el);
+            this.el.innerHTML = route.render();
         } else {
             this.currentRoute = null;
         }
@@ -32,10 +33,8 @@ const routables = document.querySelectorAll("[data-route]");
 routables.forEach((routable) => {
     const route = routable.getAttribute("data-route");
     router.register({
-        route: route,
-        render: (el) => {
-            el.innerHTML = routable.innerHTML;
-        },
+        route,
+        render: () => routable.innerHTML,
     });
 });
 router.start();
