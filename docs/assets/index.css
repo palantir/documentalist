@@ -1,25 +1,48 @@
+#nav {
+    position: absolute;
+    top: 24px;
+    width: 200px;
+    padding: 0 20px;
+}
 
 #nav > div {
     display: inline-block;
 }
 
-#nav {
-    position: absolute;
-    top: 0;
-    width: 200px;
-    padding: 40px 20px;
+#nav .nav-item {
+    margin-bottom: 0.5em;
+}
+
+#nav .selected {
+    color: #555;
+    font-weight: 900;
 }
 
 #content {
     position: absolute;
-    top: 40px;
+    top: 20px;
     left: 250px;
     right: 0;
+    max-width: 50em;
 }
 
-#content > :first-child {
-    padding-top: 0px;
-    margin-top: 0px;
+a:hover {
+    color: dodgerblue !important;
+}
+
+h2 {
+    color: dodgerblue;
+}
+
+#content h2:not(:first-child), #content h3:not(:first-child) {
+    margin-top: 3em;
+}
+
+pre > code {
+    padding: 20px 20px;
+    display:block;
+    background-color: white;
+    border-radius: 5px;
 }
 
 .copyright {
@@ -32,7 +55,6 @@
 
 .interface-block {
     margin-bottom: 40px;
-    margin-right: 40px;
 }
 
 .interface-properties {
@@ -55,11 +77,11 @@
     max-width: 300px;
 }
 
-td {
+.interface-properties td {
     padding: 20px 0px;
-    border-top: 1px solid #CCC;
+    border-top: 1px solid #EEE;
 }
 
-tr:first-child td {
+.interface-properties tr:first-child td {
     border-top: none;
 }
