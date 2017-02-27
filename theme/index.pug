@@ -62,10 +62,6 @@ body
       else if block.tag === "interface"
         - var iface = ts.find((i) => i.name === block.value);
         +interface(iface)
-      else if block.tag === "example"
-        pre > code.lang-typescript
-          - var code = require("fs").readFileSync(block.value, "utf8");
-          != code
 
   for iface in ts
     if iface.type == "interface"
