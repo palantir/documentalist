@@ -23,13 +23,15 @@ documentalist 'src/**/*' > docs.json
 ### API
 
 Of course, you can also use **Documentalist** in a Node.js environment like so:
-```typescript
-import * as Documentalist from "documentalist":
-import { writeFileSync } from "fs";
 
-const documentalist = new Documentalist();
-const docs = documentalist.documentGlobs("src/**/*");
-writeFileSync("docs.json", JSON.stringify(docs));
+```js
+const { Documentalist } = require("documentalist");
+const { writeFileSync } = require("fs");
+
+const dm = new Documentalist();
+const docs = dm.documentGlobs("src/**/*");
+
+writeFileSync("docs.json", JSON.stringify(docs, null, 2));
 ```
 
 The documentalist object has the following API:

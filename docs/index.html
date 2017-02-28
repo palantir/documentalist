@@ -61,12 +61,13 @@ Docception.</p>
 </code></pre>
 <h3 id="api">API</h3>
 <p>Of course, you can also use <strong>Documentalist</strong> in a Node.js environment like so:</p>
-<pre><code class="lang-typescript">import * as Documentalist from &quot;documentalist&quot;:
-import { writeFileSync } from &quot;fs&quot;;
+<pre><code class="lang-js">const { Documentalist } = require(&quot;documentalist&quot;);
+const { writeFileSync } = require(&quot;fs&quot;);
 
-const documentalist = new Documentalist();
-const docs = documentalist.documentGlobs(&quot;src/**/*&quot;);
-writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs));
+const dm = new Documentalist();
+const docs = dm.documentGlobs(&quot;src/**/*&quot;);
+
+writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
 </code></pre>
 <p>The documentalist object has the following API:</p>
 
