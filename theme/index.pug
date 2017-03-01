@@ -5,7 +5,7 @@ html
     title Documentalist
   style.
     body {
-      background-color: #EEE;
+      background-color: #F5F5F5;
       color: #555;
       font-family: Helvetica, Arial, sans-serif;
     }
@@ -21,7 +21,8 @@ html
   link(rel='stylesheet', href='assets/index.css')
 body
   #nav
-    a(href="#") Documentalist
+    a(href="#")
+      h3 Documentalist
 
     h3 Interfaces
     for iface in ts
@@ -41,7 +42,6 @@ body
 
   mixin interface(iface)
     .interface-block(id=iface.name)
-      h2= iface.name
 
       +joinContent(iface.documentation)
 
@@ -55,7 +55,7 @@ body
                 +joinContent(prop.documentation)
 
 
-  .hidden(data-route="default")
+  .hidden(data-route="")
     for block in docs.docs.contents
       if typeof block === "string"
         | !{block}
@@ -66,6 +66,7 @@ body
   for iface in ts
     if iface.type == "interface"
       .hidden(data-route=iface.name)
+        h2= iface.name
         +interface(iface)
 
 

@@ -37,14 +37,17 @@
     "typescript": "2.1.5"
   },
   "scripts": {
-    "autodoc": "pug -O \"$(./cli.js \"./src/**/*\")\" ./theme/index.pug --pretty -o ./docs",
-    "clean": "rm -rf dist docs/*",
-    "copy": "cp -rf theme/assets docs/.",
-    "docs": "run-s copy autodoc",
+    "clean": "rm -rf dist",
+    "docs": "pug -O \"$(./cli.js \"./src/**/*\")\" ./theme/index.pug --pretty -o ./docs",
     "demo": "./cli.js 'test/fixtures/**/*'",
     "test": "mocha --compilers ts:ts-node/register 'test/**/*Tests.ts'",
     "tsc": "tsc --project . && echo 'OK'",
     "watch": "tsc --project . --watch"
   },
-  "license": "UNLICENSED"
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:palantir/documentalist.git"
+  },
+  "author": "Palantir Technologies",
+  "license": "BSD-3-Clause"
 }
