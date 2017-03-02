@@ -97,7 +97,6 @@ export interface IPageNode extends ITreeEntry {
 
 /** An `@#+` tag belongs to a specific page. */
 export interface IHeadingNode extends ITreeEntry {
-    pageReference: string;
 }
 
 /** Type guard for `IPageNode`, useful for its `children` array. */
@@ -114,9 +113,8 @@ function initPageNode({ reference, title }: IPageData, depth: number): IPageNode
     return { children: [], depth, reference, title };
 }
 
-function initHeadingNode({ value }: ITag, depth: number, pageReference: string): IHeadingNode {
-    const reference = slugify(pageReference, value);
-    return { depth, pageReference, reference, title: value };
+function initHeadingNode({ value }: ITag, depth: number): IHeadingNode {
+    return { depth, reference: slugify(value), title: value };
 }
 
 /**
@@ -137,7 +135,7 @@ export function createNavigableTree(pages: { [key: string]: IPageData }, page: I
                 }
                 if (i !== 0 && node.tag.match(/^#+$/)) {
                     // use heading strength - 1 cuz h1 is the title
-                    pageNode.children.push(initHeadingNode(node, depth + node.tag.length - 1, page.reference));
+                    pageNode.children.push(initHeadingNode(node, depth + node.tag.length - 1));
                 }
             }
         });
