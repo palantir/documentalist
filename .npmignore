@@ -1,7 +1,8 @@
-**/*
-!README.md
-!LICENSE
-!PATENTS
-!package.json
-!typings/**/*
-!dist/**/*
+docs/
+src/
+test/
+theme/
+
+circle.yml
+ts*.*
+yarn.lock
