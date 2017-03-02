@@ -11,7 +11,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "outDir": "dist/",
-        "sourceMap": true,
+        "sourceMap": false,
         "strictNullChecks": true,
         "target": "es6"
     },
