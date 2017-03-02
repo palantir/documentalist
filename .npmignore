@@ -3,6 +3,10 @@ src/
 test/
 theme/
 
+.npmrc
+.yarnrc
+
 circle.yml
-ts*.*
+tsconfig.json
+tslint.json
 yarn.lock
