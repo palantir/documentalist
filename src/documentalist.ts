@@ -11,7 +11,7 @@ import * as yaml from "js-yaml";
 import * as marked from "marked";
 import * as path from "path";
 import { IDocumentalistData, StringOrTag } from "./client";
-import { CssPlugin, IFile, IPlugin, MarkdownPlugin, TypescriptPlugin } from "./plugins";
+import { IFile, IPlugin, MarkdownPlugin, TypescriptPlugin } from "./plugins";
 
 /**
  * Matches the triple-dash metadata block on the first line of markdown file.
@@ -59,13 +59,21 @@ export interface IApi {
     use: (pattern: RegExp, plugin: IPlugin<any>) => IApi;
 }
 
+export interface IOptions {
+    markedOptions?: MarkedOptions;
+}
+
 export class Documentalist implements IApi {
     private plugins: Array<{ pattern: RegExp, plugin: IPlugin<any> }> = [];
 
     constructor(private markedOptions: MarkedOptions = {}) {
-        this.use(/\.md$/, new MarkdownPlugin());
-        this.use(/\.s?css$/, new CssPlugin());
-        this.use(/\.tsx?$/, new TypescriptPlugin());
+        this.use(/\.md$/, new MarkdownPlugin())
+            .use(/\.tsx?$/, new TypescriptPlugin());
+    }
+
+    public clearPlugins() {
+        this.plugins = [];
+        return this;
     }
 
     public use(pattern: RegExp, plugin: IPlugin<any>) {
