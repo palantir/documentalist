@@ -142,7 +142,7 @@ export class Documentalist<T> implements IApi<T> {
 
         const newPlugins = this.plugins.slice();
         newPlugins.push({ pattern, plugin } as IPluginEntry<T & P>);
-        return new Documentalist(newPlugins as IPluginEntry<T & P>[]);
+        return new Documentalist(newPlugins as IPluginEntry<T & P>[], this.markedOptions);
     }
 
     public clearPlugins(): IApi<void> {
