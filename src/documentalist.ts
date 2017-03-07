@@ -54,11 +54,11 @@ export interface IApi<T> {
 
     /**
      * Iterates over all plugins, passing all matching files to each in turn.
-     * The resulting output for each plugin is combined into the resulting
+     * The output of each plugin is merged to produce the resulting
      * documentation object.
      *
-     * The documentation object has a composite type of all the plugin data
-     * types.
+     * The return type T is a composite type has a composite type of all the
+     * plugin data types.
      */
     documentFiles: (files: IFile[]) => T;
 
@@ -77,9 +77,9 @@ export interface IApi<T> {
      * Adds the plugin to Documentalist. Returns a new instance of Documentalist
      * with a template type that includes the data from the plugin. This way the
      * `documentFiles` and `documentGlobs` methods will return an object that is
-     * already typed to include the plugin output.
+     * already typed to include each plugin's output.
      *
-     * The Plugin is applied to all files whose absolute path matches the
+     * The plugin is applied to all files whose absolute path matches the
      * supplied pattern.
      *
      * @param pattern - A regexp pattern or a file extension string like "js"
@@ -100,7 +100,7 @@ export interface IApi<T> {
  */
 export interface IBlock {
     /**
-     * The original string content block
+     * The original string content block.
      */
     content: string;
 
@@ -123,7 +123,7 @@ export interface IPluginEntry<T> {
     plugin: IPlugin<T>;
 }
 
-export class Documentalist<T> implements IApi<T> {
+export class Documentalist<T extends Object> implements IApi<T> {
     public static create(markedOptions?: MarkedOptions): IApi<IMarkdownPluginData & ITypescriptPluginData> {
         return new Documentalist([], markedOptions)
             .use(/\.md$/, new MarkdownPlugin())
@@ -137,7 +137,7 @@ export class Documentalist<T> implements IApi<T> {
 
     public use<P>(pattern: RegExp | string, plugin: IPlugin<P>): IApi<T & P> {
         if (typeof pattern === "string") {
-            pattern = new RegExp(`\\.${pattern}$`);
+            pattern = new RegExp(`${pattern}$`);
         }
 
         const newPlugins = this.plugins.slice();
@@ -146,7 +146,7 @@ export class Documentalist<T> implements IApi<T> {
     }
 
     public clearPlugins(): IApi<void> {
-        return new Documentalist<void>([], this.markedOptions);
+        return new Documentalist<{}>([], this.markedOptions);
     }
 
     public documentGlobs(...filesGlobs: string[]) {
@@ -158,7 +158,7 @@ export class Documentalist<T> implements IApi<T> {
         const documentation = {} as T;
         for (const { pattern, plugin } of this.plugins) {
             const pluginDocumentation = plugin.compile(this, files.filter((f) => pattern.test(f.path)));
-            for (var key in pluginDocumentation) {
+            for (const key in pluginDocumentation) {
                 if (pluginDocumentation.hasOwnProperty(key)) {
                     if (documentation.hasOwnProperty(key)) {
                         console.warn(`

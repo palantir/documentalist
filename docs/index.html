@@ -88,10 +88,10 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
               <td class="prop-name" valign="top">documentFiles</td>
               <td class="prop-type" valign="top">
                 <pre>(files: IFile[]) =&gt; T</pre><p>Iterates over all plugins, passing all matching files to each in turn.
-The resulting output for each plugin is combined into the resulting
+The output of each plugin is merged to produce the resulting
 documentation object.</p>
-<p>The documentation object has a composite type of all the plugin data
-types.</p>
+<p>The return type T is a composite type has a composite type of all the
+plugin data types.</p>
 
               </td>
             </tr>
@@ -121,8 +121,8 @@ is.</p>
                 <pre>&lt;P&gt;(pattern: string | RegExp, plugin: IPlugin&lt;P&gt;) =&gt; IApi&lt;T &amp; P&gt;</pre><p>Adds the plugin to Documentalist. Returns a new instance of Documentalist
 with a template type that includes the data from the plugin. This way the
 <code>documentFiles</code> and <code>documentGlobs</code> methods will return an object that is
-already typed to include the plugin output.</p>
-<p>The Plugin is applied to all files whose absolute path matches the
+already typed to include each plugin&#39;s output.</p>
+<p>The plugin is applied to all files whose absolute path matches the
 supplied pattern.</p>
 
               </td>
@@ -149,10 +149,10 @@ supplied pattern.</p>
               <td class="prop-name" valign="top">documentFiles</td>
               <td class="prop-type" valign="top">
                 <pre>(files: IFile[]) =&gt; T</pre><p>Iterates over all plugins, passing all matching files to each in turn.
-The resulting output for each plugin is combined into the resulting
+The output of each plugin is merged to produce the resulting
 documentation object.</p>
-<p>The documentation object has a composite type of all the plugin data
-types.</p>
+<p>The return type T is a composite type has a composite type of all the
+plugin data types.</p>
 
               </td>
             </tr>
@@ -182,8 +182,8 @@ is.</p>
                 <pre>&lt;P&gt;(pattern: string | RegExp, plugin: IPlugin&lt;P&gt;) =&gt; IApi&lt;T &amp; P&gt;</pre><p>Adds the plugin to Documentalist. Returns a new instance of Documentalist
 with a template type that includes the data from the plugin. This way the
 <code>documentFiles</code> and <code>documentGlobs</code> methods will return an object that is
-already typed to include the plugin output.</p>
-<p>The Plugin is applied to all files whose absolute path matches the
+already typed to include each plugin&#39;s output.</p>
+<p>The plugin is applied to all files whose absolute path matches the
 supplied pattern.</p>
 
               </td>
@@ -202,7 +202,7 @@ metadata, rendered markdown, and tags.</p>
             <tr>
               <td class="prop-name" valign="top">content</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre><p>The original string content block</p>
+                <pre>string</pre><p>The original string content block.</p>
 
               </td>
             </tr>
