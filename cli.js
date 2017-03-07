@@ -34,7 +34,7 @@ const plugins = [].concat(argv.use)
         return { pattern, plugin };
     });
 
-const doc = new Documentalist();
+const doc = Documentalist.create();
 plugins.forEach(({ pattern, plugin }) => {
     doc.use(new RegExp(pattern), plugin);
 });

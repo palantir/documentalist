@@ -13,6 +13,5 @@ export interface IFile {
 }
 
 export interface IPlugin<T> {
-    name: string;
-    compile: (doc: Documentalist, files: IFile[]) => T;
+    compile: (doc: Documentalist<T>, files: IFile[]) => T;
 }

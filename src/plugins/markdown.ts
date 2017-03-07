@@ -12,14 +12,16 @@ import { IFile, IPlugin } from "./plugin";
 
 export type IPageMap = { [key: string]: IPageData };
 
-export class MarkdownPlugin implements IPlugin<IPageMap> {
-    public name = "docs";
+export interface IMarkdownPluginData {
+    docs: IPageMap;
+}
 
+export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
     /**
      * Reads the given set of markdown files and adds their data to the internal storage.
      * Returns a plain object mapping page references to their data.
      */
-    public compile(documentalist: Documentalist, markdownFiles: IFile[]) {
+    public compile(documentalist: Documentalist<IMarkdownPluginData>, markdownFiles: IFile[]) {
         const pageStore: Map<string, IPageData> = new Map();
         markdownFiles
             .map((file) => {
@@ -56,7 +58,8 @@ export class MarkdownPlugin implements IPlugin<IPageMap> {
                 }
                 return page;
             });
-        return mapToObject(pageStore);
+        const docs = mapToObject(pageStore);
+        return { docs };
     }
 }
 

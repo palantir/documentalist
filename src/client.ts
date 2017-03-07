@@ -5,8 +5,6 @@
  * repository.
  */
 
-import { IInterfaceEntry } from "./plugins/typescript";
-
 /** Represents a single `@tag <value>` line from a file. */
 export interface ITag {
     tag: string;
@@ -71,16 +69,6 @@ export interface IPageData {
 
     /** Human-friendly title of this page. */
     title: string;
-}
-
-/**
- * The root type of data exported by Documentalist.
- * Each plugin emits its data in a separate key.
- */
-export interface IDocumentalistData {
-    docs: { [key: string]: IPageData };
-    ts: IInterfaceEntry[];
-    [plugin: string]: any;
 }
 
 /** One page entry in a layout tree. */

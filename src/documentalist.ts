@@ -10,8 +10,15 @@ import * as glob from "glob";
 import * as yaml from "js-yaml";
 import * as marked from "marked";
 import * as path from "path";
-import { IDocumentalistData, StringOrTag } from "./client";
-import { IFile, IPlugin, MarkdownPlugin, TypescriptPlugin } from "./plugins";
+import { StringOrTag } from "./client";
+import {
+    IFile,
+    IMarkdownPluginData,
+    IPlugin,
+    ITypescriptPluginData,
+    MarkdownPlugin,
+    TypescriptPlugin,
+} from "./plugins";
 
 /**
  * Matches the triple-dash metadata block on the first line of markdown file.
@@ -36,49 +43,110 @@ const RESERVED_WORDS = [
     "import",
 ];
 
-export interface IBlock {
-    content: string;
-    metadata: any;
-    renderedContent: StringOrTag[];
-}
-
-export interface IApi {
-    /** Process the given globs and emit all the data. */
-    documentGlobs: (...filesGlobs: string[]) => IDocumentalistData;
-
-    /** Process the given list of files and emit all the data. */
-    documentFiles: (files: IFile[]) => IDocumentalistData;
+export interface IApi<T> {
+    /**
+     * Finds all files matching the provided variadic glob expressions and then
+     * runs `documentFiles` with them, emitting all the documentation data.
+     *
+     * @see documentFiles
+     */
+    documentGlobs: (...filesGlobs: string[]) => T;
 
     /**
-     * Render a block of content by extracting metadata front matter and
-     * splitting text content into rendered HTML strings and `{ tag, value }` objects.
+     * Iterates over all plugins, passing all matching files to each in turn.
+     * The resulting output for each plugin is combined into the resulting
+     * documentation object.
+     *
+     * The documentation object has a composite type of all the plugin data
+     * types.
+     */
+    documentFiles: (files: IFile[]) => T;
+
+    /**
+     * Render a block of content by extracting metadata (YAML front matter) and
+     * splitting text content into markdown-rendered HTML strings and `{ tag,
+     * value }` objects.
+     *
+     * To prevent special strings like "@include" from being parsed, a reserved
+     * tag words array may be provided, in which case the line will be left as
+     * is.
      */
     renderBlock: (blockContent: string, reservedTagWords?: string[]) => IBlock;
 
-    /** Use a plugin to process the files matching the pattern. */
-    use: (pattern: RegExp, plugin: IPlugin<any>) => IApi;
+    /**
+     * Adds the plugin to Documentalist. Returns a new instance of Documentalist
+     * with a template type that includes the data from the plugin. This way the
+     * `documentFiles` and `documentGlobs` methods will return an object that is
+     * already typed to include the plugin output.
+     *
+     * The Plugin is applied to all files whose absolute path matches the
+     * supplied pattern.
+     *
+     * @param pattern - A regexp pattern or a file extension string like "js"
+     * @param plugin - The plugin implementation
+     * @returns A new instance of `Documentalist` with an extended type
+     */
+    use: <P>(pattern: RegExp | string, plugin: IPlugin<P>) => IApi<T & P>;
+
+    /**
+     * Returns a new instance of Documentalist with no plugins.
+     */
+    clearPlugins(): IApi<void>
 }
 
-export interface IOptions {
-    markedOptions?: MarkedOptions;
+/**
+ * The output of `renderBlock` which parses a long form documentation block into
+ * metadata, rendered markdown, and tags.
+ */
+export interface IBlock {
+    /**
+     * The original string content block
+     */
+    content: string;
+
+    /**
+     * Parsed YAML front matter (if any) or {}.
+     */
+    metadata: any;
+
+    /**
+     * An array of markdown-rendered HTML or tags.
+     */
+    renderedContent: StringOrTag[];
 }
 
-export class Documentalist implements IApi {
-    private plugins: Array<{ pattern: RegExp, plugin: IPlugin<any> }> = [];
+/**
+ * Plugins are stored with the regex used to match against file paths.
+ */
+export interface IPluginEntry<T> {
+    pattern: RegExp;
+    plugin: IPlugin<T>;
+}
 
-    constructor(private markedOptions: MarkedOptions = {}) {
-        this.use(/\.md$/, new MarkdownPlugin())
+export class Documentalist<T> implements IApi<T> {
+    public static create(markedOptions?: MarkedOptions): IApi<IMarkdownPluginData & ITypescriptPluginData> {
+        return new Documentalist([], markedOptions)
+            .use(/\.md$/, new MarkdownPlugin())
             .use(/\.tsx?$/, new TypescriptPlugin());
     }
 
-    public clearPlugins() {
-        this.plugins = [];
-        return this;
+    constructor(
+        private plugins: IPluginEntry<T>[] = [],
+        private markedOptions: MarkedOptions = {}) {
     }
 
-    public use(pattern: RegExp, plugin: IPlugin<any>) {
-        this.plugins.push({ pattern, plugin });
-        return this;
+    public use<P>(pattern: RegExp | string, plugin: IPlugin<P>): IApi<T & P> {
+        if (typeof pattern === "string") {
+            pattern = new RegExp(`\\.${pattern}$`);
+        }
+
+        const newPlugins = this.plugins.slice();
+        newPlugins.push({ pattern, plugin } as IPluginEntry<T & P>);
+        return new Documentalist(newPlugins as IPluginEntry<T & P>[]);
+    }
+
+    public clearPlugins(): IApi<void> {
+        return new Documentalist<void>([], this.markedOptions);
     }
 
     public documentGlobs(...filesGlobs: string[]) {
@@ -87,9 +155,20 @@ export class Documentalist implements IApi {
     }
 
     public documentFiles(files: IFile[]) {
-        const documentation = {} as IDocumentalistData;
+        const documentation = {} as T;
         for (const { pattern, plugin } of this.plugins) {
-            documentation[plugin.name] = plugin.compile(this, files.filter((f) => pattern.test(f.path)));
+            const pluginDocumentation = plugin.compile(this, files.filter((f) => pattern.test(f.path)));
+            for (var key in pluginDocumentation) {
+                if (pluginDocumentation.hasOwnProperty(key)) {
+                    if (documentation.hasOwnProperty(key)) {
+                        console.warn(`
+                            WARNING: Duplicate plugin key "${key}".
+                            Your plugins are overwriting each other.
+                        `);
+                    }
+                    documentation[key] = pluginDocumentation[key];
+                }
+            }
         }
         return documentation;
     }
@@ -100,7 +179,9 @@ export class Documentalist implements IApi {
         return { content, metadata, renderedContent };
     }
 
-    /** Expand an array of globs and flatten to a single array of files. */
+    /**
+     * Expands an array of globs and flatten to a single array of files.
+     */
     private expandGlobs(filesGlobs: string[]) {
         return filesGlobs
             .map((filesGlob) => glob.sync(filesGlob))

@@ -7,7 +7,7 @@
 
 import "mocha";
 import { expect } from "chai";
-import { Documentalist } from "../src";
+import { Documentalist, CssPlugin } from "../src";
 
 const TEST_CSS = `
 body { background: red; }
@@ -45,7 +45,7 @@ const TEST_FILES = [
 
 describe("Plugins", () => {
     it("can document Markdown files", () => {
-        const docs = new Documentalist().documentFiles(TEST_FILES);
+        const docs = Documentalist.create().documentFiles(TEST_FILES);
         const page = docs.docs["test"];
         expect(page).to.exist;
         expect(page.metadata["key"]).to.equal("value");
@@ -54,8 +54,10 @@ describe("Plugins", () => {
     });
 
     it("can document CSS files", () => {
-        const docs = new Documentalist().documentFiles(TEST_FILES);
-        const page = docs["css"][0];
+        const docs =  Documentalist.create()
+            .use("css", new CssPlugin())
+            .documentFiles(TEST_FILES);
+        const page = docs.css[0];
         expect(page).to.exist;
         expect(page.rules).with.lengthOf(2);
         expect((page.rules[1] as any).comment).with.lengthOf(2);

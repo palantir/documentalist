@@ -26,11 +26,13 @@ export interface IInterfaceEntry extends IDocEntry {
     properties: IPropertyEntry[];
 }
 
-export class TypescriptPlugin implements IPlugin<IInterfaceEntry[]> {
-    public name = "ts";
+export interface ITypescriptPluginData {
+    ts: IInterfaceEntry[];
+}
 
-    public compile(documentalist: Documentalist, files: IFile[]) {
-        return tsdoc.fromFiles(files.map((f) => f.path), {}).map<IInterfaceEntry>((entry) => ({
+export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
+    public compile(documentalist: Documentalist<ITypescriptPluginData>, files: IFile[]) {
+        const ts = tsdoc.fromFiles(files.map((f) => f.path), {}).map<IInterfaceEntry>((entry) => ({
             ...entry,
             documentation: documentalist.renderBlock(entry.documentation),
             properties: entry.properties!.map<IPropertyEntry>((prop) => ({
@@ -38,5 +40,6 @@ export class TypescriptPlugin implements IPlugin<IInterfaceEntry[]> {
                 documentation: documentalist.renderBlock(prop.documentation),
             })),
         }));
+        return { ts };
     }
 }
