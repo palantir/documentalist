@@ -9,21 +9,29 @@ import * as kss from "kss";
 import * as path from "path";
 import { ICompiler, IFile, IPlugin } from "./plugin";
 
+/** A single modifier for an example. */
 export interface IKssModifier {
     documentation: string;
     name: string;
 }
 
+/**
+ * A markup/modifiers example parsed from a KSS comment block.
+ */
 export interface IKssExample {
+    /** Raw documentation string. */
     documentation: string;
+    /** HTML markup for example, with `{{.modifier}}` templates. */
     markup: string;
+    /** Array of modifiers supported by HTML markup. */
     modifiers: IKssModifier[];
+    /** Unique reference for addressing this example. */
     reference: string;
 }
 
 export interface IKssPluginData {
     css: {
-        [name: string]: IKssExample;
+        [reference: string]: IKssExample;
     };
 }
 
