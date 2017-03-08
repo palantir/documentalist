@@ -86,7 +86,7 @@ export interface IApi<T extends object> {
      * @param plugin - The plugin implementation
      * @returns A new instance of `Documentalist` with an extended type
      */
-    use: <P>(pattern: RegExp | string, plugin: IPlugin<P>) => IApi<T & P>;
+    use: <P extends object>(pattern: RegExp | string, plugin: IPlugin<P>) => IApi<T & P>;
 
     /**
      * Returns a new instance of Documentalist with no plugins.
@@ -118,7 +118,7 @@ export interface IBlock {
 /**
  * Plugins are stored with the regex used to match against file paths.
  */
-export interface IPluginEntry<T> {
+export interface IPluginEntry<T extends object> {
     pattern: RegExp;
     plugin: IPlugin<T>;
 }
@@ -135,7 +135,7 @@ export class Documentalist<T extends object> implements IApi<T> {
         private markedOptions: MarkedOptions = {}) {
     }
 
-    public use<P>(pattern: RegExp | string, plugin: IPlugin<P>): IApi<T & P> {
+    public use<P extends object>(pattern: RegExp | string, plugin: IPlugin<P>): IApi<T & P> {
         if (typeof pattern === "string") {
             pattern = new RegExp(`${pattern}$`);
         }
