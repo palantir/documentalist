@@ -15,7 +15,7 @@ import {
     IFile,
     IMarkdownPluginData,
     IPlugin,
-    ITypescriptPluginData,
+    ITsPluginData,
     MarkdownPlugin,
     TypescriptPlugin,
 } from "./plugins";
@@ -61,6 +61,12 @@ export interface IApi<T> {
      * plugin data types.
      */
     documentFiles: (files: IFile[]) => Promise<T>;
+
+    /**
+     * Converts an array of entries into a map of key to entry, using given
+     * callback to extract key from each item.
+     */
+    objectify: <T>(array: T[], getKey: (item: T) => string) => { [key: string]: T };
 
     /**
      * Render a block of content by extracting metadata (YAML front matter) and
@@ -124,7 +130,7 @@ export interface IPluginEntry<T> {
 }
 
 export class Documentalist<T> implements IApi<T> {
-    public static create(markedOptions?: MarkedOptions): IApi<IMarkdownPluginData & ITypescriptPluginData> {
+    public static create(markedOptions?: MarkedOptions): IApi<IMarkdownPluginData & ITsPluginData> {
         return new Documentalist([], markedOptions)
             .use(/\.md$/, new MarkdownPlugin())
             .use(/\.tsx?$/, new TypescriptPlugin());
@@ -170,6 +176,13 @@ export class Documentalist<T> implements IApi<T> {
             }
         }
         return documentation;
+    }
+
+    public objectify<T>(array: T[], getKey: (item: T) => string) {
+        return array.reduce((obj, item) => {
+            obj[getKey(item)] = item;
+            return obj;
+        }, {} as { [key: string]: T });
     }
 
     public renderBlock(blockContent: string, reservedTagWords = RESERVED_WORDS): IBlock {
