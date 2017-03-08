@@ -43,7 +43,7 @@ export class KssPlugin implements IPlugin<IKssPluginData> {
             base: path.dirname(file.path),
             contents: file.read(),
             path: file.path,
-        }))
+        }));
         const options = { multiline: false, markdown: false, ...this.options };
         return kss.parse(input, options);
     }

@@ -1,3 +1,7 @@
+// KSS 3.0.0-beta typings
+// These typings ARE NOT COMPLETE--they contain only the parts we need for this plugin.
+// All of the setters and a handful of other new functions are missing.
+
 declare module "kss" {
     interface IFile {
         base: string;

@@ -7,7 +7,7 @@
 
 import { expect } from "chai";
 import "mocha";
-import { CssPlugin, Documentalist } from "../src";
+import { Documentalist } from "../src";
 
 const TEST_CSS = `
 body { background: red; }
@@ -51,16 +51,5 @@ describe("Plugins", () => {
         expect(page.metadata["key"]).to.equal("value");
         expect(page.contents).with.lengthOf(3);
         expect((page.contents[2] as any).tag).to.equal("othertag");
-    });
-
-    it("can document CSS files", async () => {
-        const docs = await Documentalist.create()
-            .use("css", new CssPlugin())
-            .documentFiles(TEST_FILES);
-        const page = docs.css[0];
-        expect(page).to.exist;
-        expect(page.rules).with.lengthOf(2);
-        expect((page.rules[1] as any).comment).with.lengthOf(2);
-        expect(((page.rules[1] as any).comment[1] as any).tag).to.equal("atag");
     });
 });
