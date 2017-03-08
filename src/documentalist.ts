@@ -123,7 +123,7 @@ export interface IPluginEntry<T> {
     plugin: IPlugin<T>;
 }
 
-export class Documentalist<T extends Object> implements IApi<T> {
+export class Documentalist<T> implements IApi<T> {
     public static create(markedOptions?: MarkedOptions): IApi<IMarkdownPluginData & ITypescriptPluginData> {
         return new Documentalist([], markedOptions)
             .use(/\.md$/, new MarkdownPlugin())
