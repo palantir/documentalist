@@ -34,10 +34,11 @@ const plugins = [].concat(argv.use)
         return { pattern, plugin };
     });
 
-const doc = Documentalist.create();
+const docs = Documentalist.create();
 plugins.forEach(({ pattern, plugin }) => {
-    doc.use(new RegExp(pattern), plugin);
+    docs.use(new RegExp(pattern), plugin);
 });
-const documentation = doc.documentGlobs(...argv._);
+docs.documentGlobs(...argv._)
+    .then((data) => JSON.stringify(data, null, 2))
+    .then(console.log, console.error);
 
-console.log(JSON.stringify(documentation, null, 2));

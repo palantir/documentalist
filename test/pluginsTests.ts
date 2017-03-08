@@ -44,8 +44,8 @@ const TEST_FILES = [
 ];
 
 describe("Plugins", () => {
-    it("can document Markdown files", () => {
-        const docs = Documentalist.create().documentFiles(TEST_FILES);
+    it("can document Markdown files", async () => {
+        const docs = await Documentalist.create().documentFiles(TEST_FILES);
         const page = docs.docs["test"];
         expect(page).to.exist;
         expect(page.metadata["key"]).to.equal("value");
@@ -53,8 +53,8 @@ describe("Plugins", () => {
         expect((page.contents[2] as any).tag).to.equal("othertag");
     });
 
-    it("can document CSS files", () => {
-        const docs =  Documentalist.create()
+    it("can document CSS files", async () => {
+        const docs = await Documentalist.create()
             .use("css", new CssPlugin())
             .documentFiles(TEST_FILES);
         const page = docs.css[0];
