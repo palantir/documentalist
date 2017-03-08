@@ -8,9 +8,8 @@
 import * as postcss from "postcss";
 import { Comment, Root, Rule } from "postcss";
 import * as postcssScss from "postcss-scss";
-
-import { Documentalist } from "..";
 import { StringOrTag } from "../client";
+import { ICompiler } from "../compiler";
 import { IFile, IPlugin } from "./plugin";
 
 export interface ICssDeclaration {
@@ -37,12 +36,12 @@ export interface ICssPluginData {
 
 export class CssPlugin implements IPlugin<ICssPluginData> {
 
-    public compile(documentalist: Documentalist<ICssPluginData>, cssFiles: IFile[]) {
+    public compile(cssFiles: IFile[], doc: ICompiler) {
         const css = [] as ICss[];
         cssFiles.forEach((file) => {
             const cssContent = file.read();
             const cssResult = {filePath: file.path, rules: []};
-            postcss([this.processor(documentalist, cssResult)])
+            postcss([this.processor(doc, cssResult)])
                 .process(cssContent, { syntax: postcssScss })
                 .css; // this statement makes the whole thing synchronous
             css.push(cssResult);
@@ -50,7 +49,7 @@ export class CssPlugin implements IPlugin<ICssPluginData> {
         return { css };
     }
 
-    private processor(documentalist: Documentalist<ICssPluginData>, cssResult: ICss) {
+    private processor(doc: ICompiler, cssResult: ICss) {
         return (css: Root) => {
             css.walkRules((rule: Rule) => {
                 const ruleResult = {
@@ -65,7 +64,7 @@ export class CssPlugin implements IPlugin<ICssPluginData> {
                         .replace(/\n *\*+ */g, "\n")
                         .trim(); // trim asterisks, maintain newlines
 
-                    const { content, metadata, renderedContent } = documentalist.renderBlock(block);
+                    const { content, metadata, renderedContent } = doc.renderBlock(block);
                     ruleResult.metadata = metadata;
                     ruleResult.commentRaw = content;
                     ruleResult.comment = renderedContent;

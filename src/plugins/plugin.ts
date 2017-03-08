@@ -5,7 +5,7 @@
  * repository.
  */
 
-import { Documentalist } from "..";
+import { ICompiler } from "../compiler";
 
 export interface IFile {
     path: string;
@@ -13,5 +13,5 @@ export interface IFile {
 }
 
 export interface IPlugin<T> {
-    compile: (doc: Documentalist<T>, files: IFile[]) => T | Promise<T>;
+    compile: (files: IFile[], doc: ICompiler) => T | Promise<T>;
 }

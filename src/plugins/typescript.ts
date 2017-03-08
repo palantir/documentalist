@@ -6,7 +6,7 @@
  */
 
 import tsdoc, { IJsDocTags } from "ts-quick-docs";
-import { Documentalist, IBlock } from "..";
+import { IBlock, ICompiler } from "../compiler";
 import { IFile, IPlugin } from "./plugin";
 
 export interface ITsDocEntry {
@@ -33,16 +33,16 @@ export interface ITypescriptPluginData {
 }
 
 export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
-    public compile(documentalist: Documentalist<ITypescriptPluginData>, files: IFile[]) {
+    public compile(files: IFile[], { renderBlock, objectify }: ICompiler) {
         const entries = tsdoc.fromFiles(files.map((f) => f.path), {}).map<ITsInterfaceEntry>((entry) => ({
             ...entry,
-            documentation: documentalist.renderBlock(entry.documentation),
+            documentation: renderBlock(entry.documentation),
             properties: entry.properties!.map<ITsPropertyEntry>((prop) => ({
                 ...prop,
-                documentation: documentalist.renderBlock(prop.documentation),
+                documentation: renderBlock(prop.documentation),
             })),
         }));
-        const ts = documentalist.objectify(entries, (e) => e.name);
+        const ts = objectify(entries, (e) => e.name);
         return { ts };
     }
 }

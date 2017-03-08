@@ -5,8 +5,8 @@
  * repository.
  */
 
-import { Documentalist } from "..";
 import { IPageData, StringOrTag } from "../client";
+import { ICompiler } from "../compiler";
 import { makePage } from "../page";
 import { IFile, IPlugin } from "./plugin";
 
@@ -21,13 +21,13 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
      * Reads the given set of markdown files and adds their data to the internal storage.
      * Returns a plain object mapping page references to their data.
      */
-    public compile(documentalist: Documentalist<IMarkdownPluginData>, markdownFiles: IFile[]) {
+    public compile(markdownFiles: IFile[], { renderBlock }: ICompiler) {
         const pageStore: Map<string, IPageData> = new Map();
         markdownFiles
             .map((file) => {
                 const absolutePath = file.path;
                 const fileContents = file.read();
-                const { content, metadata, renderedContent } = documentalist.renderBlock(fileContents);
+                const { content, metadata, renderedContent } = renderBlock(fileContents);
                 const page = makePage({
                     absolutePath,
                     contentRaw: content,
