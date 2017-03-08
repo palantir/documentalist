@@ -15,7 +15,7 @@ import {
     IFile,
     IMarkdownPluginData,
     IPlugin,
-    ITsPluginData,
+    ITypescriptPluginData,
     MarkdownPlugin,
     TypescriptPlugin,
 } from "./plugins";
@@ -130,7 +130,7 @@ export interface IPluginEntry<T> {
 }
 
 export class Documentalist<T> implements IApi<T> {
-    public static create(markedOptions?: MarkedOptions): IApi<IMarkdownPluginData & ITsPluginData> {
+    public static create(markedOptions?: MarkedOptions): IApi<IMarkdownPluginData & ITypescriptPluginData> {
         return new Documentalist([], markedOptions)
             .use(/\.md$/, new MarkdownPlugin())
             .use(/\.tsx?$/, new TypescriptPlugin());

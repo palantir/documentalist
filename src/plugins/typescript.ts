@@ -26,14 +26,14 @@ export interface ITsInterfaceEntry extends ITsDocEntry {
     properties: ITsPropertyEntry[];
 }
 
-export interface ITsPluginData {
+export interface ITypescriptPluginData {
     ts: {
         [name: string]: ITsInterfaceEntry;
     };
 }
 
-export class TypescriptPlugin implements IPlugin<ITsPluginData> {
-    public compile(documentalist: Documentalist<ITsPluginData>, files: IFile[]) {
+export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
+    public compile(documentalist: Documentalist<ITypescriptPluginData>, files: IFile[]) {
         const entries = tsdoc.fromFiles(files.map((f) => f.path), {}).map<ITsInterfaceEntry>((entry) => ({
             ...entry,
             documentation: documentalist.renderBlock(entry.documentation),
