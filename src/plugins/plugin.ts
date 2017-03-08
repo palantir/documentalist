@@ -12,6 +12,6 @@ export interface IFile {
     read: () => string;
 }
 
-export interface IPlugin<T extends object> {
+export interface IPlugin<T> {
     compile: (doc: Documentalist<T>, files: IFile[]) => T | Promise<T>;
 }

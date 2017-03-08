@@ -43,7 +43,7 @@ const RESERVED_WORDS = [
     "import",
 ];
 
-export interface IApi<T extends object> {
+export interface IApi<T> {
     /**
      * Finds all files matching the provided variadic glob expressions and then
      * runs `documentFiles` with them, emitting all the documentation data.
@@ -86,7 +86,7 @@ export interface IApi<T extends object> {
      * @param plugin - The plugin implementation
      * @returns A new instance of `Documentalist` with an extended type
      */
-    use: <P extends object>(pattern: RegExp | string, plugin: IPlugin<P>) => IApi<T & P>;
+    use: <P>(pattern: RegExp | string, plugin: IPlugin<P>) => IApi<T & P>;
 
     /**
      * Returns a new instance of Documentalist with no plugins.
@@ -118,12 +118,12 @@ export interface IBlock {
 /**
  * Plugins are stored with the regex used to match against file paths.
  */
-export interface IPluginEntry<T extends object> {
+export interface IPluginEntry<T> {
     pattern: RegExp;
     plugin: IPlugin<T>;
 }
 
-export class Documentalist<T extends object> implements IApi<T> {
+export class Documentalist<T> implements IApi<T> {
     public static create(markedOptions?: MarkedOptions): IApi<IMarkdownPluginData & ITypescriptPluginData> {
         return new Documentalist([], markedOptions)
             .use(/\.md$/, new MarkdownPlugin())
@@ -135,7 +135,7 @@ export class Documentalist<T extends object> implements IApi<T> {
         private markedOptions: MarkedOptions = {}) {
     }
 
-    public use<P extends object>(pattern: RegExp | string, plugin: IPlugin<P>): IApi<T & P> {
+    public use<P>(pattern: RegExp | string, plugin: IPlugin<P>): IApi<T & P> {
         if (typeof pattern === "string") {
             pattern = new RegExp(`${pattern}$`);
         }
