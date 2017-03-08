@@ -33,7 +33,7 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "ts-node": "^1.7.2",
-    "tslint": "^4.0.2",
+    "tslint": "^4.5.1",
     "typescript": "^2.2.1"
   },
   "scripts": {
