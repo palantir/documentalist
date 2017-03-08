@@ -22,5 +22,4 @@ export interface IInterfaceName {
  * @reference IInterfaceName
  */
 export class Component extends React.Component<IInterfaceName, {}> {
-
 }

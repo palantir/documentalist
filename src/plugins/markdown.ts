@@ -10,7 +10,9 @@ import { IPageData, StringOrTag } from "../client";
 import { makePage } from "../page";
 import { IFile, IPlugin } from "./plugin";
 
-export type IPageMap = { [key: string]: IPageData };
+export interface IPageMap {
+    [key: string]: IPageData;
+}
 
 export interface IMarkdownPluginData {
     docs: IPageMap;

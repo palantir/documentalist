@@ -84,6 +84,7 @@ export interface IPageNode extends ITreeEntry {
 }
 
 /** An `@#+` tag belongs to a specific page. */
+// tslint:disable-next-line:no-empty-interface
 export interface IHeadingNode extends ITreeEntry {
 }
 

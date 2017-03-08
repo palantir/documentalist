@@ -41,4 +41,3 @@ plugins.forEach(({ pattern, plugin }) => {
 docs.documentGlobs(...argv._)
     .then((data) => JSON.stringify(data, null, 2))
     .then(console.log, console.error);
-

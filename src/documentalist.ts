@@ -91,7 +91,7 @@ export interface IApi<T> {
     /**
      * Returns a new instance of Documentalist with no plugins.
      */
-    clearPlugins(): IApi<void>
+    clearPlugins(): IApi<{}>;
 }
 
 /**
@@ -131,7 +131,7 @@ export class Documentalist<T> implements IApi<T> {
     }
 
     constructor(
-        private plugins: IPluginEntry<T>[] = [],
+        private plugins: Array<IPluginEntry<T>> = [],
         private markedOptions: MarkedOptions = {}) {
     }
 
@@ -144,8 +144,8 @@ export class Documentalist<T> implements IApi<T> {
         return new Documentalist(newPlugins, this.markedOptions);
     }
 
-    public clearPlugins(): IApi<void> {
-        return new Documentalist<void>([], this.markedOptions);
+    public clearPlugins(): IApi<{}> {
+        return new Documentalist<{}>([], this.markedOptions);
     }
 
     public async documentGlobs(...filesGlobs: string[]) {
