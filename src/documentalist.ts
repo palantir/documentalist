@@ -43,7 +43,7 @@ const RESERVED_WORDS = [
     "import",
 ];
 
-export interface IApi<T> {
+export interface IApi<T extends object> {
     /**
      * Finds all files matching the provided variadic glob expressions and then
      * runs `documentFiles` with them, emitting all the documentation data.
@@ -91,7 +91,7 @@ export interface IApi<T> {
     /**
      * Returns a new instance of Documentalist with no plugins.
      */
-    clearPlugins(): IApi<void>
+    clearPlugins(): IApi<{}>;
 }
 
 /**
@@ -123,7 +123,7 @@ export interface IPluginEntry<T> {
     plugin: IPlugin<T>;
 }
 
-export class Documentalist<T> implements IApi<T> {
+export class Documentalist<T extends object> implements IApi<T> {
     public static create(markedOptions?: MarkedOptions): IApi<IMarkdownPluginData & ITypescriptPluginData> {
         return new Documentalist([], markedOptions)
             .use(/\.md$/, new MarkdownPlugin())
@@ -131,7 +131,7 @@ export class Documentalist<T> implements IApi<T> {
     }
 
     constructor(
-        private plugins: IPluginEntry<T>[] = [],
+        private plugins: Array<IPluginEntry<T>> = [],
         private markedOptions: MarkedOptions = {}) {
     }
 
@@ -144,8 +144,8 @@ export class Documentalist<T> implements IApi<T> {
         return new Documentalist(newPlugins, this.markedOptions);
     }
 
-    public clearPlugins(): IApi<void> {
-        return new Documentalist<void>([], this.markedOptions);
+    public clearPlugins(): IApi<{}> {
+        return new Documentalist<{}>([], this.markedOptions);
     }
 
     public async documentGlobs(...filesGlobs: string[]) {
