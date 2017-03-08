@@ -31,23 +31,26 @@ export interface ICss {
     rules: IRule[];
 }
 
-export class CssPlugin implements IPlugin<ICss[]> {
-    public name = "css";
+export interface ICssPluginData {
+    css: ICss[];
+}
 
-    public compile(documentalist: Documentalist, cssFiles: IFile[]) {
-        const csses = [] as ICss[];
+export class CssPlugin implements IPlugin<ICssPluginData> {
+
+    public compile(documentalist: Documentalist<ICssPluginData>, cssFiles: IFile[]) {
+        const css = [] as ICss[];
         cssFiles.forEach((file) => {
             const cssContent = file.read();
             const cssResult = {filePath: file.path, rules: []};
             postcss([this.processor(documentalist, cssResult)])
                 .process(cssContent, { syntax: postcssScss })
                 .css; // this statement makes the whole thing synchronous
-            csses.push(cssResult);
+            css.push(cssResult);
         });
-        return csses;
+        return { css };
     }
 
-    private processor(documentalist: Documentalist, cssResult: ICss) {
+    private processor(documentalist: Documentalist<ICssPluginData>, cssResult: ICss) {
         return (css: Root) => {
             css.walkRules((rule: Rule) => {
                 const ruleResult = {

@@ -28,7 +28,7 @@ Of course, you can also use **Documentalist** in a Node.js environment like so:
 const { Documentalist } = require("documentalist");
 const { writeFileSync } = require("fs");
 
-const dm = new Documentalist();
+const dm = Documentalist.create();
 const docs = dm.documentGlobs("src/**/*");
 
 writeFileSync("docs.json", JSON.stringify(docs, null, 2));

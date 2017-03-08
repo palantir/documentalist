@@ -6,4 +6,4 @@
  */
 
 export * from "./documentalist";
-export * from "./client";
+export * from "./plugins";

@@ -10,7 +10,7 @@ import { assert } from "chai";
 import { Documentalist } from "../src";
 
 describe("Documentalist", () => {
-    const API = new Documentalist();
+    const API = Documentalist.create();
 
     describe("metadata", () => {
         const METADATA = "---\nhello: world\nsize: 1000\n---\n";

@@ -27,21 +27,24 @@
     <h3>Interfaces</h3><a href="#IApi">
       <div class="nav-item">IApi</div></a><a href="#IBlock">
       <div class="nav-item">IBlock</div></a><a href="#ICss">
-      <div class="nav-item">ICss</div></a><a href="#IDeclaration">
+      <div class="nav-item">ICss</div></a><a href="#ICssPluginData">
+      <div class="nav-item">ICssPluginData</div></a><a href="#IDeclaration">
       <div class="nav-item">IDeclaration</div></a><a href="#IDocEntry">
-      <div class="nav-item">IDocEntry</div></a><a href="#IDocumentalistData">
-      <div class="nav-item">IDocumentalistData</div></a><a href="#IFile">
+      <div class="nav-item">IDocEntry</div></a><a href="#IFile">
       <div class="nav-item">IFile</div></a><a href="#IHeadingNode">
       <div class="nav-item">IHeadingNode</div></a><a href="#IInterfaceEntry">
-      <div class="nav-item">IInterfaceEntry</div></a><a href="#IMetadata">
+      <div class="nav-item">IInterfaceEntry</div></a><a href="#IMarkdownPluginData">
+      <div class="nav-item">IMarkdownPluginData</div></a><a href="#IMetadata">
       <div class="nav-item">IMetadata</div></a><a href="#IPageData">
       <div class="nav-item">IPageData</div></a><a href="#IPageNode">
       <div class="nav-item">IPageNode</div></a><a href="#IPlugin">
-      <div class="nav-item">IPlugin</div></a><a href="#IPropertyEntry">
+      <div class="nav-item">IPlugin</div></a><a href="#IPluginEntry">
+      <div class="nav-item">IPluginEntry</div></a><a href="#IPropertyEntry">
       <div class="nav-item">IPropertyEntry</div></a><a href="#IRule">
       <div class="nav-item">IRule</div></a><a href="#ITag">
       <div class="nav-item">ITag</div></a><a href="#ITreeEntry">
-      <div class="nav-item">ITreeEntry</div></a>
+      <div class="nav-item">ITreeEntry</div></a><a href="#ITypescriptPluginData">
+      <div class="nav-item">ITypescriptPluginData</div></a>
     <div class="copyright">&copy; Copyright 2017-present Palantir</div>
   </div>
   <div id="content"></div>
@@ -64,7 +67,7 @@ Docception.</p>
 <pre><code class="lang-js">const { Documentalist } = require(&quot;documentalist&quot;);
 const { writeFileSync } = require(&quot;fs&quot;);
 
-const dm = new Documentalist();
+const dm = Documentalist.create();
 const docs = dm.documentGlobs(&quot;src/**/*&quot;);
 
 writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
@@ -75,31 +78,52 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
         <div class="interface-properties">
           <table>
             <tr>
+              <td class="prop-name" valign="top">clearPlugins</td>
+              <td class="prop-type" valign="top">
+                <pre>() =&gt; IApi&lt;void&gt;</pre><p>Returns a new instance of Documentalist with no plugins.</p>
+
+              </td>
+            </tr>
+            <tr>
               <td class="prop-name" valign="top">documentFiles</td>
               <td class="prop-type" valign="top">
-                <pre>(files: IFile[]) =&gt; IDocumentalistData</pre><p>Process the given list of files and emit all the data. </p>
+                <pre>(files: IFile[]) =&gt; T</pre><p>Iterates over all plugins, passing all matching files to each in turn.
+The output of each plugin is merged to produce the resulting
+documentation object.</p>
+<p>The return type T is a composite type has a composite type of all the
+plugin data types.</p>
 
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">documentGlobs</td>
               <td class="prop-type" valign="top">
-                <pre>(...filesGlobs: string[]) =&gt; IDocumentalistData</pre><p>Process the given globs and emit all the data. </p>
+                <pre>(...filesGlobs: string[]) =&gt; T</pre><p>Finds all files matching the provided variadic glob expressions and then
+runs <code>documentFiles</code> with them, emitting all the documentation data.</p>
 
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">renderBlock</td>
               <td class="prop-type" valign="top">
-                <pre>(blockContent: string, reservedTagWords?: string[]) =&gt; IBlock</pre><p>Render a block of content by extracting metadata front matter and
-splitting text content into rendered HTML strings and <code>{ tag, value }</code> objects.</p>
+                <pre>(blockContent: string, reservedTagWords?: string[]) =&gt; IBlock</pre><p>Render a block of content by extracting metadata (YAML front matter) and
+splitting text content into markdown-rendered HTML strings and <code>{ tag,
+value }</code> objects.</p>
+<p>To prevent special strings like &quot;@include&quot; from being parsed, a reserved
+tag words array may be provided, in which case the line will be left as
+is.</p>
 
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">use</td>
               <td class="prop-type" valign="top">
-                <pre>(pattern: RegExp, plugin: IPlugin&lt;any&gt;) =&gt; IApi</pre><p>Use a plugin to process the files matching the pattern. </p>
+                <pre>&lt;P&gt;(pattern: string | RegExp, plugin: IPlugin&lt;P&gt;) =&gt; IApi&lt;T &amp; P&gt;</pre><p>Adds the plugin to Documentalist. Returns a new instance of Documentalist
+with a template type that includes the data from the plugin. This way the
+<code>documentFiles</code> and <code>documentGlobs</code> methods will return an object that is
+already typed to include each plugin&#39;s output.</p>
+<p>The plugin is applied to all files whose absolute path matches the
+supplied pattern.</p>
 
               </td>
             </tr>
@@ -115,31 +139,52 @@ splitting text content into rendered HTML strings and <code>{ tag, value }</code
         <div class="interface-properties">
           <table>
             <tr>
+              <td class="prop-name" valign="top">clearPlugins</td>
+              <td class="prop-type" valign="top">
+                <pre>() =&gt; IApi&lt;void&gt;</pre><p>Returns a new instance of Documentalist with no plugins.</p>
+
+              </td>
+            </tr>
+            <tr>
               <td class="prop-name" valign="top">documentFiles</td>
               <td class="prop-type" valign="top">
-                <pre>(files: IFile[]) =&gt; IDocumentalistData</pre><p>Process the given list of files and emit all the data. </p>
+                <pre>(files: IFile[]) =&gt; T</pre><p>Iterates over all plugins, passing all matching files to each in turn.
+The output of each plugin is merged to produce the resulting
+documentation object.</p>
+<p>The return type T is a composite type has a composite type of all the
+plugin data types.</p>
 
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">documentGlobs</td>
               <td class="prop-type" valign="top">
-                <pre>(...filesGlobs: string[]) =&gt; IDocumentalistData</pre><p>Process the given globs and emit all the data. </p>
+                <pre>(...filesGlobs: string[]) =&gt; T</pre><p>Finds all files matching the provided variadic glob expressions and then
+runs <code>documentFiles</code> with them, emitting all the documentation data.</p>
 
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">renderBlock</td>
               <td class="prop-type" valign="top">
-                <pre>(blockContent: string, reservedTagWords?: string[]) =&gt; IBlock</pre><p>Render a block of content by extracting metadata front matter and
-splitting text content into rendered HTML strings and <code>{ tag, value }</code> objects.</p>
+                <pre>(blockContent: string, reservedTagWords?: string[]) =&gt; IBlock</pre><p>Render a block of content by extracting metadata (YAML front matter) and
+splitting text content into markdown-rendered HTML strings and <code>{ tag,
+value }</code> objects.</p>
+<p>To prevent special strings like &quot;@include&quot; from being parsed, a reserved
+tag words array may be provided, in which case the line will be left as
+is.</p>
 
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">use</td>
               <td class="prop-type" valign="top">
-                <pre>(pattern: RegExp, plugin: IPlugin&lt;any&gt;) =&gt; IApi</pre><p>Use a plugin to process the files matching the pattern. </p>
+                <pre>&lt;P&gt;(pattern: string | RegExp, plugin: IPlugin&lt;P&gt;) =&gt; IApi&lt;T &amp; P&gt;</pre><p>Adds the plugin to Documentalist. Returns a new instance of Documentalist
+with a template type that includes the data from the plugin. This way the
+<code>documentFiles</code> and <code>documentGlobs</code> methods will return an object that is
+already typed to include each plugin&#39;s output.</p>
+<p>The plugin is applied to all files whose absolute path matches the
+supplied pattern.</p>
 
               </td>
             </tr>
@@ -149,25 +194,30 @@ splitting text content into rendered HTML strings and <code>{ tag, value }</code
   </div>
   <div class="hidden" data-route="IBlock">
     <h2>IBlock</h2>
-      <div class="interface-block" id="IBlock">
+      <div class="interface-block" id="IBlock"><p>The output of <code>renderBlock</code> which parses a long form documentation block into
+metadata, rendered markdown, and tags.</p>
+
         <div class="interface-properties">
           <table>
             <tr>
               <td class="prop-name" valign="top">content</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>The original string content block.</p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">metadata</td>
               <td class="prop-type" valign="top">
-                <pre>any</pre>
+                <pre>any</pre><p>Parsed YAML front matter (if any) or {}.</p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">renderedContent</td>
               <td class="prop-type" valign="top">
-                <pre>StringOrTag[]</pre>
+                <pre>StringOrTag[]</pre><p>An array of markdown-rendered HTML or tags.</p>
+
               </td>
             </tr>
           </table>
@@ -189,6 +239,21 @@ splitting text content into rendered HTML strings and <code>{ tag, value }</code
               <td class="prop-name" valign="top">rules</td>
               <td class="prop-type" valign="top">
                 <pre>IRule[]</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="ICssPluginData">
+    <h2>ICssPluginData</h2>
+      <div class="interface-block" id="ICssPluginData">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">css</td>
+              <td class="prop-type" valign="top">
+                <pre>ICss[]</pre>
               </td>
             </tr>
           </table>
@@ -255,29 +320,6 @@ splitting text content into rendered HTML strings and <code>{ tag, value }</code
         </div>
       </div>
   </div>
-  <div class="hidden" data-route="IDocumentalistData">
-    <h2>IDocumentalistData</h2>
-      <div class="interface-block" id="IDocumentalistData"><p>The root type of data exported by Documentalist.
-Each plugin emits its data in a separate key.</p>
-
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">docs</td>
-              <td class="prop-type" valign="top">
-                <pre>{ [key: string]: IPageData; }</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">ts</td>
-              <td class="prop-type" valign="top">
-                <pre>IInterfaceEntry[]</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
   <div class="hidden" data-route="IFile">
     <h2>IFile</h2>
       <div class="interface-block" id="IFile">
@@ -305,12 +347,6 @@ Each plugin emits its data in a separate key.</p>
 
         <div class="interface-properties">
           <table>
-            <tr>
-              <td class="prop-name" valign="top">pageReference</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
           </table>
         </div>
       </div>
@@ -330,6 +366,21 @@ Each plugin emits its data in a separate key.</p>
               <td class="prop-name" valign="top">properties</td>
               <td class="prop-type" valign="top">
                 <pre>IPropertyEntry[]</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IMarkdownPluginData">
+    <h2>IMarkdownPluginData</h2>
+      <div class="interface-block" id="IMarkdownPluginData">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">docs</td>
+              <td class="prop-type" valign="top">
+                <pre>IPageMap</pre>
               </td>
             </tr>
           </table>
@@ -444,13 +495,29 @@ actual contents of file...
             <tr>
               <td class="prop-name" valign="top">compile</td>
               <td class="prop-type" valign="top">
-                <pre>(doc: Documentalist, files: IFile[]) =&gt; T</pre>
+                <pre>(doc: Documentalist&lt;T&gt;, files: IFile[]) =&gt; T</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IPluginEntry">
+    <h2>IPluginEntry</h2>
+      <div class="interface-block" id="IPluginEntry"><p>Plugins are stored with the regex used to match against file paths.</p>
+
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">pattern</td>
+              <td class="prop-type" valign="top">
+                <pre>RegExp</pre>
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">name</td>
+              <td class="prop-name" valign="top">plugin</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>IPlugin&lt;T&gt;</pre>
               </td>
             </tr>
           </table>
@@ -513,7 +580,11 @@ actual contents of file...
   </div>
   <div class="hidden" data-route="ITag">
     <h2>ITag</h2>
-      <div class="interface-block" id="ITag"><p>Represents a single <code>@tag &lt;value&gt;</code> line from a file. </p>
+      <div class="interface-block" id="ITag"><p>Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
+Licensed under the BSD-3 License as modified (the “License”); you may obtain
+a copy of the license in the LICENSE and PATENTS files in the root of this
+repository.
+Represents a single <code>@tag &lt;value&gt;</code> line from a file. </p>
 
         <div class="interface-properties">
           <table>
@@ -555,6 +626,21 @@ actual contents of file...
               <td class="prop-name" valign="top">title</td>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="ITypescriptPluginData">
+    <h2>ITypescriptPluginData</h2>
+      <div class="interface-block" id="ITypescriptPluginData">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">ts</td>
+              <td class="prop-type" valign="top">
+                <pre>IInterfaceEntry[]</pre>
               </td>
             </tr>
           </table>
