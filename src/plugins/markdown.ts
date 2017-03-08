@@ -6,9 +6,8 @@
  */
 
 import { IPageData, StringOrTag } from "../client";
-import { ICompiler } from "../compiler";
 import { makePage } from "../page";
-import { IFile, IPlugin } from "./plugin";
+import { ICompiler, IFile, IPlugin } from "./plugin";
 
 export interface IMarkdownPluginData {
     docs: {

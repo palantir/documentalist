@@ -6,8 +6,7 @@
  */
 
 import tsdoc, { IJsDocTags } from "ts-quick-docs";
-import { IBlock, ICompiler } from "../compiler";
-import { IFile, IPlugin } from "./plugin";
+import { IBlock, ICompiler, IFile, IPlugin } from "./plugin";
 
 export interface ITsDocEntry {
     documentation: IBlock;

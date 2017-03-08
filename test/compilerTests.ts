@@ -7,7 +7,7 @@
 
 import { assert } from "chai";
 import "mocha";
-import { Compiler } from "../src";
+import { Compiler } from "../src/compiler";
 
 describe("Compiler", () => {
     const API = new Compiler({});

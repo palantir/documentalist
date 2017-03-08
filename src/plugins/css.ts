@@ -9,8 +9,7 @@ import * as postcss from "postcss";
 import { Comment, Root, Rule } from "postcss";
 import * as postcssScss from "postcss-scss";
 import { StringOrTag } from "../client";
-import { ICompiler } from "../compiler";
-import { IFile, IPlugin } from "./plugin";
+import { ICompiler, IFile, IPlugin } from "./plugin";
 
 export interface ICssDeclaration {
     prop: string;
