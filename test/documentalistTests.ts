@@ -5,8 +5,8 @@
  * repository.
  */
 
-import "mocha";
 import { assert } from "chai";
+import "mocha";
 import { Documentalist } from "../src";
 
 describe("Documentalist", () => {
@@ -63,5 +63,4 @@ more description
         });
 
     });
-})
-
+});

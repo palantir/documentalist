@@ -5,9 +5,9 @@
  * repository.
  */
 
-import "mocha";
 import { expect } from "chai";
-import { Documentalist, CssPlugin } from "../src";
+import "mocha";
+import { CssPlugin, Documentalist } from "../src";
 
 const TEST_CSS = `
 body { background: red; }
@@ -31,7 +31,7 @@ key: value
 ## I'm regular
 
 @othertag params
-`
+`;
 
 const TEST_FILES = [
     {
@@ -40,7 +40,7 @@ const TEST_FILES = [
     }, {
         path : "/whatever/other/test.md",
         read : () => TEST_MARKDOWN,
-    }
+    },
 ];
 
 describe("Plugins", () => {
