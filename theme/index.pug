@@ -1,4 +1,4 @@
-- ts.sort((a, b) => a.name.localeCompare(b.name))
+- var toc = Object.keys(ts).sort((a, b) => a.localeCompare(b))
 
 html
   head
@@ -25,7 +25,8 @@ body
       h3 Documentalist
 
     h3 Interfaces
-    for iface in ts
+    each ifaceName in toc
+      - var iface = ts[ifaceName]
       if iface.type == "interface"
         a(href='#' + iface.name)
           .nav-item= iface.name
@@ -60,10 +61,10 @@ body
       if typeof block === "string"
         | !{block}
       else if block.tag === "interface"
-        - var iface = ts.find((i) => i.name === block.value);
+        - var iface = ts[block.value]
         +interface(iface)
 
-  for iface in ts
+  each iface in ts
     if iface.type == "interface"
       .hidden(data-route=iface.name)
         h2= iface.name

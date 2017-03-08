@@ -63,6 +63,12 @@ export interface IApi<T> {
     documentFiles: (files: IFile[]) => Promise<T>;
 
     /**
+     * Converts an array of entries into a map of key to entry, using given
+     * callback to extract key from each item.
+     */
+    objectify: <T>(array: T[], getKey: (item: T) => string) => { [key: string]: T };
+
+    /**
      * Render a block of content by extracting metadata (YAML front matter) and
      * splitting text content into markdown-rendered HTML strings and `{ tag,
      * value }` objects.
@@ -170,6 +176,13 @@ export class Documentalist<T> implements IApi<T> {
             }
         }
         return documentation;
+    }
+
+    public objectify<T>(array: T[], getKey: (item: T) => string) {
+        return array.reduce((obj, item) => {
+            obj[getKey(item)] = item;
+            return obj;
+        }, {} as { [key: string]: T });
     }
 
     public renderBlock(blockContent: string, reservedTagWords = RESERVED_WORDS): IBlock {

@@ -13,22 +13,22 @@ import { Documentalist } from "..";
 import { StringOrTag } from "../client";
 import { IFile, IPlugin } from "./plugin";
 
-export interface IDeclaration {
+export interface ICssDeclaration {
     prop: string;
     value: string;
 }
 
-export interface IRule {
+export interface ICssRule {
     comment?: StringOrTag[];
     commentRaw?: string;
     selector: string;
-    declarations: IDeclaration[];
+    declarations: ICssDeclaration[];
     metadata?: any;
 }
 
 export interface ICss {
     filePath: string;
-    rules: IRule[];
+    rules: ICssRule[];
 }
 
 export interface ICssPluginData {
@@ -56,7 +56,7 @@ export class CssPlugin implements IPlugin<ICssPluginData> {
                 const ruleResult = {
                     declarations: [],
                     selector: rule.selector,
-                } as IRule;
+                } as ICssRule;
 
                 const prevNode = rule.prev();
                 if (prevNode != null && prevNode.type === "comment") {
