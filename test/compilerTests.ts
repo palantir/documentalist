@@ -7,10 +7,10 @@
 
 import { assert } from "chai";
 import "mocha";
-import { Documentalist } from "../src";
+import { Compiler } from "../src/compiler";
 
-describe("Documentalist", () => {
-    const API = Documentalist.create();
+describe("Compiler", () => {
+    const API = new Compiler({});
 
     describe("metadata", () => {
         const METADATA = "---\nhello: world\nsize: 1000\n---\n";
