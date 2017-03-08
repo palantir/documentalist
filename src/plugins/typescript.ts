@@ -9,7 +9,7 @@ import tsdoc, { IJsDocTags } from "ts-quick-docs";
 import { Documentalist, IBlock } from "..";
 import { IFile, IPlugin } from "./plugin";
 
-export interface IDocEntry {
+export interface ITsDocEntry {
     documentation: IBlock;
     fileName: string;
     name: string;
@@ -17,29 +17,32 @@ export interface IDocEntry {
     type: string;
 }
 
-export interface IPropertyEntry extends IDocEntry {
+export interface ITsPropertyEntry extends ITsDocEntry {
     optional?: boolean;
 }
 
-export interface IInterfaceEntry extends IDocEntry {
+export interface ITsInterfaceEntry extends ITsDocEntry {
     extends?: string[];
-    properties: IPropertyEntry[];
+    properties: ITsPropertyEntry[];
 }
 
-export interface ITypescriptPluginData {
-    ts: IInterfaceEntry[];
+export interface ITsPluginData {
+    ts: {
+        [name: string]: ITsInterfaceEntry;
+    };
 }
 
-export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
-    public compile(documentalist: Documentalist<ITypescriptPluginData>, files: IFile[]) {
-        const ts = tsdoc.fromFiles(files.map((f) => f.path), {}).map<IInterfaceEntry>((entry) => ({
+export class TypescriptPlugin implements IPlugin<ITsPluginData> {
+    public compile(documentalist: Documentalist<ITsPluginData>, files: IFile[]) {
+        const entries = tsdoc.fromFiles(files.map((f) => f.path), {}).map<ITsInterfaceEntry>((entry) => ({
             ...entry,
             documentation: documentalist.renderBlock(entry.documentation),
-            properties: entry.properties!.map<IPropertyEntry>((prop) => ({
+            properties: entry.properties!.map<ITsPropertyEntry>((prop) => ({
                 ...prop,
                 documentation: documentalist.renderBlock(prop.documentation),
             })),
         }));
+        const ts = documentalist.objectify(entries, (e) => e.name);
         return { ts };
     }
 }

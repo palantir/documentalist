@@ -10,12 +10,10 @@ import { IPageData, StringOrTag } from "../client";
 import { makePage } from "../page";
 import { IFile, IPlugin } from "./plugin";
 
-export interface IPageMap {
-    [key: string]: IPageData;
-}
-
 export interface IMarkdownPluginData {
-    docs: IPageMap;
+    docs: {
+        [key: string]: IPageData;
+    };
 }
 
 export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
