@@ -10,9 +10,8 @@
   "dependencies": {
     "glob": "^7.1.1",
     "js-yaml": "^3.7.0",
+    "kss": "3.0.0-beta.15",
     "marked": "^0.3.6",
-    "postcss": "^5.2.13",
-    "postcss-scss": "^0.4.1",
     "ts-quick-docs": "^0.5.3",
     "yargs": "^6.6.0"
   },
