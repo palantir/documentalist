@@ -50,7 +50,7 @@ export interface IApi<T> {
      *
      * @see documentFiles
      */
-    documentGlobs: (...filesGlobs: string[]) => T;
+    documentGlobs: (...filesGlobs: string[]) => Promise<T>;
 
     /**
      * Iterates over all plugins, passing all matching files to each in turn.
@@ -60,7 +60,7 @@ export interface IApi<T> {
      * The return type T is a composite type has a composite type of all the
      * plugin data types.
      */
-    documentFiles: (files: IFile[]) => T;
+    documentFiles: (files: IFile[]) => Promise<T>;
 
     /**
      * Render a block of content by extracting metadata (YAML front matter) and
@@ -140,24 +140,23 @@ export class Documentalist<T> implements IApi<T> {
             pattern = new RegExp(`${pattern}$`);
         }
 
-        const newPlugins = this.plugins.slice();
-        newPlugins.push({ pattern, plugin } as IPluginEntry<T & P>);
-        return new Documentalist(newPlugins as IPluginEntry<T & P>[], this.markedOptions);
+        const newPlugins = [...this.plugins, { pattern, plugin } as IPluginEntry<T & P>];
+        return new Documentalist(newPlugins, this.markedOptions);
     }
 
     public clearPlugins(): IApi<void> {
-        return new Documentalist<{}>([], this.markedOptions);
+        return new Documentalist<void>([], this.markedOptions);
     }
 
-    public documentGlobs(...filesGlobs: string[]) {
+    public async documentGlobs(...filesGlobs: string[]) {
         const files = this.expandGlobs(filesGlobs);
         return this.documentFiles(files);
     }
 
-    public documentFiles(files: IFile[]) {
+    public async documentFiles(files: IFile[]) {
         const documentation = {} as T;
         for (const { pattern, plugin } of this.plugins) {
-            const pluginDocumentation = plugin.compile(this, files.filter((f) => pattern.test(f.path)));
+            const pluginDocumentation = await plugin.compile(this, files.filter((f) => pattern.test(f.path)));
             for (const key in pluginDocumentation) {
                 if (pluginDocumentation.hasOwnProperty(key)) {
                     if (documentation.hasOwnProperty(key)) {

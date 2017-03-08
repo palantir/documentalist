@@ -13,5 +13,5 @@ export interface IFile {
 }
 
 export interface IPlugin<T> {
-    compile: (doc: Documentalist<T>, files: IFile[]) => T;
+    compile: (doc: Documentalist<T>, files: IFile[]) => T | Promise<T>;
 }

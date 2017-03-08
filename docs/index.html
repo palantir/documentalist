@@ -27,13 +27,16 @@
     <h3>Interfaces</h3><a href="#IApi">
       <div class="nav-item">IApi</div></a><a href="#IBlock">
       <div class="nav-item">IBlock</div></a><a href="#ICss">
+      <div class="nav-item">ICss</div></a><a href="#ICss">
       <div class="nav-item">ICss</div></a><a href="#ICssPluginData">
       <div class="nav-item">ICssPluginData</div></a><a href="#IDeclaration">
+      <div class="nav-item">IDeclaration</div></a><a href="#IDeclaration">
       <div class="nav-item">IDeclaration</div></a><a href="#IDocEntry">
       <div class="nav-item">IDocEntry</div></a><a href="#IFile">
       <div class="nav-item">IFile</div></a><a href="#IHeadingNode">
       <div class="nav-item">IHeadingNode</div></a><a href="#IInterfaceEntry">
-      <div class="nav-item">IInterfaceEntry</div></a><a href="#IMarkdownPluginData">
+      <div class="nav-item">IInterfaceEntry</div></a><a href="#IKssPluginData">
+      <div class="nav-item">IKssPluginData</div></a><a href="#IMarkdownPluginData">
       <div class="nav-item">IMarkdownPluginData</div></a><a href="#IMetadata">
       <div class="nav-item">IMetadata</div></a><a href="#IPageData">
       <div class="nav-item">IPageData</div></a><a href="#IPageNode">
@@ -41,6 +44,7 @@
       <div class="nav-item">IPlugin</div></a><a href="#IPluginEntry">
       <div class="nav-item">IPluginEntry</div></a><a href="#IPropertyEntry">
       <div class="nav-item">IPropertyEntry</div></a><a href="#IRule">
+      <div class="nav-item">IRule</div></a><a href="#IRule">
       <div class="nav-item">IRule</div></a><a href="#ITag">
       <div class="nav-item">ITag</div></a><a href="#ITreeEntry">
       <div class="nav-item">ITreeEntry</div></a><a href="#ITypescriptPluginData">
@@ -87,7 +91,7 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
             <tr>
               <td class="prop-name" valign="top">documentFiles</td>
               <td class="prop-type" valign="top">
-                <pre>(files: IFile[]) =&gt; T</pre><p>Iterates over all plugins, passing all matching files to each in turn.
+                <pre>(files: IFile[]) =&gt; any</pre><p>Iterates over all plugins, passing all matching files to each in turn.
 The output of each plugin is merged to produce the resulting
 documentation object.</p>
 <p>The return type T is a composite type has a composite type of all the
@@ -98,7 +102,7 @@ plugin data types.</p>
             <tr>
               <td class="prop-name" valign="top">documentGlobs</td>
               <td class="prop-type" valign="top">
-                <pre>(...filesGlobs: string[]) =&gt; T</pre><p>Finds all files matching the provided variadic glob expressions and then
+                <pre>(...filesGlobs: string[]) =&gt; any</pre><p>Finds all files matching the provided variadic glob expressions and then
 runs <code>documentFiles</code> with them, emitting all the documentation data.</p>
 
               </td>
@@ -148,7 +152,7 @@ supplied pattern.</p>
             <tr>
               <td class="prop-name" valign="top">documentFiles</td>
               <td class="prop-type" valign="top">
-                <pre>(files: IFile[]) =&gt; T</pre><p>Iterates over all plugins, passing all matching files to each in turn.
+                <pre>(files: IFile[]) =&gt; any</pre><p>Iterates over all plugins, passing all matching files to each in turn.
 The output of each plugin is merged to produce the resulting
 documentation object.</p>
 <p>The return type T is a composite type has a composite type of all the
@@ -159,7 +163,7 @@ plugin data types.</p>
             <tr>
               <td class="prop-name" valign="top">documentGlobs</td>
               <td class="prop-type" valign="top">
-                <pre>(...filesGlobs: string[]) =&gt; T</pre><p>Finds all files matching the provided variadic glob expressions and then
+                <pre>(...filesGlobs: string[]) =&gt; any</pre><p>Finds all files matching the provided variadic glob expressions and then
 runs <code>documentFiles</code> with them, emitting all the documentation data.</p>
 
               </td>
@@ -245,6 +249,27 @@ metadata, rendered markdown, and tags.</p>
         </div>
       </div>
   </div>
+  <div class="hidden" data-route="ICss">
+    <h2>ICss</h2>
+      <div class="interface-block" id="ICss">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">filePath</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">rules</td>
+              <td class="prop-type" valign="top">
+                <pre>IRule[]</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
   <div class="hidden" data-route="ICssPluginData">
     <h2>ICssPluginData</h2>
       <div class="interface-block" id="ICssPluginData">
@@ -254,6 +279,27 @@ metadata, rendered markdown, and tags.</p>
               <td class="prop-name" valign="top">css</td>
               <td class="prop-type" valign="top">
                 <pre>ICss[]</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IDeclaration">
+    <h2>IDeclaration</h2>
+      <div class="interface-block" id="IDeclaration">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">prop</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">value</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
               </td>
             </tr>
           </table>
@@ -366,6 +412,21 @@ metadata, rendered markdown, and tags.</p>
               <td class="prop-name" valign="top">properties</td>
               <td class="prop-type" valign="top">
                 <pre>IPropertyEntry[]</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IKssPluginData">
+    <h2>IKssPluginData</h2>
+      <div class="interface-block" id="IKssPluginData">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">css</td>
+              <td class="prop-type" valign="top">
+                <pre>ICss[]</pre>
               </td>
             </tr>
           </table>
@@ -495,7 +556,7 @@ actual contents of file...
             <tr>
               <td class="prop-name" valign="top">compile</td>
               <td class="prop-type" valign="top">
-                <pre>(doc: Documentalist&lt;T&gt;, files: IFile[]) =&gt; T</pre>
+                <pre>(doc: Documentalist&lt;T&gt;, files: IFile[]) =&gt; any</pre>
               </td>
             </tr>
           </table>
@@ -533,6 +594,45 @@ actual contents of file...
               <td class="prop-name" valign="top">optional</td>
               <td class="prop-type" valign="top">
                 <pre>boolean</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IRule">
+    <h2>IRule</h2>
+      <div class="interface-block" id="IRule">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">comment</td>
+              <td class="prop-type" valign="top">
+                <pre>StringOrTag[]</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">commentRaw</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">declarations</td>
+              <td class="prop-type" valign="top">
+                <pre>IDeclaration[]</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">metadata</td>
+              <td class="prop-type" valign="top">
+                <pre>any</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">selector</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
               </td>
             </tr>
           </table>
