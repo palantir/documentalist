@@ -9,6 +9,9 @@ import { StringOrTag } from "../client";
 
 export { StringOrTag };
 
+/**
+ * Abstract representation of a file, containing absolute path and synchronous `read` operation.
+ */
 export interface IFile {
     path: string;
     read: () => string;
@@ -35,6 +38,9 @@ export interface IBlock {
     renderedContent: StringOrTag[];
 }
 
+/**
+ * Each plugin receives a `Compiler` instance to aid in the processing of source files.
+ */
 export interface ICompiler {
     /**
      * Converts an array of entries into a map of key to entry, using given
