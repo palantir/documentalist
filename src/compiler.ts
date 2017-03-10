@@ -43,6 +43,8 @@ export class Compiler implements ICompiler {
         return { content, metadata, renderedContent };
     }
 
+    public renderMarkdown = (markdown: string) => marked(markdown, this.markedOptions);
+
     /**
      * Converts the content string into an array of `ContentNode`s. If the
      * `contents` option is `html`, the string nodes will also be rendered with
@@ -51,7 +53,7 @@ export class Compiler implements ICompiler {
     private renderContents(content: string, reservedTagWords: string[]) {
         const splitContents = this.parseTags(content, reservedTagWords);
         return splitContents
-            .map((node) => typeof node === "string" ? marked(node, this.markedOptions) : node)
+            .map((node) => typeof node === "string" ? this.renderMarkdown(node) : node)
             .filter((node) => node !== "");
     }
 

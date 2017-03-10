@@ -58,6 +58,11 @@ export interface ICompiler {
      * is.
      */
     renderBlock: (blockContent: string, reservedTagWords?: string[]) => IBlock;
+
+    /**
+     * Render a string of markdown to HTML, using the options from `Documentalist`.
+     */
+    renderMarkdown: (markdown: string) => string;
 }
 
 export interface IPlugin<T> {
