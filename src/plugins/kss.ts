@@ -49,7 +49,7 @@ export class KssPlugin implements IPlugin<IKssPluginData> {
 
     public compile(cssFiles: IFile[], dm: ICompiler) {
         const styleguide = this.parseFiles(cssFiles);
-        const sections = styleguide.sections().map(convertSection, dm);
+        const sections = styleguide.sections().map((s) => convertSection(s, dm));
         const css = dm.objectify(sections, (s) => s.reference);
         return { css };
     }
@@ -65,19 +65,19 @@ export class KssPlugin implements IPlugin<IKssPluginData> {
     }
 }
 
-function convertSection(this: ICompiler, section: kss.ISection): IKssExample {
+function convertSection(section: kss.ISection, dm: ICompiler): IKssExample {
     return {
-        documentation: this.renderMarkdown(section.description()),
+        documentation: dm.renderMarkdown(section.description()),
         markup: section.markup() || "",
-        markupHtml: this.renderMarkdown(`\`\`\`html\n${section.markup() || ""}\n\`\`\``),
-        modifiers: section.modifiers().map(convertModifier, this),
+        markupHtml: dm.renderMarkdown(`\`\`\`html\n${section.markup() || ""}\n\`\`\``),
+        modifiers: section.modifiers().map((mod) => convertModifier(mod, dm)),
         reference: section.reference(),
     };
 }
 
-function convertModifier(this: ICompiler, mod: kss.IModifier): IKssModifier {
+function convertModifier(mod: kss.IModifier, dm: ICompiler): IKssModifier {
     return {
-        documentation: this.renderMarkdown(mod.description()),
+        documentation: dm.renderMarkdown(mod.description()),
         name: mod.name(),
     };
 }
