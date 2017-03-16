@@ -5,26 +5,64 @@
  * repository.
  */
 
-import { IPageData, StringOrTag } from "../client";
+import { IHeadingNode, IPageData, IPageNode, isPageNode, isTag, slugify, StringOrTag } from "../client";
 import { PageMap } from "../page";
 import { ICompiler, IFile, IPlugin } from "./plugin";
 
 export interface IMarkdownPluginData {
+    /**
+     * An ordered, nested, multi-rooted tree describing the navigation layout
+     * of all the pages and their headings. Uses `@page` and `@#+` tags to build
+     * this representation.
+     */
+    nav: IPageNode[];
+
+    /** A map of page reference to data. */
     pages: {
-        [key: string]: IPageData;
+        [reference: string]: IPageData;
     };
 }
 
+export interface IMarkdownPluginOptions {
+    /**
+     * Separator used to join page and heading slugs.
+     * @default "."
+     */
+    headingSeparator: string;
+    /**
+     * Page reference that lists the nav roots.
+     * @default
+     */
+    navPage: string;
+    /**
+     * Separator used to join nested page slugs.
+     * @default "/"
+     */
+    pageSeparator: string;
+}
+
 export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
+    private options: IMarkdownPluginOptions;
+
+    public constructor(options: Partial<IMarkdownPluginOptions>) {
+        this.options = {
+            headingSeparator: ".",
+            navPage: "_nav",
+            pageSeparator: "/",
+            ...options,
+        };
+    }
+
     /**
      * Reads the given set of markdown files and adds their data to the internal storage.
      * Returns a plain object mapping page references to their data.
      */
     public compile(markdownFiles: IFile[], compiler: ICompiler) {
         const pageStore = this.buildPageMap(markdownFiles, compiler);
-        return {
-            pages: pageStore.toObject(),
-        };
+        // nav must be generated before pages because it rewrites references
+        const nav = this.buildNavTree(pageStore);
+        const pages = pageStore.toObject();
+        return { nav, pages };
     }
 
     private buildPageMap(markdownFiles: IFile[], { renderBlock }: ICompiler) {
@@ -57,4 +95,66 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
             });
         return pageStore;
     }
+
+    private buildNavTree(pages: PageMap) {
+        // navPage is used to construct the sidebar menu
+        const roots = createNavigableTree(pages, pages.get(this.options.navPage)).children as IPageNode[];
+        // nav page is not a real docs page so we can remove it from output
+        pages.remove(this.options.navPage);
+        roots.forEach((page) => {
+            if (isPageNode(page)) {
+                page.children.forEach((child) => this.nestChildPage(pages, child, page));
+            }
+        });
+
+        return roots;
+    }
+
+    private nestChildPage(pages: PageMap, child: IPageNode | IHeadingNode, parent: IPageNode) {
+        const originalRef = child.reference;
+
+        // update entry reference to include parent reference
+        const separator = isPageNode(child) ? this.options.pageSeparator : this.options.headingSeparator;
+        const nestedRef = [parent.reference, slugify(originalRef)].join(separator);
+        child.reference = nestedRef;
+
+        if (isPageNode(child)) {
+            // rename nested pages to be <parent>.<child> and remove old <child> entry
+            const page = pages.remove(originalRef);
+            page.reference = nestedRef;
+            pages.set(nestedRef, page);
+            // recurse through page children
+            child.children.forEach((innerchild) => this.nestChildPage(pages, innerchild, child));
+        }
+    }
+}
+
+function createNavigableTree(pages: PageMap, page: IPageData, depth = 0) {
+    const pageNode: IPageNode = initPageNode(page, depth);
+    if (page.contents != null) {
+        page.contents.forEach((node: StringOrTag, i: number) => {
+            if (isTag(node)) {
+                if (node.tag === "page") {
+                    const subpage = pages.get(node.value);
+                    // if (subpage === undefined) {
+                    //     throw new Error(`Unknown @page '${node.value}' referenced in '${page.reference}'`);
+                    // }
+                    pageNode.children.push(createNavigableTree(pages, subpage, depth + 1));
+                }
+                if (i !== 0 && node.tag.match(/^#+$/)) {
+                    // use heading strength - 1 cuz h1 is the title
+                    pageNode.children.push(initHeadingNode(node.value, depth + node.tag.length - 1));
+                }
+            }
+        });
+    }
+    return pageNode;
+}
+
+function initPageNode({ reference, title }: IPageData, depth: number): IPageNode {
+    return { children: [], depth, reference, title };
+}
+
+function initHeadingNode(title: string, depth: number): IHeadingNode {
+    return { depth, reference: slugify(title), title };
 }
