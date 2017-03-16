@@ -20,7 +20,14 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
      * Reads the given set of markdown files and adds their data to the internal storage.
      * Returns a plain object mapping page references to their data.
      */
-    public compile(markdownFiles: IFile[], { renderBlock }: ICompiler) {
+    public compile(markdownFiles: IFile[], compiler: ICompiler) {
+        const pageStore = this.buildPageMap(markdownFiles, compiler);
+        return {
+            pages: pageStore.toObject(),
+        };
+    }
+
+    private buildPageMap(markdownFiles: IFile[], { renderBlock }: ICompiler) {
         const pageStore: PageMap = new PageMap();
         markdownFiles
             .map((file) => {
@@ -48,7 +55,6 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
                 }, [] as StringOrTag[]);
                 return page;
             });
-        const pages = pageStore.toObject();
-        return { pages };
+        return pageStore;
     }
 }
