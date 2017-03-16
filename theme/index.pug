@@ -21,8 +21,9 @@ html
   link(rel='stylesheet', href='assets/index.css')
 body
   #nav
-    a(href="#")
-      h3 Documentalist
+    each item in nav
+      a(href="#" + item.reference)
+        h3= item.title
 
     h3 Interfaces
     each ifaceName in toc
@@ -57,7 +58,7 @@ body
 
 
   .hidden(data-route="")
-    for block in docs.docs.contents
+    for block in pages.docs.contents
       if typeof block === "string"
         | !{block}
       else if block.tag === "interface"

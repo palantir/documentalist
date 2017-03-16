@@ -1,3 +1,7 @@
+---
+title: Documentalist
+---
+
 ## Documentalist
 
 **Documentalist** is a library for parsing documentation from **CSS**,
