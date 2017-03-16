@@ -24,30 +24,28 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
         const pageStore: PageMap = new PageMap();
         markdownFiles
             .map((file) => {
-                const absolutePath = file.path;
-                const fileContents = file.read();
-                const { content, metadata, renderedContent } = renderBlock(fileContents);
+                const { content, metadata, renderedContent } = renderBlock(file.read());
                 return pageStore.add({
-                    absolutePath,
+                    absolutePath: file.path,
                     contentRaw: content,
                     contents: renderedContent,
                     metadata,
                 });
             })
             .map((page) => {
-                if (page.contents) {
-                    const newContent = page.contents.reduce((array, content) => {
-                        if (typeof content === "string" || content.tag !== "include") {
-                            return array.concat(content);
-                        }
-                        const pageToInclude = pageStore.get(content.value as string);
-                        if (pageToInclude === undefined) {
-                            throw new Error(`Unknown @include reference '${content.value}' in '${page.reference}'`);
-                        }
-                        return array.concat(pageToInclude.contents!);
-                    }, [] as StringOrTag[]);
-                    page.contents = newContent;
-                }
+                // using `reduce` so we can add one or many entries for each node
+                page.contents = page.contents.reduce((array, content) => {
+                    if (typeof content === "string" || content.tag !== "include") {
+                        return array.concat(content);
+                    }
+                    // inline @include page
+                    try {
+                        const pageToInclude = pageStore.remove(content.value);
+                        return array.concat(pageToInclude.contents);
+                    } catch (ex) {
+                        throw new Error(`Unknown @include reference '${content.value}' in '${page.reference}'`);
+                    }
+                }, [] as StringOrTag[]);
                 return page;
             });
         const pages = pageStore.toObject();

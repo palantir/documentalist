@@ -39,14 +39,7 @@ function getTitle(data: PartialPageData) {
 export class PageMap {
     private pages: Map<string, IPageData> = new Map();
 
-    public get(id: string) {
-        if (this.pages.has(id)) {
-            return this.pages.get(id)!;
-        } else {
-            throw new Error(`Unknown page: ${id}`);
-        }
-    }
-
+    /** Adds a new page to the map. Generates title and reference from partial data. */
     public add(data: PartialPageData) {
         const page = makePage(data);
         if (this.pages.has(page.reference)) {
@@ -57,14 +50,29 @@ export class PageMap {
         return page;
     }
 
-    public update(id: string, data: Partial<IPageData>) {
-        if (!this.pages.has(id)) {
+    /** Returns the page with the given ID, or throws an error if not found. */
+    public get(id: string) {
+        if (this.pages.has(id)) {
+            return this.pages.get(id)!;
+        } else {
             throw new Error(`Unknown page: ${id}`);
         }
-        const page = this.pages.get(id)!;
+    }
+
+    /** Removes the page with the given ID and returns it, or throws an error if not found. */
+    public remove(id: string) {
+        const page = this.get(id);
+        this.pages.delete(id);
+        return page;
+    }
+
+    /** Merges the given data into the page with the given ID, or throws an error if not found. */
+    public update(id: string, data: Partial<IPageData>) {
+        const page = this.get(id);
         this.pages.set(id, { ...page, ...data });
     }
 
+    /** Returns a JS object mapping page IDs to data. */
     public toObject() {
         const object: { [key: string]: IPageData } = {};
         for (const [key, val] of this.pages.entries()) {
