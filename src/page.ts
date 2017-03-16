@@ -19,7 +19,7 @@ export class PageMap {
      */
     public add(data: PartialPageData) {
         const page = makePage(data);
-        this.put(page.reference, page);
+        this.set(page.reference, page);
         return page;
     }
 

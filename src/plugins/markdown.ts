@@ -44,7 +44,7 @@ export interface IMarkdownPluginOptions {
 export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
     private options: IMarkdownPluginOptions;
 
-    public constructor(options: Partial<IMarkdownPluginOptions>) {
+    public constructor(options: Partial<IMarkdownPluginOptions> = {}) {
         this.options = {
             headingSeparator: ".",
             navPage: "_nav",
