@@ -95,39 +95,5 @@ export function isPageNode(node: any): node is IPageNode {
 
 /** Slugify a string: "Really Cool Heading!" => "really-cool-heading-" */
 export function slugify(str: string) {
-    return str.toLowerCase().replace(/[^\w.]/g, "-");
-}
-
-function initPageNode({ reference, title }: IPageData, depth: number): IPageNode {
-    return { children: [], depth, reference, title };
-}
-
-function initHeadingNode(title: string, depth: number): IHeadingNode {
-    return { depth, reference: slugify(title), title };
-}
-
-/**
- * Organizes the pages into a tree structure by traversing
- * their contents for `@#+` and `@page` tags.
- */
-export function createNavigableTree(pages: { [key: string]: IPageData }, page: IPageData, depth = 0) {
-    const pageNode: IPageNode = initPageNode(page, depth);
-    if (page.contents != null) {
-        page.contents.forEach((node: StringOrTag, i: number) => {
-            if (isTag(node)) {
-                if (node.tag === "page") {
-                    const subpage = pages[node.value as string];
-                    if (subpage === undefined) {
-                        throw new Error(`Unknown @page '${node.value}' referenced in '${page.reference}'`);
-                    }
-                    pageNode.children.push(createNavigableTree(pages, subpage, depth + 1));
-                }
-                if (i !== 0 && node.tag.match(/^#+$/)) {
-                    // use heading strength - 1 cuz h1 is the title
-                    pageNode.children.push(initHeadingNode(node.value, depth + node.tag.length - 1));
-                }
-            }
-        });
-    }
-    return pageNode;
+    return str.toLowerCase().replace(/[^\w.\/]/g, "-");
 }
