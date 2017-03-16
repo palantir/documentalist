@@ -35,3 +35,41 @@ function getTitle(data: PartialPageData) {
 
     return "(untitled)";
 }
+
+export class PageMap {
+    private pages: Map<string, IPageData> = new Map();
+
+    public get(id: string) {
+        if (this.pages.has(id)) {
+            return this.pages.get(id)!;
+        } else {
+            throw new Error(`Unknown page: ${id}`);
+        }
+    }
+
+    public add(data: PartialPageData) {
+        const page = makePage(data);
+        if (this.pages.has(page.reference)) {
+            console.warn(`Found duplicate page "${page.reference}"; overwriting previous data.`);
+            console.warn("Rename headings or use metadata `reference` key to disambiguate.");
+        }
+        this.pages.set(page.reference, page);
+        return page;
+    }
+
+    public update(id: string, data: Partial<IPageData>) {
+        if (!this.pages.has(id)) {
+            throw new Error(`Unknown page: ${id}`);
+        }
+        const page = this.pages.get(id)!;
+        this.pages.set(id, { ...page, ...data });
+    }
+
+    public toObject() {
+        const object: { [key: string]: IPageData } = {};
+        for (const [key, val] of this.pages.entries()) {
+            object[key] = val;
+        }
+        return object;
+    }
+}

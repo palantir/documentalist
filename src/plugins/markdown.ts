@@ -6,11 +6,11 @@
  */
 
 import { IPageData, StringOrTag } from "../client";
-import { makePage } from "../page";
+import { PageMap } from "../page";
 import { ICompiler, IFile, IPlugin } from "./plugin";
 
 export interface IMarkdownPluginData {
-    docs: {
+    pages: {
         [key: string]: IPageData;
     };
 }
@@ -21,25 +21,18 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
      * Returns a plain object mapping page references to their data.
      */
     public compile(markdownFiles: IFile[], { renderBlock }: ICompiler) {
-        const pageStore: Map<string, IPageData> = new Map();
+        const pageStore: PageMap = new PageMap();
         markdownFiles
             .map((file) => {
                 const absolutePath = file.path;
                 const fileContents = file.read();
                 const { content, metadata, renderedContent } = renderBlock(fileContents);
-                const page = makePage({
+                return pageStore.add({
                     absolutePath,
                     contentRaw: content,
                     contents: renderedContent,
                     metadata,
                 });
-                const ref = page.reference;
-                if (pageStore.has(ref)) {
-                    console.warn(`Found duplicate reference "${ref}"; overwriting previous data.`);
-                    console.warn("Rename headings or use metadata `reference` key to disambiguate.");
-                }
-                pageStore.set(ref, page);
-                return page;
             })
             .map((page) => {
                 if (page.contents) {
@@ -57,15 +50,7 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
                 }
                 return page;
             });
-        const docs = mapToObject(pageStore);
-        return { docs };
+        const pages = pageStore.toObject();
+        return { pages };
     }
-}
-
-function mapToObject<T>(map: Map<string, T>): { [key: string]: T } {
-    const object: { [key: string]: T } = {};
-    for (const [key, val] of map.entries()) {
-        object[key] = val;
-    }
-    return object;
 }
