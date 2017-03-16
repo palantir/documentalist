@@ -13,14 +13,13 @@ export type PartialPageData = Pick<IPageData, "absolutePath" | "contentRaw" | "c
 export class PageMap {
     private pages: Map<string, IPageData> = new Map();
 
-    /** Adds a new page to the map. Generates title and reference from partial data. */
+    /**
+     * Adds a new page to the map. Generates title and reference from partial data.
+     * Use this for ingesting rendered blocks.
+     */
     public add(data: PartialPageData) {
         const page = makePage(data);
-        if (this.pages.has(page.reference)) {
-            console.warn(`Found duplicate page "${page.reference}"; overwriting previous data.`);
-            console.warn("Rename headings or use metadata `reference` key to disambiguate.");
-        }
-        this.pages.set(page.reference, page);
+        this.put(page.reference, page);
         return page;
     }
 
@@ -40,10 +39,16 @@ export class PageMap {
         return page;
     }
 
-    /** Merges the given data into the page with the given ID, or throws an error if not found. */
-    public update(id: string, data: Partial<IPageData>) {
-        const page = this.get(id);
-        this.pages.set(id, { ...page, ...data });
+    /**
+     * Sets the page data at the given ID, when you already have a full page object.
+     * Warns if a page with this ID already exists.
+     */
+    public set(id: string, page: IPageData) {
+        if (this.pages.has(id)) {
+            console.warn(`Found duplicate page "${id}"; overwriting previous data.`);
+            console.warn("Rename headings or use metadata `reference` key to disambiguate.");
+        }
+        this.pages.set(id, page);
     }
 
     /** Returns a JS object mapping page IDs to data. */
