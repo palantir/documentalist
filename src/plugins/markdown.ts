@@ -84,12 +84,11 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
                         return array.concat(content);
                     }
                     // inline @include page
-                    try {
-                        const pageToInclude = pageStore.remove(content.value);
-                        return array.concat(pageToInclude.contents);
-                    } catch (ex) {
+                    const pageToInclude = pageStore.get(content.value);
+                    if (pageToInclude === undefined) {
                         throw new Error(`Unknown @include reference '${content.value}' in '${page.reference}'`);
                     }
+                    return array.concat(pageToInclude.contents);
                 }, [] as StringOrTag[]);
                 return page;
             });
@@ -98,7 +97,13 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
 
     private buildNavTree(pages: PageMap) {
         // navPage is used to construct the sidebar menu
-        const roots = createNavigableTree(pages, pages.get(this.options.navPage)).children as IPageNode[];
+        const navRoot = pages.get(this.options.navPage);
+        if (navRoot === undefined) {
+            console.warn(`navPage '${this.options.navPage}' not found, returning empty array.`);
+            return [];
+        }
+
+        const roots = createNavigableTree(pages, navRoot).children as IPageNode[];
         // nav page is not a real docs page so we can remove it from output
         pages.remove(this.options.navPage);
         roots.forEach((page) => {
@@ -119,10 +124,10 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
         child.reference = nestedRef;
 
         if (isPageNode(child)) {
-            // rename nested pages to be <parent>.<child> and remove old <child> entry
-            const page = pages.remove(originalRef);
-            page.reference = nestedRef;
-            pages.set(nestedRef, page);
+            // rename nested pages to be <parent>.<child> and remove old <child> entry.
+            // (we know this ref exists because isPageNode(child) and originalRef = child.reference)
+            const page = pages.remove(originalRef)!;
+            pages.set(nestedRef, { ...page, reference: nestedRef });
             // recurse through page children
             child.children.forEach((innerchild) => this.nestChildPage(pages, innerchild, child));
         }
@@ -136,9 +141,9 @@ function createNavigableTree(pages: PageMap, page: IPageData, depth = 0) {
             if (isTag(node)) {
                 if (node.tag === "page") {
                     const subpage = pages.get(node.value);
-                    // if (subpage === undefined) {
-                    //     throw new Error(`Unknown @page '${node.value}' referenced in '${page.reference}'`);
-                    // }
+                    if (subpage === undefined) {
+                        throw new Error(`Unknown @page '${node.value}' referenced in '${page.reference}'`);
+                    }
                     pageNode.children.push(createNavigableTree(pages, subpage, depth + 1));
                 }
                 if (i !== 0 && node.tag.match(/^#+$/)) {

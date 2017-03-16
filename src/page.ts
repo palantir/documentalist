@@ -23,19 +23,17 @@ export class PageMap {
         return page;
     }
 
-    /** Returns the page with the given ID, or throws an error if not found. */
+    /** Returns the page with the given ID or `undefined` if not found. */
     public get(id: string) {
-        if (this.pages.has(id)) {
-            return this.pages.get(id)!;
-        } else {
-            throw new Error(`Unknown page: ${id}`);
-        }
+        return this.pages.get(id);
     }
 
-    /** Removes the page with the given ID and returns it, or throws an error if not found. */
+    /** Removes the page with the given ID and returns it or `undefined` if not found. */
     public remove(id: string) {
         const page = this.get(id);
-        this.pages.delete(id);
+        if (page !== undefined) {
+            this.pages.delete(id);
+        }
         return page;
     }
 
