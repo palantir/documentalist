@@ -53,10 +53,6 @@ export class PageMap {
         this.pages.set(id, page);
     }
 
-    public forEach(iterator: (page: IPageData, id: string) => void) {
-        this.pages.forEach(iterator);
-    }
-
     /** Returns a JS object mapping page IDs to data. */
     public toObject() {
         const object: { [key: string]: IPageData } = {};
@@ -66,38 +62,24 @@ export class PageMap {
         return object;
     }
 
-    public toTree() {
-        const itemsById = new Map<string, IPageNode>();
-        // create sparse map of node for each page with empty children
-        this.forEach((page) => itemsById.set(page.reference, initPageNode(page)));
-        // fill out children and set parent references on each child
-        // by traversing contents looking for @page or @#+
-        this.forEach((page) => {
-            const pageNode = itemsById.get(page.reference)!;
-            page.contents.forEach((node, i) => {
-                if (isTag(node)) {
-                    if (node.tag === "page") {
-                        const subpage = itemsById.get(node.value);
-                        if (subpage === undefined) {
-                            throw new Error(`Unknown @page '${node.value}' referenced in '${page.reference}'`);
-                        }
-                        subpage.parentReference = page.reference;
-                        subpage.depth = pageNode.depth + 1;
-                        pageNode.children.push(subpage);
-                    } else if (i > 0 && node.tag.match(/^#+$/)) {
-                        pageNode.children.push(initHeadingNode(node.value, pageNode.depth + node.tag.length));
-                    }
+    public toTree(id: string, depth = 0): IPageNode {
+        const page = this.get(id);
+        if (page === undefined) {
+            throw new Error(`Unknown @page '${id}' in toTree()`);
+        }
+        const pageNode = initPageNode(page, depth);
+        page.contents.forEach((node, i) => {
+            // we only care about @page and @#+ tag nodes
+            if (isTag(node)) {
+                if (node.tag === "page") {
+                    pageNode.children.push(this.toTree(node.value, depth + 1));
+                } else if (i > 0 && node.tag.match(/^#+$/)) {
+                    // use heading strength - 1 cuz h1 is the title
+                    pageNode.children.push(initHeadingNode(node.value, pageNode.depth + node.tag.length - 1));
                 }
-            });
-        });
-        // return array of roots -- nodes with undefined parent
-        const roots: IPageNode[] = [];
-        itemsById.forEach((node) => {
-            if (node.parentReference === undefined) {
-                roots.push(node);
             }
         });
-        return roots;
+        return pageNode;
     }
 }
 
