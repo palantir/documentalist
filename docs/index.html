@@ -26,28 +26,24 @@
       <h3>Documentalist</h3></a>
     <h3>Interfaces</h3><a href="#IApi">
       <div class="nav-item">IApi</div></a><a href="#IBlock">
-      <div class="nav-item">IBlock</div></a><a href="#ICss">
-      <div class="nav-item">ICss</div></a><a href="#ICssPluginData">
-      <div class="nav-item">ICssPluginData</div></a><a href="#IDeclaration">
-      <div class="nav-item">IDeclaration</div></a><a href="#IDocEntry">
-      <div class="nav-item">IDocEntry</div></a><a href="#IFile">
+      <div class="nav-item">IBlock</div></a><a href="#ICompiler">
+      <div class="nav-item">ICompiler</div></a><a href="#IFile">
       <div class="nav-item">IFile</div></a><a href="#IHeadingNode">
-      <div class="nav-item">IHeadingNode</div></a><a href="#IInterfaceEntry">
-      <div class="nav-item">IInterfaceEntry</div></a><a href="#IKssEntry">
-      <div class="nav-item">IKssEntry</div></a><a href="#IKssExample">
-      <div class="nav-item">IKssExample</div></a><a href="#IKssPluginData">
+      <div class="nav-item">IHeadingNode</div></a><a href="#IKssExample">
+      <div class="nav-item">IKssExample</div></a><a href="#IKssModifier">
+      <div class="nav-item">IKssModifier</div></a><a href="#IKssPluginData">
       <div class="nav-item">IKssPluginData</div></a><a href="#IMarkdownPluginData">
       <div class="nav-item">IMarkdownPluginData</div></a><a href="#IMetadata">
       <div class="nav-item">IMetadata</div></a><a href="#IPageData">
-      <div class="nav-item">IPageData</div></a><a href="#IPageMap">
-      <div class="nav-item">IPageMap</div></a><a href="#IPageNode">
+      <div class="nav-item">IPageData</div></a><a href="#IPageNode">
       <div class="nav-item">IPageNode</div></a><a href="#IPlugin">
       <div class="nav-item">IPlugin</div></a><a href="#IPluginEntry">
-      <div class="nav-item">IPluginEntry</div></a><a href="#IPropertyEntry">
-      <div class="nav-item">IPropertyEntry</div></a><a href="#IRule">
-      <div class="nav-item">IRule</div></a><a href="#ITag">
+      <div class="nav-item">IPluginEntry</div></a><a href="#ITag">
       <div class="nav-item">ITag</div></a><a href="#ITreeEntry">
-      <div class="nav-item">ITreeEntry</div></a><a href="#ITypescriptPluginData">
+      <div class="nav-item">ITreeEntry</div></a><a href="#ITsDocEntry">
+      <div class="nav-item">ITsDocEntry</div></a><a href="#ITsInterfaceEntry">
+      <div class="nav-item">ITsInterfaceEntry</div></a><a href="#ITsPropertyEntry">
+      <div class="nav-item">ITsPropertyEntry</div></a><a href="#ITypescriptPluginData">
       <div class="nav-item">ITypescriptPluginData</div></a>
     <div class="copyright">&copy; Copyright 2017-present Palantir</div>
   </div>
@@ -104,18 +100,6 @@ plugin data types.</p>
               <td class="prop-type" valign="top">
                 <pre>(...filesGlobs: string[]) =&gt; any</pre><p>Finds all files matching the provided variadic glob expressions and then
 runs <code>documentFiles</code> with them, emitting all the documentation data.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">renderBlock</td>
-              <td class="prop-type" valign="top">
-                <pre>(blockContent: string, reservedTagWords?: string[]) =&gt; IBlock</pre><p>Render a block of content by extracting metadata (YAML front matter) and
-splitting text content into markdown-rendered HTML strings and <code>{ tag,
-value }</code> objects.</p>
-<p>To prevent special strings like &quot;@include&quot; from being parsed, a reserved
-tag words array may be provided, in which case the line will be left as
-is.</p>
 
               </td>
             </tr>
@@ -303,7 +287,8 @@ actual contents of file...
   </div>
   <div class="hidden" data-route="IFile">
     <h2>IFile</h2>
-      <div class="interface-block" id="IFile">
+      <div class="interface-block" id="IFile"><p>Abstract representation of a file, containing absolute path and synchronous <code>read</code> operation.</p>
+
         <div class="interface-properties">
           <table>
             <tr>
@@ -322,6 +307,75 @@ actual contents of file...
         </div>
       </div>
   </div>
+  <div class="hidden" data-route="IBlock">
+    <h2>IBlock</h2>
+      <div class="interface-block" id="IBlock"><p>The output of <code>renderBlock</code> which parses a long form documentation block into
+metadata, rendered markdown, and tags.</p>
+
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">content</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre><p>The original string content block.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">metadata</td>
+              <td class="prop-type" valign="top">
+                <pre>any</pre><p>Parsed YAML front matter (if any) or {}.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">renderedContent</td>
+              <td class="prop-type" valign="top">
+                <pre>StringOrTag[]</pre><p>An array of markdown-rendered HTML or tags.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="ICompiler">
+    <h2>ICompiler</h2>
+      <div class="interface-block" id="ICompiler"><p>Each plugin receives a <code>Compiler</code> instance to aid in the processing of source files.</p>
+
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">objectify</td>
+              <td class="prop-type" valign="top">
+                <pre>&lt;T&gt;(array: T[], getKey: (item: T) =&gt; string) =&gt; { [key: string]: T; }</pre><p>Converts an array of entries into a map of key to entry, using given
+callback to extract key from each item.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">renderBlock</td>
+              <td class="prop-type" valign="top">
+                <pre>(blockContent: string, reservedTagWords?: string[]) =&gt; IBlock</pre><p>Render a block of content by extracting metadata (YAML front matter) and
+splitting text content into markdown-rendered HTML strings and <code>{ tag,
+value }</code> objects.</p>
+<p>To prevent special strings like &quot;@include&quot; from being parsed, a reserved
+tag words array may be provided, in which case the line will be left as
+is.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">renderMarkdown</td>
+              <td class="prop-type" valign="top">
+                <pre>(markdown: string) =&gt; string</pre><p>Render a string of markdown to HTML, using the options from <code>Documentalist</code>.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
   <div class="hidden" data-route="IPlugin">
     <h2>IPlugin</h2>
       <div class="interface-block" id="IPlugin">
@@ -330,112 +384,17 @@ actual contents of file...
             <tr>
               <td class="prop-name" valign="top">compile</td>
               <td class="prop-type" valign="top">
-                <pre>(doc: Documentalist&lt;T&gt;, files: IFile[]) =&gt; any</pre>
+                <pre>(files: IFile[], doc: ICompiler) =&gt; any</pre>
               </td>
             </tr>
           </table>
         </div>
       </div>
   </div>
-  <div class="hidden" data-route="IDeclaration">
-    <h2>IDeclaration</h2>
-      <div class="interface-block" id="IDeclaration">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">prop</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">value</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IRule">
-    <h2>IRule</h2>
-      <div class="interface-block" id="IRule">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">comment</td>
-              <td class="prop-type" valign="top">
-                <pre>StringOrTag[]</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">commentRaw</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">declarations</td>
-              <td class="prop-type" valign="top">
-                <pre>IDeclaration[]</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">metadata</td>
-              <td class="prop-type" valign="top">
-                <pre>any</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">selector</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ICss">
-    <h2>ICss</h2>
-      <div class="interface-block" id="ICss">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">filePath</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">rules</td>
-              <td class="prop-type" valign="top">
-                <pre>IRule[]</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ICssPluginData">
-    <h2>ICssPluginData</h2>
-      <div class="interface-block" id="ICssPluginData">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">css</td>
-              <td class="prop-type" valign="top">
-                <pre>ICss[]</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IKssEntry">
-    <h2>IKssEntry</h2>
-      <div class="interface-block" id="IKssEntry">
+  <div class="hidden" data-route="IKssModifier">
+    <h2>IKssModifier</h2>
+      <div class="interface-block" id="IKssModifier"><p>A single modifier for an example. </p>
+
         <div class="interface-properties">
           <table>
             <tr>
@@ -445,13 +404,7 @@ actual contents of file...
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">markup</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">reference</td>
+              <td class="prop-name" valign="top">name</td>
               <td class="prop-type" valign="top">
                 <pre>string</pre>
               </td>
@@ -462,13 +415,45 @@ actual contents of file...
   </div>
   <div class="hidden" data-route="IKssExample">
     <h2>IKssExample</h2>
-      <div class="interface-block" id="IKssExample">
+      <div class="interface-block" id="IKssExample"><p>A markup/modifiers example parsed from a KSS comment block.</p>
+
         <div class="interface-properties">
           <table>
             <tr>
+              <td class="prop-name" valign="top">documentation</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre><p>Raw documentation string. </p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">markup</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre><p>Raw HTML markup for example with <code>{{.modifier}}</code> templates,
+to be used to render the markup for each modifier.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">markupHtml</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre><p>Syntax-highlighted version of the markup HTML, to be used
+for rendering the markup itself with pretty colors.</p>
+
+              </td>
+            </tr>
+            <tr>
               <td class="prop-name" valign="top">modifiers</td>
               <td class="prop-type" valign="top">
-                <pre>IKssEntry[]</pre>
+                <pre>IKssModifier[]</pre><p>Array of modifiers supported by HTML markup. </p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">reference</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre><p>Unique reference for addressing this example. </p>
+
               </td>
             </tr>
           </table>
@@ -483,18 +468,9 @@ actual contents of file...
             <tr>
               <td class="prop-name" valign="top">css</td>
               <td class="prop-type" valign="top">
-                <pre>{ [name: string]: IKssExample; }</pre>
+                <pre>{ [reference: string]: IKssExample; }</pre>
               </td>
             </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IPageMap">
-    <h2>IPageMap</h2>
-      <div class="interface-block" id="IPageMap">
-        <div class="interface-properties">
-          <table>
           </table>
         </div>
       </div>
@@ -507,16 +483,16 @@ actual contents of file...
             <tr>
               <td class="prop-name" valign="top">docs</td>
               <td class="prop-type" valign="top">
-                <pre>IPageMap</pre>
+                <pre>{ [key: string]: IPageData; }</pre>
               </td>
             </tr>
           </table>
         </div>
       </div>
   </div>
-  <div class="hidden" data-route="IDocEntry">
-    <h2>IDocEntry</h2>
-      <div class="interface-block" id="IDocEntry">
+  <div class="hidden" data-route="ITsDocEntry">
+    <h2>ITsDocEntry</h2>
+      <div class="interface-block" id="ITsDocEntry">
         <div class="interface-properties">
           <table>
             <tr>
@@ -553,9 +529,9 @@ actual contents of file...
         </div>
       </div>
   </div>
-  <div class="hidden" data-route="IPropertyEntry">
-    <h2>IPropertyEntry</h2>
-      <div class="interface-block" id="IPropertyEntry">
+  <div class="hidden" data-route="ITsPropertyEntry">
+    <h2>ITsPropertyEntry</h2>
+      <div class="interface-block" id="ITsPropertyEntry">
         <div class="interface-properties">
           <table>
             <tr>
@@ -568,9 +544,9 @@ actual contents of file...
         </div>
       </div>
   </div>
-  <div class="hidden" data-route="IInterfaceEntry">
-    <h2>IInterfaceEntry</h2>
-      <div class="interface-block" id="IInterfaceEntry">
+  <div class="hidden" data-route="ITsInterfaceEntry">
+    <h2>ITsInterfaceEntry</h2>
+      <div class="interface-block" id="ITsInterfaceEntry">
         <div class="interface-properties">
           <table>
             <tr>
@@ -582,7 +558,7 @@ actual contents of file...
             <tr>
               <td class="prop-name" valign="top">properties</td>
               <td class="prop-type" valign="top">
-                <pre>IPropertyEntry[]</pre>
+                <pre>ITsPropertyEntry[]</pre>
               </td>
             </tr>
           </table>
@@ -597,7 +573,7 @@ actual contents of file...
             <tr>
               <td class="prop-name" valign="top">ts</td>
               <td class="prop-type" valign="top">
-                <pre>{ [name: string]: IInterfaceEntry; }</pre>
+                <pre>{ [name: string]: ITsInterfaceEntry; }</pre>
               </td>
             </tr>
           </table>
@@ -636,18 +612,6 @@ runs <code>documentFiles</code> with them, emitting all the documentation data.<
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">renderBlock</td>
-              <td class="prop-type" valign="top">
-                <pre>(blockContent: string, reservedTagWords?: string[]) =&gt; IBlock</pre><p>Render a block of content by extracting metadata (YAML front matter) and
-splitting text content into markdown-rendered HTML strings and <code>{ tag,
-value }</code> objects.</p>
-<p>To prevent special strings like &quot;@include&quot; from being parsed, a reserved
-tag words array may be provided, in which case the line will be left as
-is.</p>
-
-              </td>
-            </tr>
-            <tr>
               <td class="prop-name" valign="top">use</td>
               <td class="prop-type" valign="top">
                 <pre>&lt;P&gt;(pattern: string | RegExp, plugin: IPlugin&lt;P&gt;) =&gt; IApi&lt;T &amp; P&gt;</pre><p>Adds the plugin to Documentalist. Returns a new instance of Documentalist
@@ -656,38 +620,6 @@ with a template type that includes the data from the plugin. This way the
 already typed to include each plugin&#39;s output.</p>
 <p>The plugin is applied to all files whose absolute path matches the
 supplied pattern.</p>
-
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IBlock">
-    <h2>IBlock</h2>
-      <div class="interface-block" id="IBlock"><p>The output of <code>renderBlock</code> which parses a long form documentation block into
-metadata, rendered markdown, and tags.</p>
-
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">content</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>The original string content block.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">metadata</td>
-              <td class="prop-type" valign="top">
-                <pre>any</pre><p>Parsed YAML front matter (if any) or {}.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">renderedContent</td>
-              <td class="prop-type" valign="top">
-                <pre>StringOrTag[]</pre><p>An array of markdown-rendered HTML or tags.</p>
 
               </td>
             </tr>
