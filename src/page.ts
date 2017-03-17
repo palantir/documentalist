@@ -6,7 +6,7 @@
  */
 
 import * as path from "path";
-import { IPageData, isTag } from "./client";
+import { IHeadingNode, IPageData, IPageNode, isTag, slugify } from "./client";
 
 export type PartialPageData = Pick<IPageData, "absolutePath" | "contentRaw" | "contents" | "metadata">;
 
@@ -18,7 +18,11 @@ export class PageMap {
      * Use this for ingesting rendered blocks.
      */
     public add(data: PartialPageData) {
-        const page = makePage(data);
+        const page: IPageData = {
+            reference: getReference(data),
+            title: getTitle(data),
+            ...data,
+        };
         this.set(page.reference, page);
         return page;
     }
@@ -49,6 +53,10 @@ export class PageMap {
         this.pages.set(id, page);
     }
 
+    public forEach(iterator: (page: IPageData, id: string) => void) {
+        this.pages.forEach(iterator);
+    }
+
     /** Returns a JS object mapping page IDs to data. */
     public toObject() {
         const object: { [key: string]: IPageData } = {};
@@ -57,12 +65,48 @@ export class PageMap {
         }
         return object;
     }
+
+    public toTree() {
+        const itemsById = new Map<string, IPageNode>();
+        // create sparse map of node for each page with empty children
+        this.forEach((page) => itemsById.set(page.reference, initPageNode(page)));
+        // fill out children and set parent references on each child
+        // by traversing contents looking for @page or @#+
+        this.forEach((page) => {
+            const pageNode = itemsById.get(page.reference)!;
+            page.contents.forEach((node, i) => {
+                if (isTag(node)) {
+                    if (node.tag === "page") {
+                        const subpage = itemsById.get(node.value);
+                        if (subpage === undefined) {
+                            throw new Error(`Unknown @page '${node.value}' referenced in '${page.reference}'`);
+                        }
+                        subpage.parentReference = page.reference;
+                        subpage.depth = pageNode.depth + 1;
+                        pageNode.children.push(subpage);
+                    } else if (i > 0 && node.tag.match(/^#+$/)) {
+                        pageNode.children.push(initHeadingNode(node.value, pageNode.depth + node.tag.length));
+                    }
+                }
+            });
+        });
+        // return array of roots -- nodes with undefined parent
+        const roots: IPageNode[] = [];
+        itemsById.forEach((node) => {
+            if (node.parentReference === undefined) {
+                roots.push(node);
+            }
+        });
+        return roots;
+    }
 }
 
-function makePage(props: PartialPageData): IPageData {
-    const title = getTitle(props);
-    const reference = getReference(props);
-    return { ...props, reference, title };
+function initPageNode({ reference, title }: IPageData, depth: number = 0): IPageNode {
+    return { children: [], depth, reference, title };
+}
+
+function initHeadingNode(title: string, depth: number): IHeadingNode {
+    return { depth, reference: slugify(title), title };
 }
 
 function getReference(data: PartialPageData) {

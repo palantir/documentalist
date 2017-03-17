@@ -73,7 +73,7 @@ export interface IPageData {
 
 /** One page entry in a layout tree. */
 export interface ITreeEntry {
-    depth?: number;
+    depth: number;
     reference: string;
     title: string;
 }
@@ -81,6 +81,7 @@ export interface ITreeEntry {
 /** A page has ordered children composed of `@#+` and `@page` tags. */
 export interface IPageNode extends ITreeEntry {
     children: Array<IPageNode | IHeadingNode>;
+    parentReference?: string;
 }
 
 /** An `@#+` tag belongs to a specific page. */
