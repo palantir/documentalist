@@ -1,7 +1,8 @@
 class Router {
-    constructor(el) {
+    constructor(el, defaultRoute = "") {
         this.el = el;
         this.routes = {};
+        this.defaultRoute = defaultRoute;
     }
 
     start() {
@@ -16,7 +17,7 @@ class Router {
     }
 
     route() {
-        const hashRoute = location.hash.slice(1) || "";
+        const hashRoute = location.hash.slice(1) || this.defaultRoute;
         const route = this.routes[hashRoute];
 
         if (this.el && route && route !== this.currentRoute) {
@@ -39,7 +40,7 @@ function selectCurrent(route) {
     }
 }
 
-const router = new Router(document.querySelector("#content"));
+const router = new Router(document.querySelector("#content"), "docs");
 const routables = document.querySelectorAll("[data-route]");
 routables.forEach((routable) => {
     const route = routable.getAttribute("data-route");

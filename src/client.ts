@@ -93,41 +93,21 @@ export function isPageNode(node: any): node is IPageNode {
     return (node as IPageNode).children !== undefined;
 }
 
-/** Merge an array of strings into one handy slug. */
-export function slugify(...strings: string[]) {
-    return strings.map((str) => str.toLowerCase().replace(/[^\w.]/g, "-")).join(".");
-}
-
-function initPageNode({ reference, title }: IPageData, depth: number): IPageNode {
-    return { children: [], depth, reference, title };
-}
-
-function initHeadingNode({ value }: ITag, depth: number): IHeadingNode {
-    return { depth, reference: slugify(value), title: value };
+/** Slugify a string: "Really Cool Heading!" => "really-cool-heading-" */
+export function slugify(str: string) {
+    return str.toLowerCase().replace(/[^\w.\/]/g, "-");
 }
 
 /**
- * Organizes the pages into a tree structure by traversing
- * their contents for `@#+` and `@page` tags.
+ * Slugify heading text and join to page refernece with `.`.
  */
-export function createNavigableTree(pages: { [key: string]: IPageData }, page: IPageData, depth = 0) {
-    const pageNode: IPageNode = initPageNode(page, depth);
-    if (page.contents != null) {
-        page.contents.forEach((node: StringOrTag, i: number) => {
-            if (isTag(node)) {
-                if (node.tag === "page") {
-                    const subpage = pages[node.value as string];
-                    if (subpage === undefined) {
-                        throw new Error(`Unknown @page '${node.value}' referenced in '${page.reference}'`);
-                    }
-                    pageNode.children.push(createNavigableTree(pages, subpage, depth + 1));
-                }
-                if (i !== 0 && node.tag.match(/^#+$/)) {
-                    // use heading strength - 1 cuz h1 is the title
-                    pageNode.children.push(initHeadingNode(node, depth + node.tag.length - 1));
-                }
-            }
-        });
-    }
-    return pageNode;
+export function headingReference(parentReference: string, headingTitle: string) {
+    return [parentReference, slugify(headingTitle)].join(".");
+}
+
+/**
+ * Join page references with a `/` to indicate nesting.
+ */
+export function pageReference(parentReference: string, pageReference: string) {
+    return [parentReference, pageReference].join("/");
 }

@@ -46,7 +46,7 @@ const TEST_FILES = [
 describe("Plugins", () => {
     it("can document Markdown files", async () => {
         const docs = await Documentalist.create().documentFiles(TEST_FILES);
-        const page = docs.docs["test"];
+        const page = docs.pages["test"];
         expect(page).to.exist;
         expect(page.metadata["key"]).to.equal("value");
         expect(page.contents).with.lengthOf(3);
