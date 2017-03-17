@@ -97,3 +97,17 @@ export function isPageNode(node: any): node is IPageNode {
 export function slugify(str: string) {
     return str.toLowerCase().replace(/[^\w.\/]/g, "-");
 }
+
+/**
+ * Slugify heading text and join to page refernece with `.`.
+ */
+export function headingReference(parentReference: string, headingTitle: string) {
+    return [parentReference, slugify(headingTitle)].join(".");
+}
+
+/**
+ * Join page references with a `/` to indicate nesting.
+ */
+export function pageReference(parentReference: string, pageReference: string) {
+    return [parentReference, pageReference].join("/");
+}

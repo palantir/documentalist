@@ -5,7 +5,17 @@
  * repository.
  */
 
-import { IHeadingNode, IPageData, IPageNode, isPageNode, isTag, slugify, StringOrTag } from "../client";
+import {
+    headingReference,
+    IHeadingNode,
+    IPageData,
+    IPageNode,
+    isPageNode,
+    isTag,
+    pageReference,
+    slugify,
+    StringOrTag,
+} from "../client";
 import { PageMap } from "../page";
 import { ICompiler, IFile, IPlugin } from "./plugin";
 
@@ -25,20 +35,22 @@ export interface IMarkdownPluginData {
 
 export interface IMarkdownPluginOptions {
     /**
-     * Separator used to join page and heading slugs.
-     * @default "."
-     */
-    headingSeparator: string;
-    /**
      * Page reference that lists the nav roots.
      * @default
      */
     navPage: string;
+
     /**
-     * Separator used to join nested page slugs.
-     * @default "/"
+     * Create a reference for a heading title within a page.
+     * Default implementation slugifies heading and joins the references with `.`.
      */
-    pageSeparator: string;
+    headingReference: (pageReference: string, headingTitle: string) => string;
+
+    /**
+     * Create a reference for a page nested within another page.
+     * Default implementation joins the references with a `/`.
+     */
+    pageReference: (parentReference: string, pageReference: string) => string;
 }
 
 export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
@@ -46,9 +58,9 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
 
     public constructor(options: Partial<IMarkdownPluginOptions> = {}) {
         this.options = {
-            headingSeparator: ".",
             navPage: "_nav",
-            pageSeparator: "/",
+            headingReference,
+            pageReference,
             ...options,
         };
     }
@@ -108,19 +120,20 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
         pages.remove(this.options.navPage);
         roots.forEach((page) => {
             if (isPageNode(page)) {
-                page.children.forEach((child) => this.nestChildPage(pages, child, page));
+                page.children.forEach((child) => this.nestChildPage(pages, page, child));
             }
         });
 
         return roots;
     }
 
-    private nestChildPage(pages: PageMap, child: IPageNode | IHeadingNode, parent: IPageNode) {
+    private nestChildPage(pages: PageMap, parent: IPageNode, child: IPageNode | IHeadingNode) {
         const originalRef = child.reference;
 
         // update entry reference to include parent reference
-        const separator = isPageNode(child) ? this.options.pageSeparator : this.options.headingSeparator;
-        const nestedRef = [parent.reference, slugify(originalRef)].join(separator);
+        const nestedRef = isPageNode(child)
+            ? this.options.pageReference(parent.reference, child.reference)
+            : this.options.headingReference(parent.reference, child.title);
         child.reference = nestedRef;
 
         if (isPageNode(child)) {
@@ -129,30 +142,28 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
             const page = pages.remove(originalRef)!;
             pages.set(nestedRef, { ...page, reference: nestedRef });
             // recurse through page children
-            child.children.forEach((innerchild) => this.nestChildPage(pages, innerchild, child));
+            child.children.forEach((innerchild) => this.nestChildPage(pages, child, innerchild));
         }
     }
 }
 
 function createNavigableTree(pages: PageMap, page: IPageData, depth = 0) {
     const pageNode: IPageNode = initPageNode(page, depth);
-    if (page.contents != null) {
-        page.contents.forEach((node: StringOrTag, i: number) => {
-            if (isTag(node)) {
-                if (node.tag === "page") {
-                    const subpage = pages.get(node.value);
-                    if (subpage === undefined) {
-                        throw new Error(`Unknown @page '${node.value}' referenced in '${page.reference}'`);
-                    }
-                    pageNode.children.push(createNavigableTree(pages, subpage, depth + 1));
+    page.contents.forEach((node: StringOrTag, i: number) => {
+        if (isTag(node)) {
+            if (node.tag === "page") {
+                const subpage = pages.get(node.value);
+                if (subpage === undefined) {
+                    throw new Error(`Unknown @page '${node.value}' referenced in '${page.reference}'`);
                 }
-                if (i !== 0 && node.tag.match(/^#+$/)) {
-                    // use heading strength - 1 cuz h1 is the title
-                    pageNode.children.push(initHeadingNode(node.value, depth + node.tag.length - 1));
-                }
+                pageNode.children.push(createNavigableTree(pages, subpage, depth + 1));
             }
-        });
-    }
+            if (i !== 0 && node.tag.match(/^#+$/)) {
+                // use heading strength - 1 cuz h1 is the title
+                pageNode.children.push(initHeadingNode(node.value, depth + node.tag.length - 1));
+            }
+        }
+    });
     return pageNode;
 }
 
