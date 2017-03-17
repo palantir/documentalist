@@ -57,13 +57,14 @@ body
                 +joinContent(prop.documentation)
 
 
-  .hidden(data-route="")
-    for block in pages.docs.contents
-      if typeof block === "string"
-        | !{block}
-      else if block.tag === "interface"
-        - var iface = ts[block.value]
-        +interface(iface)
+  each page in pages
+    .hidden(data-route=page.reference)
+      for block in page.contents
+        if typeof block === "string"
+          | !{block}
+        else if block.tag === "interface"
+          - var iface = ts[block.value]
+          +interface(iface)
 
   each iface in ts
     if iface.type == "interface"
