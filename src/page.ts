@@ -6,7 +6,7 @@
  */
 
 import * as path from "path";
-import { IHeadingNode, IPageData, IPageNode, isTag, slugify } from "./client";
+import { IHeadingNode, IPageData, IPageNode, isHeadingTag, isTag, slugify } from "./client";
 
 export type PartialPageData = Pick<IPageData, "absolutePath" | "contentRaw" | "contents" | "metadata">;
 
@@ -68,15 +68,13 @@ export class PageMap {
             throw new Error(`Unknown @page '${id}' in toTree()`);
         }
         const pageNode = initPageNode(page, depth);
-        page.contents.forEach((node, i) => {
+        page.contents.forEach((node) => {
             // we only care about @page and @#+ tag nodes
-            if (isTag(node)) {
-                if (node.tag === "page") {
-                    pageNode.children.push(this.toTree(node.value, depth + 1));
-                } else if (i > 0 && node.tag.match(/^#+$/)) {
-                    // use heading strength - 1 cuz h1 is the title
-                    pageNode.children.push(initHeadingNode(node.value, pageNode.depth + node.tag.length - 1));
-                }
+            if (isTag(node, "page")) {
+                pageNode.children.push(this.toTree(node.value, depth + 1));
+            } else if (isHeadingTag(node) && node.level > 1) {
+                // use heading strength - 1 cuz h1 is the title
+                pageNode.children.push(initHeadingNode(node.value, pageNode.depth + node.level - 1));
             }
         });
         return pageNode;
@@ -104,8 +102,8 @@ function getTitle(data: PartialPageData) {
     }
 
     const first = data.contents[0];
-    if (isTag(first) && first.tag.match(/^#+$/)) {
-        return first.value as string;
+    if (isHeadingTag(first)) {
+        return first.value;
     }
 
     return "(untitled)";
