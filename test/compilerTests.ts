@@ -17,26 +17,26 @@ describe("Compiler", () => {
         const MARKDOWN = "# Title\nbody body body";
         const OBJECT = { hello: "world", size: 1000 };
 
-        it("extracts contents and parses metadata", () => {
+        it("extracts contentsRaw and parses metadata", () => {
             const data = API.renderBlock(METADATA + MARKDOWN);
-            assert.strictEqual(data.content, MARKDOWN);
+            assert.strictEqual(data.contentsRaw, MARKDOWN);
             assert.deepEqual(data.metadata, OBJECT);
         });
 
         it("supports empty metadata block", () => {
             const data = API.renderBlock("---\n---\n" + MARKDOWN);
-            assert.strictEqual(data.content, MARKDOWN);
+            assert.strictEqual(data.contentsRaw, MARKDOWN);
             assert.deepEqual(data.metadata, {});
         });
 
         it("metadata block is optional", () => {
             const data = API.renderBlock(MARKDOWN);
-            assert.strictEqual(data.content, MARKDOWN);
+            assert.strictEqual(data.contentsRaw, MARKDOWN);
             assert.deepEqual(data.metadata, {});
         });
     });
 
-    describe("renderedContent", () => {
+    describe("rendered contents", () => {
         const FILE = `
 # Title
 description
@@ -45,21 +45,21 @@ more description
         `;
 
         it("returns a single-element array for string without @tags", () => {
-            const { renderedContent } = API.renderBlock("simple string");
-            assert.deepEqual(renderedContent, ["<p>simple string</p>\n"]);
+            const { contents } = API.renderBlock("simple string");
+            assert.deepEqual(contents, ["<p>simple string</p>\n"]);
         });
 
         it("converts @tag to object in array", () => {
-            const { renderedContent } = API.renderBlock(FILE);
-            assert.equal(renderedContent.length, 3);
-            assert.deepEqual(renderedContent[1], { tag: "interface", value: "IButtonProps" });
+            const { contents } = API.renderBlock(FILE);
+            assert.equal(contents.length, 3);
+            assert.deepEqual(contents[1], { tag: "interface", value: "IButtonProps" });
         });
 
         it("reservedWords will ignore matching @tag", () => {
-            const { renderedContent } = API.renderBlock(FILE, ["interface"]);
-            assert.equal(renderedContent.length, 3);
+            const { contents } = API.renderBlock(FILE, ["interface"]);
+            assert.equal(contents.length, 3);
             // reserved @tag is emitted as separate string cuz it's still split by regex
-            assert.deepEqual(renderedContent[1], "<p>@interface IButtonProps</p>\n");
+            assert.deepEqual(contents[1], "<p>@interface IButtonProps</p>\n");
         });
 
     });
