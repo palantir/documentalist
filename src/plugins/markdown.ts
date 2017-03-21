@@ -5,7 +5,8 @@
  * repository.
  */
 
-import { IHeadingNode, IPageData, IPageNode, isHeadingTag, isPageNode, slugify, StringOrTag } from "../client";
+import * as path from "path";
+import { IBlock, IHeadingNode, IPageData, IPageNode, isHeadingTag, isPageNode, slugify, StringOrTag } from "../client";
 import { PageMap } from "../page";
 import { ICompiler, IFile, IPlugin } from "./plugin";
 
@@ -47,8 +48,13 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
      */
     public compile(markdownFiles: IFile[], compiler: ICompiler) {
         const pageStore = this.buildPageStore(markdownFiles, compiler);
+        // now that we have all known pages, we can resolve @include tags.
+        this.resolveIncludeTags(pageStore);
         // generate navigation tree after all pages loaded and processed.
         const nav = pageStore.toTree(this.options.navPage).children as IPageNode[];
+        // use nav tree to fill in `route` for all pages and headings.
+        this.resolveRoutes(pageStore, nav);
+        // generate object at the end, after `route` has been computed throughout.
         const pages = pageStore.toObject();
         return { nav, pages };
     }
@@ -74,30 +80,60 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
         return pageStore;
     }
 
-    private buildPageObject(pages: PageMap, nav: IPageNode[]) {
-        function recurseRoute(node: IPageNode | IHeadingNode, parent: IPageNode) {
-            const route = isPageNode(node)
-                ? [parent.route, node.reference].join("/")
-                : [parent.route, slugify(node.title)].join(".");
-            node.route = route;
+    /**
+     * Computes `route` for the given `node` based on its parent.
+     * If node is a page, then it also computes `route` for each heading and recurses through child
+     * pages.
+     */
+    private recurseRoute(node: IPageNode | IHeadingNode, parent: IPageNode, pageStore: PageMap) {
+        // compute route for page and heading NODES (from nav tree)
+        const route = isPageNode(node)
+            ? [parent.route, node.reference].join("/")
+            : [parent.route, slugify(node.title)].join(".");
+        node.route = route;
 
-            if (isPageNode(node)) {
-                // node is a page, so it must exist in PageMap.
-                const page = pages.get(node.reference)!;
-                page.route = route;
+        if (isPageNode(node)) {
+            // node is a page, so it must exist in PageMap.
+            const page = pageStore.get(node.reference)!;
+            page.route = route;
 
-                page.contents.forEach((content) => {
-                    // inject `route` field into heading tags
-                    if (isHeadingTag(content)) {
-                        if (content.level > 1) {
-                            content.route = [route, slugify(content.value)].join(".");
-                        } else {
-                            content.route = route;
-                        }
+            page.contents.forEach((content) => {
+                // inject `route` field into heading TAGS (from page contents)
+                if (isHeadingTag(content)) {
+                    // h1 tags do not get nested as they are used as page title
+                    if (content.level > 1) {
+                        content.route = [route, slugify(content.value)].join(".");
+                    } else {
+                        content.route = route;
                     }
-                });
-                node.children.forEach((child) => recurseRoute(child, node));
-            }
+                }
+            });
+            node.children.forEach((child) => this.recurseRoute(child, node, pageStore));
+        }
+    }
+
+    private resolveRoutes(pageStore: PageMap, nav: IPageNode[]) {
+        for (const page of nav) {
+            // walk the nav tree and compute `route` property for each resource.
+            page.children.forEach((node) => this.recurseRoute(node, page, pageStore));
+        }
+    }
+
+    /** Iterates `contents` array and inlines any `@include page` tags. */
+    private resolveIncludeTags(pageStore: PageMap) {
+        for (const page of pageStore.pages()) {
+            // using `reduce` so we can add one or many entries for each node
+            page.contents = page.contents.reduce((array, content) => {
+                if (typeof content === "string" || content.tag !== "include") {
+                    return array.concat(content);
+                }
+                // inline @include page
+                const pageToInclude = pageStore.get(content.value);
+                if (pageToInclude === undefined) {
+                    throw new Error(`Unknown @include reference '${content.value}' in '${page.reference}'`);
+                }
+                return array.concat(pageToInclude.contents);
+            }, [] as StringOrTag[]);
         }
     }
 }
