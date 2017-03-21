@@ -5,6 +5,15 @@
  * repository.
  */
 
+/** Slugify a string: "Really Cool Heading!" => "really-cool-heading-" */
+export function slugify(str: string) {
+    return str.toLowerCase().replace(/[^\w.\/]/g, "-");
+}
+
+/**
+ * The basic components of a navigable resource: a "route" at which it can be accessed and
+ * its depth in the layout hierarchy. Heading tags and hierarchy nodes both extend this interface.
+ */
 export interface INavigable {
     /** Fully-qualified route of the heading, which can be used as anchor `href`. */
     route: string;
@@ -12,6 +21,10 @@ export interface INavigable {
     /** Level of heading, from 1-6. Dictates which `<h#>` tag to render. */
     level: number;
 }
+
+/*
+@TAGS
+*/
 
 /** Represents a single `@tag <value>` line from a file. */
 export interface ITag {
@@ -51,6 +64,10 @@ export function isHeadingTag(node: any): node is IHeadingTag {
     return isTag(node, "heading");
 }
 
+/*
+PAGE DATA
+*/
+
 /**
  * Metadata is parsed from YAML front matter in files and can contain arbitrary data.
  * A few keys are understood by Documentalist and, if defined in front matter,
@@ -86,14 +103,14 @@ export interface IMetadata {
  * metadata, rendered markdown, and tags.
  */
 export interface IBlock {
+    /** Parsed nodes of source file. An array of markdown-rendered HTML strings or `@tag` objects. */
+    contents: StringOrTag[];
+
     /** Raw unmodified contents of source file (excluding the metadata). */
     contentsRaw: string;
 
     /** Arbitrary YAML metadata parsed from front matter of source file, if any, or `{}`. */
     metadata: IMetadata;
-
-    /** Parsed nodes of source file. An array of markdown-rendered HTML strings or `@tag` objects. */
-    contents: StringOrTag[];
 }
 
 /**
@@ -113,6 +130,10 @@ export interface IPageData extends IBlock {
     title: string;
 }
 
+/*
+LAYOUT HIERARCHY NODES
+*/
+
 /** An `@#+` tag belongs to a specific page. */
 export interface IHeadingNode extends INavigable {
     /** Display title of page heading. */
@@ -131,9 +152,4 @@ export interface IPageNode extends IHeadingNode {
 /** Type guard for `IPageNode`, useful for its `children` array. */
 export function isPageNode(node: any): node is IPageNode {
     return node != null && (node as IPageNode).children != null;
-}
-
-/** Slugify a string: "Really Cool Heading!" => "really-cool-heading-" */
-export function slugify(str: string) {
-    return str.toLowerCase().replace(/[^\w.\/]/g, "-");
 }
