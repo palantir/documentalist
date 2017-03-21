@@ -6,7 +6,7 @@
  */
 
 import * as path from "path";
-import { IPageData, isTag } from "./client";
+import { IHeadingNode, IPageData, IPageNode, isHeadingTag, isTag } from "./client";
 
 export type PartialPageData = Pick<IPageData, "absolutePath" | "contentRaw" | "contents" | "metadata">;
 
@@ -18,8 +18,14 @@ export class PageMap {
      * Use this for ingesting rendered blocks.
      */
     public add(data: PartialPageData) {
-        const page = makePage(data);
-        this.set(page.reference, page);
+        const reference = getReference(data);
+        const page: IPageData = {
+            route: reference,
+            title: getTitle(data),
+            reference,
+            ...data,
+        };
+        this.set(reference, page);
         return page;
     }
 
@@ -57,12 +63,34 @@ export class PageMap {
         }
         return object;
     }
+
+    public toTree(id: string, depth = 0): IPageNode {
+        const page = this.get(id);
+        if (page === undefined) {
+            throw new Error(`Unknown @page '${id}' in toTree()`);
+        }
+        const pageNode = initPageNode(page, depth);
+        page.contents.forEach((node) => {
+            // we only care about @page and @##+ tag nodes
+            if (isTag(node, "page")) {
+                pageNode.children.push(this.toTree(node.value, depth + 1));
+            } else if (isHeadingTag(node) && node.level > 1) {
+                // skipping h1 headings cuz they become the page title itself.
+                pageNode.children.push(initHeadingNode(node.value, pageNode.depth + node.level - 1));
+            }
+        });
+        return pageNode;
+    }
 }
 
-function makePage(props: PartialPageData): IPageData {
-    const title = getTitle(props);
-    const reference = getReference(props);
-    return { ...props, reference, title };
+function initPageNode({ reference, title }: IPageData, depth: number = 0): IPageNode {
+    // NOTE: `route` may be overwritten in MarkdownPlugin based on nesting.
+    return { children: [], depth, reference, route: reference, title };
+}
+
+function initHeadingNode(title: string, depth: number): IHeadingNode {
+    // NOTE: `route` will be added in MarkdownPlugin.
+    return { depth, title } as IHeadingNode;
 }
 
 function getReference(data: PartialPageData) {
@@ -78,8 +106,8 @@ function getTitle(data: PartialPageData) {
     }
 
     const first = data.contents[0];
-    if (isTag(first) && first.tag.match(/^#+$/)) {
-        return first.value as string;
+    if (isHeadingTag(first)) {
+        return first.value;
     }
 
     return "(untitled)";

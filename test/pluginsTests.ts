@@ -33,6 +33,10 @@ key: value
 @othertag params
 `;
 
+const TEST_NAV = `
+@page test
+`;
+
 const TEST_FILES = [
     {
         path : "/fancy/absolute/test.css",
@@ -40,6 +44,9 @@ const TEST_FILES = [
     }, {
         path : "/whatever/other/test.md",
         read : () => TEST_MARKDOWN,
+    }, {
+        path : "/who/cares/_nav.md",
+        read : () => TEST_NAV,
     },
 ];
 

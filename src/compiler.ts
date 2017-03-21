@@ -1,6 +1,7 @@
 import * as yaml from "js-yaml";
 import * as marked from "marked";
 
+import { IHeadingTag } from "./client";
 import { IBlock, ICompiler, StringOrTag } from "./plugins/plugin";
 
 /**
@@ -81,11 +82,14 @@ export class Compiler implements ICompiler {
             const match = TAG_REGEX.exec(str);
             if (match === null || reservedWords.indexOf(match[1]) >= 0) {
                 return str;
+            }
+            const tag = match[1];
+            const value = match[2];
+            if (/#+/.test(tag)) {
+                // NOTE: not enough information to populate `route` field yet
+                return { tag: "heading", value, level: tag.length } as IHeadingTag;
             } else {
-                return {
-                    tag: match[1],
-                    value: match[2],
-                };
+                return { tag, value };
             }
         });
     }

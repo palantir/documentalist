@@ -5,17 +5,7 @@
  * repository.
  */
 
-import {
-    headingReference,
-    IHeadingNode,
-    IPageData,
-    IPageNode,
-    isPageNode,
-    isTag,
-    pageReference,
-    slugify,
-    StringOrTag,
-} from "../client";
+import { IHeadingNode, IPageData, IPageNode, isHeadingTag, isPageNode, slugify, StringOrTag } from "../client";
 import { PageMap } from "../page";
 import { ICompiler, IFile, IPlugin } from "./plugin";
 
@@ -39,18 +29,6 @@ export interface IMarkdownPluginOptions {
      * @default
      */
     navPage: string;
-
-    /**
-     * Create a reference for a heading title within a page.
-     * Default implementation slugifies heading and joins the references with `.`.
-     */
-    headingReference: (pageReference: string, headingTitle: string) => string;
-
-    /**
-     * Create a reference for a page nested within another page.
-     * Default implementation joins the references with a `/`.
-     */
-    pageReference: (parentReference: string, pageReference: string) => string;
 }
 
 export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
@@ -59,8 +37,6 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
     public constructor(options: Partial<IMarkdownPluginOptions> = {}) {
         this.options = {
             navPage: "_nav",
-            headingReference,
-            pageReference,
             ...options,
         };
     }
@@ -73,8 +49,13 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
         const pageStore = this.buildPageMap(markdownFiles, compiler);
         // nav must be generated before pages because it rewrites references
         const nav = this.buildNavTree(pageStore);
+        this.buildPageObject(pageStore, nav);
         const pages = pageStore.toObject();
         return { nav, pages };
+    }
+
+    private buildNavTree(pages: PageMap) {
+        return pages.toTree(this.options.navPage).children as IPageNode[];
     }
 
     private buildPageMap(markdownFiles: IFile[], { renderBlock }: ICompiler) {
@@ -107,70 +88,34 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
         return pageStore;
     }
 
-    private buildNavTree(pages: PageMap) {
-        // navPage is used to construct the sidebar menu
-        const navRoot = pages.get(this.options.navPage);
-        if (navRoot === undefined) {
-            console.warn(`navPage '${this.options.navPage}' not found, returning empty array.`);
-            return [];
+    private buildPageObject(pages: PageMap, nav: IPageNode[]) {
+        function recurseRoute(node: IPageNode | IHeadingNode, parent: IPageNode) {
+            const route = isPageNode(node)
+                ? [parent.route, node.reference].join("/")
+                : [parent.route, slugify(node.title)].join(".");
+            node.route = route;
+
+            if (isPageNode(node)) {
+                // node is a page, so it must exist in PageMap.
+                const page = pages.get(node.reference)!;
+                page.route = route;
+
+                page.contents.forEach((content) => {
+                    // inject `route` field into heading tags
+                    if (isHeadingTag(content)) {
+                        if (content.level > 1) {
+                            content.route = [route, slugify(content.value)].join(".");
+                        } else {
+                            content.route = route;
+                        }
+                    }
+                });
+                node.children.forEach((child) => recurseRoute(child, node));
+            }
         }
 
-        const roots = createNavigableTree(pages, navRoot).children as IPageNode[];
-        // nav page is not a real docs page so we can remove it from output
-        pages.remove(this.options.navPage);
-        roots.forEach((page) => {
-            if (isPageNode(page)) {
-                page.children.forEach((child) => this.nestChildPage(pages, page, child));
-            }
+        nav.forEach((page) => {
+            page.children.forEach((node) => recurseRoute(node, page));
         });
-
-        return roots;
     }
-
-    private nestChildPage(pages: PageMap, parent: IPageNode, child: IPageNode | IHeadingNode) {
-        const originalRef = child.reference;
-
-        // update entry reference to include parent reference
-        const nestedRef = isPageNode(child)
-            ? this.options.pageReference(parent.reference, child.reference)
-            : this.options.headingReference(parent.reference, child.title);
-        child.reference = nestedRef;
-
-        if (isPageNode(child)) {
-            // rename nested pages to be <parent>.<child> and remove old <child> entry.
-            // (we know this ref exists because isPageNode(child) and originalRef = child.reference)
-            const page = pages.remove(originalRef)!;
-            pages.set(nestedRef, { ...page, reference: nestedRef });
-            // recurse through page children
-            child.children.forEach((innerchild) => this.nestChildPage(pages, child, innerchild));
-        }
-    }
-}
-
-function createNavigableTree(pages: PageMap, page: IPageData, depth = 0) {
-    const pageNode: IPageNode = initPageNode(page, depth);
-    page.contents.forEach((node: StringOrTag, i: number) => {
-        if (isTag(node)) {
-            if (node.tag === "page") {
-                const subpage = pages.get(node.value);
-                if (subpage === undefined) {
-                    throw new Error(`Unknown @page '${node.value}' referenced in '${page.reference}'`);
-                }
-                pageNode.children.push(createNavigableTree(pages, subpage, depth + 1));
-            }
-            if (i !== 0 && node.tag.match(/^#+$/)) {
-                // use heading strength - 1 cuz h1 is the title
-                pageNode.children.push(initHeadingNode(node.value, depth + node.tag.length - 1));
-            }
-        }
-    });
-    return pageNode;
-}
-
-function initPageNode({ reference, title }: IPageData, depth: number): IPageNode {
-    return { children: [], depth, reference, title };
-}
-
-function initHeadingNode(title: string, depth: number): IHeadingNode {
-    return { depth, reference: slugify(title), title };
 }

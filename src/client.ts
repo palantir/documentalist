@@ -7,16 +7,43 @@
 
 /** Represents a single `@tag <value>` line from a file. */
 export interface ITag {
+    /** Tag name. */
     tag: string;
+    /** Tag value, exactly as written in source. */
     value: string;
+}
+
+/**
+ * Represents a single `@#+ <value>` heading tag from a file. Note that all `@#+` tags
+ * (`@#` through `@######`) are emitted as `tag: "heading"` so only one renderer is necessary to
+ * capture all six levels.
+ *
+ * Heading tags include additional information over regular tags: fully-qualified `route` of the
+ * heading (which can be used as anchor `href`), and `level` to determine which `<h#>` tag to use.
+ */
+export interface IHeadingTag extends ITag {
+    tag: "heading";
+    /** Fully-qualified route of the heading, which can be used as anchor `href`. */
+    route: string;
+    /** Level of heading, from 1-6. Dictates which `<h#>` tag to render. */
+    level: number;
 }
 
 /** An entry in `contents` array: either an HTML string or an `@tag`. */
 export type StringOrTag = string | ITag;
 
-/** type guard to determine if a `contents` node is an `@tag` statement */
-export function isTag(node: StringOrTag): node is ITag {
-    return (node as ITag).tag !== undefined;
+/**
+ * Type guard to determine if a `contents` node is an `@tag` statement.
+ * Optionally tests tag name too, if `tagName` arg is provided.
+ */
+export function isTag(node: StringOrTag, tagName?: string): node is ITag {
+    return node != null && (node as ITag).tag !== undefined
+        && (tagName === undefined || (node as ITag).tag === tagName);
+}
+
+/** Type guard to deterimine if a `contents` node is an `@#+` heading tag. */
+export function isHeadingTag(node: StringOrTag): node is IHeadingTag {
+    return isTag(node, "heading");
 }
 
 /**
@@ -67,19 +94,23 @@ export interface IPageData {
     /** Unique identifier for addressing this page. */
     reference: string;
 
+    /** Fully qualified route to this page: slash-separated references of all parent pages. */
+    route: string;
+
     /** Human-friendly title of this page. */
     title: string;
 }
 
 /** One page entry in a layout tree. */
 export interface ITreeEntry {
-    depth?: number;
-    reference: string;
+    depth: number;
+    route: string;
     title: string;
 }
 
 /** A page has ordered children composed of `@#+` and `@page` tags. */
 export interface IPageNode extends ITreeEntry {
+    reference: string;
     children: Array<IPageNode | IHeadingNode>;
 }
 
@@ -96,18 +127,4 @@ export function isPageNode(node: any): node is IPageNode {
 /** Slugify a string: "Really Cool Heading!" => "really-cool-heading-" */
 export function slugify(str: string) {
     return str.toLowerCase().replace(/[^\w.\/]/g, "-");
-}
-
-/**
- * Slugify heading text and join to page refernece with `.`.
- */
-export function headingReference(parentReference: string, headingTitle: string) {
-    return [parentReference, slugify(headingTitle)].join(".");
-}
-
-/**
- * Join page references with a `/` to indicate nesting.
- */
-export function pageReference(parentReference: string, pageReference: string) {
-    return [parentReference, pageReference].join("/");
 }
