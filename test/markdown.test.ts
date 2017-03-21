@@ -5,8 +5,6 @@
  * repository.
  */
 
-import { expect } from "chai";
-import "mocha";
 import { Documentalist } from "../src";
 
 const TEST_CSS = `
@@ -54,9 +52,9 @@ describe("Plugins", () => {
     it("can document Markdown files", async () => {
         const docs = await Documentalist.create().documentFiles(TEST_FILES);
         const page = docs.pages["test"];
-        expect(page).to.exist;
-        expect(page.metadata["key"]).to.equal("value");
-        expect(page.contents).with.lengthOf(3);
-        expect((page.contents[2] as any).tag).to.equal("othertag");
+        expect(page).toBeDefined();
+        expect(page.metadata["key"]).toBe("value");
+        expect(page.contents).toHaveLength(3);
+        expect((page.contents[2] as any).tag).toBe("othertag");
     });
 });

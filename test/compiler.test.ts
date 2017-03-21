@@ -5,8 +5,6 @@
  * repository.
  */
 
-import { assert } from "chai";
-import "mocha";
 import { Compiler } from "../src/compiler";
 
 describe("Compiler", () => {
@@ -19,20 +17,20 @@ describe("Compiler", () => {
 
         it("extracts contentsRaw and parses metadata", () => {
             const data = API.renderBlock(METADATA + MARKDOWN);
-            assert.strictEqual(data.contentsRaw, MARKDOWN);
-            assert.deepEqual(data.metadata, OBJECT);
+            expect(data.contentsRaw).toBe(MARKDOWN);
+            expect(data.metadata).toEqual(OBJECT);
         });
 
         it("supports empty metadata block", () => {
             const data = API.renderBlock("---\n---\n" + MARKDOWN);
-            assert.strictEqual(data.contentsRaw, MARKDOWN);
-            assert.deepEqual(data.metadata, {});
+            expect(data.contentsRaw).toBe(MARKDOWN);
+            expect(data.metadata).toEqual({});
         });
 
         it("metadata block is optional", () => {
             const data = API.renderBlock(MARKDOWN);
-            assert.strictEqual(data.contentsRaw, MARKDOWN);
-            assert.deepEqual(data.metadata, {});
+            expect(data.contentsRaw).toBe(MARKDOWN);
+            expect(data.metadata).toEqual({});
         });
     });
 
@@ -46,20 +44,20 @@ more description
 
         it("returns a single-element array for string without @tags", () => {
             const { contents } = API.renderBlock("simple string");
-            assert.deepEqual(contents, ["<p>simple string</p>\n"]);
+            expect(contents).toEqual(["<p>simple string</p>\n"]);
         });
 
         it("converts @tag to object in array", () => {
             const { contents } = API.renderBlock(FILE);
-            assert.equal(contents.length, 3);
-            assert.deepEqual(contents[1], { tag: "interface", value: "IButtonProps" });
+            expect(contents).toHaveLength(3);
+            expect(contents[1]).toEqual({ tag: "interface", value: "IButtonProps" });
         });
 
         it("reservedWords will ignore matching @tag", () => {
             const { contents } = API.renderBlock(FILE, ["interface"]);
-            assert.equal(contents.length, 3);
+            expect(contents).toHaveLength(3);
             // reserved @tag is emitted as separate string cuz it's still split by regex
-            assert.deepEqual(contents[1], "<p>@interface IButtonProps</p>\n");
+            expect(contents[1]).toEqual("<p>@interface IButtonProps</p>\n");
         });
 
     });
