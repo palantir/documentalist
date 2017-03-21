@@ -5,10 +5,32 @@
  * repository.
  */
 
+/** Slugify a string: "Really Cool Heading!" => "really-cool-heading-" */
+export function slugify(str: string) {
+    return str.toLowerCase().replace(/[^\w.\/]/g, "-");
+}
+
+/**
+ * The basic components of a navigable resource: a "route" at which it can be accessed and
+ * its depth in the layout hierarchy. Heading tags and hierarchy nodes both extend this interface.
+ */
+export interface INavigable {
+    /** Fully-qualified route of the heading, which can be used as anchor `href`. */
+    route: string;
+
+    /** Level of heading, from 1-6. Dictates which `<h#>` tag to render. */
+    level: number;
+}
+
+/*
+@TAGS
+*/
+
 /** Represents a single `@tag <value>` line from a file. */
 export interface ITag {
     /** Tag name. */
     tag: string;
+
     /** Tag value, exactly as written in source. */
     value: string;
 }
@@ -21,12 +43,8 @@ export interface ITag {
  * Heading tags include additional information over regular tags: fully-qualified `route` of the
  * heading (which can be used as anchor `href`), and `level` to determine which `<h#>` tag to use.
  */
-export interface IHeadingTag extends ITag {
+export interface IHeadingTag extends ITag, INavigable {
     tag: "heading";
-    /** Fully-qualified route of the heading, which can be used as anchor `href`. */
-    route: string;
-    /** Level of heading, from 1-6. Dictates which `<h#>` tag to render. */
-    level: number;
 }
 
 /** An entry in `contents` array: either an HTML string or an `@tag`. */
@@ -36,15 +54,19 @@ export type StringOrTag = string | ITag;
  * Type guard to determine if a `contents` node is an `@tag` statement.
  * Optionally tests tag name too, if `tagName` arg is provided.
  */
-export function isTag(node: StringOrTag, tagName?: string): node is ITag {
+export function isTag(node: any, tagName?: string): node is ITag {
     return node != null && (node as ITag).tag !== undefined
         && (tagName === undefined || (node as ITag).tag === tagName);
 }
 
 /** Type guard to deterimine if a `contents` node is an `@#+` heading tag. */
-export function isHeadingTag(node: StringOrTag): node is IHeadingTag {
+export function isHeadingTag(node: any): node is IHeadingTag {
     return isTag(node, "heading");
 }
+
+/*
+PAGE DATA
+*/
 
 /**
  * Metadata is parsed from YAML front matter in files and can contain arbitrary data.
@@ -72,24 +94,31 @@ export interface IMetadata {
      */
     title?: string;
 
+    // Supports arbitrary string keys.
     [key: string]: any;
+}
+
+/**
+ * The output of `renderBlock` which parses a long form documentation block into
+ * metadata, rendered markdown, and tags.
+ */
+export interface IBlock {
+    /** Parsed nodes of source file. An array of markdown-rendered HTML strings or `@tag` objects. */
+    contents: StringOrTag[];
+
+    /** Raw unmodified contents of source file (excluding the metadata). */
+    contentsRaw: string;
+
+    /** Arbitrary YAML metadata parsed from front matter of source file, if any, or `{}`. */
+    metadata: IMetadata;
 }
 
 /**
  * A single Documentalist page, parsed from a single source file.
  */
-export interface IPageData {
+export interface IPageData extends IBlock {
     /** Absolute path of source file. */
     absolutePath: string;
-
-    /** Raw unmodified contents of source file (excluding the metadata). */
-    contentRaw: string;
-
-    /** Parsed nodes of source file. An array of rendered HTML strings or `@tag` objects. */
-    contents: StringOrTag[];
-
-    /** Arbitrary YAML metadata parsed from front matter of source file */
-    metadata: IMetadata;
 
     /** Unique identifier for addressing this page. */
     reference: string;
@@ -101,30 +130,26 @@ export interface IPageData {
     title: string;
 }
 
-/** One page entry in a layout tree. */
-export interface ITreeEntry {
-    depth: number;
-    route: string;
+/*
+LAYOUT HIERARCHY NODES
+*/
+
+/** An `@#+` tag belongs to a specific page. */
+export interface IHeadingNode extends INavigable {
+    /** Display title of page heading. */
     title: string;
 }
 
 /** A page has ordered children composed of `@#+` and `@page` tags. */
-export interface IPageNode extends ITreeEntry {
-    reference: string;
+export interface IPageNode extends IHeadingNode {
+    /** Ordered list of pages and headings that appear on this page. */
     children: Array<IPageNode | IHeadingNode>;
-}
 
-/** An `@#+` tag belongs to a specific page. */
-// tslint:disable-next-line:no-empty-interface
-export interface IHeadingNode extends ITreeEntry {
+    /** Unique reference of this page, used for retrieval from store. */
+    reference: string;
 }
 
 /** Type guard for `IPageNode`, useful for its `children` array. */
 export function isPageNode(node: any): node is IPageNode {
-    return (node as IPageNode).children !== undefined;
-}
-
-/** Slugify a string: "Really Cool Heading!" => "really-cool-heading-" */
-export function slugify(str: string) {
-    return str.toLowerCase().replace(/[^\w.\/]/g, "-");
+    return node != null && (node as IPageNode).children != null;
 }

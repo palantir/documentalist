@@ -37,6 +37,8 @@
     "clean": "rm -rf dist",
     "docs": "pug -O \"$(./cli.js \"./src/**/*\")\" ./theme/index.pug --pretty -o ./docs",
     "demo": "./cli.js 'test/fixtures/**/*'",
+    "lint": "tslint --project .",
+    "lint.fix": "tslint --fix --project . ",
     "test": "mocha --compilers ts:ts-node/register 'test/**/*Tests.ts'",
     "tsc": "tsc --project . && echo 'OK'",
     "watch": "tsc --project . --watch"
