@@ -6,7 +6,7 @@
  */
 
 import * as path from "path";
-import { IHeadingNode, IPageData, IPageNode, isHeadingTag, isTag, slugify } from "./client";
+import { IHeadingNode, IPageData, IPageNode, isHeadingTag, isTag } from "./client";
 
 export type PartialPageData = Pick<IPageData, "absolutePath" | "contentRaw" | "contents" | "metadata">;
 
@@ -18,12 +18,14 @@ export class PageMap {
      * Use this for ingesting rendered blocks.
      */
     public add(data: PartialPageData) {
+        const reference = getReference(data);
         const page: IPageData = {
-            reference: getReference(data),
+            route: reference,
             title: getTitle(data),
+            reference,
             ...data,
         };
-        this.set(page.reference, page);
+        this.set(reference, page);
         return page;
     }
 
@@ -82,11 +84,13 @@ export class PageMap {
 }
 
 function initPageNode({ reference, title }: IPageData, depth: number = 0): IPageNode {
-    return { children: [], depth, reference, title };
+    // NOTE: `route` may be overwritten in MarkdownPlugin based on nesting.
+    return { children: [], depth, reference, route: reference, title };
 }
 
 function initHeadingNode(title: string, depth: number): IHeadingNode {
-    return { depth, reference: slugify(title), title };
+    // NOTE: `route` will be added in MarkdownPlugin.
+    return { depth, title } as IHeadingNode;
 }
 
 function getReference(data: PartialPageData) {

@@ -87,7 +87,7 @@ export class Compiler implements ICompiler {
             const value = match[2];
             if (/#+/.test(tag)) {
                 // NOTE: not enough information to populate `route` field yet
-                return { level: tag.length, tag: "heading", value } as IHeadingTag;
+                return { tag: "heading", value, level: tag.length } as IHeadingTag;
             } else {
                 return { tag, value };
             }

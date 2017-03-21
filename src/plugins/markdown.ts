@@ -5,7 +5,7 @@
  * repository.
  */
 
-import { headingReference, IPageData, IPageNode, pageReference, StringOrTag } from "../client";
+import { IHeadingNode, IPageData, IPageNode, isHeadingTag, isPageNode, slugify, StringOrTag } from "../client";
 import { PageMap } from "../page";
 import { ICompiler, IFile, IPlugin } from "./plugin";
 
@@ -29,18 +29,6 @@ export interface IMarkdownPluginOptions {
      * @default
      */
     navPage: string;
-
-    /**
-     * Create a reference for a heading title within a page.
-     * Default implementation slugifies heading and joins the references with `.`.
-     */
-    headingReference: (pageReference: string, headingTitle: string) => string;
-
-    /**
-     * Create a reference for a page nested within another page.
-     * Default implementation joins the references with a `/`.
-     */
-    pageReference: (parentReference: string, pageReference: string) => string;
 }
 
 export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
@@ -49,8 +37,6 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
     public constructor(options: Partial<IMarkdownPluginOptions> = {}) {
         this.options = {
             navPage: "_nav",
-            headingReference,
-            pageReference,
             ...options,
         };
     }
@@ -63,8 +49,13 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
         const pageStore = this.buildPageMap(markdownFiles, compiler);
         // nav must be generated before pages because it rewrites references
         const nav = this.buildNavTree(pageStore);
+        this.buildPageObject(pageStore, nav);
         const pages = pageStore.toObject();
         return { nav, pages };
+    }
+
+    private buildNavTree(pages: PageMap) {
+        return pages.toTree(this.options.navPage).children as IPageNode[];
     }
 
     private buildPageMap(markdownFiles: IFile[], { renderBlock }: ICompiler) {
@@ -97,7 +88,33 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
         return pageStore;
     }
 
-    private buildNavTree(pages: PageMap) {
-        return pages.toTree(this.options.navPage).children as IPageNode[];
+    private buildPageObject(pages: PageMap, nav: IPageNode[]) {
+        function recurseRoute(node: IPageNode | IHeadingNode, parent: IPageNode) {
+            const route = isPageNode(node)
+                ? [parent.route, node.reference].join("/")
+                : [parent.route, slugify(node.title)].join(".");
+            node.route = route;
+
+            if (isPageNode(node)) {
+                const page = pages.get(node.reference)!;
+                page.route = route;
+
+                page.contents.forEach((content) => {
+                    // inject `route` field into heading tags
+                    if (isHeadingTag(content)) {
+                        if (content.level > 1) {
+                            content.route = [route, slugify(content.value)].join(".");
+                        } else {
+                            content.route = route;
+                        }
+                    }
+                });
+                node.children.forEach((child) => recurseRoute(child, node));
+            }
+        }
+
+        nav.forEach((page) => {
+            page.children.forEach((node) => recurseRoute(node, page));
+        });
     }
 }

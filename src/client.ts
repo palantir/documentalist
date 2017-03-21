@@ -95,6 +95,9 @@ export interface IPageData {
     /** Unique identifier for addressing this page. */
     reference: string;
 
+    /** Fully qualified route to this page: slash-separated references of all parent pages. */
+    route: string;
+
     /** Human-friendly title of this page. */
     title: string;
 }
@@ -102,14 +105,14 @@ export interface IPageData {
 /** One page entry in a layout tree. */
 export interface ITreeEntry {
     depth: number;
-    reference: string;
+    route: string;
     title: string;
 }
 
 /** A page has ordered children composed of `@#+` and `@page` tags. */
 export interface IPageNode extends ITreeEntry {
+    reference: string;
     children: Array<IPageNode | IHeadingNode>;
-    parentReference?: string;
 }
 
 /** An `@#+` tag belongs to a specific page. */
@@ -125,18 +128,4 @@ export function isPageNode(node: any): node is IPageNode {
 /** Slugify a string: "Really Cool Heading!" => "really-cool-heading-" */
 export function slugify(str: string) {
     return str.toLowerCase().replace(/[^\w.\/]/g, "-");
-}
-
-/**
- * Slugify heading text and join to page refernece with `.`.
- */
-export function headingReference(parentReference: string, headingTitle: string) {
-    return [parentReference, slugify(headingTitle)].join(".");
-}
-
-/**
- * Join page references with a `/` to indicate nesting.
- */
-export function pageReference(parentReference: string, pageReference: string) {
-    return [parentReference, pageReference].join("/");
 }
