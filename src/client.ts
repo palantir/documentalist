@@ -1,4 +1,3 @@
-import { StringOrTag } from "./plugins/plugin";
 /**
  * Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
  * Licensed under the BSD-3 License as modified (the “License”); you may obtain

@@ -71,11 +71,11 @@ export class PageMap {
         }
         const pageNode = initPageNode(page, depth);
         page.contents.forEach((node) => {
-            // we only care about @page and @#+ tag nodes
+            // we only care about @page and @##+ tag nodes
             if (isTag(node, "page")) {
                 pageNode.children.push(this.toTree(node.value, depth + 1));
             } else if (isHeadingTag(node) && node.level > 1) {
-                // use heading strength - 1 cuz h1 is the title
+                // skipping h1 headings cuz they become the page title itself.
                 pageNode.children.push(initHeadingNode(node.value, pageNode.depth + node.level - 1));
             }
         });

@@ -96,6 +96,7 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
             node.route = route;
 
             if (isPageNode(node)) {
+                // node is a page, so it must exist in PageMap.
                 const page = pages.get(node.reference)!;
                 page.route = route;
 

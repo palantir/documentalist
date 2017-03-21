@@ -47,7 +47,7 @@ const TEST_FILES = [
     }, {
         path : "/who/cares/_nav.md",
         read : () => TEST_NAV,
-    }
+    },
 ];
 
 describe("Plugins", () => {
