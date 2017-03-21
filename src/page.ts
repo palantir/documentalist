@@ -11,7 +11,7 @@ import { IBlock, IHeadingNode, IPageData, IPageNode, isHeadingTag, isTag } from 
 export type PartialPageData = Pick<IPageData, "absolutePath" | keyof IBlock>;
 
 export class PageMap {
-    private pages: Map<string, IPageData> = new Map();
+    private store: Map<string, IPageData> = new Map();
 
     /**
      * Adds a new page to the map. Generates title and reference from partial data.
@@ -31,14 +31,14 @@ export class PageMap {
 
     /** Returns the page with the given ID or `undefined` if not found. */
     public get(id: string) {
-        return this.pages.get(id);
+        return this.store.get(id);
     }
 
     /** Removes the page with the given ID and returns it or `undefined` if not found. */
     public remove(id: string) {
         const page = this.get(id);
         if (page !== undefined) {
-            this.pages.delete(id);
+            this.store.delete(id);
         }
         return page;
     }
@@ -48,17 +48,17 @@ export class PageMap {
      * Warns if a page with this ID already exists.
      */
     public set(id: string, page: IPageData) {
-        if (this.pages.has(id)) {
+        if (this.store.has(id)) {
             console.warn(`Found duplicate page "${id}"; overwriting previous data.`);
             console.warn("Rename headings or use metadata `reference` key to disambiguate.");
         }
-        this.pages.set(id, page);
+        this.store.set(id, page);
     }
 
     /** Returns a JS object mapping page IDs to data. */
     public toObject() {
         const object: { [key: string]: IPageData } = {};
-        for (const [key, val] of this.pages.entries()) {
+        for (const [key, val] of this.store.entries()) {
             object[key] = val;
         }
         return object;
