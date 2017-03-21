@@ -76,21 +76,21 @@ export class PageMap {
                 pageNode.children.push(this.toTree(node.value, depth + 1));
             } else if (isHeadingTag(node) && node.level > 1) {
                 // skipping h1 headings cuz they become the page title itself.
-                pageNode.children.push(initHeadingNode(node.value, pageNode.depth + node.level - 1));
+                pageNode.children.push(initHeadingNode(node.value, pageNode.level + node.level - 1));
             }
         });
         return pageNode;
     }
 }
 
-function initPageNode({ reference, title }: IPageData, depth: number = 0): IPageNode {
+function initPageNode({ reference, title }: IPageData, level: number = 0): IPageNode {
     // NOTE: `route` may be overwritten in MarkdownPlugin based on nesting.
-    return { children: [], depth, reference, route: reference, title };
+    return { children: [], level, reference, route: reference, title };
 }
 
-function initHeadingNode(title: string, depth: number): IHeadingNode {
+function initHeadingNode(title: string, level: number): IHeadingNode {
     // NOTE: `route` will be added in MarkdownPlugin.
-    return { depth, title } as IHeadingNode;
+    return { title, level } as IHeadingNode;
 }
 
 function getReference(data: PartialPageData) {

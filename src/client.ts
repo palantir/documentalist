@@ -5,6 +5,14 @@
  * repository.
  */
 
+export interface INavigable {
+    /** Fully-qualified route of the heading, which can be used as anchor `href`. */
+    route: string;
+
+    /** Level of heading, from 1-6. Dictates which `<h#>` tag to render. */
+    level: number;
+}
+
 /** Represents a single `@tag <value>` line from a file. */
 export interface ITag {
     /** Tag name. */
@@ -21,12 +29,8 @@ export interface ITag {
  * Heading tags include additional information over regular tags: fully-qualified `route` of the
  * heading (which can be used as anchor `href`), and `level` to determine which `<h#>` tag to use.
  */
-export interface IHeadingTag extends ITag {
+export interface IHeadingTag extends ITag, INavigable {
     tag: "heading";
-    /** Fully-qualified route of the heading, which can be used as anchor `href`. */
-    route: string;
-    /** Level of heading, from 1-6. Dictates which `<h#>` tag to render. */
-    level: number;
 }
 
 /** An entry in `contents` array: either an HTML string or an `@tag`. */
@@ -107,22 +111,19 @@ export interface IPageData extends IBlock {
     title: string;
 }
 
-/** One page entry in a layout tree. */
-export interface ITreeEntry {
-    depth: number;
-    route: string;
+/** An `@#+` tag belongs to a specific page. */
+export interface IHeadingNode extends INavigable {
+    /** Display title of page heading. */
     title: string;
 }
 
 /** A page has ordered children composed of `@#+` and `@page` tags. */
-export interface IPageNode extends ITreeEntry {
-    reference: string;
+export interface IPageNode extends IHeadingNode {
+    /** Ordered list of pages and headings that appear on this page. */
     children: Array<IPageNode | IHeadingNode>;
-}
 
-/** An `@#+` tag belongs to a specific page. */
-// tslint:disable-next-line:no-empty-interface
-export interface IHeadingNode extends ITreeEntry {
+    /** Unique reference of this page, used for retrieval from store. */
+    reference: string;
 }
 
 /** Type guard for `IPageNode`, useful for its `children` array. */
