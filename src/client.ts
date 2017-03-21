@@ -17,6 +17,7 @@ export interface INavigable {
 export interface ITag {
     /** Tag name. */
     tag: string;
+
     /** Tag value, exactly as written in source. */
     value: string;
 }
@@ -40,13 +41,13 @@ export type StringOrTag = string | ITag;
  * Type guard to determine if a `contents` node is an `@tag` statement.
  * Optionally tests tag name too, if `tagName` arg is provided.
  */
-export function isTag(node: StringOrTag, tagName?: string): node is ITag {
+export function isTag(node: any, tagName?: string): node is ITag {
     return node != null && (node as ITag).tag !== undefined
         && (tagName === undefined || (node as ITag).tag === tagName);
 }
 
 /** Type guard to deterimine if a `contents` node is an `@#+` heading tag. */
-export function isHeadingTag(node: StringOrTag): node is IHeadingTag {
+export function isHeadingTag(node: any): node is IHeadingTag {
     return isTag(node, "heading");
 }
 
@@ -76,6 +77,7 @@ export interface IMetadata {
      */
     title?: string;
 
+    // Supports arbitrary string keys.
     [key: string]: any;
 }
 
@@ -128,7 +130,7 @@ export interface IPageNode extends IHeadingNode {
 
 /** Type guard for `IPageNode`, useful for its `children` array. */
 export function isPageNode(node: any): node is IPageNode {
-    return (node as IPageNode).children !== undefined;
+    return node != null && (node as IPageNode).children != null;
 }
 
 /** Slugify a string: "Really Cool Heading!" => "really-cool-heading-" */
