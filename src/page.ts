@@ -5,28 +5,13 @@
  * repository.
  */
 
-import * as path from "path";
-import { IBlock, IHeadingNode, IPageData, IPageNode, isHeadingTag, isTag } from "./client";
-
-export type PartialPageData = Pick<IPageData, "absolutePath" | keyof IBlock>;
+import { IHeadingNode, IPageData, IPageNode, isHeadingTag, isTag } from "./client";
 
 export class PageMap {
     private store: Map<string, IPageData> = new Map();
 
-    /**
-     * Adds a new page to the map. Generates title and reference from partial data.
-     * Use this for ingesting rendered blocks.
-     */
-    public add(data: PartialPageData) {
-        const reference = getReference(data);
-        const page: IPageData = {
-            route: reference,
-            title: getTitle(data),
-            reference,
-            ...data,
-        };
-        this.set(reference, page);
-        return page;
+    public pages() {
+        return this.store.values();
     }
 
     /** Returns the page with the given ID or `undefined` if not found. */
@@ -91,24 +76,4 @@ function initPageNode({ reference, title }: IPageData, level: number = 0): IPage
 function initHeadingNode(title: string, level: number): IHeadingNode {
     // NOTE: `route` will be added in MarkdownPlugin.
     return { title, level } as IHeadingNode;
-}
-
-function getReference(data: PartialPageData) {
-    if (data.metadata.reference != null) {
-        return data.metadata.reference;
-    }
-    return path.basename(data.absolutePath, path.extname(data.absolutePath));
-}
-
-function getTitle(data: PartialPageData) {
-    if (data.metadata.title !== undefined) {
-        return data.metadata.title;
-    }
-
-    const first = data.contents[0];
-    if (isHeadingTag(first)) {
-        return first.value;
-    }
-
-    return "(untitled)";
 }

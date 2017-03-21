@@ -46,40 +46,31 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
      * Returns a plain object mapping page references to their data.
      */
     public compile(markdownFiles: IFile[], compiler: ICompiler) {
-        const pageStore = this.buildPageMap(markdownFiles, compiler);
-        // nav must be generated before pages because it rewrites references
-        const nav = this.buildNavTree(pageStore);
-        this.buildPageObject(pageStore, nav);
+        const pageStore = this.buildPageStore(markdownFiles, compiler);
+        // generate navigation tree after all pages loaded and processed.
+        const nav = pageStore.toTree(this.options.navPage).children as IPageNode[];
         const pages = pageStore.toObject();
         return { nav, pages };
     }
 
-    private buildNavTree(pages: PageMap) {
-        return pages.toTree(this.options.navPage).children as IPageNode[];
+    private blockToPage(filePath: string, block: IBlock): IPageData {
+        const reference = getReference(filePath, block);
+        return {
+            reference,
+            route: reference,
+            title: getTitle(block),
+            ...block,
+        };
     }
 
-    private buildPageMap(markdownFiles: IFile[], { renderBlock }: ICompiler) {
-        const pageStore: PageMap = new PageMap();
-        markdownFiles
-            .map((file) => pageStore.add({
-                absolutePath: file.path,
-                ...renderBlock(file.read()),
-            }))
-            .map((page) => {
-                // using `reduce` so we can add one or many entries for each node
-                page.contents = page.contents.reduce((array, content) => {
-                    if (typeof content === "string" || content.tag !== "include") {
-                        return array.concat(content);
-                    }
-                    // inline @include page
-                    const pageToInclude = pageStore.get(content.value);
-                    if (pageToInclude === undefined) {
-                        throw new Error(`Unknown @include reference '${content.value}' in '${page.reference}'`);
-                    }
-                    return array.concat(pageToInclude.contents);
-                }, [] as StringOrTag[]);
-                return page;
-            });
+    /** Convert each file to IPageData and populate store. */
+    private buildPageStore(markdownFiles: IFile[], { renderBlock }: ICompiler) {
+        const pageStore = new PageMap();
+        for (const file of markdownFiles) {
+            const block = renderBlock(file.read());
+            const page = this.blockToPage(file.path, block);
+            pageStore.set(page.reference, page);
+        }
         return pageStore;
     }
 
@@ -108,9 +99,25 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
                 node.children.forEach((child) => recurseRoute(child, node));
             }
         }
-
-        nav.forEach((page) => {
-            page.children.forEach((node) => recurseRoute(node, page));
-        });
     }
+}
+
+function getReference(absolutePath: string, { metadata }: IBlock) {
+    if (metadata.reference != null) {
+        return metadata.reference;
+    }
+    return path.basename(absolutePath, path.extname(absolutePath));
+}
+
+function getTitle(block: IBlock) {
+    if (block.metadata.title !== undefined) {
+        return block.metadata.title;
+    }
+
+    const first = block.contents[0];
+    if (isHeadingTag(first)) {
+        return first.value;
+    }
+
+    return "(untitled)";
 }
