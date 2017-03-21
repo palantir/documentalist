@@ -6,7 +6,7 @@
  */
 
 import * as path from "path";
-import { IBlock, IHeadingNode, IPageData, IPageNode, isHeadingTag, isPageNode, slugify, StringOrTag } from "../client";
+import { IBlock, IHeadingNode, IPageData, IPageNode, isHeadingTag, isPageNode, slugify } from "../client";
 import { PageMap } from "../page";
 import { ICompiler, IFile, IPlugin } from "./plugin";
 
@@ -133,7 +133,7 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
                     throw new Error(`Unknown @include reference '${content.value}' in '${page.reference}'`);
                 }
                 return array.concat(pageToInclude.contents);
-            }, [] as StringOrTag[]);
+            }, [] as typeof page.contents);
         }
     }
 }
