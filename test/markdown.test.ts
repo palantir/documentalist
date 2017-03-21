@@ -5,20 +5,7 @@
  * repository.
  */
 
-import { Documentalist } from "../src";
-
-const TEST_CSS = `
-body { background: red; }
-
-/**
- * Block of text
- *
- * @atag with params
- */
-.rulename {
-    font: 300px wingdings;
-}
-`;
+import { Documentalist, ITag } from "../src";
 
 const TEST_MARKDOWN = `---
 key: value
@@ -37,9 +24,6 @@ const TEST_NAV = `
 
 const TEST_FILES = [
     {
-        path : "/fancy/absolute/test.css",
-        read : () => TEST_CSS,
-    }, {
         path : "/whatever/other/test.md",
         read : () => TEST_MARKDOWN,
     }, {
@@ -55,6 +39,6 @@ describe("Plugins", () => {
         expect(page).toBeDefined();
         expect(page.metadata["key"]).toBe("value");
         expect(page.contents).toHaveLength(3);
-        expect((page.contents[2] as any).tag).toBe("othertag");
+        expect((page.contents[2] as ITag).tag).toBe("othertag");
     });
 });
