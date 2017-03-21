@@ -38,20 +38,9 @@
     "demo": "./cli.js 'test/fixtures/**/*'",
     "lint": "tslint --project .",
     "lint.fix": "tslint --fix --project . ",
-    "test": "jest",
+    "test": "jest --config jest.config.json",
     "tsc": "tsc --project . && echo 'OK'",
     "watch": "tsc --project . --watch"
-  },
-  "jest": {
-    "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "testRegex": "(/test/.*|\\.(test|spec))\\.ts$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ]
   },
   "repository": {
     "type": "git",
