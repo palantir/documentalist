@@ -76,20 +76,26 @@ export interface IMetadata {
 }
 
 /**
+ * The output of `renderBlock` which parses a long form documentation block into
+ * metadata, rendered markdown, and tags.
+ */
+export interface IBlock {
+    /** Raw unmodified contents of source file (excluding the metadata). */
+    contentsRaw: string;
+
+    /** Arbitrary YAML metadata parsed from front matter of source file, if any, or `{}`. */
+    metadata: IMetadata;
+
+    /** Parsed nodes of source file. An array of markdown-rendered HTML strings or `@tag` objects. */
+    contents: StringOrTag[];
+}
+
+/**
  * A single Documentalist page, parsed from a single source file.
  */
-export interface IPageData {
+export interface IPageData extends IBlock {
     /** Absolute path of source file. */
     absolutePath: string;
-
-    /** Raw unmodified contents of source file (excluding the metadata). */
-    contentRaw: string;
-
-    /** Parsed nodes of source file. An array of rendered HTML strings or `@tag` objects. */
-    contents: StringOrTag[];
-
-    /** Arbitrary YAML metadata parsed from front matter of source file */
-    metadata: IMetadata;
 
     /** Unique identifier for addressing this page. */
     reference: string;

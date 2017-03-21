@@ -39,9 +39,9 @@ export class Compiler implements ICompiler {
     }
 
     public renderBlock = (blockContent: string, reservedTagWords = RESERVED_WORDS): IBlock => {
-        const { content, metadata } = this.extractMetadata(blockContent);
-        const renderedContent = this.renderContents(content, reservedTagWords);
-        return { content, metadata, renderedContent };
+        const { contentsRaw, metadata } = this.extractMetadata(blockContent);
+        const contents = this.renderContents(contentsRaw, reservedTagWords);
+        return { contents, contentsRaw, metadata };
     }
 
     public renderMarkdown = (markdown: string) => marked(markdown, this.markedOptions);
@@ -65,11 +65,11 @@ export class Compiler implements ICompiler {
     private extractMetadata(text: string) {
         const match = METADATA_REGEX.exec(text);
         if (match === null) {
-            return { content: text, metadata: {} };
+            return { contentsRaw: text, metadata: {} };
         }
 
-        const content = text.substr(match[0].length);
-        return { content, metadata: yaml.load(match[1]) || {} };
+        const contentsRaw = text.substr(match[0].length);
+        return { contentsRaw, metadata: yaml.load(match[1]) || {} };
     }
 
     /**

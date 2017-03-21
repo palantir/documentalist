@@ -61,15 +61,10 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
     private buildPageMap(markdownFiles: IFile[], { renderBlock }: ICompiler) {
         const pageStore: PageMap = new PageMap();
         markdownFiles
-            .map((file) => {
-                const { content, metadata, renderedContent } = renderBlock(file.read());
-                return pageStore.add({
-                    absolutePath: file.path,
-                    contentRaw: content,
-                    contents: renderedContent,
-                    metadata,
-                });
-            })
+            .map((file) => pageStore.add({
+                absolutePath: file.path,
+                ...renderBlock(file.read()),
+            }))
             .map((page) => {
                 // using `reduce` so we can add one or many entries for each node
                 page.contents = page.contents.reduce((array, content) => {
