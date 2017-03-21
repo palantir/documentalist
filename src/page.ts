@@ -6,9 +6,9 @@
  */
 
 import * as path from "path";
-import { IHeadingNode, IPageData, IPageNode, isHeadingTag, isTag } from "./client";
+import { IBlock, IHeadingNode, IPageData, IPageNode, isHeadingTag, isTag } from "./client";
 
-export type PartialPageData = Pick<IPageData, "absolutePath" | "contentsRaw" | "contents" | "metadata">;
+export type PartialPageData = Pick<IPageData, "absolutePath" | keyof IBlock>;
 
 export class PageMap {
     private pages: Map<string, IPageData> = new Map();
