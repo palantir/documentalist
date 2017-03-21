@@ -26,7 +26,7 @@ export interface IMarkdownPluginData {
 export interface IMarkdownPluginOptions {
     /**
      * Page reference that lists the nav roots.
-     * @default
+     * @default "_nav"
      */
     navPage: string;
 }
