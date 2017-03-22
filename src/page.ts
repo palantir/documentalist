@@ -10,6 +10,7 @@ import { IHeadingNode, IPageData, IPageNode, isHeadingTag, isTag } from "./clien
 export class PageMap {
     private store: Map<string, IPageData> = new Map();
 
+    /** Returns an iterator for all the pages (values) in the map. */
     public pages() {
         return this.store.values();
     }
