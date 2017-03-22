@@ -5,40 +5,26 @@
  * repository.
  */
 
-import * as path from "path";
-import { IBlock, IHeadingNode, IPageData, IPageNode, isHeadingTag, isTag } from "./client";
-
-export type PartialPageData = Pick<IPageData, "absolutePath" | keyof IBlock>;
+import { IHeadingNode, IPageData, IPageNode, isHeadingTag, isTag } from "./client";
 
 export class PageMap {
-    private pages: Map<string, IPageData> = new Map();
+    private store: Map<string, IPageData> = new Map();
 
-    /**
-     * Adds a new page to the map. Generates title and reference from partial data.
-     * Use this for ingesting rendered blocks.
-     */
-    public add(data: PartialPageData) {
-        const reference = getReference(data);
-        const page: IPageData = {
-            route: reference,
-            title: getTitle(data),
-            reference,
-            ...data,
-        };
-        this.set(reference, page);
-        return page;
+    /** Returns an iterator for all the pages (values) in the map. */
+    public pages() {
+        return this.store.values();
     }
 
     /** Returns the page with the given ID or `undefined` if not found. */
     public get(id: string) {
-        return this.pages.get(id);
+        return this.store.get(id);
     }
 
     /** Removes the page with the given ID and returns it or `undefined` if not found. */
     public remove(id: string) {
         const page = this.get(id);
         if (page !== undefined) {
-            this.pages.delete(id);
+            this.store.delete(id);
         }
         return page;
     }
@@ -48,17 +34,17 @@ export class PageMap {
      * Warns if a page with this ID already exists.
      */
     public set(id: string, page: IPageData) {
-        if (this.pages.has(id)) {
+        if (this.store.has(id)) {
             console.warn(`Found duplicate page "${id}"; overwriting previous data.`);
             console.warn("Rename headings or use metadata `reference` key to disambiguate.");
         }
-        this.pages.set(id, page);
+        this.store.set(id, page);
     }
 
     /** Returns a JS object mapping page IDs to data. */
     public toObject() {
         const object: { [key: string]: IPageData } = {};
-        for (const [key, val] of this.pages.entries()) {
+        for (const [key, val] of this.store.entries()) {
             object[key] = val;
         }
         return object;
@@ -91,24 +77,4 @@ function initPageNode({ reference, title }: IPageData, level: number = 0): IPage
 function initHeadingNode(title: string, level: number): IHeadingNode {
     // NOTE: `route` will be added in MarkdownPlugin.
     return { title, level } as IHeadingNode;
-}
-
-function getReference(data: PartialPageData) {
-    if (data.metadata.reference != null) {
-        return data.metadata.reference;
-    }
-    return path.basename(data.absolutePath, path.extname(data.absolutePath));
-}
-
-function getTitle(data: PartialPageData) {
-    if (data.metadata.title !== undefined) {
-        return data.metadata.title;
-    }
-
-    const first = data.contents[0];
-    if (isHeadingTag(first)) {
-        return first.value;
-    }
-
-    return "(untitled)";
 }

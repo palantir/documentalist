@@ -5,7 +5,8 @@
  * repository.
  */
 
-import { IHeadingNode, IPageData, IPageNode, isHeadingTag, isPageNode, slugify, StringOrTag } from "../client";
+import * as path from "path";
+import { IBlock, IHeadingNode, IPageData, IPageNode, isHeadingTag, isPageNode, slugify } from "../client";
 import { PageMap } from "../page";
 import { ICompiler, IFile, IPlugin } from "./plugin";
 
@@ -26,7 +27,7 @@ export interface IMarkdownPluginData {
 export interface IMarkdownPluginOptions {
     /**
      * Page reference that lists the nav roots.
-     * @default
+     * @default "_nav"
      */
     navPage: string;
 }
@@ -46,71 +47,113 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
      * Returns a plain object mapping page references to their data.
      */
     public compile(markdownFiles: IFile[], compiler: ICompiler) {
-        const pageStore = this.buildPageMap(markdownFiles, compiler);
-        // nav must be generated before pages because it rewrites references
-        const nav = this.buildNavTree(pageStore);
-        this.buildPageObject(pageStore, nav);
-        const pages = pageStore.toObject();
+        const pageMap = this.buildPageStore(markdownFiles, compiler);
+        // now that we have all known pages, we can resolve @include tags.
+        this.resolveIncludeTags(pageMap);
+        // generate navigation tree after all pages loaded and processed.
+        const nav = pageMap.toTree(this.options.navPage).children as IPageNode[];
+        // use nav tree to fill in `route` for all pages and headings.
+        this.resolveRoutes(nav, pageMap);
+        // generate object at the end, after `route` has been computed throughout.
+        const pages = pageMap.toObject();
         return { nav, pages };
     }
 
-    private buildNavTree(pages: PageMap) {
-        return pages.toTree(this.options.navPage).children as IPageNode[];
+    private blockToPage(filePath: string, block: IBlock): IPageData {
+        const reference = getReference(filePath, block);
+        return {
+            reference,
+            route: reference,
+            title: getTitle(block),
+            ...block,
+        };
     }
 
-    private buildPageMap(markdownFiles: IFile[], { renderBlock }: ICompiler) {
-        const pageStore: PageMap = new PageMap();
-        markdownFiles
-            .map((file) => pageStore.add({
-                absolutePath: file.path,
-                ...renderBlock(file.read()),
-            }))
-            .map((page) => {
-                // using `reduce` so we can add one or many entries for each node
-                page.contents = page.contents.reduce((array, content) => {
-                    if (typeof content === "string" || content.tag !== "include") {
-                        return array.concat(content);
-                    }
-                    // inline @include page
-                    const pageToInclude = pageStore.get(content.value);
-                    if (pageToInclude === undefined) {
-                        throw new Error(`Unknown @include reference '${content.value}' in '${page.reference}'`);
-                    }
-                    return array.concat(pageToInclude.contents);
-                }, [] as StringOrTag[]);
-                return page;
-            });
-        return pageStore;
-    }
-
-    private buildPageObject(pages: PageMap, nav: IPageNode[]) {
-        function recurseRoute(node: IPageNode | IHeadingNode, parent: IPageNode) {
-            const route = isPageNode(node)
-                ? [parent.route, node.reference].join("/")
-                : [parent.route, slugify(node.title)].join(".");
-            node.route = route;
-
-            if (isPageNode(node)) {
-                // node is a page, so it must exist in PageMap.
-                const page = pages.get(node.reference)!;
-                page.route = route;
-
-                page.contents.forEach((content) => {
-                    // inject `route` field into heading tags
-                    if (isHeadingTag(content)) {
-                        if (content.level > 1) {
-                            content.route = [route, slugify(content.value)].join(".");
-                        } else {
-                            content.route = route;
-                        }
-                    }
-                });
-                node.children.forEach((child) => recurseRoute(child, node));
-            }
+    /** Convert each file to IPageData and populate store. */
+    private buildPageStore(markdownFiles: IFile[], { renderBlock }: ICompiler) {
+        const pageMap = new PageMap();
+        for (const file of markdownFiles) {
+            const block = renderBlock(file.read());
+            const page = this.blockToPage(file.path, block);
+            pageMap.set(page.reference, page);
         }
-
-        nav.forEach((page) => {
-            page.children.forEach((node) => recurseRoute(node, page));
-        });
+        return pageMap;
     }
+
+    /**
+     * Computes `route` for the given `node` based on its parent.
+     * If node is a page, then it also computes `route` for each heading and recurses through child
+     * pages.
+     */
+    private recurseRoute(node: IPageNode | IHeadingNode, parent: IPageNode, pageMap: PageMap) {
+        // compute route for page and heading NODES (from nav tree)
+        const route = isPageNode(node)
+            ? [parent.route, node.reference].join("/")
+            : [parent.route, slugify(node.title)].join(".");
+        node.route = route;
+
+        if (isPageNode(node)) {
+            // node is a page, so it must exist in PageMap.
+            const page = pageMap.get(node.reference)!;
+            page.route = route;
+
+            page.contents.forEach((content) => {
+                // inject `route` field into heading TAGS (from page contents)
+                if (isHeadingTag(content)) {
+                    // h1 tags do not get nested as they are used as page title
+                    if (content.level > 1) {
+                        content.route = [route, slugify(content.value)].join(".");
+                    } else {
+                        content.route = route;
+                    }
+                }
+            });
+            node.children.forEach((child) => this.recurseRoute(child, node, pageMap));
+        }
+    }
+
+    private resolveRoutes(nav: IPageNode[], pageMap: PageMap) {
+        for (const page of nav) {
+            // walk the nav tree and compute `route` property for each resource.
+            page.children.forEach((node) => this.recurseRoute(node, page, pageMap));
+        }
+    }
+
+    /** Iterates `contents` array and inlines any `@include page` tags. */
+    private resolveIncludeTags(pageStore: PageMap) {
+        for (const page of pageStore.pages()) {
+            // using `reduce` so we can add one or many entries for each node
+            page.contents = page.contents.reduce((array, content) => {
+                if (typeof content === "string" || content.tag !== "include") {
+                    return array.concat(content);
+                }
+                // inline @include page
+                const pageToInclude = pageStore.get(content.value);
+                if (pageToInclude === undefined) {
+                    throw new Error(`Unknown @include reference '${content.value}' in '${page.reference}'`);
+                }
+                return array.concat(pageToInclude.contents);
+            }, [] as typeof page.contents);
+        }
+    }
+}
+
+function getReference(absolutePath: string, { metadata }: IBlock) {
+    if (metadata.reference != null) {
+        return metadata.reference;
+    }
+    return path.basename(absolutePath, path.extname(absolutePath));
+}
+
+function getTitle(block: IBlock) {
+    if (block.metadata.title != null) {
+        return block.metadata.title;
+    }
+
+    const first = block.contents[0];
+    if (isHeadingTag(first)) {
+        return first.value;
+    }
+
+    return "(untitled)";
 }

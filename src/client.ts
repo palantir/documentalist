@@ -117,9 +117,6 @@ export interface IBlock {
  * A single Documentalist page, parsed from a single source file.
  */
 export interface IPageData extends IBlock {
-    /** Absolute path of source file. */
-    absolutePath: string;
-
     /** Unique identifier for addressing this page. */
     reference: string;
 

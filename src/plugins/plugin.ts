@@ -14,7 +14,7 @@ export { IBlock, StringOrTag };
  */
 export interface IFile {
     path: string;
-    read: () => string;
+    read(): string;
 }
 
 /**
@@ -25,7 +25,7 @@ export interface ICompiler {
      * Converts an array of entries into a map of key to entry, using given
      * callback to extract key from each item.
      */
-    objectify: <T>(array: T[], getKey: (item: T) => string) => { [key: string]: T };
+    objectify<T>(array: T[], getKey: (item: T) => string): { [key: string]: T };
 
     /**
      * Render a block of content by extracting metadata (YAML front matter) and
@@ -36,14 +36,14 @@ export interface ICompiler {
      * tag words array may be provided, in which case the line will be left as
      * is.
      */
-    renderBlock: (blockContent: string, reservedTagWords?: string[]) => IBlock;
+    renderBlock(blockContent: string, reservedTagWords?: string[]): IBlock;
 
     /**
      * Render a string of markdown to HTML, using the options from `Documentalist`.
      */
-    renderMarkdown: (markdown: string) => string;
+    renderMarkdown(markdown: string): string;
 }
 
 export interface IPlugin<T> {
-    compile: (files: IFile[], doc: ICompiler) => T | Promise<T>;
+    compile(files: IFile[], doc: ICompiler): T | Promise<T>;
 }
