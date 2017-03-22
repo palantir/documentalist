@@ -1,6 +1,6 @@
+__tests__/
 docs/
 src/
-test/
 theme/
 
 .npmrc
