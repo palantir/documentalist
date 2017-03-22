@@ -47,15 +47,15 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
      * Returns a plain object mapping page references to their data.
      */
     public compile(markdownFiles: IFile[], compiler: ICompiler) {
-        const pageStore = this.buildPageStore(markdownFiles, compiler);
+        const pageMap = this.buildPageStore(markdownFiles, compiler);
         // now that we have all known pages, we can resolve @include tags.
-        this.resolveIncludeTags(pageStore);
+        this.resolveIncludeTags(pageMap);
         // generate navigation tree after all pages loaded and processed.
-        const nav = pageStore.toTree(this.options.navPage).children as IPageNode[];
+        const nav = pageMap.toTree(this.options.navPage).children as IPageNode[];
         // use nav tree to fill in `route` for all pages and headings.
-        this.resolveRoutes(pageStore, nav);
+        this.resolveRoutes(nav, pageMap);
         // generate object at the end, after `route` has been computed throughout.
-        const pages = pageStore.toObject();
+        const pages = pageMap.toObject();
         return { nav, pages };
     }
 
@@ -71,13 +71,13 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
 
     /** Convert each file to IPageData and populate store. */
     private buildPageStore(markdownFiles: IFile[], { renderBlock }: ICompiler) {
-        const pageStore = new PageMap();
+        const pageMap = new PageMap();
         for (const file of markdownFiles) {
             const block = renderBlock(file.read());
             const page = this.blockToPage(file.path, block);
-            pageStore.set(page.reference, page);
+            pageMap.set(page.reference, page);
         }
-        return pageStore;
+        return pageMap;
     }
 
     /**
@@ -85,7 +85,7 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
      * If node is a page, then it also computes `route` for each heading and recurses through child
      * pages.
      */
-    private recurseRoute(node: IPageNode | IHeadingNode, parent: IPageNode, pageStore: PageMap) {
+    private recurseRoute(node: IPageNode | IHeadingNode, parent: IPageNode, pageMap: PageMap) {
         // compute route for page and heading NODES (from nav tree)
         const route = isPageNode(node)
             ? [parent.route, node.reference].join("/")
@@ -94,7 +94,7 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
 
         if (isPageNode(node)) {
             // node is a page, so it must exist in PageMap.
-            const page = pageStore.get(node.reference)!;
+            const page = pageMap.get(node.reference)!;
             page.route = route;
 
             page.contents.forEach((content) => {
@@ -108,14 +108,14 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
                     }
                 }
             });
-            node.children.forEach((child) => this.recurseRoute(child, node, pageStore));
+            node.children.forEach((child) => this.recurseRoute(child, node, pageMap));
         }
     }
 
-    private resolveRoutes(pageStore: PageMap, nav: IPageNode[]) {
+    private resolveRoutes(nav: IPageNode[], pageMap: PageMap) {
         for (const page of nav) {
             // walk the nav tree and compute `route` property for each resource.
-            page.children.forEach((node) => this.recurseRoute(node, page, pageStore));
+            page.children.forEach((node) => this.recurseRoute(node, page, pageMap));
         }
     }
 
@@ -146,7 +146,7 @@ function getReference(absolutePath: string, { metadata }: IBlock) {
 }
 
 function getTitle(block: IBlock) {
-    if (block.metadata.title !== undefined) {
+    if (block.metadata.title != null) {
         return block.metadata.title;
     }
 
