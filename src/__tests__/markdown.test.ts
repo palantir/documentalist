@@ -5,7 +5,7 @@
  * repository.
  */
 
-import { Documentalist, ITag } from "../src";
+import { Documentalist, ITag } from "../index";
 
 const TEST_MARKDOWN = `---
 key: value

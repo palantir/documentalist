@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // Example Usage
-// ./cli.js --ts 'test/fixtures/**/*.{ts,tsx}' --md 'test/fixtures/**/*.md' --css 'test/fixtures/**/*.css'
+// ./cli.js "./src/**/*"
 /**
  * Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
  * Licensed under the BSD-3 License as modified (the “License”); you may obtain

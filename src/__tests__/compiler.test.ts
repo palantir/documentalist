@@ -5,8 +5,8 @@
  * repository.
  */
 
-import { IHeadingTag, isHeadingTag } from "../src/client";
-import { Compiler } from "../src/compiler";
+import { IHeadingTag, isHeadingTag } from "../client";
+import { Compiler } from "../compiler";
 
 describe("Compiler", () => {
     const API = new Compiler({});
