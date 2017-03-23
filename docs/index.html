@@ -84,25 +84,39 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
             <tr>
               <td class="prop-name" valign="top">clearPlugins</td>
               <td class="prop-type" valign="top">
-                <pre>() =&gt; IApi&lt;{}&gt;</pre>
+                <pre>() =&gt; IApi&lt;{}&gt;</pre><p>Returns a new instance of Documentalist with no plugins.</p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">documentFiles</td>
               <td class="prop-type" valign="top">
-                <pre>(files: IFile[]) =&gt; any</pre>
+                <pre>(files: IFile[]) =&gt; any</pre><p>Iterates over all plugins, passing all matching files to each in turn.
+The output of each plugin is merged to produce the resulting
+documentation object.</p>
+<p>The return type T is a composite type has a composite type of all the
+plugin data types.</p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">documentGlobs</td>
               <td class="prop-type" valign="top">
-                <pre>(...filesGlobs: string[]) =&gt; any</pre>
+                <pre>(...filesGlobs: string[]) =&gt; any</pre><p>Finds all files matching the provided variadic glob expressions and then
+runs <code>documentFiles</code> with them, emitting all the documentation data.</p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">use</td>
               <td class="prop-type" valign="top">
-                <pre>&lt;P&gt;(pattern: string | RegExp, plugin: IPlugin&lt;P&gt;) =&gt; IApi&lt;T &amp; P&gt;</pre>
+                <pre>&lt;P&gt;(pattern: string | RegExp, plugin: IPlugin&lt;P&gt;) =&gt; IApi&lt;T &amp; P&gt;</pre><p>Adds the plugin to Documentalist. Returns a new instance of Documentalist
+with a template type that includes the data from the plugin. This way the
+<code>documentFiles</code> and <code>documentGlobs</code> methods will return an object that is
+already typed to include each plugin&#39;s output.</p>
+<p>The plugin is applied to all files whose absolute path matches the
+supplied pattern.</p>
+
               </td>
             </tr>
           </table>
@@ -113,19 +127,23 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
   </div>
   <div class="hidden" data-route="INavigable">
     <h2>INavigable</h2>
-      <div class="interface-block" id="INavigable">
+      <div class="interface-block" id="INavigable"><p>The basic components of a navigable resource: a &quot;route&quot; at which it can be accessed and
+its depth in the layout hierarchy. Heading tags and hierarchy nodes both extend this interface.</p>
+
         <div class="interface-properties">
           <table>
             <tr>
               <td class="prop-name" valign="top">level</td>
               <td class="prop-type" valign="top">
-                <pre>number</pre>
+                <pre>number</pre><p>Level of heading, from 1-6. Dictates which <code>&lt;h#&gt;</code> tag to render. </p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">route</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>Fully-qualified route of the heading, which can be used as anchor <code>href</code>. </p>
+
               </td>
             </tr>
           </table>
@@ -134,19 +152,22 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
   </div>
   <div class="hidden" data-route="ITag">
     <h2>ITag</h2>
-      <div class="interface-block" id="ITag">
+      <div class="interface-block" id="ITag"><p>Represents a single <code>@tag &lt;value&gt;</code> line from a file. </p>
+
         <div class="interface-properties">
           <table>
             <tr>
               <td class="prop-name" valign="top">tag</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>Tag name. </p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">value</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>Tag value, exactly as written in source. </p>
+
               </td>
             </tr>
           </table>
@@ -155,7 +176,12 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
   </div>
   <div class="hidden" data-route="IHeadingTag">
     <h2>IHeadingTag</h2>
-      <div class="interface-block" id="IHeadingTag">
+      <div class="interface-block" id="IHeadingTag"><p>Represents a single <code>@#+ &lt;value&gt;</code> heading tag from a file. Note that all <code>@#+</code> tags
+(<code>@#</code> through <code>@######</code>) are emitted as <code>tag: &quot;heading&quot;</code> so only one renderer is necessary to
+capture all six levels.</p>
+<p>Heading tags include additional information over regular tags: fully-qualified <code>route</code> of the
+heading (which can be used as anchor <code>href</code>), and <code>level</code> to determine which <code>&lt;h#&gt;</code> tag to use.</p>
+
         <div class="interface-properties">
           <table>
             <tr>
@@ -170,19 +196,30 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
   </div>
   <div class="hidden" data-route="IMetadata">
     <h2>IMetadata</h2>
-      <div class="interface-block" id="IMetadata">
+      <div class="interface-block" id="IMetadata"><p>Metadata is parsed from YAML front matter in files and can contain arbitrary data.
+A few keys are understood by Documentalist and, if defined in front matter,
+will override default behavior.</p>
+<pre><code class="lang-md">---
+reference: overview
+title: &quot;Welcome to the Jungle&quot;
+---
+actual contents of file...
+</code></pre>
+
         <div class="interface-properties">
           <table>
             <tr>
               <td class="prop-name" valign="top">reference</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>Unique ID for addressing this page.</p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">title</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>Human-friendly title of this page, for display in the UI.#` tag</p>
+
               </td>
             </tr>
           </table>
@@ -191,25 +228,30 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
   </div>
   <div class="hidden" data-route="IBlock">
     <h2>IBlock</h2>
-      <div class="interface-block" id="IBlock">
+      <div class="interface-block" id="IBlock"><p>The output of <code>renderBlock</code> which parses a long form documentation block into
+metadata, rendered markdown, and tags.</p>
+
         <div class="interface-properties">
           <table>
             <tr>
               <td class="prop-name" valign="top">contents</td>
               <td class="prop-type" valign="top">
-                <pre>StringOrTag[]</pre>
+                <pre>StringOrTag[]</pre><p>Parsed nodes of source file. An array of markdown-rendered HTML strings or <code>@tag</code> objects. </p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">contentsRaw</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>Raw unmodified contents of source file (excluding the metadata). </p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">metadata</td>
               <td class="prop-type" valign="top">
-                <pre>IMetadata</pre>
+                <pre>IMetadata</pre><p>Arbitrary YAML metadata parsed from front matter of source file, if any, or <code>{}</code>. </p>
+
               </td>
             </tr>
           </table>
@@ -218,25 +260,29 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
   </div>
   <div class="hidden" data-route="IPageData">
     <h2>IPageData</h2>
-      <div class="interface-block" id="IPageData">
+      <div class="interface-block" id="IPageData"><p>A single Documentalist page, parsed from a single source file.</p>
+
         <div class="interface-properties">
           <table>
             <tr>
               <td class="prop-name" valign="top">reference</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>Unique identifier for addressing this page. </p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">route</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>Fully qualified route to this page: slash-separated references of all parent pages. </p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">title</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>Human-friendly title of this page. </p>
+
               </td>
             </tr>
           </table>
@@ -245,13 +291,15 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
   </div>
   <div class="hidden" data-route="IHeadingNode">
     <h2>IHeadingNode</h2>
-      <div class="interface-block" id="IHeadingNode">
+      <div class="interface-block" id="IHeadingNode"><p>An <code>@#+</code> tag belongs to a specific page. </p>
+
         <div class="interface-properties">
           <table>
             <tr>
               <td class="prop-name" valign="top">title</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>Display title of page heading. </p>
+
               </td>
             </tr>
           </table>
@@ -260,19 +308,22 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
   </div>
   <div class="hidden" data-route="IPageNode">
     <h2>IPageNode</h2>
-      <div class="interface-block" id="IPageNode">
+      <div class="interface-block" id="IPageNode"><p>A page has ordered children composed of <code>@#+</code> and <code>@page</code> tags. </p>
+
         <div class="interface-properties">
           <table>
             <tr>
               <td class="prop-name" valign="top">children</td>
               <td class="prop-type" valign="top">
-                <pre>(IPageNode | IHeadingNode)[]</pre>
+                <pre>(IPageNode | IHeadingNode)[]</pre><p>Ordered list of pages and headings that appear on this page. </p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">reference</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>Unique reference of this page, used for retrieval from store. </p>
+
               </td>
             </tr>
           </table>
@@ -281,7 +332,8 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
   </div>
   <div class="hidden" data-route="IFile">
     <h2>IFile</h2>
-      <div class="interface-block" id="IFile">
+      <div class="interface-block" id="IFile"><p>Abstract representation of a file, containing absolute path and synchronous <code>read</code> operation.</p>
+
         <div class="interface-properties">
           <table>
             <tr>
@@ -302,25 +354,35 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
   </div>
   <div class="hidden" data-route="ICompiler">
     <h2>ICompiler</h2>
-      <div class="interface-block" id="ICompiler">
+      <div class="interface-block" id="ICompiler"><p>Each plugin receives a <code>Compiler</code> instance to aid in the processing of source files.</p>
+
         <div class="interface-properties">
           <table>
             <tr>
               <td class="prop-name" valign="top">objectify</td>
               <td class="prop-type" valign="top">
-                <pre>&lt;T&gt;(array: T[], getKey: (item: T) =&gt; string) =&gt; { [key: string]: T; }</pre>
+                <pre>&lt;T&gt;(array: T[], getKey: (item: T) =&gt; string) =&gt; { [key: string]: T; }</pre><p>Converts an array of entries into a map of key to entry, using given
+callback to extract key from each item.</p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">renderBlock</td>
               <td class="prop-type" valign="top">
-                <pre>(blockContent: string, reservedTagWords?: string[]) =&gt; IBlock</pre>
+                <pre>(blockContent: string, reservedTagWords?: string[]) =&gt; IBlock</pre><p>Render a block of content by extracting metadata (YAML front matter) and
+splitting text content into markdown-rendered HTML strings and <code>{ tag,
+value }</code> objects.</p>
+<p>To prevent special strings like &quot;@include&quot; from being parsed, a reserved
+tag words array may be provided, in which case the line will be left as
+is.</p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">renderMarkdown</td>
               <td class="prop-type" valign="top">
-                <pre>(markdown: string) =&gt; string</pre>
+                <pre>(markdown: string) =&gt; string</pre><p>Render a string of markdown to HTML, using the options from <code>Documentalist</code>.</p>
+
               </td>
             </tr>
           </table>
@@ -344,7 +406,8 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
   </div>
   <div class="hidden" data-route="IKssModifier">
     <h2>IKssModifier</h2>
-      <div class="interface-block" id="IKssModifier">
+      <div class="interface-block" id="IKssModifier"><p>A single modifier for an example. </p>
+
         <div class="interface-properties">
           <table>
             <tr>
@@ -365,37 +428,45 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
   </div>
   <div class="hidden" data-route="IKssExample">
     <h2>IKssExample</h2>
-      <div class="interface-block" id="IKssExample">
+      <div class="interface-block" id="IKssExample"><p>A markup/modifiers example parsed from a KSS comment block.</p>
+
         <div class="interface-properties">
           <table>
             <tr>
               <td class="prop-name" valign="top">documentation</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>Raw documentation string. </p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">markup</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>Raw HTML markup for example with <code>{{.modifier}}</code> templates,
+to be used to render the markup for each modifier.</p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">markupHtml</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>Syntax-highlighted version of the markup HTML, to be used
+for rendering the markup itself with pretty colors.</p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">modifiers</td>
               <td class="prop-type" valign="top">
-                <pre>IKssModifier[]</pre>
+                <pre>IKssModifier[]</pre><p>Array of modifiers supported by HTML markup. </p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">reference</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>Unique reference for addressing this example. </p>
+
               </td>
             </tr>
           </table>
@@ -425,13 +496,17 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
             <tr>
               <td class="prop-name" valign="top">nav</td>
               <td class="prop-type" valign="top">
-                <pre>IPageNode[]</pre>
+                <pre>IPageNode[]</pre><p>An ordered, nested, multi-rooted tree describing the navigation layout
+of all the pages and their headings. Uses <code>@page</code> and <code>@#+</code> tags to build
+this representation.</p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">pages</td>
               <td class="prop-type" valign="top">
-                <pre>{ [reference: string]: IPageData; }</pre>
+                <pre>{ [reference: string]: IPageData; }</pre><p>A map of page reference to data. </p>
+
               </td>
             </tr>
           </table>
@@ -446,7 +521,8 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
             <tr>
               <td class="prop-name" valign="top">navPage</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <pre>string</pre><p>Page reference that lists the nav roots.</p>
+
               </td>
             </tr>
           </table>
@@ -551,25 +627,39 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
             <tr>
               <td class="prop-name" valign="top">clearPlugins</td>
               <td class="prop-type" valign="top">
-                <pre>() =&gt; IApi&lt;{}&gt;</pre>
+                <pre>() =&gt; IApi&lt;{}&gt;</pre><p>Returns a new instance of Documentalist with no plugins.</p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">documentFiles</td>
               <td class="prop-type" valign="top">
-                <pre>(files: IFile[]) =&gt; any</pre>
+                <pre>(files: IFile[]) =&gt; any</pre><p>Iterates over all plugins, passing all matching files to each in turn.
+The output of each plugin is merged to produce the resulting
+documentation object.</p>
+<p>The return type T is a composite type has a composite type of all the
+plugin data types.</p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">documentGlobs</td>
               <td class="prop-type" valign="top">
-                <pre>(...filesGlobs: string[]) =&gt; any</pre>
+                <pre>(...filesGlobs: string[]) =&gt; any</pre><p>Finds all files matching the provided variadic glob expressions and then
+runs <code>documentFiles</code> with them, emitting all the documentation data.</p>
+
               </td>
             </tr>
             <tr>
               <td class="prop-name" valign="top">use</td>
               <td class="prop-type" valign="top">
-                <pre>&lt;P&gt;(pattern: string | RegExp, plugin: IPlugin&lt;P&gt;) =&gt; IApi&lt;T &amp; P&gt;</pre>
+                <pre>&lt;P&gt;(pattern: string | RegExp, plugin: IPlugin&lt;P&gt;) =&gt; IApi&lt;T &amp; P&gt;</pre><p>Adds the plugin to Documentalist. Returns a new instance of Documentalist
+with a template type that includes the data from the plugin. This way the
+<code>documentFiles</code> and <code>documentGlobs</code> methods will return an object that is
+already typed to include each plugin&#39;s output.</p>
+<p>The plugin is applied to all files whose absolute path matches the
+supplied pattern.</p>
+
               </td>
             </tr>
           </table>
@@ -578,7 +668,8 @@ writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
   </div>
   <div class="hidden" data-route="IPluginEntry">
     <h2>IPluginEntry</h2>
-      <div class="interface-block" id="IPluginEntry">
+      <div class="interface-block" id="IPluginEntry"><p>Plugins are stored with the regex used to match against file paths.</p>
+
         <div class="interface-properties">
           <table>
             <tr>

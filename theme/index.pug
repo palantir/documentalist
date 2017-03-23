@@ -39,8 +39,8 @@ body
   #content
 
   mixin joinContent(doc)
-    if doc.renderedContent
-      | !{doc.renderedContent.join('')}
+    if doc.contents
+      | !{doc.contents.join('')}
 
   mixin interface(iface)
     .interface-block(id=iface.name)
