@@ -53,7 +53,7 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
         // generate navigation tree after all pages loaded and processed.
         const nav = pageMap.toTree(this.options.navPage).children as IPageNode[];
         // use nav tree to fill in `route` for all pages and headings.
-        this.resolveRoutes(nav, pageMap);
+        this.resolveRoutes(pageMap, nav);
         // generate object at the end, after `route` has been computed throughout.
         const pages = pageMap.toObject();
         return { nav, pages };
@@ -85,11 +85,12 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
      * If node is a page, then it also computes `route` for each heading and recurses through child
      * pages.
      */
-    private recurseRoute(node: IPageNode | IHeadingNode, parent: IPageNode, pageMap: PageMap) {
+    private recurseRoute(pageMap: PageMap, node: IPageNode | IHeadingNode, parent?: IPageNode) {
         // compute route for page and heading NODES (from nav tree)
+        const path = parent === undefined ? [] : [parent.route];
         const route = isPageNode(node)
-            ? [parent.route, node.reference].join("/")
-            : [parent.route, slugify(node.title)].join(".");
+            ? path.concat(node.reference).join("/")
+            : path.concat(slugify(node.title)).join(".");
         node.route = route;
 
         if (isPageNode(node)) {
@@ -108,14 +109,14 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
                     }
                 }
             });
-            node.children.forEach((child) => this.recurseRoute(child, node, pageMap));
+            node.children.forEach((child) => this.recurseRoute(pageMap, child, node));
         }
     }
 
-    private resolveRoutes(nav: IPageNode[], pageMap: PageMap) {
+    private resolveRoutes(pageMap: PageMap, nav: IPageNode[]) {
         for (const page of nav) {
             // walk the nav tree and compute `route` property for each resource.
-            page.children.forEach((node) => this.recurseRoute(node, page, pageMap));
+            this.recurseRoute(pageMap, page);
         }
     }
 
