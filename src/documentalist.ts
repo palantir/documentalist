@@ -68,14 +68,15 @@ export interface IPluginEntry<T> {
 
 export class Documentalist<T> implements IApi<T> {
     public static create(markedOptions?: MarkedOptions): IApi<IMarkdownPluginData & ITypescriptPluginData> {
-        return new Documentalist([], markedOptions)
+        return new Documentalist(markedOptions, [])
             .use(/\.md$/, new MarkdownPlugin())
             .use(/\.tsx?$/, new TypescriptPlugin());
     }
 
     constructor(
+        private markedOptions: MarkedOptions = {},
         private plugins: Array<IPluginEntry<T>> = [],
-        private markedOptions: MarkedOptions = {}) {
+    ) {
     }
 
     public use<P>(pattern: RegExp | string, plugin: IPlugin<P>): IApi<T & P> {
@@ -84,11 +85,11 @@ export class Documentalist<T> implements IApi<T> {
         }
 
         const newPlugins = [...this.plugins, { pattern, plugin } as IPluginEntry<T & P>];
-        return new Documentalist(newPlugins, this.markedOptions);
+        return new Documentalist(this.markedOptions, newPlugins);
     }
 
     public clearPlugins(): IApi<{}> {
-        return new Documentalist<{}>([], this.markedOptions);
+        return new Documentalist<{}>(this.markedOptions, []);
     }
 
     public async documentGlobs(...filesGlobs: string[]) {
