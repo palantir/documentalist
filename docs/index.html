@@ -27,7 +27,8 @@
     <h3>Interfaces</h3><a href="#IApi">
       <div class="nav-item">IApi</div></a><a href="#IBlock">
       <div class="nav-item">IBlock</div></a><a href="#ICompiler">
-      <div class="nav-item">ICompiler</div></a><a href="#IFile">
+      <div class="nav-item">ICompiler</div></a><a href="#ICompilerOptions">
+      <div class="nav-item">ICompilerOptions</div></a><a href="#IFile">
       <div class="nav-item">IFile</div></a><a href="#IHeadingNode">
       <div class="nav-item">IHeadingNode</div></a><a href="#IHeadingTag">
       <div class="nav-item">IHeadingTag</div></a><a href="#IKssExample">
@@ -398,6 +399,31 @@ is.</p>
               <td class="prop-name" valign="top">compile</td>
               <td class="prop-type" valign="top">
                 <pre>(files: IFile[], doc: ICompiler) =&gt; any</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="ICompilerOptions">
+    <h2>ICompilerOptions</h2>
+      <div class="interface-block" id="ICompilerOptions">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">markdown</td>
+              <td class="prop-type" valign="top">
+                <pre>MarkedOptions</pre><p>Options for markdown rendering. See <a href="https://github.com/chjj/marked#options-1">https://github.com/chjj/marked#options-1</a>. </p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">reservedTags</td>
+              <td class="prop-type" valign="top">
+                <pre>string[]</pre><p>Reserved @tags that should be preserved in the contents string.
+A common use case is allowing specific code constructs, like <code>@Decorator</code> names.
+Do not include the <code>@</code> prefix in the strings.</p>
+
               </td>
             </tr>
           </table>
