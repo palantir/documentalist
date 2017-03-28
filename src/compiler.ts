@@ -16,7 +16,14 @@ const TAG_REGEX = /^@(\S+)(?:\s+([^\n]+))?$/;
 const TAG_SPLIT_REGEX = /^(@\S+(?:\s+[^\n]+)?)$/gm;
 
 export interface ICompilerOptions {
+    /** Options for markdown rendering. See https://github.com/chjj/marked#options-1. */
     markdown?: MarkedOptions;
+
+    /**
+     * Reserved @tags that should be preserved in the contents string.
+     * A common use case is allowing specific code constructs, like `@Decorator` names.
+     * Do not include the `@` prefix in the strings.
+     */
     reservedTags?: string[];
 }
 

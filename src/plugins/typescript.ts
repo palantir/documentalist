@@ -33,7 +33,16 @@ export interface ITypescriptPluginData {
 
 export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     public constructor(
+        /**
+         * Options to `ts-quick-docs`, mostly for customizing which symbols appear in the output.
+         */
         private options: IDocumentationOptions = {},
+
+        /**
+         * Compiler options for Typescript program used to "read" your typings.
+         * (This is distinct from whatever options you need to build your typings.)
+         * If omitted, the default compiler options are used.
+         */
         // HACK: using any to avoid duplicate typings issue with ts.CompilerOptions
         private compilerOptions: any = {},
     ) {}
