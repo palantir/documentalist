@@ -9,14 +9,7 @@ import * as fs from "fs";
 import * as glob from "glob";
 import * as path from "path";
 import { Compiler, ICompilerOptions } from "./compiler";
-import {
-    IFile,
-    IMarkdownPluginData,
-    IPlugin,
-    ITypescriptPluginData,
-    MarkdownPlugin,
-    TypescriptPlugin,
-} from "./plugins";
+import { IFile, IPlugin } from "./plugins";
 
 export interface IApi<T> {
     /**
@@ -67,10 +60,8 @@ export interface IPluginEntry<T> {
 }
 
 export class Documentalist<T> implements IApi<T> {
-    public static create(options?: ICompilerOptions): IApi<IMarkdownPluginData & ITypescriptPluginData> {
-        return new Documentalist(options, [])
-            .use(/\.md$/, new MarkdownPlugin())
-            .use(/\.tsx?$/, new TypescriptPlugin());
+    public static create(options?: ICompilerOptions): IApi<{}> {
+        return new Documentalist(options, []);
     }
 
     constructor(

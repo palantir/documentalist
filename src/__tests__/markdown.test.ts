@@ -6,6 +6,7 @@
  */
 
 import { Documentalist, ITag } from "../index";
+import { MarkdownPlugin } from "../plugins/markdown";
 
 const TEST_MARKDOWN = `---
 key: value
@@ -33,8 +34,11 @@ const TEST_FILES = [
 ];
 
 describe("Plugins", () => {
+    const dm = Documentalist.create()
+        .use(".md", new MarkdownPlugin());
+
     it("can document Markdown files", async () => {
-        const docs = await Documentalist.create().documentFiles(TEST_FILES);
+        const docs = await dm.documentFiles(TEST_FILES);
         const page = docs.pages["test"];
         expect(page).toBeDefined();
         expect(page.metadata["key"]).toBe("value");
