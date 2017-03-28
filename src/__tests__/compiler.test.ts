@@ -80,9 +80,10 @@ describe("Compiler", () => {
 
         it("reservedWords will ignore matching @tag", () => {
             const { contents } = API.renderBlock(FILE, ["interface"]);
-            expect(contents).toHaveLength(3);
-            // reserved @tag is emitted as separate string cuz it's still split by regex
-            expect(contents[1]).toEqual("<p>@interface IButtonProps</p>\n");
+            // only one string (reserved @word does not get split to its own entry)
+            expect(contents).toHaveLength(1);
+            // @tag value comes out exactly as written in source, on its own line
+            expect((contents[0] as string).split("\n")).toContain("@interface IButtonProps");
         });
 
     });

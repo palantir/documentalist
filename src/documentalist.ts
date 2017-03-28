@@ -8,7 +8,7 @@
 import * as fs from "fs";
 import * as glob from "glob";
 import * as path from "path";
-import { Compiler } from "./compiler";
+import { Compiler, ICompilerOptions } from "./compiler";
 import {
     IFile,
     IMarkdownPluginData,
@@ -67,14 +67,14 @@ export interface IPluginEntry<T> {
 }
 
 export class Documentalist<T> implements IApi<T> {
-    public static create(markedOptions?: MarkedOptions): IApi<IMarkdownPluginData & ITypescriptPluginData> {
-        return new Documentalist(markedOptions, [])
+    public static create(options?: ICompilerOptions): IApi<IMarkdownPluginData & ITypescriptPluginData> {
+        return new Documentalist(options, [])
             .use(/\.md$/, new MarkdownPlugin())
             .use(/\.tsx?$/, new TypescriptPlugin());
     }
 
     constructor(
-        private markedOptions: MarkedOptions = {},
+        private options: ICompilerOptions = {},
         private plugins: Array<IPluginEntry<T>> = [],
     ) {
     }
@@ -85,11 +85,11 @@ export class Documentalist<T> implements IApi<T> {
         }
 
         const newPlugins = [...this.plugins, { pattern, plugin } as IPluginEntry<T & P>];
-        return new Documentalist(this.markedOptions, newPlugins);
+        return new Documentalist(this.options, newPlugins);
     }
 
     public clearPlugins(): IApi<{}> {
-        return new Documentalist<{}>(this.markedOptions, []);
+        return new Documentalist<{}>(this.options, []);
     }
 
     public async documentGlobs(...filesGlobs: string[]) {
@@ -98,7 +98,7 @@ export class Documentalist<T> implements IApi<T> {
     }
 
     public async documentFiles(files: IFile[]) {
-        const compiler = new Compiler(this.markedOptions);
+        const compiler = new Compiler(this.options);
         const documentation = {} as T;
         for (const { pattern, plugin } of this.plugins) {
             const pluginFiles = files.filter((f) => pattern.test(f.path));
