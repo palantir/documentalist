@@ -1,6 +1,5 @@
 import * as yaml from "js-yaml";
 import * as marked from "marked";
-
 import { IHeadingTag } from "./client";
 import { IBlock, ICompiler, StringOrTag } from "./plugins/plugin";
 
@@ -16,19 +15,20 @@ const METADATA_REGEX = /^---\n?((?:.|\n)*)\n---\n/;
 const TAG_REGEX = /^@(\S+)(?:\s+([^\n]+))?$/;
 const TAG_SPLIT_REGEX = /^(@\S+(?:\s+[^\n]+)?)$/gm;
 
-/**
- * Ignored `@tag` names. Some languages already support `@tags`, so to separate
- * Documentalist tags, we use these default reserved words to avoid conflicts.
- *
- * Plugins may define their own reserved words when calling the `renderBlock`
- * method.
- */
-const RESERVED_WORDS = [
-    "import",
-];
+export interface ICompilerOptions {
+    /** Options for markdown rendering. See https://github.com/chjj/marked#options-1. */
+    markdown?: MarkedOptions;
+
+    /**
+     * Reserved @tags that should be preserved in the contents string.
+     * A common use case is allowing specific code constructs, like `@Decorator` names.
+     * Do not include the `@` prefix in the strings.
+     */
+    reservedTags?: string[];
+}
 
 export class Compiler implements ICompiler {
-    public constructor(private markedOptions: MarkedOptions) {
+    public constructor(private options: ICompilerOptions) {
     }
 
     public objectify<T>(array: T[], getKey: (item: T) => string) {
@@ -38,20 +38,20 @@ export class Compiler implements ICompiler {
         }, {} as { [key: string]: T });
     }
 
-    public renderBlock = (blockContent: string, reservedTagWords = RESERVED_WORDS): IBlock => {
+    public renderBlock = (blockContent: string, reservedTagWords = this.options.reservedTags): IBlock => {
         const { contentsRaw, metadata } = this.extractMetadata(blockContent);
         const contents = this.renderContents(contentsRaw, reservedTagWords);
         return { contents, contentsRaw, metadata };
     }
 
-    public renderMarkdown = (markdown: string) => marked(markdown, this.markedOptions);
+    public renderMarkdown = (markdown: string) => marked(markdown, this.options.markdown);
 
     /**
      * Converts the content string into an array of `ContentNode`s. If the
      * `contents` option is `html`, the string nodes will also be rendered with
      * markdown.
      */
-    private renderContents(content: string, reservedTagWords: string[]) {
+    private renderContents(content: string, reservedTagWords?: string[]) {
         const splitContents = this.parseTags(content, reservedTagWords);
         return splitContents
             .map((node) => typeof node === "string" ? this.renderMarkdown(node) : node)
@@ -77,20 +77,28 @@ export class Compiler implements ICompiler {
      * `@tag`. You may prevent this splitting by specifying an array of reserved
      * tag names.
      */
-    private parseTags(content: string, reservedWords: string[]) {
-        return content.split(TAG_SPLIT_REGEX).map((str): StringOrTag => {
+    private parseTags(content: string, reservedWords: string[] = []) {
+        // using reduce so we can squash consecutive strings (<= 1 entry per iteration)
+        return content.split(TAG_SPLIT_REGEX).reduce((arr, str) => {
             const match = TAG_REGEX.exec(str);
             if (match === null || reservedWords.indexOf(match[1]) >= 0) {
-                return str;
-            }
-            const tag = match[1];
-            const value = match[2];
-            if (/#+/.test(tag)) {
-                // NOTE: not enough information to populate `route` field yet
-                return { tag: "heading", value, level: tag.length } as IHeadingTag;
+                if (typeof arr[arr.length - 1] === "string") {
+                    // merge consecutive strings to avoid breaking up code blocks
+                    arr[arr.length - 1] += str;
+                } else {
+                    arr.push(str);
+                }
             } else {
-                return { tag, value };
+                const tag = match[1];
+                const value = match[2];
+                if (/#+/.test(tag)) {
+                    // NOTE: not enough information to populate `route` field yet
+                    arr.push({ tag: "heading", value, level: tag.length } as IHeadingTag);
+                } else {
+                    arr.push({ tag, value });
+                }
             }
-        });
+            return arr;
+        }, [] as StringOrTag[]);
     }
 }

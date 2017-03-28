@@ -8,15 +8,8 @@
 import * as fs from "fs";
 import * as glob from "glob";
 import * as path from "path";
-import { Compiler } from "./compiler";
-import {
-    IFile,
-    IMarkdownPluginData,
-    IPlugin,
-    ITypescriptPluginData,
-    MarkdownPlugin,
-    TypescriptPlugin,
-} from "./plugins";
+import { Compiler, ICompilerOptions } from "./compiler";
+import { IFile, IPlugin } from "./plugins";
 
 export interface IApi<T> {
     /**
@@ -67,15 +60,14 @@ export interface IPluginEntry<T> {
 }
 
 export class Documentalist<T> implements IApi<T> {
-    public static create(markedOptions?: MarkedOptions): IApi<IMarkdownPluginData & ITypescriptPluginData> {
-        return new Documentalist([], markedOptions)
-            .use(/\.md$/, new MarkdownPlugin())
-            .use(/\.tsx?$/, new TypescriptPlugin());
+    public static create(options?: ICompilerOptions): IApi<{}> {
+        return new Documentalist(options, []);
     }
 
     constructor(
+        private options: ICompilerOptions = {},
         private plugins: Array<IPluginEntry<T>> = [],
-        private markedOptions: MarkedOptions = {}) {
+    ) {
     }
 
     public use<P>(pattern: RegExp | string, plugin: IPlugin<P>): IApi<T & P> {
@@ -84,11 +76,11 @@ export class Documentalist<T> implements IApi<T> {
         }
 
         const newPlugins = [...this.plugins, { pattern, plugin } as IPluginEntry<T & P>];
-        return new Documentalist(newPlugins, this.markedOptions);
+        return new Documentalist(this.options, newPlugins);
     }
 
     public clearPlugins(): IApi<{}> {
-        return new Documentalist<{}>([], this.markedOptions);
+        return new Documentalist<{}>(this.options, []);
     }
 
     public async documentGlobs(...filesGlobs: string[]) {
@@ -97,7 +89,7 @@ export class Documentalist<T> implements IApi<T> {
     }
 
     public async documentFiles(files: IFile[]) {
-        const compiler = new Compiler(this.markedOptions);
+        const compiler = new Compiler(this.options);
         const documentation = {} as T;
         for (const { pattern, plugin } of this.plugins) {
             const pluginFiles = files.filter((f) => pattern.test(f.path));
