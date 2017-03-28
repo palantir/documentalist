@@ -15,16 +15,26 @@
 
 - `.md` files for longform documentation and overall structure
 - `.ts`, `.tsx` files for JSDoc comments on interfaces in TypeScript source code
-- `.css`, `.scss` files for comments on CSS selectors
+- `.css`, `.less`, `.scss` files for comments on CSS selectors
+
+With the JavaScript API, nothing comes for free. All plugins must be registered with `.use()`.
 
 ```js
-const { Documentalist } = require("documentalist");
+const { Documentalist, MarkdownPlugin } = require("documentalist");
 const { writeFileSync } = require("fs");
 
-const dm = new Documentalist();
-const docs = dm.documentGlobs("src/**/*");
+const docs = new Documentalist()
+  .use(".md", new MarkdownPlugin())
+  .documentGlobs("src/**/*");
 
 writeFileSync("docs.json", JSON.stringify(docs, null, 2));
+```
+
+With the CLI, the Markdown and Typescript plugins are enabled by default.
+The CSS plugin can be enabled with `--css`.
+
+```sh
+documentalist "src/**/*" --css --no-ts > docs.json
 ```
 
 # License
