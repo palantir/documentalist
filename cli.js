@@ -12,32 +12,43 @@
 const yargs = require("yargs");
 const fs = require("fs");
 const glob = require("glob");
-const { Documentalist } = require("./dist/");
+const { Documentalist, KssPlugin, MarkdownPlugin, TypescriptPlugin } = require("./dist/");
 
 const argv = yargs
+    .alias("v", "version")
     .version(require("./package.json").version)
     .usage("$0 [options] <files>")
+    .option("md", {
+        default: true,
+        desc: "use MarkdownPlugin for .md files",
+        type: "boolean",
+    })
+    .option("ts", {
+        default: true,
+        desc: "use TypescriptPlugin for .tsx? files",
+        type: "boolean",
+    })
+    .option("css", {
+        desc: "use KssPlugin for .(css|less|scss) files",
+        type: "boolean",
+    })
     .demandCommand(1, "Requires at least one file")
-    // TODO: how to specify plugin on CLI?
-    // .option("--use [pattern:plugin]", "Use a plugin to process files matching the pattern")
     .argv;
 
-// ensure `use` option is always an array
-const plugins = [].concat(argv.use)
-    .filter((use) => use !== undefined)
-    .map((/** @type {string} */ use) => {
-        const [pattern, plugin] = use.split(":");
-        if (plugin === undefined) {
-            console.error("invalid --use option '%s'", use);
-            process.exit(1);
-        }
-        return { pattern, plugin };
-    });
+let docs = Documentalist.create();
 
-const docs = Documentalist.create();
-plugins.forEach(({ pattern, plugin }) => {
-    docs.use(new RegExp(pattern), plugin);
-});
+if (argv.md) {
+    docs = docs.use(".md", new MarkdownPlugin());
+}
+if (argv.ts) {
+    docs = docs.use(/\.tsx?$/, new TypescriptPlugin({
+        excludePaths: ["__tests__"],
+    }));
+}
+if (argv.css) {
+    docs = docs.use(/\.(css|less|s[ac]ss)$/, new KssPlugin());
+}
+
 docs.documentGlobs(...argv._)
     .then((data) => JSON.stringify(data, null, 2))
     .then(console.log, console.error);
