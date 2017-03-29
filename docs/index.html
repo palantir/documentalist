@@ -126,6 +126,209 @@ supplied pattern.</p>
 <p>Documentalist uses a plugin architecture to support arbitrary file types.</p>
 
   </div>
+  <div class="hidden" data-route="IKssModifier">
+    <h2>IKssModifier</h2>
+      <div class="interface-block" id="IKssModifier"><p>Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
+Licensed under the BSD-3 License as modified (the “License”); you may obtain
+a copy of the license in the LICENSE and PATENTS files in the root of this
+repository.
+A single modifier for an example. </p>
+
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">documentation</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">name</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IKssExample">
+    <h2>IKssExample</h2>
+      <div class="interface-block" id="IKssExample"><p>A markup/modifiers example parsed from a KSS comment block.</p>
+
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">documentation</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre><p>Raw documentation string. </p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">markup</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre><p>Raw HTML markup for example with <code>{{.modifier}}</code> templates,
+to be used to render the markup for each modifier.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">markupHtml</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre><p>Syntax-highlighted version of the markup HTML, to be used
+for rendering the markup itself with pretty colors.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">modifiers</td>
+              <td class="prop-type" valign="top">
+                <pre>IKssModifier[]</pre><p>Array of modifiers supported by HTML markup. </p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">reference</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre><p>Unique reference for addressing this example. </p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IKssPluginData">
+    <h2>IKssPluginData</h2>
+      <div class="interface-block" id="IKssPluginData">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">css</td>
+              <td class="prop-type" valign="top">
+                <pre>{ [reference: string]: IKssExample; }</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IMarkdownPluginData">
+    <h2>IMarkdownPluginData</h2>
+      <div class="interface-block" id="IMarkdownPluginData">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">nav</td>
+              <td class="prop-type" valign="top">
+                <pre>IPageNode[]</pre><p>An ordered, nested, multi-rooted tree describing the navigation layout
+of all the pages and their headings. Uses <code>@page</code> and <code>@#+</code> tags to build
+this representation.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">pages</td>
+              <td class="prop-type" valign="top">
+                <pre>{ [reference: string]: IPageData; }</pre><p>A map of page reference to data. </p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="ITsDocEntry">
+    <h2>ITsDocEntry</h2>
+      <div class="interface-block" id="ITsDocEntry">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">documentation</td>
+              <td class="prop-type" valign="top">
+                <pre>IBlock</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">fileName</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">name</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">tags</td>
+              <td class="prop-type" valign="top">
+                <pre>IJsDocTags</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">type</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="ITsPropertyEntry">
+    <h2>ITsPropertyEntry</h2>
+      <div class="interface-block" id="ITsPropertyEntry">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">optional</td>
+              <td class="prop-type" valign="top">
+                <pre>boolean</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="ITsInterfaceEntry">
+    <h2>ITsInterfaceEntry</h2>
+      <div class="interface-block" id="ITsInterfaceEntry">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">extends</td>
+              <td class="prop-type" valign="top">
+                <pre>string[]</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">properties</td>
+              <td class="prop-type" valign="top">
+                <pre>ITsPropertyEntry[]</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="ITypescriptPluginData">
+    <h2>ITypescriptPluginData</h2>
+      <div class="interface-block" id="ITypescriptPluginData">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">ts</td>
+              <td class="prop-type" valign="top">
+                <pre>{ [name: string]: ITsInterfaceEntry; }</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
   <div class="hidden" data-route="INavigable">
     <h2>INavigable</h2>
       <div class="interface-block" id="INavigable"><p>The basic components of a navigable resource: a &quot;route&quot; at which it can be accessed and
@@ -405,6 +608,22 @@ is.</p>
         </div>
       </div>
   </div>
+  <div class="hidden" data-route="IMarkdownPluginOptions">
+    <h2>IMarkdownPluginOptions</h2>
+      <div class="interface-block" id="IMarkdownPluginOptions">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">navPage</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre><p>Page reference that lists the nav roots.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
   <div class="hidden" data-route="ICompilerOptions">
     <h2>ICompilerOptions</h2>
       <div class="interface-block" id="ICompilerOptions">
@@ -424,221 +643,6 @@ is.</p>
 A common use case is allowing specific code constructs, like <code>@Decorator</code> names.
 Do not include the <code>@</code> prefix in the strings.</p>
 
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IKssModifier">
-    <h2>IKssModifier</h2>
-      <div class="interface-block" id="IKssModifier"><p>A single modifier for an example. </p>
-
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">name</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IKssExample">
-    <h2>IKssExample</h2>
-      <div class="interface-block" id="IKssExample"><p>A markup/modifiers example parsed from a KSS comment block.</p>
-
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Raw documentation string. </p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">markup</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Raw HTML markup for example with <code>{{.modifier}}</code> templates,
-to be used to render the markup for each modifier.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">markupHtml</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Syntax-highlighted version of the markup HTML, to be used
-for rendering the markup itself with pretty colors.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">modifiers</td>
-              <td class="prop-type" valign="top">
-                <pre>IKssModifier[]</pre><p>Array of modifiers supported by HTML markup. </p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">reference</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Unique reference for addressing this example. </p>
-
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IKssPluginData">
-    <h2>IKssPluginData</h2>
-      <div class="interface-block" id="IKssPluginData">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">css</td>
-              <td class="prop-type" valign="top">
-                <pre>{ [reference: string]: IKssExample; }</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IMarkdownPluginData">
-    <h2>IMarkdownPluginData</h2>
-      <div class="interface-block" id="IMarkdownPluginData">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">nav</td>
-              <td class="prop-type" valign="top">
-                <pre>IPageNode[]</pre><p>An ordered, nested, multi-rooted tree describing the navigation layout
-of all the pages and their headings. Uses <code>@page</code> and <code>@#+</code> tags to build
-this representation.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">pages</td>
-              <td class="prop-type" valign="top">
-                <pre>{ [reference: string]: IPageData; }</pre><p>A map of page reference to data. </p>
-
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IMarkdownPluginOptions">
-    <h2>IMarkdownPluginOptions</h2>
-      <div class="interface-block" id="IMarkdownPluginOptions">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">navPage</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Page reference that lists the nav roots.</p>
-
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITsDocEntry">
-    <h2>ITsDocEntry</h2>
-      <div class="interface-block" id="ITsDocEntry">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>IBlock</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">fileName</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">name</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">tags</td>
-              <td class="prop-type" valign="top">
-                <pre>IJsDocTags</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">type</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITsPropertyEntry">
-    <h2>ITsPropertyEntry</h2>
-      <div class="interface-block" id="ITsPropertyEntry">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">optional</td>
-              <td class="prop-type" valign="top">
-                <pre>boolean</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITsInterfaceEntry">
-    <h2>ITsInterfaceEntry</h2>
-      <div class="interface-block" id="ITsInterfaceEntry">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">extends</td>
-              <td class="prop-type" valign="top">
-                <pre>string[]</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">properties</td>
-              <td class="prop-type" valign="top">
-                <pre>ITsPropertyEntry[]</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITypescriptPluginData">
-    <h2>ITypescriptPluginData</h2>
-      <div class="interface-block" id="ITypescriptPluginData">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">ts</td>
-              <td class="prop-type" valign="top">
-                <pre>{ [name: string]: ITsInterfaceEntry; }</pre>
               </td>
             </tr>
           </table>

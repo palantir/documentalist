@@ -1,7 +1,7 @@
 import * as yaml from "js-yaml";
 import * as marked from "marked";
-import { IHeadingTag } from "./client";
-import { IBlock, ICompiler, StringOrTag } from "./plugins/plugin";
+import { IBlock, IHeadingTag, StringOrTag} from "./client";
+import { ICompiler } from "./plugins";
 
 /**
  * Matches the triple-dash metadata block on the first line of markdown file.
