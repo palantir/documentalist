@@ -329,78 +329,6 @@ this representation.</p>
         </div>
       </div>
   </div>
-  <div class="hidden" data-route="IPageData">
-    <h2>IPageData</h2>
-      <div class="interface-block" id="IPageData"><p>A single Documentalist page, parsed from a single source file.</p>
-
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">reference</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Unique identifier for addressing this page. </p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">route</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Fully qualified route to this page: slash-separated references of all parent pages. </p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">title</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Human-friendly title of this page. </p>
-
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IHeadingNode">
-    <h2>IHeadingNode</h2>
-      <div class="interface-block" id="IHeadingNode"><p>An <code>@#+</code> tag belongs to a specific page. </p>
-
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">title</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Display title of page heading. </p>
-
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IPageNode">
-    <h2>IPageNode</h2>
-      <div class="interface-block" id="IPageNode"><p>A page has ordered children composed of <code>@#+</code> and <code>@page</code> tags. </p>
-
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">children</td>
-              <td class="prop-type" valign="top">
-                <pre>(IPageNode | IHeadingNode)[]</pre><p>Ordered list of pages and headings that appear on this page. </p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">reference</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Unique reference of this page, used for retrieval from store. </p>
-
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
   <div class="hidden" data-route="INavigable">
     <h2>INavigable</h2>
       <div class="interface-block" id="INavigable"><p>The basic components of a navigable resource: a &quot;route&quot; at which it can be accessed and
@@ -527,6 +455,78 @@ metadata, rendered markdown, and tags.</p>
               <td class="prop-name" valign="top">metadata</td>
               <td class="prop-type" valign="top">
                 <pre>IMetadata</pre><p>Arbitrary YAML metadata parsed from front matter of source file, if any, or <code>{}</code>. </p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IPageData">
+    <h2>IPageData</h2>
+      <div class="interface-block" id="IPageData"><p>A single Documentalist page, parsed from a single source file.</p>
+
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">reference</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre><p>Unique identifier for addressing this page. </p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">route</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre><p>Fully qualified route to this page: slash-separated references of all parent pages. </p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">title</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre><p>Human-friendly title of this page. </p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IHeadingNode">
+    <h2>IHeadingNode</h2>
+      <div class="interface-block" id="IHeadingNode"><p>An <code>@#+</code> tag belongs to a specific page. </p>
+
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">title</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre><p>Display title of page heading. </p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="IPageNode">
+    <h2>IPageNode</h2>
+      <div class="interface-block" id="IPageNode"><p>A page has ordered children composed of <code>@#+</code> and <code>@page</code> tags. </p>
+
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">children</td>
+              <td class="prop-type" valign="top">
+                <pre>(IPageNode | IHeadingNode)[]</pre><p>Ordered list of pages and headings that appear on this page. </p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">reference</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre><p>Unique reference of this page, used for retrieval from store. </p>
 
               </td>
             </tr>
