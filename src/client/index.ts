@@ -5,9 +5,38 @@
  * repository.
  */
 
-/** Slugify a string: "Really Cool Heading!" => "really-cool-heading-" */
-export function slugify(str: string) {
-    return str.toLowerCase().replace(/[^\w.\/]/g, "-");
+export * from "./kss";
+export * from "./markdown";
+export * from "./typescript";
+export * from "./utils";
+
+/**
+ * A single Documentalist page, parsed from a single source file.
+ */
+export interface IPageData extends IBlock {
+    /** Unique identifier for addressing this page. */
+    reference: string;
+
+    /** Fully qualified route to this page: slash-separated references of all parent pages. */
+    route: string;
+
+    /** Human-friendly title of this page. */
+    title: string;
+}
+
+/** An `@#+` tag belongs to a specific page. */
+export interface IHeadingNode extends INavigable {
+    /** Display title of page heading. */
+    title: string;
+}
+
+/** A page has ordered children composed of `@#+` and `@page` tags. */
+export interface IPageNode extends IHeadingNode {
+    /** Ordered list of pages and headings that appear on this page. */
+    children: Array<IPageNode | IHeadingNode>;
+
+    /** Unique reference of this page, used for retrieval from store. */
+    reference: string;
 }
 
 /**
@@ -21,10 +50,6 @@ export interface INavigable {
     /** Level of heading, from 1-6. Dictates which `<h#>` tag to render. */
     level: number;
 }
-
-/*
-@TAGS
-*/
 
 /** Represents a single `@tag <value>` line from a file. */
 export interface ITag {
@@ -49,24 +74,6 @@ export interface IHeadingTag extends ITag, INavigable {
 
 /** An entry in `contents` array: either an HTML string or an `@tag`. */
 export type StringOrTag = string | ITag;
-
-/**
- * Type guard to determine if a `contents` node is an `@tag` statement.
- * Optionally tests tag name too, if `tagName` arg is provided.
- */
-export function isTag(node: any, tagName?: string): node is ITag {
-    return node != null && (node as ITag).tag !== undefined
-        && (tagName === undefined || (node as ITag).tag === tagName);
-}
-
-/** Type guard to deterimine if a `contents` node is an `@#+` heading tag. */
-export function isHeadingTag(node: any): node is IHeadingTag {
-    return isTag(node, "heading");
-}
-
-/*
-PAGE DATA
-*/
 
 /**
  * Metadata is parsed from YAML front matter in files and can contain arbitrary data.
@@ -111,42 +118,4 @@ export interface IBlock {
 
     /** Arbitrary YAML metadata parsed from front matter of source file, if any, or `{}`. */
     metadata: IMetadata;
-}
-
-/**
- * A single Documentalist page, parsed from a single source file.
- */
-export interface IPageData extends IBlock {
-    /** Unique identifier for addressing this page. */
-    reference: string;
-
-    /** Fully qualified route to this page: slash-separated references of all parent pages. */
-    route: string;
-
-    /** Human-friendly title of this page. */
-    title: string;
-}
-
-/*
-LAYOUT HIERARCHY NODES
-*/
-
-/** An `@#+` tag belongs to a specific page. */
-export interface IHeadingNode extends INavigable {
-    /** Display title of page heading. */
-    title: string;
-}
-
-/** A page has ordered children composed of `@#+` and `@page` tags. */
-export interface IPageNode extends IHeadingNode {
-    /** Ordered list of pages and headings that appear on this page. */
-    children: Array<IPageNode | IHeadingNode>;
-
-    /** Unique reference of this page, used for retrieval from store. */
-    reference: string;
-}
-
-/** Type guard for `IPageNode`, useful for its `children` array. */
-export function isPageNode(node: any): node is IPageNode {
-    return node != null && (node as IPageNode).children != null;
 }

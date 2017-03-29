@@ -5,31 +5,9 @@
  * repository.
  */
 
-import tsdoc, { IDocumentationOptions, IJsDocTags } from "ts-quick-docs";
-import { IBlock, ICompiler, IFile, IPlugin } from "./plugin";
-
-export interface ITsDocEntry {
-    documentation: IBlock;
-    fileName: string;
-    name: string;
-    tags: IJsDocTags;
-    type: string;
-}
-
-export interface ITsPropertyEntry extends ITsDocEntry {
-    optional?: boolean;
-}
-
-export interface ITsInterfaceEntry extends ITsDocEntry {
-    extends?: string[];
-    properties: ITsPropertyEntry[];
-}
-
-export interface ITypescriptPluginData {
-    ts: {
-        [name: string]: ITsInterfaceEntry;
-    };
-}
+import tsdoc, { IDocumentationOptions } from "ts-quick-docs";
+import { ITsInterfaceEntry, ITsPropertyEntry, ITypescriptPluginData } from "../client";
+import { ICompiler, IFile, IPlugin } from "./plugin";
 
 export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     public constructor(

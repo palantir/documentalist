@@ -7,41 +7,8 @@
 
 import * as kss from "kss";
 import * as path from "path";
+import { IKssExample, IKssModifier, IKssPluginData } from "../client";
 import { ICompiler, IFile, IPlugin } from "./plugin";
-
-/** A single modifier for an example. */
-export interface IKssModifier {
-    documentation: string;
-    name: string;
-}
-
-/**
- * A markup/modifiers example parsed from a KSS comment block.
- */
-export interface IKssExample {
-    /** Raw documentation string. */
-    documentation: string;
-    /**
-     * Raw HTML markup for example with `{{.modifier}}` templates,
-     * to be used to render the markup for each modifier.
-     */
-    markup: string;
-    /**
-     * Syntax-highlighted version of the markup HTML, to be used
-     * for rendering the markup itself with pretty colors.
-     */
-    markupHtml: string;
-    /** Array of modifiers supported by HTML markup. */
-    modifiers: IKssModifier[];
-    /** Unique reference for addressing this example. */
-    reference: string;
-}
-
-export interface IKssPluginData {
-    css: {
-        [reference: string]: IKssExample;
-    };
-}
 
 export class KssPlugin implements IPlugin<IKssPluginData> {
     public constructor(private options: kss.IOptions) {

@@ -5,9 +5,7 @@
  * repository.
  */
 
-import { IBlock, StringOrTag } from "../client";
-
-export { IBlock, StringOrTag };
+import { IBlock } from "../client";
 
 /**
  * Abstract representation of a file, containing absolute path and synchronous `read` operation.

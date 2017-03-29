@@ -6,23 +6,18 @@
  */
 
 import * as path from "path";
-import { IBlock, IHeadingNode, IPageData, IPageNode, isHeadingTag, isPageNode, slugify } from "../client";
+import {
+    IBlock,
+    IHeadingNode,
+    IMarkdownPluginData,
+    IPageData,
+    IPageNode,
+    isHeadingTag,
+    isPageNode,
+    slugify,
+} from "../client";
 import { PageMap } from "../page";
 import { ICompiler, IFile, IPlugin } from "./plugin";
-
-export interface IMarkdownPluginData {
-    /**
-     * An ordered, nested, multi-rooted tree describing the navigation layout
-     * of all the pages and their headings. Uses `@page` and `@#+` tags to build
-     * this representation.
-     */
-    nav: IPageNode[];
-
-    /** A map of page reference to data. */
-    pages: {
-        [reference: string]: IPageData;
-    };
-}
 
 export interface IMarkdownPluginOptions {
     /**
