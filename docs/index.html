@@ -43,11 +43,22 @@
       <div class="nav-item">IPageNode</div></a><a href="#IPlugin">
       <div class="nav-item">IPlugin</div></a><a href="#IPluginEntry">
       <div class="nav-item">IPluginEntry</div></a><a href="#ITag">
-      <div class="nav-item">ITag</div></a><a href="#ITsDocEntry">
+      <div class="nav-item">ITag</div></a><a href="#ITsClassEntry">
+      <div class="nav-item">ITsClassEntry</div></a><a href="#ITsDocEntry">
       <div class="nav-item">ITsDocEntry</div></a><a href="#ITsInterfaceEntry">
       <div class="nav-item">ITsInterfaceEntry</div></a><a href="#ITsPropertyEntry">
-      <div class="nav-item">ITsPropertyEntry</div></a><a href="#ITypescriptPluginData">
+      <div class="nav-item">ITsPropertyEntry</div></a><a href="#ITypedocPluginData">
+      <div class="nav-item">ITypedocPluginData</div></a><a href="#ITypescriptPluginData">
       <div class="nav-item">ITypescriptPluginData</div></a>
+    <h3>Classes</h3><a href="#Compiler">
+      <div class="nav-item">Compiler</div></a><a href="#Documentalist">
+      <div class="nav-item">Documentalist</div></a><a href="#KssPlugin">
+      <div class="nav-item">KssPlugin</div></a><a href="#MarkdownPlugin">
+      <div class="nav-item">MarkdownPlugin</div></a><a href="#PageMap">
+      <div class="nav-item">PageMap</div></a><a href="#TypedocApp">
+      <div class="nav-item">TypedocApp</div></a><a href="#TypedocPlugin">
+      <div class="nav-item">TypedocPlugin</div></a><a href="#TypescriptPlugin">
+      <div class="nav-item">TypescriptPlugin</div></a>
     <div class="copyright">&copy; Copyright 2017-present Palantir</div>
   </div>
   <div id="content"></div>
@@ -323,6 +334,54 @@ this representation.</p>
               <td class="prop-name" valign="top">ts</td>
               <td class="prop-type" valign="top">
                 <pre>{ [name: string]: ITsInterfaceEntry; }</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="ITsClassEntry">
+    <h2>ITsClassEntry</h2>
+      <div class="interface-block" id="ITsClassEntry">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">extends</td>
+              <td class="prop-type" valign="top">
+                <pre>string[]</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">implements</td>
+              <td class="prop-type" valign="top">
+                <pre>string[]</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">methods</td>
+              <td class="prop-type" valign="top">
+                <pre>ITsPropertyEntry[]</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">properties</td>
+              <td class="prop-type" valign="top">
+                <pre>ITsPropertyEntry[]</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="ITypedocPluginData">
+    <h2>ITypedocPluginData</h2>
+      <div class="interface-block" id="ITypedocPluginData">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">typedoc</td>
+              <td class="prop-type" valign="top">
+                <pre>{ [name: string]: ITsClassEntry; }</pre>
               </td>
             </tr>
           </table>
@@ -714,6 +773,602 @@ supplied pattern.</p>
                 <pre>IPlugin&lt;T&gt;</pre>
               </td>
             </tr>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="Compiler">
+    <h2>Compiler</h2>
+      <div class="interface-block" id="Compiler">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">options</td>
+              <td class="prop-type" valign="top">
+                <pre>ICompilerOptions</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">extractMetadata</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre><p>Extracts optional YAML frontmatter metadata block from the beginning of a
+markdown file and parses it to a JS object.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">objectify</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">parseTags</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre><p>Splits the content string when it encounters a line that begins with a
+<code>@tag</code>. You may prevent this splitting by specifying an array of reserved
+tag names.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">renderBlock</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">renderContents</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre><p>Converts the content string into an array of <code>ContentNode</code>s. If the
+<code>contents</code> option is <code>html</code>, the string nodes will also be rendered with
+markdown.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">renderMarkdown</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="interface-properties">
+          <table>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="Documentalist">
+    <h2>Documentalist</h2>
+      <div class="interface-block" id="Documentalist">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">options</td>
+              <td class="prop-type" valign="top">
+                <pre>ICompilerOptions</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">plugins</td>
+              <td class="prop-type" valign="top">
+                <pre>Array</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">clearPlugins</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">documentFiles</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">documentGlobs</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">expandGlobs</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre><p>Expands an array of globs and flatten to a single array of files.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">mergeInto</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre><p>Shallow-merges keys form source into destination object (modifying it in the process).</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">use</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">create</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="interface-properties">
+          <table>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="PageMap">
+    <h2>PageMap</h2>
+      <div class="interface-block" id="PageMap">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">store</td>
+              <td class="prop-type" valign="top">
+                <pre>Map</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">get</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre><p>Returns the page with the given ID or <code>undefined</code> if not found.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">pages</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre><p>Returns an iterator for all the pages (values) in the map.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">remove</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre><p>Removes the page with the given ID and returns it or <code>undefined</code> if not found.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">set</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre><p>Sets the page data at the given ID, when you already have a full page object.
+Warns if a page with this ID already exists.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">toObject</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre><p>Returns a JS object mapping page IDs to data.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">toTree</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="interface-properties">
+          <table>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="KssPlugin">
+    <h2>KssPlugin</h2>
+      <div class="interface-block" id="KssPlugin">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">options</td>
+              <td class="prop-type" valign="top">
+                <pre>IOptions</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">compile</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">parseFiles</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="interface-properties">
+          <table>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="MarkdownPlugin">
+    <h2>MarkdownPlugin</h2>
+      <div class="interface-block" id="MarkdownPlugin">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">options</td>
+              <td class="prop-type" valign="top">
+                <pre>IMarkdownPluginOptions</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">blockToPage</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">buildPageStore</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre><p>Convert each file to IPageData and populate store.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">compile</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre><p>Reads the given set of markdown files and adds their data to the internal storage.
+Returns a plain object mapping page references to their data.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">recurseRoute</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre><p>Computes <code>route</code> for the given <code>node</code> based on its parent.
+If node is a page, then it also computes <code>route</code> for each heading and recurses through child
+pages.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">resolveIncludeTags</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre><p>Iterates <code>contents</code> array and inlines any <code>@include page</code> tags.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">resolveRoutes</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="interface-properties">
+          <table>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="TypedocApp">
+    <h2>TypedocApp</h2>
+      <div class="interface-block" id="TypedocApp">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">application</td>
+              <td class="prop-type" valign="top">
+                <pre>Application</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">componentName</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">converter</td>
+              <td class="prop-type" valign="top">
+                <pre>Converter</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">exclude</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">ignoreCompilerErrors</td>
+              <td class="prop-type" valign="top">
+                <pre>boolean</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">logger</td>
+              <td class="prop-type" valign="top">
+                <pre>Logger</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">loggerType</td>
+              <td class="prop-type" valign="top">
+                <pre></pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">options</td>
+              <td class="prop-type" valign="top">
+                <pre>Options</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">owner</td>
+              <td class="prop-type" valign="top">
+                <pre>Application</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">plugins</td>
+              <td class="prop-type" valign="top">
+                <pre>PluginHost</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">renderer</td>
+              <td class="prop-type" valign="top">
+                <pre>Renderer</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">VERSION</td>
+              <td class="prop-type" valign="top">
+                <pre>string</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">addComponent</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">bootstrap</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">bubble</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">convert</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">expandInputFiles</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">fromFiles</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">generateDocs</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">generateJson</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">getComponent</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">getComponents</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">getOptionDeclarations</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">getTypeScriptPath</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">getTypeScriptVersion</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">hasComponent</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">initialize</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">listenTo</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">listenToOnce</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">off</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">on</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">once</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">removeAllComponents</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">removeComponent</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">stopListening</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">toString</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">trigger</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="interface-properties">
+          <table>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="TypedocPlugin">
+    <h2>TypedocPlugin</h2>
+      <div class="interface-block" id="TypedocPlugin">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">compile</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">getTags</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">renderComment</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre><p>Converts a typedoc comment object to a rendered <code>IBlock</code>.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">visitKind</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre><p>Visit any object that has a matching <code>kindString</code>. Recursively test
+children.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="interface-properties">
+          <table>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="hidden" data-route="TypescriptPlugin">
+    <h2>TypescriptPlugin</h2>
+      <div class="interface-block" id="TypescriptPlugin">
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top">compilerOptions</td>
+              <td class="prop-type" valign="top">
+                <pre>any</pre><p>Compiler options for Typescript program used to &quot;read&quot; your typings.
+(This is distinct from whatever options you need to build your typings.)
+If omitted, the default compiler options are used.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">options</td>
+              <td class="prop-type" valign="top">
+                <pre>IDocumentationOptions</pre><p>Options to <code>ts-quick-docs</code>, mostly for customizing which symbols appear in the output.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top">compile</td>
+              <td class="prop-type" valign="top">
+                <pre>method</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="interface-properties">
+          <table>
           </table>
         </div>
       </div>

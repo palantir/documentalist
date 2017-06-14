@@ -10,7 +10,7 @@ import { IBlock } from "./index";
 
 export interface ITsDocEntry {
     documentation: IBlock;
-    fileName: string;
+    fileName?: string;
     name: string;
     tags: IJsDocTags;
     type: string;
@@ -28,5 +28,18 @@ export interface ITsInterfaceEntry extends ITsDocEntry {
 export interface ITypescriptPluginData {
     ts: {
         [name: string]: ITsInterfaceEntry;
+    };
+}
+
+export interface ITsClassEntry extends ITsDocEntry {
+    extends?: string[];
+    implements?: string[];
+    methods: ITsPropertyEntry[];
+    properties: ITsPropertyEntry[];
+}
+
+export interface ITypedocPluginData {
+    typedoc: {
+        [name: string]: ITsClassEntry;
     };
 }

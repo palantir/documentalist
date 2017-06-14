@@ -12,7 +12,7 @@
 const yargs = require("yargs");
 const fs = require("fs");
 const glob = require("glob");
-const { Documentalist, KssPlugin, MarkdownPlugin, TypescriptPlugin } = require("./dist/");
+const { Documentalist, KssPlugin, MarkdownPlugin, TypedocPlugin, TypescriptPlugin } = require("./dist/");
 
 const argv = yargs
     .alias("v", "version")
@@ -42,6 +42,9 @@ if (argv.md) {
 }
 if (argv.ts) {
     docs = docs.use(/\.tsx?$/, new TypescriptPlugin({
+        excludePaths: ["__tests__"],
+    }));
+    docs = docs.use(/\.tsx?$/, new TypedocPlugin({
         excludePaths: ["__tests__"],
     }));
 }

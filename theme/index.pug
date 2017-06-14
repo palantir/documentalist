@@ -1,4 +1,5 @@
 - var toc = Object.keys(ts).sort((a, b) => a.localeCompare(b))
+- var classtoc = Object.keys(typedoc).sort((a, b) => a.localeCompare(b))
 
 html
   head
@@ -32,6 +33,13 @@ body
         a(href='#' + iface.name)
           .nav-item= iface.name
 
+    h3 Classes
+    each name in classtoc
+      - var classdef = typedoc[name]
+      if classdef
+        a(href='#' + classdef.name)
+          .nav-item= classdef.name
+
     .copyright
       | &copy; Copyright 2017-present Palantir
 
@@ -56,6 +64,29 @@ body
                 pre= prop.type
                 +joinContent(prop.documentation)
 
+  mixin classtable(iface)
+    .interface-block(id=iface.name)
+
+      +joinContent(iface.documentation)
+
+      .interface-properties
+        table
+          for prop in iface.properties
+            tr
+              td.prop-name(valign="top")= prop.name
+              td.prop-type(valign="top")
+                pre= prop.type
+                +joinContent(prop.documentation)
+
+      .interface-properties
+        table
+          for prop in iface.methods
+            tr
+              td.prop-name(valign="top")= prop.name
+              td.prop-type(valign="top")
+                pre= prop.type
+                +joinContent(prop.documentation)
+
 
   each page in pages
     .hidden(data-route=page.reference)
@@ -71,6 +102,12 @@ body
       .hidden(data-route=iface.name)
         h2= iface.name
         +interface(iface)
+
+  each iface in typedoc
+    if iface.type == "class"
+      .hidden(data-route=iface.name)
+        h2= iface.name
+        +classtable(iface)
 
 
   script(type='text/javascript', src='assets/index.js')
