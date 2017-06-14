@@ -6,7 +6,11 @@
  */
 
 import * as Typedoc from "typedoc";
-import { ITypedocPluginData, ITsClassEntry, ITsPropertyEntry } from "../client";
+import {
+    ITsClassEntry,
+    ITsPropertyEntry,
+    ITypedocPluginData,
+} from "../client";
 import { ICompiler, IFile, IPlugin } from "./plugin";
 
 class TypedocApp extends Typedoc.Application {
@@ -52,7 +56,7 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
                     // TODO this doesnt work for some types types. we need a
                     // conversion here to good formattable object
                     type: def.type.name,
-                }
+                };
                 classEntry.properties.push(entry);
             });
 
@@ -64,7 +68,7 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
                     tags: this.getTags(sig),
                     // TODO add type parameters here
                     type: "method",
-                }
+                };
                 classEntry.properties.push(entry);
             });
 
