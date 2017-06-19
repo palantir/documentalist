@@ -7,16 +7,20 @@
 
 import * as Typedoc from "typedoc";
 import {
-    ITsClassEntry,
-    ITsPropertyEntry,
+    ITsClass,
+    ITsDocType,
+    ITsInterface,
+    ITsMethod,
+    ITsProperty,
     ITypedocPluginData,
 } from "../client";
 import { ICompiler, IFile, IPlugin } from "./plugin";
 
 class TypedocApp extends Typedoc.Application {
-    public fromFiles(files: string[]) {
-        const expanded = this.expandInputFiles(files);
-        const project = this.convert(expanded);
+    public static fromFiles(files: string[]) {
+        const app = new TypedocApp({ logger: "none" });
+        const expanded = app.expandInputFiles(files);
+        const project = app.convert(expanded);
         return project.toObject();
     }
 
@@ -27,71 +31,175 @@ class TypedocApp extends Typedoc.Application {
 }
 
 export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
-    public compile(files: IFile[], compiler: ICompiler) {
-        const typedoc = new TypedocApp({logger: "none"}).fromFiles(files.map((f) => f.path));
 
-        const classes: {[key: string]: ITsClassEntry} = {};
-        this.visitKind(typedoc, "Class", (classDef: any) => {
-            const name: string = classDef.name;
+    // Store state so that we don't have to rely on scope closure to pass these
+    // values around to visitors
+    private compiler: ICompiler;
+    private fileName: string;
+    private output: { [key: string]: ITsDocType } = {};
 
-            let documentation = "";
-            if (classDef && classDef.comment && classDef.comment.shortText) {
-                documentation = classDef.comment.shortText;
-            }
+    public compile(files: IFile[], compiler: ICompiler): ITypedocPluginData {
+        this.compiler = compiler;
+        this.output = {};
+        const indexByName = (entry: ITsDocType) => this.output[entry.name] = entry;
 
-            const classEntry: ITsClassEntry = {
-                documentation: this.renderComment(classDef, compiler),
-                methods: [],
-                name,
-                properties: [],
-                tags: {},
-                type: "class",
-            };
-
-            this.visitKind(classDef, "Property", (def: any) => {
-                const entry: ITsPropertyEntry = {
-                    documentation: this.renderComment(def, compiler),
-                    name: def.name,
-                    tags: this.getTags(def),
-                    // TODO this doesnt work for some types types. we need a
-                    // conversion here to good formattable object
-                    type: def.type.name,
-                };
-                classEntry.properties.push(entry);
-            });
-
-            this.visitKind(classDef, "Method", (def: any) => {
-                const sig = (def && def.signatures && def.signatures[0]) ? def.signatures[0] : def;
-                const entry: ITsPropertyEntry = {
-                    documentation: this.renderComment(sig, compiler),
-                    name: def.name,
-                    tags: this.getTags(sig),
-                    // TODO add type parameters here
-                    type: "method",
-                };
-                classEntry.properties.push(entry);
-            });
-
-            classes[name] = classEntry;
+        const input = TypedocApp.fromFiles(files.map((f) => f.path));
+        this.visitKind(input, "External module", (def: any) => {
+            // TODO truncate beginning of path or use the sources object
+            this.fileName = def.originalName;
+            this.visitKind(def, "Class", this.visitorExportedClass).forEach(indexByName);
+            this.visitKind(def, "Interface", this.visitorExportedInterface).forEach(indexByName);
         });
 
-        return { typedoc: classes };
+        const typedoc = this.output;
+        delete this.compiler;
+        delete this.output;
+        return { typedoc };
     }
 
-    private getTags(obj: any) {
-        return (obj && obj.tags) ? obj.tags : {};
+    private visitorExportedClass = (def: any) => {
+        if (!def.flags || !def.flags.isExported) {
+            return;
+        }
+
+        const entry: ITsClass = {
+            documentation: this.renderComment(def),
+            fileName: this.fileName,
+            kind: "class",
+            methods: this.visitKind<ITsMethod>(def, "Method", this.visitorExportedMethod),
+            name: def.name,
+            properties: this.visitKind<ITsProperty>(def, "Property", this.visitorExportedProperty),
+        };
+        return entry;
+    }
+
+    private visitorExportedInterface = (def: any) => {
+        if (!def.flags || !def.flags.isExported) {
+            return;
+        }
+
+        const entry: ITsInterface = {
+            documentation: this.renderComment(def),
+            fileName: this.fileName,
+            kind: "interface",
+            methods: this.visitKind<ITsMethod>(def, "Method", this.visitorExportedMethod),
+            name: def.name,
+            properties: this.visitKind<ITsProperty>(def, "Property", this.visitorExportedProperty),
+        };
+        return entry;
+    }
+
+    private visitorExportedProperty = (def: any) => {
+        if (!def.flags || !def.flags.isExported || def.flags.isPrivate) {
+            return;
+        }
+
+        const entry: ITsProperty = {
+            documentation: this.renderComment(def),
+            fileName: this.fileName,
+            kind: "property",
+            name: def.name,
+            type: this.resolveTypeString(def.type),
+        };
+        return entry;
+    }
+
+    private visitorExportedMethod = (def: any) => {
+        if (!def.flags || !def.flags.isExported || def.flags.isPrivate) {
+            return;
+        }
+
+        const entry: ITsMethod = {
+            documentation: this.renderComment(null),
+            fileName: this.fileName,
+            kind: "method",
+            name: def.name,
+            signatures: def.signatures.map(this.visitorSignatures),
+        };
+        return entry;
+    }
+
+    private visitorSignatures = (sig: any) => {
+        const parameters = sig.parameters == null ? [] : sig.parameters.map((param: any) => {
+            return {
+                fileName: this.fileName,
+                flags: param.flags || {},
+                kind: "parameter",
+                name: param.name,
+                type: this.resolveTypeString(param.type),
+            };
+        });
+        const returnType = this.resolveTypeString(sig.type);
+        return {
+            documentation: this.renderComment(sig),
+            kind: "signature",
+            parameters,
+            returnType,
+            type: this.resolveSignature(sig),
+        };
+    }
+
+    private resolveTypeString = (type: any): string => {
+        switch(type.type) {
+            case "array":
+                return this.resolveTypeString(type.elementType) + "[]";
+            case "reflection":
+                return this.resolveReflectionType(type.declaration);
+            case "union":
+                return type.types.map(this.resolveTypeString).join(" | ");
+            case "intersection":
+                return type.types.map(this.resolveTypeString).join(" & ");
+            default:
+                let name = type.name == null ? "?" : type.name;
+
+                if (name === "__type") {
+                    return "{}";
+                }
+
+                if (type.typeArguments) {
+                    const typeArgs = type.typeArguments.map(this.resolveTypeString).join(", ");
+                    return `${name}<${typeArgs}>`;
+                }
+                return name;
+        }
+    }
+
+    private resolveReflectionType = (decl: any): string => {
+        if (decl.signatures) {
+            return decl.signatures.map(this.resolveSignature).join(" | ");
+        }
+        return "??";
+    }
+
+    private resolveSignature = (sig: any): string => {
+         const paramList = !sig.parameters ? "" : sig.parameters.map((param: any) => {
+            const name = (param.flags && param.flags.isRest ? '...' : '') + param.name;
+            const type= this.resolveTypeString(param.type);
+            return `${name}: ${type}`;
+        }).join(", ");
+        const returnType = this.resolveTypeString(sig.type);
+        return `(${paramList}) => ${returnType}`;
     }
 
     /**
      * Converts a typedoc comment object to a rendered `IBlock`.
      */
-    private renderComment(obj: any, { renderBlock }: ICompiler) {
-        let documentation = "";
-        if (obj && obj.comment && obj.comment.shortText) {
-            documentation = obj.comment.shortText;
+    private renderComment = (obj: any) => {
+        const { renderBlock } = this.compiler;
+        if (!obj || !obj.comment) {
+            return renderBlock("");
         }
-        if (obj && obj.comment && obj.comment.text) {
-            documentation += "\n\n" + obj.comment.text;
+
+        const { comment } = obj;
+        let documentation = "";
+        if (comment.shortText) {
+            documentation += comment.shortText;
+        }
+        if (comment.text) {
+            documentation += "\n\n" + comment.text;
+        }
+        if (comment.tags) {
+            documentation += "\n\n" + comment.tags.map((tag: any) => `@${tag.tag} ${tag.text}`).join("\n");
         }
         return renderBlock(documentation);
     }
@@ -100,19 +208,28 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
      * Visit any object that has a matching `kindString`. Recursively test
      * children.
      */
-    private visitKind(obj: any, kindString: string, visitor: (obj: any) => void) {
+    private visitKind<T>(obj: any, kindString: string, visitor: (obj: any) => void, results?: T[]) {
+        if (results == null) {
+            results = [];
+        }
+
         if (!obj || typeof obj !== "object") {
-            return;
+            return results;
         }
 
         if (obj.kindString === kindString) {
-            visitor(obj);
+            const result = visitor(obj);
+            if (result != null) {
+                results.push(result);
+            }
         }
 
         if (Array.isArray(obj.children)) {
             for (const child of obj.children) {
-                this.visitKind(child, kindString, visitor);
+                this.visitKind(child, kindString, visitor, results);
             }
         }
+
+        return results;
     }
 }
