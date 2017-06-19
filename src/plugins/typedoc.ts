@@ -140,7 +140,7 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
     }
 
     private resolveTypeString = (type: any): string => {
-        switch(type.type) {
+        switch (type.type) {
             case "array":
                 return this.resolveTypeString(type.elementType) + "[]";
             case "reflection":
@@ -150,7 +150,7 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
             case "intersection":
                 return type.types.map(this.resolveTypeString).join(" & ");
             default:
-                let name = type.name == null ? "?" : type.name;
+                const name = type.name == null ? "?" : type.name;
 
                 if (name === "__type") {
                     return "{}";
@@ -172,9 +172,9 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
     }
 
     private resolveSignature = (sig: any): string => {
-         const paramList = !sig.parameters ? "" : sig.parameters.map((param: any) => {
-            const name = (param.flags && param.flags.isRest ? '...' : '') + param.name;
-            const type= this.resolveTypeString(param.type);
+        const paramList = !sig.parameters ? "" : sig.parameters.map((param: any) => {
+            const name = (param.flags && param.flags.isRest ? "..." : "") + param.name;
+            const type = this.resolveTypeString(param.type);
             return `${name}: ${type}`;
         }).join(", ");
         const returnType = this.resolveTypeString(sig.type);
