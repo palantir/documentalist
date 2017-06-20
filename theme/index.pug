@@ -1,4 +1,6 @@
 - var toc = Object.keys(ts).sort((a, b) => a.localeCompare(b))
+- var interfacetoc = Object.keys(typedoc).filter((a) => typedoc[a].kind === "interface").sort((a, b) => a.localeCompare(b));
+- var classtoc = Object.keys(typedoc).filter((a) => typedoc[a].kind === "class").sort((a, b) => a.localeCompare(b));
 
 html
   head
@@ -26,11 +28,16 @@ body
         h3= item.title
 
     h3 Interfaces
-    each ifaceName in toc
-      - var iface = ts[ifaceName]
-      if iface.type == "interface"
-        a(href='#' + iface.name)
-          .nav-item= iface.name
+    each name in interfacetoc
+      - var name = typedoc[name].name
+      a(href='#' + name)
+        .nav-item= name
+
+    h3 Classes
+    each name in classtoc
+      - var name = typedoc[name].name
+      a(href='#' + name)
+        .nav-item= name
 
     .copyright
       | &copy; Copyright 2017-present Palantir
@@ -42,7 +49,12 @@ body
     if doc.contents
       | !{doc.contents.join('')}
 
-  mixin interface(iface)
+  mixin method(sig)
+    .method
+      pre= sig.type
+      +joinContent(sig.documentation)
+
+  mixin objecttable(iface)
     .interface-block(id=iface.name)
 
       +joinContent(iface.documentation)
@@ -56,6 +68,15 @@ body
                 pre= prop.type
                 +joinContent(prop.documentation)
 
+      .interface-properties
+        table
+          for prop in iface.methods
+            tr
+              td.prop-name(valign="top")= prop.name
+              td.prop-type(valign="top")
+                for sig in prop.signatures
+                  +method(sig)
+
 
   each page in pages
     .hidden(data-route=page.reference)
@@ -63,14 +84,13 @@ body
         if typeof block === "string"
           | !{block}
         else if block.tag === "interface"
-          - var iface = ts[block.value]
-          +interface(iface)
+          - var iface = typedoc[block.value]
+          +objecttable(iface)
 
-  each iface in ts
-    if iface.type == "interface"
+  each iface in typedoc
+    if iface.kind == "interface" || iface.kind == "class"
       .hidden(data-route=iface.name)
         h2= iface.name
-        +interface(iface)
-
+        +objecttable(iface)
 
   script(type='text/javascript', src='assets/index.js')

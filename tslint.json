@@ -3,6 +3,7 @@
     "tslint:latest"
   ],
   "rules": {
+    "max-classes-per-file": false,
     "no-console": [
       false
     ],

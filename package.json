@@ -13,6 +13,7 @@
     "kss": "3.0.0-beta.15",
     "marked": "^0.3.6",
     "ts-quick-docs": "^0.5.3",
+    "typedoc": "^0.7.1",
     "yargs": "^6.6.0"
   },
   "devDependencies": {
@@ -34,7 +35,8 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "docs": "pug -O \"$(./cli.js \"./src/**/*\")\" ./theme/index.pug --pretty -o ./docs",
+    "docs": "pug -O docs.json ./theme/index.pug --pretty -o ./docs",
+    "docs:json": "./cli.js './{src,typings}/**/*' > docs.json",
     "lint": "tslint --project .",
     "lint.fix": "tslint --fix --project . ",
     "test": "jest --config jest.config.json",

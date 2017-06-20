@@ -77,6 +77,16 @@ pre > code {
     max-width: 300px;
 }
 
+.method-signature {
+    white-space: pre;
+    font-family: monospace;
+}
+
+.method-signature .param-type {
+    background-color: white;
+    border-radius: 5px;
+}
+
 .interface-properties td {
     padding: 20px 0px;
     border-top: 1px solid #EEE;

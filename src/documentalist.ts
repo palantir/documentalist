@@ -102,7 +102,7 @@ export class Documentalist<T> implements IApi<T> {
     /**
      * Expands an array of globs and flatten to a single array of files.
      */
-    private expandGlobs(filesGlobs: string[]) {
+    private expandGlobs(filesGlobs: string[]): IFile[] {
         return filesGlobs
             .map((filesGlob) => glob.sync(filesGlob))
             .reduce((a, b) => a.concat(b))

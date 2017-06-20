@@ -17,6 +17,7 @@ deployment:
   preview:
     branch: /.*/
     commands:
+      - yarn docs:json
       - yarn docs
       - node theme/bot.js
   npm:

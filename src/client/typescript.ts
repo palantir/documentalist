@@ -10,9 +10,9 @@ import { IBlock } from "./index";
 
 export interface ITsDocEntry {
     documentation: IBlock;
-    fileName: string;
+    fileName?: string;
     name: string;
-    tags: IJsDocTags;
+    tags?: IJsDocTags;
     type: string;
 }
 
