@@ -46,7 +46,7 @@ body
   #content
 
   mixin joinContent(doc)
-    if doc.contents
+    if doc && doc.contents
       | !{doc.contents.join('')}
 
   mixin method(sig)

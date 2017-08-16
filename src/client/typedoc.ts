@@ -8,7 +8,7 @@
 import { IBlock } from "./index";
 
 export interface ITsDocType {
-    documentation: IBlock;
+    documentation?: IBlock;
     fileName: string;
     name: string;
     kind: string;
@@ -39,7 +39,7 @@ export interface ITsParameter extends ITsDocType {
 
 export interface ITsMethodSignature {
     kind: "signature";
-    documentation: IBlock;
+    documentation?: IBlock;
     parameters: ITsParameter[];
     returnType: string;
     type: string;
@@ -47,7 +47,7 @@ export interface ITsMethodSignature {
 
 export interface ITsMethod extends ITsObjectMemberDefinition {
     kind: "method";
-    signatures: ITsMethodSignature;
+    signatures: ITsMethodSignature[];
 }
 
 export interface ITsObjectDefinition extends ITsDocType {
