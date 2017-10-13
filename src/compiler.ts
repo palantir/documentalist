@@ -7,13 +7,13 @@ import { ICompiler } from "./plugins";
  * Matches the triple-dash metadata block on the first line of markdown file.
  * The first capture group contains YAML content.
  */
-const METADATA_REGEX = /^---\n?((?:.|\n)*)\n---\n/;
+const METADATA_REGEX = /^---\r?\n?((?:.|\r?\n)*)\r?\n---\r?\n/;
 
 /**
  * Splits text content for lines that begin with `@tagName`.
  */
-const TAG_REGEX = /^@(\S+)(?:\s+([^\n]+))?$/;
-const TAG_SPLIT_REGEX = /^(@\S+(?:\s+[^\n]+)?)$/gm;
+const TAG_REGEX = /^@(\S+)(?:\s+([^\r?\n]+))?$/;
+const TAG_SPLIT_REGEX = /^(@\S+(?:\s+[^\r?\n]+)?)$/gm;
 
 export interface ICompilerOptions {
     /** Options for markdown rendering. See https://github.com/chjj/marked#options-1. */
