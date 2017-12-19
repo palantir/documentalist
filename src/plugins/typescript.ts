@@ -15,7 +15,6 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
          * Options to `ts-quick-docs`, mostly for customizing which symbols appear in the output.
          */
         private options: IDocumentationOptions = {},
-
         /**
          * Compiler options for Typescript program used to "read" your typings.
          * (This is distinct from whatever options you need to build your typings.)
@@ -26,16 +25,17 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     ) {}
 
     public compile(files: IFile[], { renderBlock, objectify }: ICompiler) {
-        const entries = tsdoc.fromFiles(files.map((f) => f.path), this.compilerOptions, this.options)
-            .map<ITsInterfaceEntry>((entry) => ({
+        const entries = tsdoc
+            .fromFiles(files.map(f => f.path), this.compilerOptions, this.options)
+            .map<ITsInterfaceEntry>(entry => ({
                 ...entry,
                 documentation: renderBlock(entry.documentation),
-                properties: entry.properties!.map<ITsPropertyEntry>((prop) => ({
+                properties: entry.properties!.map<ITsPropertyEntry>(prop => ({
                     ...prop,
                     documentation: renderBlock(prop.documentation),
                 })),
             }));
-        const ts = objectify(entries, (e) => e.name);
+        const ts = objectify(entries, e => e.name);
         return { ts };
     }
 }

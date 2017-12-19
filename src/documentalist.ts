@@ -64,18 +64,14 @@ export class Documentalist<T> implements IApi<T> {
         return new Documentalist(options, []);
     }
 
-    constructor(
-        private options: ICompilerOptions = {},
-        private plugins: Array<IPluginEntry<T>> = [],
-    ) {
-    }
+    constructor(private options: ICompilerOptions = {}, private plugins: Array<IPluginEntry<T>> = []) {}
 
     public use<P>(pattern: RegExp | string, plugin: IPlugin<P>): IApi<T & P> {
         if (typeof pattern === "string") {
             pattern = new RegExp(`${pattern}$`);
         }
 
-        const newPlugins = [...this.plugins, { pattern, plugin } as IPluginEntry<T & P>];
+        const newPlugins = [...this.plugins, { pattern, plugin }] as Array<IPluginEntry<T & P>>;
         return new Documentalist(this.options, newPlugins);
     }
 
@@ -90,9 +86,11 @@ export class Documentalist<T> implements IApi<T> {
 
     public async documentFiles(files: IFile[]) {
         const compiler = new Compiler(this.options);
+        // need an empty object of correct type that we can merge into
+        // tslint:disable-next-line:no-object-literal-type-assertion
         const documentation = {} as T;
         for (const { pattern, plugin } of this.plugins) {
-            const pluginFiles = files.filter((f) => pattern.test(f.path));
+            const pluginFiles = files.filter(f => pattern.test(f.path));
             const pluginDocumentation = await plugin.compile(pluginFiles, compiler);
             this.mergeInto(documentation, pluginDocumentation);
         }
@@ -104,9 +102,9 @@ export class Documentalist<T> implements IApi<T> {
      */
     private expandGlobs(filesGlobs: string[]): IFile[] {
         return filesGlobs
-            .map((filesGlob) => glob.sync(filesGlob))
+            .map(filesGlob => glob.sync(filesGlob))
             .reduce((a, b) => a.concat(b))
-            .map((fileName) => {
+            .map(fileName => {
                 const absolutePath = path.resolve(fileName);
                 return {
                     path: absolutePath,

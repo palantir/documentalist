@@ -17,8 +17,9 @@ export function slugify(str: string) {
  * Optionally tests tag name too, if `tagName` arg is provided.
  */
 export function isTag(node: any, tagName?: string): node is ITag {
-    return node != null && (node as ITag).tag !== undefined
-        && (tagName === undefined || (node as ITag).tag === tagName);
+    return (
+        node != null && (node as ITag).tag !== undefined && (tagName === undefined || (node as ITag).tag === tagName)
+    );
 }
 
 /** Type guard to deterimine if a `contents` node is an `@#+` heading tag. */

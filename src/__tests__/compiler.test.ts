@@ -13,16 +13,12 @@ describe("Compiler", () => {
 
     describe("objectify", () => {
         it("empty array returns empty object", () => {
-            expect(API.objectify([], (x) => x)).toEqual({});
+            expect(API.objectify([], x => x)).toEqual({});
         });
 
         it("turns an array into an object", () => {
-            const array = [
-                { name: "Bill", age: 1037 },
-                { name: "Gilad", age: 456 },
-                { name: "Robert", age: 21 },
-            ];
-            const byName = API.objectify(array, (x) => x.name);
+            const array = [{ name: "Bill", age: 1037 }, { name: "Gilad", age: 456 }, { name: "Robert", age: 21 }];
+            const byName = API.objectify(array, x => x.name);
             expect(Object.keys(byName)).toEqual(["Bill", "Gilad", "Robert"]);
         });
     });
@@ -52,7 +48,6 @@ describe("Compiler", () => {
     });
 
     describe("rendered contents", () => {
-
         it("returns a single-element array for string without @tags", () => {
             const { contents } = API.renderBlock("simple string");
             expect(contents).toEqual(["<p>simple string</p>\n"]);
@@ -85,7 +80,6 @@ describe("Compiler", () => {
             // @tag value comes out exactly as written in source, on its own line
             expect((contents[0] as string).split("\n")).toContain("@interface IButtonProps");
         });
-
     });
 });
 

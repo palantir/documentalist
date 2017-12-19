@@ -6,14 +6,7 @@
  */
 
 import * as Typedoc from "typedoc";
-import {
-    ITsClass,
-    ITsDocType,
-    ITsInterface,
-    ITsMethod,
-    ITsProperty,
-    ITypedocPluginData,
-} from "../client";
+import { ITsClass, ITsDocType, ITsInterface, ITsMethod, ITsProperty, ITypedocPluginData } from "../client";
 import { ICompiler, IFile, IPlugin } from "./plugin";
 
 class TypedocApp extends Typedoc.Application {
@@ -30,8 +23,8 @@ class TypedocApp extends Typedoc.Application {
     }
 }
 
+// tslint:disable-next-line:max-classes-per-file
 export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
-
     // Store state so that we don't have to rely on scope closure to pass these
     // values around to visitors
     private compiler: ICompiler;
@@ -41,9 +34,9 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
     public compile(files: IFile[], compiler: ICompiler): ITypedocPluginData {
         this.compiler = compiler;
         this.output = {};
-        const indexByName = (entry: ITsDocType) => this.output[entry.name] = entry;
+        const indexByName = (entry: ITsDocType) => (this.output[entry.name] = entry);
 
-        const input = TypedocApp.fromFiles(files.map((f) => f.path));
+        const input = TypedocApp.fromFiles(files.map(f => f.path));
         this.visitKind(input, "External module", (def: any) => {
             // TODO truncate beginning of path or use the sources object
             this.fileName = def.originalName;
@@ -71,7 +64,7 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
             properties: this.visitKind<ITsProperty>(def, "Property", this.visitorExportedProperty),
         };
         return entry;
-    }
+    };
 
     private visitorExportedInterface = (def: any) => {
         if (!def.flags || !def.flags.isExported) {
@@ -87,7 +80,7 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
             properties: this.visitKind<ITsProperty>(def, "Property", this.visitorExportedProperty),
         };
         return entry;
-    }
+    };
 
     private visitorExportedProperty = (def: any) => {
         if (!def.flags || !def.flags.isExported || def.flags.isPrivate) {
@@ -102,7 +95,7 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
             type: this.resolveTypeString(def.type),
         };
         return entry;
-    }
+    };
 
     private visitorExportedMethod = (def: any) => {
         if (!def.flags || !def.flags.isExported || def.flags.isPrivate) {
@@ -117,18 +110,21 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
             signatures: def.signatures.map(this.visitorSignatures),
         };
         return entry;
-    }
+    };
 
     private visitorSignatures = (sig: any) => {
-        const parameters = sig.parameters == null ? [] : sig.parameters.map((param: any) => {
-            return {
-                fileName: this.fileName,
-                flags: param.flags || {},
-                kind: "parameter",
-                name: param.name,
-                type: this.resolveTypeString(param.type),
-            };
-        });
+        const parameters =
+            sig.parameters == null
+                ? []
+                : sig.parameters.map((param: any) => {
+                      return {
+                          fileName: this.fileName,
+                          flags: param.flags || {},
+                          kind: "parameter",
+                          name: param.name,
+                          type: this.resolveTypeString(param.type),
+                      };
+                  });
         const returnType = this.resolveTypeString(sig.type);
         return {
             documentation: this.renderComment(sig),
@@ -137,7 +133,7 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
             returnType,
             type: this.resolveSignature(sig),
         };
-    }
+    };
 
     private resolveTypeString = (type: any): string => {
         switch (type.type) {
@@ -162,24 +158,28 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
                 }
                 return name;
         }
-    }
+    };
 
     private resolveReflectionType = (decl: any): string => {
         if (decl.signatures) {
             return decl.signatures.map(this.resolveSignature).join(" | ");
         }
         return "??";
-    }
+    };
 
     private resolveSignature = (sig: any): string => {
-        const paramList = !sig.parameters ? "" : sig.parameters.map((param: any) => {
-            const name = (param.flags && param.flags.isRest ? "..." : "") + param.name;
-            const type = this.resolveTypeString(param.type);
-            return `${name}: ${type}`;
-        }).join(", ");
+        const paramList = !sig.parameters
+            ? ""
+            : sig.parameters
+                  .map((param: any) => {
+                      const name = (param.flags && param.flags.isRest ? "..." : "") + param.name;
+                      const type = this.resolveTypeString(param.type);
+                      return `${name}: ${type}`;
+                  })
+                  .join(", ");
         const returnType = this.resolveTypeString(sig.type);
         return `(${paramList}) => ${returnType}`;
-    }
+    };
 
     /**
      * Converts a typedoc comment object to a rendered `IBlock`.
@@ -202,7 +202,7 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
             documentation += "\n\n" + comment.tags.map((tag: any) => `@${tag.tag} ${tag.text}`).join("\n");
         }
         return renderBlock(documentation);
-    }
+    };
 
     /**
      * Visit any object that has a matching `kindString`. Recursively test

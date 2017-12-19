@@ -25,23 +25,23 @@ const TEST_NAV = `
 
 const TEST_FILES = [
     {
-        path : "/whatever/other/test.md",
-        read : () => TEST_MARKDOWN,
-    }, {
-        path : "/who/cares/_nav.md",
-        read : () => TEST_NAV,
+        path: "/whatever/other/test.md",
+        read: () => TEST_MARKDOWN,
+    },
+    {
+        path: "/who/cares/_nav.md",
+        read: () => TEST_NAV,
     },
 ];
 
 describe("Plugins", () => {
-    const dm = Documentalist.create()
-        .use(".md", new MarkdownPlugin());
+    const dm = Documentalist.create().use(".md", new MarkdownPlugin());
 
     it("can document Markdown files", async () => {
         const docs = await dm.documentFiles(TEST_FILES);
-        const page = docs.pages["test"];
+        const page = docs.pages.test;
         expect(page).toBeDefined();
-        expect(page.metadata["key"]).toBe("value");
+        expect(page.metadata.key).toBe("value");
         expect(page.contents).toHaveLength(3);
         expect((page.contents[2] as ITag).tag).toBe("othertag");
     });
