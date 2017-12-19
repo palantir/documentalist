@@ -11,18 +11,17 @@ import { IKssExample, IKssModifier, IKssPluginData } from "../client";
 import { ICompiler, IFile, IPlugin } from "./plugin";
 
 export class KssPlugin implements IPlugin<IKssPluginData> {
-    public constructor(private options: kss.IOptions) {
-    }
+    public constructor(private options: kss.IOptions) {}
 
     public compile(cssFiles: IFile[], dm: ICompiler) {
         const styleguide = this.parseFiles(cssFiles);
-        const sections = styleguide.sections().map((s) => convertSection(s, dm));
-        const css = dm.objectify(sections, (s) => s.reference);
+        const sections = styleguide.sections().map(s => convertSection(s, dm));
+        const css = dm.objectify(sections, s => s.reference);
         return { css };
     }
 
     private parseFiles(files: IFile[]) {
-        const input = files.map<kss.IFile>((file) => ({
+        const input = files.map<kss.IFile>(file => ({
             base: path.dirname(file.path),
             contents: file.read(),
             path: file.path,
@@ -37,7 +36,7 @@ function convertSection(section: kss.ISection, dm: ICompiler): IKssExample {
         documentation: dm.renderMarkdown(section.description()),
         markup: section.markup() || "",
         markupHtml: dm.renderMarkdown(`\`\`\`html\n${section.markup() || ""}\n\`\`\``),
-        modifiers: section.modifiers().map((mod) => convertModifier(mod, dm)),
+        modifiers: section.modifiers().map(mod => convertModifier(mod, dm)),
         reference: section.reference(),
     };
 }

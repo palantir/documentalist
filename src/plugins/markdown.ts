@@ -82,10 +82,10 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
      */
     private recurseRoute(pageMap: PageMap, node: IPageNode | IHeadingNode, parent?: IPageNode) {
         // compute route for page and heading NODES (from nav tree)
-        const path = parent === undefined ? [] : [parent.route];
+        const baseRoute = parent === undefined ? [] : [parent.route];
         const route = isPageNode(node)
-            ? path.concat(node.reference).join("/")
-            : path.concat(slugify(node.title)).join(".");
+            ? baseRoute.concat(node.reference).join("/")
+            : baseRoute.concat(slugify(node.title)).join(".");
         node.route = route;
 
         if (isPageNode(node)) {
@@ -93,18 +93,14 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
             const page = pageMap.get(node.reference)!;
             page.route = route;
 
-            page.contents.forEach((content) => {
+            page.contents.forEach(content => {
                 // inject `route` field into heading TAGS (from page contents)
                 if (isHeadingTag(content)) {
                     // h1 tags do not get nested as they are used as page title
-                    if (content.level > 1) {
-                        content.route = [route, slugify(content.value)].join(".");
-                    } else {
-                        content.route = route;
-                    }
+                    content.route = content.level > 1 ? [route, slugify(content.value)].join(".") : route;
                 }
             });
-            node.children.forEach((child) => this.recurseRoute(pageMap, child, node));
+            node.children.forEach(child => this.recurseRoute(pageMap, child, node));
         }
     }
 
@@ -119,7 +115,7 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
     private resolveIncludeTags(pageStore: PageMap) {
         for (const page of pageStore.pages()) {
             // using `reduce` so we can add one or many entries for each node
-            page.contents = page.contents.reduce((array, content) => {
+            page.contents = page.contents.reduce<typeof page.contents>((array, content) => {
                 if (typeof content === "string" || content.tag !== "include") {
                     return array.concat(content);
                 }
@@ -129,7 +125,7 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
                     throw new Error(`Unknown @include reference '${content.value}' in '${page.reference}'`);
                 }
                 return array.concat(pageToInclude.contents);
-            }, [] as typeof page.contents);
+            }, []);
         }
     }
 }

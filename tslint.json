@@ -1,18 +1,9 @@
 {
   "extends": [
-    "tslint:latest"
+    "@blueprintjs/tslint-config"
   ],
   "rules": {
-    "max-classes-per-file": false,
-    "no-console": [
-      false
-    ],
-    "no-string-literal": false,
-    "variable-name": [
-      true,
-      "allow-leading-underscore",
-      "allow-pascal-case"
-    ]
+    "file-header": [true, "Copyright \\d{4}-present"]
   },
   "jsRules": {
     "no-console": [

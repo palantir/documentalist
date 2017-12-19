@@ -56,7 +56,7 @@ export class PageMap {
             throw new Error(`Unknown @page '${id}' in toTree()`);
         }
         const pageNode = initPageNode(page, depth);
-        page.contents.forEach((node) => {
+        page.contents.forEach(node => {
             // we only care about @page and @##+ tag nodes
             if (isTag(node, "page")) {
                 pageNode.children.push(this.toTree(node.value, depth + 1));
@@ -75,6 +75,6 @@ function initPageNode({ reference, title }: IPageData, level: number = 0): IPage
 }
 
 function initHeadingNode(title: string, level: number): IHeadingNode {
-    // NOTE: `route` will be added in MarkdownPlugin.
-    return { title, level } as IHeadingNode;
+    // NOTE: `route` will be populated in MarkdownPlugin.
+    return { title, level, route: "" };
 }

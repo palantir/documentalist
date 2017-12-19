@@ -1,6 +1,13 @@
+/**
+ * Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
+ * Licensed under the BSD-3 License as modified (the “License”); you may obtain
+ * a copy of the license in the LICENSE and PATENTS files in the root of this
+ * repository.
+ */
+
 import * as yaml from "js-yaml";
 import * as marked from "marked";
-import { IBlock, IHeadingTag, StringOrTag} from "./client";
+import { IBlock, IHeadingTag, StringOrTag } from "./client";
 import { ICompiler } from "./plugins";
 
 /**
@@ -17,7 +24,7 @@ const TAG_SPLIT_REGEX = /^(@\S+(?:\s+[^\n]+)?)$/gm;
 
 export interface ICompilerOptions {
     /** Options for markdown rendering. See https://github.com/chjj/marked#options-1. */
-    markdown?: MarkedOptions;
+    markdown?: marked.MarkedOptions;
 
     /**
      * Reserved @tags that should be preserved in the contents string.
@@ -28,21 +35,20 @@ export interface ICompilerOptions {
 }
 
 export class Compiler implements ICompiler {
-    public constructor(private options: ICompilerOptions) {
-    }
+    public constructor(private options: ICompilerOptions) {}
 
     public objectify<T>(array: T[], getKey: (item: T) => string) {
-        return array.reduce((obj, item) => {
+        return array.reduce<{ [key: string]: T }>((obj, item) => {
             obj[getKey(item)] = item;
             return obj;
-        }, {} as { [key: string]: T });
+        }, {});
     }
 
     public renderBlock = (blockContent: string, reservedTagWords = this.options.reservedTags): IBlock => {
         const { contentsRaw, metadata } = this.extractMetadata(blockContent);
         const contents = this.renderContents(contentsRaw, reservedTagWords);
         return { contents, contentsRaw, metadata };
-    }
+    };
 
     public renderMarkdown = (markdown: string) => marked(markdown, this.options.markdown);
 
@@ -54,8 +60,8 @@ export class Compiler implements ICompiler {
     private renderContents(content: string, reservedTagWords?: string[]) {
         const splitContents = this.parseTags(content, reservedTagWords);
         return splitContents
-            .map((node) => typeof node === "string" ? this.renderMarkdown(node) : node)
-            .filter((node) => node !== "");
+            .map(node => (typeof node === "string" ? this.renderMarkdown(node) : node))
+            .filter(node => node !== "");
     }
 
     /**
@@ -79,7 +85,7 @@ export class Compiler implements ICompiler {
      */
     private parseTags(content: string, reservedWords: string[] = []) {
         // using reduce so we can squash consecutive strings (<= 1 entry per iteration)
-        return content.split(TAG_SPLIT_REGEX).reduce((arr, str) => {
+        return content.split(TAG_SPLIT_REGEX).reduce<StringOrTag[]>((arr, str) => {
             const match = TAG_REGEX.exec(str);
             if (match === null || reservedWords.indexOf(match[1]) >= 0) {
                 if (typeof arr[arr.length - 1] === "string") {
@@ -93,12 +99,13 @@ export class Compiler implements ICompiler {
                 const value = match[2];
                 if (/#+/.test(tag)) {
                     // NOTE: not enough information to populate `route` field yet
-                    arr.push({ tag: "heading", value, level: tag.length } as IHeadingTag);
+                    const heading: IHeadingTag = { tag: "heading", value, level: tag.length, route: "" };
+                    arr.push(heading);
                 } else {
                     arr.push({ tag, value });
                 }
             }
             return arr;
-        }, [] as StringOrTag[]);
+        }, []);
     }
 }
