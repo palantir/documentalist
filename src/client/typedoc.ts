@@ -7,19 +7,20 @@
 
 import { IBlock } from "./index";
 
+export enum Kind {
+    Class = "class",
+    Interface = "interface",
+    Method = "method",
+    Parameter = "parameter",
+    Property = "property",
+    Signature = "signature",
+}
+
 export interface ITsDocType {
-    documentation: IBlock;
+    documentation?: IBlock;
     fileName: string;
     name: string;
-    kind: string;
-}
-
-export interface ITsType extends ITsDocType {
-    kind: "typealias";
-}
-
-export interface ITsVariableAlias extends ITsDocType {
-    kind: "variable";
+    kind: Kind;
 }
 
 export interface ITsObjectMemberDefinition extends ITsDocType {
@@ -27,27 +28,29 @@ export interface ITsObjectMemberDefinition extends ITsDocType {
 }
 
 export interface ITsProperty extends ITsObjectMemberDefinition {
-    kind: "property";
+    defaultValue?: string;
+    kind: Kind.Property;
     type: string;
 }
 
 export interface ITsParameter extends ITsDocType {
-    kind: "parameter";
+    defaultValue?: string;
+    kind: Kind.Parameter;
     type: string;
     flags: any;
 }
 
 export interface ITsMethodSignature {
-    kind: "signature";
-    documentation: IBlock;
+    kind: Kind.Signature;
+    documentation?: IBlock;
     parameters: ITsParameter[];
     returnType: string;
     type: string;
 }
 
 export interface ITsMethod extends ITsObjectMemberDefinition {
-    kind: "method";
-    signatures: ITsMethodSignature;
+    kind: Kind.Method;
+    signatures: ITsMethodSignature[];
 }
 
 export interface ITsObjectDefinition extends ITsDocType {
@@ -55,18 +58,20 @@ export interface ITsObjectDefinition extends ITsDocType {
     methods: ITsMethod[];
 }
 export interface ITsInterface extends ITsObjectDefinition {
-    kind: "interface";
+    kind: Kind.Interface;
     extends?: string[];
 }
 
 export interface ITsClass extends ITsObjectDefinition {
-    kind: "class";
+    kind: Kind.Class;
     extends?: string[];
     implements?: string[];
 }
 
+export type ITsDocEntity = ITsClass | ITsInterface | ITsMethod | ITsParameter | ITsProperty;
+
 export interface ITypedocPluginData {
     typedoc: {
-        [name: string]: ITsDocType;
+        [name: string]: ITsDocEntity;
     };
 }

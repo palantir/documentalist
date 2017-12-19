@@ -5,20 +5,37 @@
  * repository.
  */
 
-import * as Typedoc from "typedoc";
-import { ITsClass, ITsDocType, ITsInterface, ITsMethod, ITsProperty, ITypedocPluginData } from "../client";
+import {
+    Application,
+    ContainerReflection,
+    DeclarationReflection,
+    Reflection,
+    ReflectionKind,
+    SignatureReflection,
+} from "typedoc";
+import { DefaultValueContainer } from "typedoc/dist/lib/models/reflections/abstract";
+import {
+    ITsClass,
+    ITsDocEntity,
+    ITsInterface,
+    ITsMethod,
+    ITsMethodSignature,
+    ITsParameter,
+    ITsProperty,
+    ITypedocPluginData,
+    Kind,
+} from "../client";
 import { ICompiler, IFile, IPlugin } from "./plugin";
 
-class TypedocApp extends Typedoc.Application {
+class TypedocApp extends Application {
     public static fromFiles(files: string[]) {
-        const app = new TypedocApp({ logger: "none" });
+        const app = new TypedocApp({ ignoreCompilerErrors: true, logger: "none" });
         const expanded = app.expandInputFiles(files);
-        const project = app.convert(expanded);
-        return project.toObject();
+        return app.convert(expanded);
     }
 
     // this tricks typedoc into working
-    get isCLI(): boolean {
+    get isCLI() {
         return true;
     }
 }
@@ -29,19 +46,19 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
     // values around to visitors
     private compiler: ICompiler;
     private fileName: string;
-    private output: { [key: string]: ITsDocType } = {};
+    private output: { [key: string]: ITsDocEntity } = {};
 
     public compile(files: IFile[], compiler: ICompiler): ITypedocPluginData {
         this.compiler = compiler;
         this.output = {};
-        const indexByName = (entry: ITsDocType) => (this.output[entry.name] = entry);
+        const indexByName = (entry: ITsDocEntity) => (this.output[entry.name] = entry);
 
         const input = TypedocApp.fromFiles(files.map(f => f.path));
-        this.visitKind(input, "External module", (def: any) => {
+        this.visitKind(input, ReflectionKind.ExternalModule, def => {
             // TODO truncate beginning of path or use the sources object
             this.fileName = def.originalName;
-            this.visitKind(def, "Class", this.visitorExportedClass).forEach(indexByName);
-            this.visitKind(def, "Interface", this.visitorExportedInterface).forEach(indexByName);
+            this.visitKind(def, ReflectionKind.Class, this.visitorExportedClass).forEach(indexByName);
+            this.visitKind(def, ReflectionKind.Interface, this.visitorExportedInterface).forEach(indexByName);
         });
 
         const typedoc = this.output;
@@ -50,87 +67,79 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
         return { typedoc };
     }
 
-    private visitorExportedClass = (def: any) => {
-        if (!def.flags || !def.flags.isExported) {
+    private visitorExportedClass = (def: Reflection): ITsClass | undefined => {
+        if (isInternal(def)) {
             return;
         }
-
-        const entry: ITsClass = {
-            documentation: this.renderComment(def),
-            fileName: this.fileName,
-            kind: "class",
-            methods: this.visitKind<ITsMethod>(def, "Method", this.visitorExportedMethod),
-            name: def.name,
-            properties: this.visitKind<ITsProperty>(def, "Property", this.visitorExportedProperty),
+        return {
+            ...this.visitorExportedInterface(def)!,
+            kind: Kind.Class,
         };
-        return entry;
     };
 
-    private visitorExportedInterface = (def: any) => {
-        if (!def.flags || !def.flags.isExported) {
+    private visitorExportedInterface = (def: Reflection): ITsInterface | undefined => {
+        if (isInternal(def)) {
             return;
         }
 
-        const entry: ITsInterface = {
+        return {
             documentation: this.renderComment(def),
             fileName: this.fileName,
-            kind: "interface",
-            methods: this.visitKind<ITsMethod>(def, "Method", this.visitorExportedMethod),
+            kind: Kind.Interface,
+            methods: this.visitKind(def, ReflectionKind.Method, this.visitorExportedMethod),
             name: def.name,
-            properties: this.visitKind<ITsProperty>(def, "Property", this.visitorExportedProperty),
+            properties: this.visitKind(def, ReflectionKind.Property, this.visitorExportedProperty),
         };
-        return entry;
     };
 
-    private visitorExportedProperty = (def: any) => {
-        if (!def.flags || !def.flags.isExported || def.flags.isPrivate) {
+    private visitorExportedProperty = (def: DeclarationReflection): ITsProperty | undefined => {
+        if (isInternal(def, true)) {
             return;
         }
 
-        const entry: ITsProperty = {
+        return {
+            defaultValue: getDefaultValue(def),
             documentation: this.renderComment(def),
             fileName: this.fileName,
-            kind: "property",
+            kind: Kind.Property,
             name: def.name,
             type: this.resolveTypeString(def.type),
         };
-        return entry;
     };
 
-    private visitorExportedMethod = (def: any) => {
-        if (!def.flags || !def.flags.isExported || def.flags.isPrivate) {
+    private visitorExportedMethod = (def: DeclarationReflection): ITsMethod | undefined => {
+        if (isInternal(def, true)) {
             return;
         }
 
-        const entry: ITsMethod = {
-            documentation: this.renderComment(null),
+        return {
             fileName: this.fileName,
-            kind: "method",
+            kind: Kind.Method,
             name: def.name,
-            signatures: def.signatures.map(this.visitorSignatures),
+            signatures: def.signatures.map(this.visitorSignature),
         };
-        return entry;
     };
 
-    private visitorSignatures = (sig: any) => {
+    private visitorSignature = (sig: SignatureReflection): ITsMethodSignature => {
         const parameters =
             sig.parameters == null
                 ? []
-                : sig.parameters.map((param: any) => {
+                : sig.parameters.map((param): ITsParameter => {
                       return {
+                          defaultValue: getDefaultValue(param),
+                          documentation: this.renderComment(param),
                           fileName: this.fileName,
                           flags: param.flags || {},
-                          kind: "parameter",
+                          kind: Kind.Parameter,
                           name: param.name,
                           type: this.resolveTypeString(param.type),
                       };
                   });
-        const returnType = this.resolveTypeString(sig.type);
         return {
             documentation: this.renderComment(sig),
-            kind: "signature",
+            kind: Kind.Signature,
             parameters,
-            returnType,
+            returnType: this.resolveTypeString(sig.type),
             type: this.resolveSignature(sig),
         };
     };
@@ -160,14 +169,14 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
         }
     };
 
-    private resolveReflectionType = (decl: any): string => {
+    private resolveReflectionType = (decl: DeclarationReflection): string => {
         if (decl.signatures) {
             return decl.signatures.map(this.resolveSignature).join(" | ");
         }
         return "??";
     };
 
-    private resolveSignature = (sig: any): string => {
+    private resolveSignature = (sig: SignatureReflection): string => {
         const paramList = !sig.parameters
             ? ""
             : sig.parameters
@@ -184,10 +193,9 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
     /**
      * Converts a typedoc comment object to a rendered `IBlock`.
      */
-    private renderComment = (obj: any) => {
-        const { renderBlock } = this.compiler;
+    private renderComment = (obj: Reflection) => {
         if (!obj || !obj.comment) {
-            return renderBlock("");
+            return undefined;
         }
 
         const { comment } = obj;
@@ -201,35 +209,57 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
         if (comment.tags) {
             documentation += "\n\n" + comment.tags.map((tag: any) => `@${tag.tag} ${tag.text}`).join("\n");
         }
-        return renderBlock(documentation);
+        return this.compiler.renderBlock(documentation);
     };
 
     /**
-     * Visit any object that has a matching `kindString`. Recursively test
+     * Visit any object that has a matching `kind`. Recursively test
      * children.
      */
-    private visitKind<T>(obj: any, kindString: string, visitor: (obj: any) => void, results?: T[]) {
-        if (results == null) {
-            results = [];
-        }
-
+    private visitKind<T>(
+        obj: Reflection,
+        kind: ReflectionKind,
+        visitor: (obj: Reflection) => T | undefined,
+        results: T[] = [],
+    ) {
         if (!obj || typeof obj !== "object") {
             return results;
         }
 
-        if (obj.kindString === kindString) {
+        if (obj.kind === kind) {
             const result = visitor(obj);
             if (result != null) {
                 results.push(result);
             }
         }
 
-        if (Array.isArray(obj.children)) {
+        if (isContainer(obj)) {
             for (const child of obj.children) {
-                this.visitKind(child, kindString, visitor, results);
+                this.visitKind(child, kind, visitor, results);
             }
         }
 
         return results;
     }
+}
+
+function getDefaultValue(ref: DefaultValueContainer) {
+    if (ref.defaultValue) {
+        return ref.defaultValue;
+    } else if (ref.comment && ref.comment.tags) {
+        const defaultValue = ref.comment.tags.find((t: any) => t.tag === "default");
+        if (defaultValue !== undefined) {
+            return defaultValue.text;
+        }
+    }
+    return undefined;
+}
+
+function isContainer(ref: Reflection): ref is ContainerReflection {
+    return ref != null && Array.isArray((ref as ContainerReflection).children);
+}
+
+/** Returns true if this reflection is not exported. Optionally considers private fields to also be internal. */
+function isInternal(ref: Reflection, includePrivate = false) {
+    return !ref.flags || !ref.flags.isExported || (includePrivate && ref.flags.isPrivate);
 }
