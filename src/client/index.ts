@@ -8,7 +8,6 @@
 export * from "./kss";
 export * from "./markdown";
 export * from "./typedoc";
-export * from "./typescript";
 export * from "./utils";
 
 /**

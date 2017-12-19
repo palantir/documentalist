@@ -41,9 +41,6 @@ if (argv.md) {
     docs = docs.use(".md", new MarkdownPlugin());
 }
 if (argv.ts) {
-    docs = docs.use(/\.tsx?$/, new TypescriptPlugin({
-        excludePaths: ["__tests__"],
-    }));
     docs = docs.use(/\.tsx?$/, new TypedocPlugin({
         excludePaths: ["__tests__"],
     }));
