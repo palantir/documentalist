@@ -16,7 +16,7 @@ import {
 import { DefaultValueContainer } from "typedoc/dist/lib/models/reflections/abstract";
 import {
     ITsClass,
-    ITsDocType,
+    ITsDocEntity,
     ITsInterface,
     ITsMethod,
     ITsMethodSignature,
@@ -46,12 +46,12 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
     // values around to visitors
     private compiler: ICompiler;
     private fileName: string;
-    private output: { [key: string]: ITsDocType } = {};
+    private output: { [key: string]: ITsDocEntity } = {};
 
     public compile(files: IFile[], compiler: ICompiler): ITypedocPluginData {
         this.compiler = compiler;
         this.output = {};
-        const indexByName = (entry: ITsDocType) => (this.output[entry.name] = entry);
+        const indexByName = (entry: ITsDocEntity) => (this.output[entry.name] = entry);
 
         const input = TypedocApp.fromFiles(files.map(f => f.path));
         this.visitKind(input, ReflectionKind.ExternalModule, def => {

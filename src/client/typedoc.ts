@@ -68,8 +68,10 @@ export interface ITsClass extends ITsObjectDefinition {
     implements?: string[];
 }
 
+export type ITsDocEntity = ITsClass | ITsInterface | ITsMethod | ITsParameter | ITsProperty;
+
 export interface ITypedocPluginData {
     typedoc: {
-        [name: string]: ITsDocType;
+        [name: string]: ITsDocEntity;
     };
 }
