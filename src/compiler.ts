@@ -17,7 +17,7 @@ const TAG_SPLIT_REGEX = /^(@\S+(?:\s+[^\n]+)?)$/gm;
 
 export interface ICompilerOptions {
     /** Options for markdown rendering. See https://github.com/chjj/marked#options-1. */
-    markdown?: MarkedOptions;
+    markdown?: marked.MarkedOptions;
 
     /**
      * Reserved @tags that should be preserved in the contents string.
@@ -32,10 +32,10 @@ export class Compiler implements ICompiler {
     }
 
     public objectify<T>(array: T[], getKey: (item: T) => string) {
-        return array.reduce((obj, item) => {
+        return array.reduce<{ [key: string]: T }>((obj, item) => {
             obj[getKey(item)] = item;
             return obj;
-        }, {} as { [key: string]: T });
+        }, {});
     }
 
     public renderBlock = (blockContent: string, reservedTagWords = this.options.reservedTags): IBlock => {
@@ -93,7 +93,8 @@ export class Compiler implements ICompiler {
                 const value = match[2];
                 if (/#+/.test(tag)) {
                     // NOTE: not enough information to populate `route` field yet
-                    arr.push({ tag: "heading", value, level: tag.length } as IHeadingTag);
+                    const heading: IHeadingTag = { tag: "heading", value, level: tag.length, route: "" };
+                    arr.push(heading);
                 } else {
                     arr.push({ tag, value });
                 }
