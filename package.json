@@ -7,6 +7,16 @@
   "bin": {
     "documentalist": "./cli.js"
   },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "docs": "pug -O docs.json ./theme/index.pug --pretty -o ./docs",
+    "docs:json": "./cli.js './{src,typings}/**/*' > docs.json",
+    "lint": "tslint --project .",
+    "lint.fix": "yarn lint --fix",
+    "test": "jest --config jest.config.json",
+    "tsc": "tsc --project .",
+    "watch": "yarn tsc --watch"
+  },
   "dependencies": {
     "glob": "^7.1.1",
     "js-yaml": "^3.10.0",
@@ -33,16 +43,6 @@
     "ts-node": "^4.0.2",
     "tslint": "^5.8.0",
     "typescript": "^2.6.2"
-  },
-  "scripts": {
-    "clean": "rm -rf dist",
-    "docs": "pug -O docs.json ./theme/index.pug --pretty -o ./docs",
-    "docs:json": "./cli.js './{src,typings}/**/*' > docs.json",
-    "lint": "tslint --project .",
-    "lint.fix": "tslint --fix --project . ",
-    "test": "jest --config jest.config.json",
-    "tsc": "tsc --project . && echo 'OK'",
-    "watch": "tsc --project . --watch"
   },
   "repository": {
     "type": "git",
