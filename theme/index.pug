@@ -1,4 +1,4 @@
-- var toc = Object.keys(ts).sort((a, b) => a.localeCompare(b))
+- var toc = Object.keys(typedoc).sort((a, b) => a.localeCompare(b))
 - var interfacetoc = Object.keys(typedoc).filter((a) => typedoc[a].kind === "interface").sort((a, b) => a.localeCompare(b));
 - var classtoc = Object.keys(typedoc).filter((a) => typedoc[a].kind === "class").sort((a, b) => a.localeCompare(b));
 
@@ -47,12 +47,14 @@ body
 
   mixin joinContent(doc)
     if doc && doc.contents
-      | !{doc.contents.join('')}
+      | !{doc.contents.map((c) => typeof c === "string" ? c : JSON.stringify(c)).join('')}
 
-  mixin method(sig)
-    .method
-      pre= sig.type
-      +joinContent(sig.documentation)
+  mixin renderType(sig)
+    pre= sig.type
+      if sig.defaultValue
+        em=" = " + sig.defaultValue
+
+    +joinContent(sig.documentation)
 
   mixin objecttable(iface)
     .interface-block(id=iface.name)
@@ -65,8 +67,7 @@ body
             tr
               td.prop-name(valign="top")= prop.name
               td.prop-type(valign="top")
-                pre= prop.type
-                +joinContent(prop.documentation)
+                +renderType(prop)
 
       .interface-properties
         table
@@ -75,7 +76,7 @@ body
               td.prop-name(valign="top")= prop.name
               td.prop-type(valign="top")
                 for sig in prop.signatures
-                  +method(sig)
+                  +renderType(sig)
 
 
   each page in pages
