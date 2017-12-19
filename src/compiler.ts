@@ -45,7 +45,7 @@ export class Compiler implements ICompiler {
     }
 
     public renderBlock = (blockContent: string, reservedTagWords = this.options.reservedTags): IBlock => {
-        const { contentsRaw, metadata } = this.extractMetadata(blockContent);
+        const { contentsRaw, metadata } = this.extractMetadata(blockContent.trim());
         const contents = this.renderContents(contentsRaw, reservedTagWords);
         return { contents, contentsRaw, metadata };
     };
