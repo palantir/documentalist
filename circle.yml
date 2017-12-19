@@ -1,18 +1,30 @@
+machine:
+  pre:
+    - mkdir ~/yarn
+  environment:
+    PATH: $PATH:$HOME/yarn/bin:$HOME/$CIRCLE_PROJECT_REPONAME/node_modules/.bin:$HOME/$CIRCLE_PROJECT_REPONAME/scripts
+    YARN_VERSION: 1.3.2
+  node:
+    version: 8.5.0
+
 general:
   artifacts:
     - docs
-machine:
-  node:
-    version: 7.5.0
+
 dependencies:
   cache_directories:
+    - ~/yarn
     - ~/.cache/yarn
   override:
-    - yarn
+    - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
+    - yarn install --frozen-lockfile
+    - yarn tsc
+
 test:
   override:
-    - yarn tsc
+    - yarn lint
     - yarn test
+
 deployment:
   preview:
     branch: /.*/
