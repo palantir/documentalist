@@ -31,8 +31,7 @@ class TypedocApp extends Application {
     public static fromFiles(files: string[]) {
         const app = new TypedocApp({ ignoreCompilerErrors: true, logger: "none" });
         const expanded = app.expandInputFiles(files);
-        const project = app.convert(expanded);
-        return project.toObject();
+        return app.convert(expanded);
     }
 
     // this tricks typedoc into working
@@ -170,14 +169,14 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
         }
     };
 
-    private resolveReflectionType = (decl: any): string => {
+    private resolveReflectionType = (decl: DeclarationReflection): string => {
         if (decl.signatures) {
             return decl.signatures.map(this.resolveSignature).join(" | ");
         }
         return "??";
     };
 
-    private resolveSignature = (sig: any): string => {
+    private resolveSignature = (sig: SignatureReflection): string => {
         const paramList = !sig.parameters
             ? ""
             : sig.parameters
