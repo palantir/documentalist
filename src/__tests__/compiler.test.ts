@@ -62,14 +62,14 @@ describe("Compiler", () => {
         it("converts @#+ to heading tags in array", () => {
             const { contents } = API.renderBlock(HEADING_FILE);
             expect(contents).toHaveLength(9);
-            const headings = contents.filter(isHeadingTag) as IHeadingTag[];
+            const headings = contents.filter(isHeadingTag);
             expect(headings).toHaveLength(4);
             // choosing one to test deep equality
             expect(headings[1]).toEqual({
                 level: 2,
+                route: "",
                 tag: "heading",
                 value: "Section 1",
-                // route is still missing
             });
         });
 
