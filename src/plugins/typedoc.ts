@@ -245,7 +245,15 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
 }
 
 function getDefaultValue(ref: DefaultValueContainer) {
-    return ref.defaultValue; // || (ref.comment && ref.comment.getTag("default").text);
+    if (ref.defaultValue) {
+        return ref.defaultValue;
+    } else if (ref.comment && ref.comment.tags) {
+        const defaultValue = ref.comment.tags.find((t: any) => t.tag === "default");
+        if (defaultValue !== undefined) {
+            return defaultValue.text;
+        }
+    }
+    return undefined;
 }
 
 function isContainer(ref: Reflection): ref is ContainerReflection {

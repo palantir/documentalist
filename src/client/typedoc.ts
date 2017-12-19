@@ -28,13 +28,13 @@ export interface ITsObjectMemberDefinition extends ITsDocType {
 }
 
 export interface ITsProperty extends ITsObjectMemberDefinition {
-    defaultValue: string;
+    defaultValue?: string;
     kind: Kind.Property;
     type: string;
 }
 
 export interface ITsParameter extends ITsDocType {
-    defaultValue: string;
+    defaultValue?: string;
     kind: Kind.Parameter;
     type: string;
     flags: any;
