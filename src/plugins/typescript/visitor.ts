@@ -59,6 +59,7 @@ export class Visitor {
         return {
             documentation: this.renderComment(def.comment),
             fileName: getFileName(def),
+            flags: getFlags(def.flags),
             kind: Kind.Interface,
             methods: def
                 .getChildrenByKind(ReflectionKind.Method)
@@ -77,6 +78,7 @@ export class Visitor {
             defaultValue: getDefaultValue(def),
             documentation: this.renderComment(def.comment),
             fileName: getFileName(def),
+            flags: getFlags(def.flags),
             kind: Kind.Property,
             name: def.name,
             type: resolveTypeString(def.type),
@@ -86,6 +88,7 @@ export class Visitor {
     private visitMethod(def: DeclarationReflection): ITsMethod {
         return {
             fileName: getFileName(def),
+            flags: getFlags(def.flags),
             kind: Kind.Method,
             name: def.name,
             signatures: def.signatures.map(sig => this.visitSignature(sig)),
@@ -95,6 +98,7 @@ export class Visitor {
     private visitSignature(sig: SignatureReflection): ITsMethodSignature {
         return {
             documentation: this.renderComment(sig.comment),
+            flags: getFlags(sig.flags),
             kind: Kind.Signature,
             parameters: (sig.parameters || []).map(param => this.visitParameter(param)),
             returnType: resolveTypeString(sig.type),
@@ -107,6 +111,7 @@ export class Visitor {
             defaultValue: getDefaultValue(param),
             documentation: this.renderComment(param.comment),
             fileName: getFileName(param.parent),
+            flags: getFlags(param.flags),
             kind: Kind.Parameter,
             name: param.name,
             type: resolveTypeString(param.type),
@@ -154,4 +159,12 @@ function getFileName(ref: Reflection): string | undefined {
     const fileName = source && source.file && source.file.fullFileName;
     // filename relative to cwd, so it can be saved in a snapshot (machine-independent)
     return fileName && relative(process.cwd(), fileName);
+}
+
+function getFlags(flags: ReflectionFlags | undefined): ITsFlags | undefined {
+    if (flags === undefined) {
+        return undefined;
+    }
+    const { isExported, isExternal, isOptional, isPrivate, isProtected, isPublic, isRest, isStatic } = flags;
+    return { isExported, isExternal, isOptional, isPrivate, isProtected, isPublic, isRest, isStatic };
 }

@@ -16,6 +16,17 @@ export enum Kind {
     Signature = "signature",
 }
 
+export interface ITsFlags {
+    isPrivate?: boolean;
+    isProtected?: boolean;
+    isPublic?: boolean;
+    isStatic?: boolean;
+    isExported?: boolean;
+    isExternal?: boolean;
+    isOptional?: boolean;
+    isRest?: boolean;
+}
+
 export interface ITsDocBase {
     /** Type brand indicating kind of entity; type guards will reveal further information about it. */
     kind: Kind;
@@ -25,6 +36,8 @@ export interface ITsDocBase {
 
     /** Original file name in which this entity originated. */
     fileName?: string;
+
+    flags?: ITsFlags;
 
     /** Name of this entity in code, also used as its identifiers in the data store. */
     name: string;
@@ -57,6 +70,7 @@ export interface ITsParameter extends ITsDocBase {
 export interface ITsMethodSignature {
     kind: Kind.Signature;
     documentation?: IBlock;
+    flags?: ITsFlags;
     parameters: ITsParameter[];
     returnType: string;
     type: string;
