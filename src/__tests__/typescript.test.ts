@@ -9,13 +9,11 @@ import { Documentalist } from "../documentalist";
 import { IFile } from "../plugins/index";
 import { TypedocPlugin } from "../plugins/typedoc";
 
-const FILES: IFile[] = [{ path: "src/__tests__/fakes/button.ts", read: () => "" }];
-
 describe("TypescriptPlugin", () => {
     const dm = Documentalist.create().use(".ts", new TypedocPlugin());
 
     it("snapshot", async () => {
-        const { typedoc } = await dm.documentFiles(FILES);
+        const { typedoc } = await dm.documentGlobs("src/__tests__/fakes/button.ts");
         expect(typedoc).toMatchSnapshot();
     });
 });
