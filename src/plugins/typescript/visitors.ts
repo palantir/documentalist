@@ -78,7 +78,7 @@ function visitorSignature(sig: SignatureReflection, renderer: Renderer): ITsMeth
     return {
         documentation: renderComment(sig.comment, renderer),
         kind: Kind.Signature,
-        parameters: sig.parameters.map(param => visitorParameter(param, renderer)),
+        parameters: (sig.parameters || []).map(param => visitorParameter(param, renderer)),
         returnType: resolveTypeString(sig.type),
         type: resolveSignature(sig),
     };

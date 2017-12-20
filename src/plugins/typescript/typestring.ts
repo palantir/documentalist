@@ -25,7 +25,8 @@ export function resolveTypeString(type: Type): string {
 }
 
 export function resolveSignature(sig: SignatureReflection): string {
-    const paramList = sig.parameters.map((param: any) => {
+    const { parameters = [] } = sig;
+    const paramList = parameters.map((param: any) => {
         const name = (param.flags && param.flags.isRest ? "..." : "") + param.name;
         const type = resolveTypeString(param.type);
         return `${name}: ${type}`;

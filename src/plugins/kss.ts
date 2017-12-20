@@ -11,7 +11,7 @@ import { IKssExample, IKssModifier, IKssPluginData } from "../client";
 import { ICompiler, IFile, IPlugin } from "./plugin";
 
 export class KssPlugin implements IPlugin<IKssPluginData> {
-    public constructor(private options: kss.IOptions) {}
+    public constructor(private options: kss.IOptions = {}) {}
 
     public compile(cssFiles: IFile[], dm: ICompiler) {
         const styleguide = this.parseFiles(cssFiles);
