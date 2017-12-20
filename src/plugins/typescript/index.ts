@@ -10,9 +10,19 @@ import { ITypescriptPluginData } from "../../client";
 import { ICompiler, IFile, IPlugin } from "../plugin";
 import { isInternal, visitorExportedClass, visitorExportedInterface } from "./visitors";
 
+export interface ITypescriptPluginOptions {
+    /** Exclude files by the given pattern when a path is provided as source. Supports standard minimatch patterns/. */
+    exclude?: string;
+}
+
 export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
+    private app: TypedocApp;
+    public constructor(options: ITypescriptPluginOptions = {}) {
+        this.app = new TypedocApp({ ignoreCompilerErrors: true, logger: "none", ...options });
+    }
+
     public compile(files: IFile[], compiler: ICompiler): ITypescriptPluginData {
-        const project = typedocFiles(files.map(f => f.path));
+        const project = this.getTypedocProject(files.map(f => f.path));
 
         const interfaces = project
             .getReflectionsByKind(ReflectionKind.Interface)
@@ -26,6 +36,11 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
         const typescript = compiler.objectify([...interfaces, ...classes], i => i.name);
         return { typescript };
     }
+
+    private getTypedocProject(files: string[]) {
+        const expanded = this.app.expandInputFiles(files);
+        return this.app.convert(expanded);
+    }
 }
 
 const filterInternal = (ref: ContainerReflection) => !isInternal(ref);
@@ -36,10 +51,4 @@ class TypedocApp extends Application {
     get isCLI() {
         return true;
     }
-}
-
-function typedocFiles(files: string[]) {
-    const app = new TypedocApp({ ignoreCompilerErrors: true, logger: "none" });
-    const expanded = app.expandInputFiles(files);
-    return app.convert(expanded);
 }
