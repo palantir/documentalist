@@ -1,12 +1,14 @@
-__tests__/
+dist/__tests__
 docs/
 src/
 theme/
 
 .npmrc
+.vscode
 .yarnrc
 
 circle.yml
+jest.config.json
 tsconfig.json
 tslint.json
 yarn.lock
