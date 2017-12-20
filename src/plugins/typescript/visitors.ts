@@ -113,11 +113,10 @@ function renderComment(comment: Comment, renderer: Renderer) {
     if (comment.tags) {
         documentation += "\n\n" + comment.tags.map((tag: any) => `@${tag.tag} ${tag.text}`).join("\n");
     }
-    // TODO: only place compiler is needed
     return renderer(documentation);
 }
 
-function getDefaultValue(ref: DefaultValueContainer) {
+function getDefaultValue(ref: DefaultValueContainer): string | undefined {
     if (ref.defaultValue) {
         return ref.defaultValue;
     } else if (ref.comment && ref.comment.tags) {
@@ -129,7 +128,7 @@ function getDefaultValue(ref: DefaultValueContainer) {
     return undefined;
 }
 
-function getFileName(ref: Reflection) {
+function getFileName(ref: Reflection): string | undefined {
     const [source] = ref.sources;
     const fileName = source && source.file && source.file.fullFileName;
     // filename relative to cwd, so it can be saved in a snapshot (machine-independent)

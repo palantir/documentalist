@@ -11,7 +11,7 @@ import { ICompiler, IFile, IPlugin } from "../plugin";
 import { isInternal, visitorExportedClass, visitorExportedInterface } from "./visitors";
 
 export interface ITypescriptPluginOptions {
-    /** Exclude files by the given pattern when a path is provided as source. Supports standard minimatch patterns/. */
+    /** Exclude files by the given pattern when a path is provided as source. Supports standard minimatch patterns. */
     exclude?: string;
 }
 
