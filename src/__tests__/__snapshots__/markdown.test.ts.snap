@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MarkdownPlugin snapshot 1`] = `
+Object {
+  "_nav": Object {
+    "contents": Array [
+      Object {
+        "tag": "page",
+        "value": "test",
+      },
+    ],
+    "contentsRaw": "@page test",
+    "metadata": Object {},
+    "reference": "_nav",
+    "route": "_nav",
+    "title": "(untitled)",
+  },
+  "test": Object {
+    "contents": Array [
+      Object {
+        "level": 1,
+        "route": "test",
+        "tag": "heading",
+        "value": "I'm special",
+      },
+      "<h2 id=\\"i-m-regular\\">I&#39;m regular</h2>
+",
+      Object {
+        "tag": "othertag",
+        "value": "params",
+      },
+    ],
+    "contentsRaw": "
+@# I'm special
+
+## I'm regular
+
+@othertag params",
+    "metadata": Object {
+      "key": "value",
+    },
+    "reference": "test",
+    "route": "test",
+    "title": "I'm special",
+  },
+}
+`;

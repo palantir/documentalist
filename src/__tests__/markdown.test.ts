@@ -5,7 +5,7 @@
  * repository.
  */
 
-import { Documentalist, ITag } from "../index";
+import { Documentalist } from "../documentalist";
 import { MarkdownPlugin } from "../plugins/markdown";
 
 const TEST_MARKDOWN = `---
@@ -19,8 +19,7 @@ key: value
 @othertag params
 `;
 
-const TEST_NAV = `
-@page test
+const TEST_NAV = `@page test
 `;
 
 const TEST_FILES = [
@@ -34,15 +33,11 @@ const TEST_FILES = [
     },
 ];
 
-describe("Plugins", () => {
+describe("MarkdownPlugin", () => {
     const dm = Documentalist.create().use(".md", new MarkdownPlugin());
 
-    it("can document Markdown files", async () => {
-        const docs = await dm.documentFiles(TEST_FILES);
-        const page = docs.pages.test;
-        expect(page).toBeDefined();
-        expect(page.metadata.key).toBe("value");
-        expect(page.contents).toHaveLength(3);
-        expect((page.contents[2] as ITag).tag).toBe("othertag");
+    it("snapshot", async () => {
+        const { pages } = await dm.documentFiles(TEST_FILES);
+        expect(pages).toMatchSnapshot();
     });
 });

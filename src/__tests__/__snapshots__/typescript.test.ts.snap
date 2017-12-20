@@ -1,0 +1,331 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TypescriptPlugin snapshot 1`] = `
+Object {
+  "IButtonProps": Object {
+    "documentation": undefined,
+    "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+    "kind": "interface",
+    "methods": Array [],
+    "name": "IButtonProps",
+    "properties": Array [
+      Object {
+        "defaultValue": undefined,
+        "documentation": Object {
+          "contents": Array [
+            "<p>If set to <code>true</code>, the button will display in an active state.
+This is equivalent to setting <code>className=&quot;pt-active&quot;</code>.</p>
+",
+            Object {
+              "tag": "undefined",
+              "value": "false",
+            },
+          ],
+          "contentsRaw": "If set to \`true\`, the button will display in an active state.
+This is equivalent to setting \`className=\\"pt-active\\"\`.
+
+@undefined false",
+          "metadata": Object {},
+        },
+        "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+        "kind": "property",
+        "name": "active",
+        "type": "undefined | true | false",
+      },
+      Object {
+        "defaultValue": undefined,
+        "documentation": Object {
+          "contents": Array [
+            "<p>Whether this action is non-interactive.</p>
+",
+          ],
+          "contentsRaw": "Whether this action is non-interactive.",
+          "metadata": Object {},
+        },
+        "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+        "kind": "property",
+        "name": "disabled",
+        "type": "undefined | true | false",
+      },
+      Object {
+        "defaultValue": undefined,
+        "documentation": Object {
+          "contents": Array [
+            "<p>A ref handler that receives the native HTML element backing this component.</p>
+",
+          ],
+          "contentsRaw": "A ref handler that receives the native HTML element backing this component.",
+          "metadata": Object {},
+        },
+        "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+        "kind": "property",
+        "name": "elementRef",
+        "type": "undefined | (ref: HTMLElement) => any",
+      },
+      Object {
+        "defaultValue": undefined,
+        "documentation": Object {
+          "contents": Array [
+            "<p>Name of the icon (the part after <code>pt-icon-</code>) to add to the button.</p>
+",
+          ],
+          "contentsRaw": "Name of the icon (the part after \`pt-icon-\`) to add to the button.",
+          "metadata": Object {},
+        },
+        "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+        "kind": "property",
+        "name": "iconName",
+        "type": "IconName",
+      },
+      Object {
+        "defaultValue": undefined,
+        "documentation": Object {
+          "contents": Array [
+            "<p>Visual intent color to apply to element.</p>
+",
+          ],
+          "contentsRaw": "Visual intent color to apply to element.",
+          "metadata": Object {},
+        },
+        "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+        "kind": "property",
+        "name": "intent",
+        "type": "Intent",
+      },
+      Object {
+        "defaultValue": undefined,
+        "documentation": Object {
+          "contents": Array [
+            "<p>If set to <code>true</code>, the button will display a centered loading spinner instead of its contents.
+The width of the button is not affected by the value of this prop.</p>
+",
+            Object {
+              "tag": "undefined",
+              "value": "false",
+            },
+          ],
+          "contentsRaw": "If set to \`true\`, the button will display a centered loading spinner instead of its contents.
+The width of the button is not affected by the value of this prop.
+
+@undefined false",
+          "metadata": Object {},
+        },
+        "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+        "kind": "property",
+        "name": "loading",
+        "type": "undefined | true | false",
+      },
+      Object {
+        "defaultValue": undefined,
+        "documentation": Object {
+          "contents": Array [
+            "<p>Click event handler.</p>
+",
+          ],
+          "contentsRaw": "Click event handler.",
+          "metadata": Object {},
+        },
+        "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+        "kind": "property",
+        "name": "onClick",
+        "type": "undefined | (event: MouseEvent) => void",
+      },
+      Object {
+        "defaultValue": undefined,
+        "documentation": Object {
+          "contents": Array [
+            "<p>Name of the icon (the part after <code>pt-icon-</code>) to add to the button.</p>
+",
+          ],
+          "contentsRaw": "Name of the icon (the part after \`pt-icon-\`) to add to the button.",
+          "metadata": Object {},
+        },
+        "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+        "kind": "property",
+        "name": "rightIconName",
+        "type": "IconName",
+      },
+      Object {
+        "defaultValue": undefined,
+        "documentation": Object {
+          "contents": Array [
+            "<p>Action text.</p>
+",
+          ],
+          "contentsRaw": "Action text.",
+          "metadata": Object {},
+        },
+        "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+        "kind": "property",
+        "name": "text",
+        "type": "string",
+      },
+      Object {
+        "defaultValue": undefined,
+        "documentation": Object {
+          "contents": Array [
+            "<p>HTML <code>type</code> attribute of button. Common values are <code>&quot;button&quot;</code> and <code>&quot;submit&quot;</code>.
+Note that this prop has no effect on <code>AnchorButton</code>; it only affects <code>Button</code>.</p>
+",
+            Object {
+              "tag": "undefined",
+              "value": "\\"button\\"",
+            },
+          ],
+          "contentsRaw": "HTML \`type\` attribute of button. Common values are \`\\"button\\"\` and \`\\"submit\\"\`.
+Note that this prop has no effect on \`AnchorButton\`; it only affects \`Button\`.
+
+@undefined \\"button\\"",
+          "metadata": Object {},
+        },
+        "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+        "kind": "property",
+        "name": "type",
+        "type": "undefined | string",
+      },
+    ],
+  },
+  "ICompiler": Object {
+    "documentation": Object {
+      "contents": Array [
+        "<p>Each plugin receives a <code>Compiler</code> instance to aid in the processing of source files.</p>
+",
+      ],
+      "contentsRaw": "Each plugin receives a \`Compiler\` instance to aid in the processing of source files.",
+      "metadata": Object {},
+    },
+    "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+    "kind": "interface",
+    "methods": Array [
+      Object {
+        "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+        "kind": "method",
+        "name": "objectify",
+        "signatures": Array [
+          Object {
+            "documentation": Object {
+              "contents": Array [
+                "<p>Converts an array of entries into a map of key to entry, using given
+callback to extract key from each item.</p>
+",
+              ],
+              "contentsRaw": "Converts an array of entries into a map of key to entry, using given
+callback to extract key from each item.",
+              "metadata": Object {},
+            },
+            "kind": "signature",
+            "parameters": Array [
+              Object {
+                "defaultValue": undefined,
+                "documentation": undefined,
+                "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+                "flags": Array [],
+                "kind": "parameter",
+                "name": "array",
+                "type": "T[]",
+              },
+              Object {
+                "defaultValue": undefined,
+                "documentation": undefined,
+                "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+                "flags": Array [],
+                "kind": "parameter",
+                "name": "getKey",
+                "type": "(item: T) => string",
+              },
+            ],
+            "returnType": "??",
+            "type": "(array: T[], getKey: (item: T) => string) => ??",
+          },
+        ],
+      },
+      Object {
+        "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+        "kind": "method",
+        "name": "renderBlock",
+        "signatures": Array [
+          Object {
+            "documentation": Object {
+              "contents": Array [
+                "<p>Render a block of content by extracting metadata (YAML front matter) and
+splitting text content into markdown-rendered HTML strings and <code>{ tag,
+value }</code> objects.</p>
+<p>To prevent special strings like &quot;@include&quot; from being parsed, a reserved
+tag words array may be provided, in which case the line will be left as
+is.</p>
+",
+              ],
+              "contentsRaw": "Render a block of content by extracting metadata (YAML front matter) and
+splitting text content into markdown-rendered HTML strings and \`{ tag,
+value }\` objects.
+
+To prevent special strings like \\"@include\\" from being parsed, a reserved
+tag words array may be provided, in which case the line will be left as
+is.",
+              "metadata": Object {},
+            },
+            "kind": "signature",
+            "parameters": Array [
+              Object {
+                "defaultValue": undefined,
+                "documentation": undefined,
+                "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+                "flags": Array [],
+                "kind": "parameter",
+                "name": "blockContent",
+                "type": "string",
+              },
+              Object {
+                "defaultValue": undefined,
+                "documentation": undefined,
+                "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+                "flags": Array [
+                  "Optional",
+                ],
+                "kind": "parameter",
+                "name": "reservedTagWords",
+                "type": "string[]",
+              },
+            ],
+            "returnType": "IBlock",
+            "type": "(blockContent: string, reservedTagWords: string[]) => IBlock",
+          },
+        ],
+      },
+      Object {
+        "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+        "kind": "method",
+        "name": "renderMarkdown",
+        "signatures": Array [
+          Object {
+            "documentation": Object {
+              "contents": Array [
+                "<p>Render a string of markdown to HTML, using the options from <code>Documentalist</code>.</p>
+",
+              ],
+              "contentsRaw": "Render a string of markdown to HTML, using the options from \`Documentalist\`.",
+              "metadata": Object {},
+            },
+            "kind": "signature",
+            "parameters": Array [
+              Object {
+                "defaultValue": undefined,
+                "documentation": undefined,
+                "fileName": "/Volumes/git/documentalist/src/__tests__/fakes/button.ts",
+                "flags": Array [],
+                "kind": "parameter",
+                "name": "markdown",
+                "type": "string",
+              },
+            ],
+            "returnType": "string",
+            "type": "(markdown: string) => string",
+          },
+        ],
+      },
+    ],
+    "name": "ICompiler",
+    "properties": Array [],
+  },
+}
+`;
