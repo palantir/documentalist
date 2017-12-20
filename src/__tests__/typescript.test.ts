@@ -12,7 +12,7 @@ describe("TypescriptPlugin", () => {
     const dm = Documentalist.create().use(".ts", new TypedocPlugin());
 
     it("snapshot", async () => {
-        const { typedoc } = await dm.documentGlobs("src/__fixtures__/button.ts");
+        const { typedoc } = await dm.documentGlobs("src/__tests__/__fixtures__/button.ts");
         expect(typedoc).toMatchSnapshot();
     });
 });
