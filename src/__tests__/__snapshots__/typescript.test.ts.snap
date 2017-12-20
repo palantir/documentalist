@@ -1,10 +1,89 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TypescriptPlugin snapshot 1`] = `
+exports[`TypescriptPlugin classes snapshot 1`] = `
+Object {
+  "Animal": Object {
+    "documentation": Object {
+      "contents": Array [
+        "<p>Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
+Licensed under the BSD-3 License as modified (the “License”); you may obtain
+a copy of the license in the LICENSE and PATENTS files in the root of this
+repository.</p>
+",
+      ],
+      "contentsRaw": "Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
+Licensed under the BSD-3 License as modified (the “License”); you may obtain
+a copy of the license in the LICENSE and PATENTS files in the root of this
+repository.",
+      "metadata": Object {},
+    },
+    "fileName": "src/__tests__/__fixtures__/classes.ts",
+    "kind": "class",
+    "methods": Array [
+      Object {
+        "fileName": "src/__tests__/__fixtures__/classes.ts",
+        "kind": "method",
+        "name": "bark",
+        "signatures": Array [
+          Object {
+            "documentation": undefined,
+            "kind": "signature",
+            "parameters": Array [],
+            "returnType": "string",
+            "type": "() => string",
+          },
+        ],
+      },
+      Object {
+        "fileName": "src/__tests__/__fixtures__/classes.ts",
+        "kind": "method",
+        "name": "eat",
+        "signatures": Array [
+          Object {
+            "documentation": Object {
+              "contents": Array [
+                "<p>Public method.</p>
+",
+              ],
+              "contentsRaw": "Public method.",
+              "metadata": Object {},
+            },
+            "kind": "signature",
+            "parameters": Array [
+              Object {
+                "defaultValue": undefined,
+                "documentation": Object {
+                  "contents": Array [
+                    "<p>Name of the food to eat.</p>
+",
+                  ],
+                  "contentsRaw": "Name of the food to eat.",
+                  "metadata": Object {},
+                },
+                "fileName": "src/__tests__/__fixtures__/classes.ts",
+                "flags": Array [],
+                "kind": "parameter",
+                "name": "food",
+                "type": "string",
+              },
+            ],
+            "returnType": "void",
+            "type": "(food: string) => void",
+          },
+        ],
+      },
+    ],
+    "name": "Animal",
+    "properties": Array [],
+  },
+}
+`;
+
+exports[`TypescriptPlugin interfaces snapshot 1`] = `
 Object {
   "IButtonProps": Object {
     "documentation": undefined,
-    "fileName": "src/__tests__/__fixtures__/button.ts",
+    "fileName": "src/__tests__/__fixtures__/interfaces.ts",
     "kind": "interface",
     "methods": Array [],
     "name": "IButtonProps",
@@ -27,7 +106,7 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.
 @undefined false",
           "metadata": Object {},
         },
-        "fileName": "src/__tests__/__fixtures__/button.ts",
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "kind": "property",
         "name": "active",
         "type": "undefined | true | false",
@@ -42,7 +121,7 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.
           "contentsRaw": "Whether this action is non-interactive.",
           "metadata": Object {},
         },
-        "fileName": "src/__tests__/__fixtures__/button.ts",
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "kind": "property",
         "name": "disabled",
         "type": "undefined | true | false",
@@ -57,7 +136,7 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.
           "contentsRaw": "A ref handler that receives the native HTML element backing this component.",
           "metadata": Object {},
         },
-        "fileName": "src/__tests__/__fixtures__/button.ts",
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "kind": "property",
         "name": "elementRef",
         "type": "undefined | (ref: HTMLElement) => any",
@@ -72,7 +151,7 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.
           "contentsRaw": "Name of the icon (the part after \`pt-icon-\`) to add to the button.",
           "metadata": Object {},
         },
-        "fileName": "src/__tests__/__fixtures__/button.ts",
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "kind": "property",
         "name": "iconName",
         "type": "IconName",
@@ -87,7 +166,7 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.
           "contentsRaw": "Visual intent color to apply to element.",
           "metadata": Object {},
         },
-        "fileName": "src/__tests__/__fixtures__/button.ts",
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "kind": "property",
         "name": "intent",
         "type": "Intent",
@@ -110,7 +189,7 @@ The width of the button is not affected by the value of this prop.
 @undefined false",
           "metadata": Object {},
         },
-        "fileName": "src/__tests__/__fixtures__/button.ts",
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "kind": "property",
         "name": "loading",
         "type": "undefined | true | false",
@@ -125,7 +204,7 @@ The width of the button is not affected by the value of this prop.
           "contentsRaw": "Click event handler.",
           "metadata": Object {},
         },
-        "fileName": "src/__tests__/__fixtures__/button.ts",
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "kind": "property",
         "name": "onClick",
         "type": "undefined | (event: MouseEvent) => void",
@@ -140,7 +219,7 @@ The width of the button is not affected by the value of this prop.
           "contentsRaw": "Name of the icon (the part after \`pt-icon-\`) to add to the button.",
           "metadata": Object {},
         },
-        "fileName": "src/__tests__/__fixtures__/button.ts",
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "kind": "property",
         "name": "rightIconName",
         "type": "IconName",
@@ -155,7 +234,7 @@ The width of the button is not affected by the value of this prop.
           "contentsRaw": "Action text.",
           "metadata": Object {},
         },
-        "fileName": "src/__tests__/__fixtures__/button.ts",
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "kind": "property",
         "name": "text",
         "type": "string",
@@ -178,7 +257,7 @@ Note that this prop has no effect on \`AnchorButton\`; it only affects \`Button\
 @undefined \\"button\\"",
           "metadata": Object {},
         },
-        "fileName": "src/__tests__/__fixtures__/button.ts",
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "kind": "property",
         "name": "type",
         "type": "undefined | string",
@@ -194,11 +273,11 @@ Note that this prop has no effect on \`AnchorButton\`; it only affects \`Button\
       "contentsRaw": "Each plugin receives a \`Compiler\` instance to aid in the processing of source files.",
       "metadata": Object {},
     },
-    "fileName": "src/__tests__/__fixtures__/button.ts",
+    "fileName": "src/__tests__/__fixtures__/interfaces.ts",
     "kind": "interface",
     "methods": Array [
       Object {
-        "fileName": "src/__tests__/__fixtures__/button.ts",
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "kind": "method",
         "name": "objectify",
         "signatures": Array [
@@ -218,7 +297,7 @@ callback to extract key from each item.",
               Object {
                 "defaultValue": undefined,
                 "documentation": undefined,
-                "fileName": "src/__tests__/__fixtures__/button.ts",
+                "fileName": "src/__tests__/__fixtures__/interfaces.ts",
                 "flags": Array [],
                 "kind": "parameter",
                 "name": "array",
@@ -227,7 +306,7 @@ callback to extract key from each item.",
               Object {
                 "defaultValue": undefined,
                 "documentation": undefined,
-                "fileName": "src/__tests__/__fixtures__/button.ts",
+                "fileName": "src/__tests__/__fixtures__/interfaces.ts",
                 "flags": Array [],
                 "kind": "parameter",
                 "name": "getKey",
@@ -240,7 +319,7 @@ callback to extract key from each item.",
         ],
       },
       Object {
-        "fileName": "src/__tests__/__fixtures__/button.ts",
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "kind": "method",
         "name": "renderBlock",
         "signatures": Array [
@@ -269,7 +348,7 @@ is.",
               Object {
                 "defaultValue": undefined,
                 "documentation": undefined,
-                "fileName": "src/__tests__/__fixtures__/button.ts",
+                "fileName": "src/__tests__/__fixtures__/interfaces.ts",
                 "flags": Array [],
                 "kind": "parameter",
                 "name": "blockContent",
@@ -278,7 +357,7 @@ is.",
               Object {
                 "defaultValue": undefined,
                 "documentation": undefined,
-                "fileName": "src/__tests__/__fixtures__/button.ts",
+                "fileName": "src/__tests__/__fixtures__/interfaces.ts",
                 "flags": Array [
                   "Optional",
                 ],
@@ -293,7 +372,7 @@ is.",
         ],
       },
       Object {
-        "fileName": "src/__tests__/__fixtures__/button.ts",
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "kind": "method",
         "name": "renderMarkdown",
         "signatures": Array [
@@ -311,7 +390,7 @@ is.",
               Object {
                 "defaultValue": undefined,
                 "documentation": undefined,
-                "fileName": "src/__tests__/__fixtures__/button.ts",
+                "fileName": "src/__tests__/__fixtures__/interfaces.ts",
                 "flags": Array [],
                 "kind": "parameter",
                 "name": "markdown",
