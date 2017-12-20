@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// @ts-check
 
 // Example Usage
 // ./cli.js "./src/**/*"
@@ -12,10 +13,11 @@
 const yargs = require("yargs");
 const fs = require("fs");
 const glob = require("glob");
-const { Documentalist, KssPlugin, MarkdownPlugin, TypedocPlugin, TypescriptPlugin } = require("./dist/");
+const { Documentalist, KssPlugin, MarkdownPlugin, TypescriptPlugin } = require("./dist/");
 
 const argv = yargs
     .alias("v", "version")
+    // @ts-ignore
     .version(require("./package.json").version)
     .usage("$0 [options] <files>")
     .option("md", {
@@ -41,9 +43,7 @@ if (argv.md) {
     docs = docs.use(".md", new MarkdownPlugin());
 }
 if (argv.ts) {
-    docs = docs.use(/\.tsx?$/, new TypedocPlugin({
-        excludePaths: ["__tests__"],
-    }));
+    docs = docs.use(/\.tsx?$/, new TypescriptPlugin({ exclude: "**/__tests__/**" }));
 }
 if (argv.css) {
     docs = docs.use(/\.(css|less|s[ac]ss)$/, new KssPlugin());

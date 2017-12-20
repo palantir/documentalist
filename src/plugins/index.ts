@@ -7,5 +7,5 @@
 
 export * from "./kss";
 export * from "./markdown";
-export * from "./typedoc";
+export * from "./typescript/index";
 export * from "./plugin";

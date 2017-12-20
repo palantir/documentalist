@@ -6,13 +6,18 @@
  */
 
 import { Documentalist } from "../documentalist";
-import { TypedocPlugin } from "../plugins/typedoc";
+import { TypescriptPlugin } from "../plugins/typescript/index";
 
 describe("TypescriptPlugin", () => {
-    const dm = Documentalist.create().use(".ts", new TypedocPlugin());
+    const dm = Documentalist.create().use(".ts", new TypescriptPlugin());
 
-    it("snapshot", async () => {
-        const { typedoc } = await dm.documentGlobs("src/__tests__/__fixtures__/button.ts");
-        expect(typedoc).toMatchSnapshot();
-    });
+    snapshot("classes");
+    snapshot("interfaces");
+
+    function snapshot(name: string) {
+        it(`${name} snapshot`, async () => {
+            const { typescript } = await dm.documentGlobs(`src/__tests__/__fixtures__/${name}.ts`);
+            expect(typescript).toMatchSnapshot();
+        });
+    }
 });

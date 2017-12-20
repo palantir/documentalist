@@ -1,6 +1,6 @@
-- var toc = Object.keys(typedoc).sort((a, b) => a.localeCompare(b))
-- var interfacetoc = Object.keys(typedoc).filter((a) => typedoc[a].kind === "interface").sort((a, b) => a.localeCompare(b));
-- var classtoc = Object.keys(typedoc).filter((a) => typedoc[a].kind === "class").sort((a, b) => a.localeCompare(b));
+- var toc = Object.keys(typescript).sort((a, b) => a.localeCompare(b))
+- var interfacetoc = Object.keys(typescript).filter((a) => typescript[a].kind === "interface").sort((a, b) => a.localeCompare(b));
+- var classtoc = Object.keys(typescript).filter((a) => typescript[a].kind === "class").sort((a, b) => a.localeCompare(b));
 
 html
   head
@@ -29,13 +29,13 @@ body
 
     h3 Interfaces
     each name in interfacetoc
-      - var name = typedoc[name].name
+      - var name = typescript[name].name
       a(href='#' + name)
         .nav-item= name
 
     h3 Classes
     each name in classtoc
-      - var name = typedoc[name].name
+      - var name = typescript[name].name
       a(href='#' + name)
         .nav-item= name
 
@@ -85,10 +85,10 @@ body
         if typeof block === "string"
           | !{block}
         else if block.tag === "interface"
-          - var iface = typedoc[block.value]
+          - var iface = typescript[block.value]
           +objecttable(iface)
 
-  each iface in typedoc
+  each iface in typescript
     if iface.kind == "interface" || iface.kind == "class"
       .hidden(data-route=iface.name)
         h2= iface.name
