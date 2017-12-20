@@ -16,26 +16,40 @@ export enum Kind {
     Signature = "signature",
 }
 
-export interface ITsDocType {
-    documentation?: IBlock;
-    fileName: string;
-    name: string;
+export interface ITsDocBase {
+    /** Type brand indicating kind of entity; type guards will reveal further information about it. */
     kind: Kind;
+
+    /** Compiled documentation: `contents` field contains an array of markdown strings or `@tag value` objects. */
+    documentation?: IBlock;
+
+    /** Original file name in which this entity originated. */
+    fileName?: string;
+
+    /** Name of this entity in code, also used as its identifiers in the data store. */
+    name: string;
 }
 
-export interface ITsObjectMemberDefinition extends ITsDocType {
+export interface ITsObjectMemberDefinition extends ITsDocBase {
+    /** Whether this member is optional. */
     optional?: boolean;
 }
 
 export interface ITsProperty extends ITsObjectMemberDefinition {
-    defaultValue?: string;
     kind: Kind.Property;
+
+    /** The default value of this property, from an initializer or an `@default` tag. */
+    defaultValue?: string;
+
+    /** Type descriptor of this property. */
     type: string;
 }
 
-export interface ITsParameter extends ITsDocType {
-    defaultValue?: string;
+export interface ITsParameter extends ITsDocBase {
     kind: Kind.Parameter;
+
+    /** The default value of this property, from an initializer or an `@default` tag. */
+    defaultValue?: string;
     type: string;
     flags: any;
 }
@@ -50,13 +64,15 @@ export interface ITsMethodSignature {
 
 export interface ITsMethod extends ITsObjectMemberDefinition {
     kind: Kind.Method;
+    /** A method has at least one signature, which describes the parameters and return type and contains documentation. */
     signatures: ITsMethodSignature[];
 }
 
-export interface ITsObjectDefinition extends ITsDocType {
+export interface ITsObjectDefinition extends ITsDocBase {
     properties: ITsProperty[];
     methods: ITsMethod[];
 }
+
 export interface ITsInterface extends ITsObjectDefinition {
     kind: Kind.Interface;
     extends?: string[];
@@ -68,10 +84,8 @@ export interface ITsClass extends ITsObjectDefinition {
     implements?: string[];
 }
 
-export type ITsDocEntity = ITsClass | ITsInterface | ITsMethod | ITsParameter | ITsProperty;
-
-export interface ITypedocPluginData {
-    typedoc: {
-        [name: string]: ITsDocEntity;
+export interface ITypescriptPluginData {
+    typescript: {
+        [name: string]: ITsClass | ITsInterface;
     };
 }
