@@ -5,35 +5,46 @@
  * repository.
  */
 
-import { Application, ContainerReflection, ReflectionKind } from "typedoc";
+import { Application } from "typedoc";
 import { ITypescriptPluginData } from "../../client";
 import { ICompiler, IFile, IPlugin } from "../plugin";
-import { isInternal, visitorExportedClass, visitorExportedInterface } from "./visitors";
+import { Visitor } from "./visitor";
 
 export interface ITypescriptPluginOptions {
     /** Exclude files by the given pattern when a path is provided as source. Supports standard minimatch patterns. */
     exclude?: string;
+
+    /**
+     * Whether `private` fields should be included in the data.
+     * This is disabled by default as `private` fields typically do not need to be publicly documented.
+     * @default false
+     */
+    includePrivates?: boolean;
+
+    /**
+     * Whether members not marked `export` should be included in the data.
+     * This is disabled by default as non-exported members typically do not need to be publicly documented.
+     * @default false
+     */
+    includeNonExported?: boolean;
 }
 
 export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     private app: TypedocApp;
-    public constructor(options: ITypescriptPluginOptions = {}) {
-        this.app = new TypedocApp({ ignoreCompilerErrors: true, logger: "none", ...options });
+    public constructor(private options: ITypescriptPluginOptions = {}) {
+        const { exclude, includePrivates = false } = options;
+        this.app = new TypedocApp({
+            exclude,
+            excludePrivate: !includePrivates,
+            ignoreCompilerErrors: true,
+            logger: "none",
+        });
     }
 
     public compile(files: IFile[], compiler: ICompiler): ITypescriptPluginData {
         const project = this.getTypedocProject(files.map(f => f.path));
-
-        const interfaces = project
-            .getReflectionsByKind(ReflectionKind.Interface)
-            .filter(filterInternal)
-            .map((ref: ContainerReflection) => visitorExportedInterface(ref, compiler.renderBlock));
-        const classes = project
-            .getReflectionsByKind(ReflectionKind.Class)
-            .filter(filterInternal)
-            .map((ref: ContainerReflection) => visitorExportedClass(ref, compiler.renderBlock));
-
-        const typescript = compiler.objectify([...interfaces, ...classes], i => i.name);
+        const visitor = new Visitor(compiler, this.options);
+        const typescript = compiler.objectify(visitor.visitProject(project), i => i.name);
         return { typescript };
     }
 
@@ -42,8 +53,6 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
         return this.app.convert(expanded);
     }
 }
-
-const filterInternal = (ref: ContainerReflection) => !isInternal(ref);
 
 // tslint:disable-next-line:max-classes-per-file
 class TypedocApp extends Application {
