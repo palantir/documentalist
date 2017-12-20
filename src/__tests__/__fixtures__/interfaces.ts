@@ -23,13 +23,17 @@ export interface IButtonProps {
     /** A ref handler that receives the native HTML element backing this component. */
     elementRef?: (ref: HTMLElement) => any;
 
-    /** Name of the icon (the part after `pt-icon-`) to add to the button. */
+    /**
+     * Name of the icon (the part after `pt-icon-`) to add to the button.
+     * @deprecated since v1.2.3
+     */
     rightIconName?: IconName;
 
     /**
      * If set to `true`, the button will display a centered loading spinner instead of its contents.
      * The width of the button is not affected by the value of this prop.
      * @default false
+     * @deprecated
      */
     loading?: boolean;
 

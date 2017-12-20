@@ -19,6 +19,7 @@ repository.",
     },
     "fileName": "src/__tests__/__fixtures__/classes.ts",
     "flags": Object {
+      "isDeprecated": undefined,
       "isExported": true,
       "isExternal": false,
       "isOptional": false,
@@ -33,6 +34,7 @@ repository.",
       Object {
         "fileName": "src/__tests__/__fixtures__/classes.ts",
         "flags": Object {
+          "isDeprecated": undefined,
           "isExported": true,
           "isExternal": false,
           "isOptional": false,
@@ -48,6 +50,7 @@ repository.",
           Object {
             "documentation": undefined,
             "flags": Object {
+              "isDeprecated": undefined,
               "isExported": undefined,
               "isExternal": undefined,
               "isOptional": undefined,
@@ -67,6 +70,7 @@ repository.",
       Object {
         "fileName": "src/__tests__/__fixtures__/classes.ts",
         "flags": Object {
+          "isDeprecated": undefined,
           "isExported": true,
           "isExternal": false,
           "isOptional": false,
@@ -89,6 +93,7 @@ repository.",
               "metadata": Object {},
             },
             "flags": Object {
+              "isDeprecated": undefined,
               "isExported": undefined,
               "isExternal": undefined,
               "isOptional": undefined,
@@ -112,6 +117,7 @@ repository.",
                 },
                 "fileName": "src/__tests__/__fixtures__/classes.ts",
                 "flags": Object {
+                  "isDeprecated": undefined,
                   "isExported": undefined,
                   "isExternal": undefined,
                   "isOptional": false,
@@ -144,6 +150,7 @@ Object {
     "documentation": undefined,
     "fileName": "src/__tests__/__fixtures__/interfaces.ts",
     "flags": Object {
+      "isDeprecated": undefined,
       "isExported": true,
       "isExternal": false,
       "isOptional": false,
@@ -158,25 +165,20 @@ Object {
     "name": "IButtonProps",
     "properties": Array [
       Object {
-        "defaultValue": undefined,
+        "defaultValue": "false",
         "documentation": Object {
           "contents": Array [
             "<p>If set to <code>true</code>, the button will display in an active state.
 This is equivalent to setting <code>className=&quot;pt-active&quot;</code>.</p>
 ",
-            Object {
-              "tag": "undefined",
-              "value": "false",
-            },
           ],
           "contentsRaw": "If set to \`true\`, the button will display in an active state.
-This is equivalent to setting \`className=\\"pt-active\\"\`.
-
-@undefined false",
+This is equivalent to setting \`className=\\"pt-active\\"\`.",
           "metadata": Object {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
+          "isDeprecated": undefined,
           "isExported": true,
           "isExternal": false,
           "isOptional": true,
@@ -202,6 +204,7 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
+          "isDeprecated": undefined,
           "isExported": true,
           "isExternal": false,
           "isOptional": true,
@@ -227,6 +230,7 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
+          "isDeprecated": undefined,
           "isExported": true,
           "isExternal": false,
           "isOptional": true,
@@ -252,6 +256,7 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
+          "isDeprecated": undefined,
           "isExported": true,
           "isExternal": false,
           "isOptional": true,
@@ -277,6 +282,7 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
+          "isDeprecated": undefined,
           "isExported": true,
           "isExternal": false,
           "isOptional": false,
@@ -291,25 +297,20 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.
         "type": "Intent",
       },
       Object {
-        "defaultValue": undefined,
+        "defaultValue": "false",
         "documentation": Object {
           "contents": Array [
             "<p>If set to <code>true</code>, the button will display a centered loading spinner instead of its contents.
 The width of the button is not affected by the value of this prop.</p>
 ",
-            Object {
-              "tag": "undefined",
-              "value": "false",
-            },
           ],
           "contentsRaw": "If set to \`true\`, the button will display a centered loading spinner instead of its contents.
-The width of the button is not affected by the value of this prop.
-
-@undefined false",
+The width of the button is not affected by the value of this prop.",
           "metadata": Object {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
+          "isDeprecated": true,
           "isExported": true,
           "isExternal": false,
           "isOptional": true,
@@ -335,6 +336,7 @@ The width of the button is not affected by the value of this prop.
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
+          "isDeprecated": undefined,
           "isExported": true,
           "isExternal": false,
           "isOptional": true,
@@ -360,6 +362,7 @@ The width of the button is not affected by the value of this prop.
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
+          "isDeprecated": "since v1.2.3",
           "isExported": true,
           "isExternal": false,
           "isOptional": true,
@@ -385,6 +388,7 @@ The width of the button is not affected by the value of this prop.
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
+          "isDeprecated": undefined,
           "isExported": true,
           "isExternal": false,
           "isOptional": false,
@@ -399,25 +403,20 @@ The width of the button is not affected by the value of this prop.
         "type": "string",
       },
       Object {
-        "defaultValue": undefined,
+        "defaultValue": "\\"button\\"",
         "documentation": Object {
           "contents": Array [
             "<p>HTML <code>type</code> attribute of button. Common values are <code>&quot;button&quot;</code> and <code>&quot;submit&quot;</code>.
 Note that this prop has no effect on <code>AnchorButton</code>; it only affects <code>Button</code>.</p>
 ",
-            Object {
-              "tag": "undefined",
-              "value": "\\"button\\"",
-            },
           ],
           "contentsRaw": "HTML \`type\` attribute of button. Common values are \`\\"button\\"\` and \`\\"submit\\"\`.
-Note that this prop has no effect on \`AnchorButton\`; it only affects \`Button\`.
-
-@undefined \\"button\\"",
+Note that this prop has no effect on \`AnchorButton\`; it only affects \`Button\`.",
           "metadata": Object {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
+          "isDeprecated": undefined,
           "isExported": true,
           "isExternal": false,
           "isOptional": true,
@@ -444,6 +443,7 @@ Note that this prop has no effect on \`AnchorButton\`; it only affects \`Button\
     },
     "fileName": "src/__tests__/__fixtures__/interfaces.ts",
     "flags": Object {
+      "isDeprecated": undefined,
       "isExported": true,
       "isExternal": false,
       "isOptional": false,
@@ -458,6 +458,7 @@ Note that this prop has no effect on \`AnchorButton\`; it only affects \`Button\
       Object {
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
+          "isDeprecated": undefined,
           "isExported": true,
           "isExternal": false,
           "isOptional": false,
@@ -482,6 +483,7 @@ callback to extract key from each item.",
               "metadata": Object {},
             },
             "flags": Object {
+              "isDeprecated": undefined,
               "isExported": undefined,
               "isExternal": undefined,
               "isOptional": undefined,
@@ -498,6 +500,7 @@ callback to extract key from each item.",
                 "documentation": undefined,
                 "fileName": "src/__tests__/__fixtures__/interfaces.ts",
                 "flags": Object {
+                  "isDeprecated": undefined,
                   "isExported": undefined,
                   "isExternal": undefined,
                   "isOptional": false,
@@ -516,6 +519,7 @@ callback to extract key from each item.",
                 "documentation": undefined,
                 "fileName": "src/__tests__/__fixtures__/interfaces.ts",
                 "flags": Object {
+                  "isDeprecated": undefined,
                   "isExported": undefined,
                   "isExternal": undefined,
                   "isOptional": false,
@@ -538,6 +542,7 @@ callback to extract key from each item.",
       Object {
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
+          "isDeprecated": undefined,
           "isExported": true,
           "isExternal": false,
           "isOptional": false,
@@ -571,6 +576,7 @@ is.",
               "metadata": Object {},
             },
             "flags": Object {
+              "isDeprecated": undefined,
               "isExported": undefined,
               "isExternal": undefined,
               "isOptional": undefined,
@@ -587,6 +593,7 @@ is.",
                 "documentation": undefined,
                 "fileName": "src/__tests__/__fixtures__/interfaces.ts",
                 "flags": Object {
+                  "isDeprecated": undefined,
                   "isExported": undefined,
                   "isExternal": undefined,
                   "isOptional": false,
@@ -605,6 +612,7 @@ is.",
                 "documentation": undefined,
                 "fileName": "src/__tests__/__fixtures__/interfaces.ts",
                 "flags": Object {
+                  "isDeprecated": undefined,
                   "isExported": undefined,
                   "isExternal": undefined,
                   "isOptional": true,
@@ -627,6 +635,7 @@ is.",
       Object {
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
+          "isDeprecated": undefined,
           "isExported": true,
           "isExternal": false,
           "isOptional": false,
@@ -649,6 +658,7 @@ is.",
               "metadata": Object {},
             },
             "flags": Object {
+              "isDeprecated": undefined,
               "isExported": undefined,
               "isExternal": undefined,
               "isOptional": undefined,
@@ -665,6 +675,7 @@ is.",
                 "documentation": undefined,
                 "fileName": "src/__tests__/__fixtures__/interfaces.ts",
                 "flags": Object {
+                  "isDeprecated": undefined,
                   "isExported": undefined,
                   "isExternal": undefined,
                   "isOptional": false,

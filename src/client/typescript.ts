@@ -17,14 +17,15 @@ export enum Kind {
 }
 
 export interface ITsFlags {
-    isPrivate?: boolean;
-    isProtected?: boolean;
-    isPublic?: boolean;
-    isStatic?: boolean;
+    isDeprecated?: boolean | string;
     isExported?: boolean;
     isExternal?: boolean;
     isOptional?: boolean;
+    isPrivate?: boolean;
+    isProtected?: boolean;
+    isPublic?: boolean;
     isRest?: boolean;
+    isStatic?: boolean;
 }
 
 export interface ITsDocBase {

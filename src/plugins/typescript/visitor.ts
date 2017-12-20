@@ -16,7 +16,7 @@ import {
     SignatureReflection,
 } from "typedoc";
 import { Comment } from "typedoc/dist/lib/models/comments/comment";
-import { DefaultValueContainer, ReflectionFlags } from "typedoc/dist/lib/models/reflections/abstract";
+import { DefaultValueContainer } from "typedoc/dist/lib/models/reflections/abstract";
 import {
     ITsClass,
     ITsFlags,
@@ -59,7 +59,7 @@ export class Visitor {
         return {
             documentation: this.renderComment(def.comment),
             fileName: getFileName(def),
-            flags: getFlags(def.flags),
+            flags: getFlags(def),
             kind: Kind.Interface,
             methods: def
                 .getChildrenByKind(ReflectionKind.Method)
@@ -78,7 +78,7 @@ export class Visitor {
             defaultValue: getDefaultValue(def),
             documentation: this.renderComment(def.comment),
             fileName: getFileName(def),
-            flags: getFlags(def.flags),
+            flags: getFlags(def),
             kind: Kind.Property,
             name: def.name,
             type: resolveTypeString(def.type),
@@ -88,7 +88,7 @@ export class Visitor {
     private visitMethod(def: DeclarationReflection): ITsMethod {
         return {
             fileName: getFileName(def),
-            flags: getFlags(def.flags),
+            flags: getFlags(def),
             kind: Kind.Method,
             name: def.name,
             signatures: def.signatures.map(sig => this.visitSignature(sig)),
@@ -98,7 +98,7 @@ export class Visitor {
     private visitSignature(sig: SignatureReflection): ITsMethodSignature {
         return {
             documentation: this.renderComment(sig.comment),
-            flags: getFlags(sig.flags),
+            flags: getFlags(sig),
             kind: Kind.Signature,
             parameters: (sig.parameters || []).map(param => this.visitParameter(param)),
             returnType: resolveTypeString(sig.type),
@@ -111,7 +111,7 @@ export class Visitor {
             defaultValue: getDefaultValue(param),
             documentation: this.renderComment(param.comment),
             fileName: getFileName(param.parent),
-            flags: getFlags(param.flags),
+            flags: getFlags(param),
             kind: Kind.Parameter,
             name: param.name,
             type: resolveTypeString(param.type),
@@ -133,7 +133,12 @@ export class Visitor {
             documentation += "\n\n" + comment.text;
         }
         if (comment.tags) {
-            documentation += "\n\n" + comment.tags.map((tag: any) => `@${tag.tag} ${tag.text}`).join("\n");
+            documentation +=
+                "\n\n" +
+                comment.tags
+                    .filter(tag => tag.tagName !== "default" && tag.tagName !== "deprecated")
+                    .map(tag => `@${tag.tagName} ${tag.text}`)
+                    .join("\n");
         }
         return this.compiler.renderBlock(documentation);
     }
@@ -143,15 +148,21 @@ export class Visitor {
 }
 
 function getDefaultValue(ref: DefaultValueContainer): string | undefined {
-    if (ref.defaultValue) {
+    if (ref.defaultValue != null) {
         return ref.defaultValue;
-    } else if (ref.comment && ref.comment.tags) {
-        const defaultValue = ref.comment.tags.find((t: any) => t.tag === "default");
-        if (defaultValue !== undefined) {
-            return defaultValue.text;
-        }
+    }
+    const defaultValue = getCommentTag(ref.comment, "default");
+    if (defaultValue !== undefined) {
+        return defaultValue.text.trim();
     }
     return undefined;
+}
+
+function getCommentTag(comment: Comment, tagName: string) {
+    if (comment == null || comment.tags == null) {
+        return undefined;
+    }
+    return comment.tags.find(tag => tag.tagName === tagName);
 }
 
 function getFileName(ref: Reflection): string | undefined {
@@ -161,10 +172,20 @@ function getFileName(ref: Reflection): string | undefined {
     return fileName && relative(process.cwd(), fileName);
 }
 
-function getFlags(flags: ReflectionFlags | undefined): ITsFlags | undefined {
-    if (flags === undefined) {
+function getFlags(ref: Reflection): ITsFlags | undefined {
+    if (ref === undefined || ref.flags === undefined) {
         return undefined;
     }
-    const { isExported, isExternal, isOptional, isPrivate, isProtected, isPublic, isRest, isStatic } = flags;
-    return { isExported, isExternal, isOptional, isPrivate, isProtected, isPublic, isRest, isStatic };
+    const isDeprecated = getIsDeprecated(ref);
+    const { isExported, isExternal, isOptional, isPrivate, isProtected, isPublic, isRest, isStatic } = ref.flags;
+    return { isDeprecated, isExported, isExternal, isOptional, isPrivate, isProtected, isPublic, isRest, isStatic };
+}
+
+function getIsDeprecated(ref: Reflection) {
+    const deprecatedTag = getCommentTag(ref.comment, "deprecated");
+    if (deprecatedTag === undefined) {
+        return undefined;
+    }
+    const text = deprecatedTag.text.trim();
+    return text === "" ? true : text;
 }
