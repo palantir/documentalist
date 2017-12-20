@@ -5,6 +5,7 @@
  * repository.
  */
 
+import { relative } from "path";
 import {
     Application,
     ContainerReflection,
@@ -55,8 +56,8 @@ export class TypedocPlugin implements IPlugin<ITypedocPluginData> {
 
         const input = TypedocApp.fromFiles(files.map(f => f.path));
         this.visitKind(input, ReflectionKind.ExternalModule, def => {
-            // TODO truncate beginning of path or use the sources object
-            this.fileName = def.originalName;
+            // relative path to source should be machine-independent
+            this.fileName = relative(process.cwd(), def.originalName);
             this.visitKind(def, ReflectionKind.Class, this.visitorExportedClass).forEach(indexByName);
             this.visitKind(def, ReflectionKind.Interface, this.visitorExportedInterface).forEach(indexByName);
         });
