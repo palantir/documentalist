@@ -20,14 +20,15 @@
 With the JavaScript API, nothing comes for free. All plugins must be registered with `.use()`.
 
 ```js
-const { Documentalist, MarkdownPlugin } = require("documentalist");
+const { Documentalist, MarkdownPlugin, TypescriptPlugin } = require("documentalist");
 const { writeFileSync } = require("fs");
 
-const docs = new Documentalist()
+new Documentalist()
   .use(".md", new MarkdownPlugin())
-  .documentGlobs("src/**/*");
-
-writeFileSync("docs.json", JSON.stringify(docs, null, 2));
+  .use(/\.tsx?$/, new TypescriptPlugin({ excludeNames: [/I.+State$/] }))
+  .documentGlobs("src/**/*")
+  .then(docs => JSON.stringify(docs, null, 2))
+  .then(json => writeFileSync("docs.json", json))
 ```
 
 With the CLI, the Markdown and Typescript plugins are enabled by default.
