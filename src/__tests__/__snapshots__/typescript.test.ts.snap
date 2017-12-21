@@ -723,3 +723,32 @@ is.",
   },
 }
 `;
+
+exports[`TypescriptPlugin options excludeNames 1`] = `
+Array [
+  "active",
+  "disabled",
+  "elementRef",
+  "loading",
+  "onClick",
+  "text",
+  "type",
+]
+`;
+
+exports[`TypescriptPlugin options excludePaths 1`] = `Object {}`;
+
+exports[`TypescriptPlugin options includeNonExportedMembers 1`] = `
+Array [
+  "Animal",
+  "Food",
+]
+`;
+
+exports[`TypescriptPlugin options includePrivateMembers 1`] = `
+Array [
+  "bark",
+  "consumePrivate",
+  "eat",
+]
+`;

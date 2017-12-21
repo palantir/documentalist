@@ -18,11 +18,11 @@ export class Animal {
      * @param food Name of the food to eat.
      */
     public eat(food: string) {
-        this.consume(Food.retrieve(food), true);
+        this.consumePrivate(Food.retrieve(food), true);
     }
 
     /** Private method does not appear in output. */
-    private consume(food: Food, allOfIt = false) {
+    private consumePrivate(food: Food, allOfIt = false) {
         if (allOfIt) {
             food.destroy();
         }
