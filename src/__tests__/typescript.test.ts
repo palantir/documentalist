@@ -16,8 +16,7 @@ describe("TypescriptPlugin", () => {
     describe("options", () => {
         it("excludePaths", () => {
             // this snapshot is empty: everything is excluded.
-            // `src` entry is to test brace glob construction.
-            expectSnapshot("classes", { excludePaths: ["**/__fixtures__/**", "src"] });
+            expectSnapshot("classes", { excludePaths: ["__fixtures__/"] });
         });
 
         it("excludeNames", () => {
