@@ -22,8 +22,8 @@ import {
     ITsFlags,
     ITsInterface,
     ITsMethod,
+    ITsMethodParameter,
     ITsMethodSignature,
-    ITsParameter,
     ITsProperty,
     Kind,
 } from "../../client/typescript";
@@ -48,6 +48,16 @@ export class Visitor {
         return [...interfaces, ...classes];
     }
 
+    private makeDocEntry<K extends Kind>(def: Reflection, kind: K) {
+        return {
+            documentation: this.renderComment(def.comment),
+            fileName: getFileName(def),
+            flags: getFlags(def),
+            kind,
+            name: def.name,
+        };
+    }
+
     private visitClass(def: ContainerReflection): ITsClass {
         return {
             ...this.visitInterface(def),
@@ -57,15 +67,11 @@ export class Visitor {
 
     private visitInterface(def: ContainerReflection): ITsInterface {
         return {
-            documentation: this.renderComment(def.comment),
-            fileName: getFileName(def),
-            flags: getFlags(def),
-            kind: Kind.Interface,
+            ...this.makeDocEntry(def, Kind.Interface),
             methods: def
                 .getChildrenByKind(ReflectionKind.Method)
                 .filter(this.filterReflection)
                 .map(method => this.visitMethod(method)),
-            name: def.name,
             properties: def
                 .getChildrenByKind(ReflectionKind.Property)
                 .filter(this.filterReflection)
@@ -75,45 +81,32 @@ export class Visitor {
 
     private visitProperty(def: DeclarationReflection): ITsProperty {
         return {
+            ...this.makeDocEntry(def, Kind.Property),
             defaultValue: getDefaultValue(def),
-            documentation: this.renderComment(def.comment),
-            fileName: getFileName(def),
-            flags: getFlags(def),
-            kind: Kind.Property,
-            name: def.name,
             type: resolveTypeString(def.type),
         };
     }
 
     private visitMethod(def: DeclarationReflection): ITsMethod {
         return {
-            fileName: getFileName(def),
-            flags: getFlags(def),
-            kind: Kind.Method,
-            name: def.name,
+            ...this.makeDocEntry(def, Kind.Method),
             signatures: def.signatures.map(sig => this.visitSignature(sig)),
         };
     }
 
     private visitSignature(sig: SignatureReflection): ITsMethodSignature {
         return {
-            documentation: this.renderComment(sig.comment),
-            flags: getFlags(sig),
-            kind: Kind.Signature,
+            ...this.makeDocEntry(sig, Kind.Signature),
             parameters: (sig.parameters || []).map(param => this.visitParameter(param)),
             returnType: resolveTypeString(sig.type),
             type: resolveSignature(sig),
         };
     }
 
-    private visitParameter(param: ParameterReflection): ITsParameter {
+    private visitParameter(param: ParameterReflection): ITsMethodParameter {
         return {
+            ...this.makeDocEntry(param, Kind.Parameter),
             defaultValue: getDefaultValue(param),
-            documentation: this.renderComment(param.comment),
-            fileName: getFileName(param.parent),
-            flags: getFlags(param),
-            kind: Kind.Parameter,
-            name: param.name,
             type: resolveTypeString(param.type),
         };
     }
@@ -165,8 +158,8 @@ function getCommentTag(comment: Comment, tagName: string) {
     return comment.tags.find(tag => tag.tagName === tagName);
 }
 
-function getFileName(ref: Reflection): string | undefined {
-    const [source] = ref.sources;
+function getFileName({ sources = [] }: Reflection): string | undefined {
+    const source = sources[0];
     const fileName = source && source.file && source.file.fullFileName;
     // filename relative to cwd, so it can be saved in a snapshot (machine-independent)
     return fileName && relative(process.cwd(), fileName);

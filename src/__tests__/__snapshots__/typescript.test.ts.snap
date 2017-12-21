@@ -32,6 +32,7 @@ repository.",
     "kind": "class",
     "methods": Array [
       Object {
+        "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/classes.ts",
         "flags": Object {
           "isDeprecated": undefined,
@@ -48,7 +49,15 @@ repository.",
         "name": "bark",
         "signatures": Array [
           Object {
-            "documentation": undefined,
+            "documentation": Object {
+              "contents": Array [
+                "<p>Produce a noise.</p>
+",
+              ],
+              "contentsRaw": "Produce a noise.",
+              "metadata": Object {},
+            },
+            "fileName": "src/__tests__/__fixtures__/classes.ts",
             "flags": Object {
               "isDeprecated": undefined,
               "isExported": undefined,
@@ -61,6 +70,7 @@ repository.",
               "isStatic": undefined,
             },
             "kind": "signature",
+            "name": "bark",
             "parameters": Array [],
             "returnType": "string",
             "type": "() => string",
@@ -68,6 +78,7 @@ repository.",
         ],
       },
       Object {
+        "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/classes.ts",
         "flags": Object {
           "isDeprecated": undefined,
@@ -92,6 +103,7 @@ repository.",
               "contentsRaw": "Public method.",
               "metadata": Object {},
             },
+            "fileName": "src/__tests__/__fixtures__/classes.ts",
             "flags": Object {
               "isDeprecated": undefined,
               "isExported": undefined,
@@ -104,6 +116,7 @@ repository.",
               "isStatic": undefined,
             },
             "kind": "signature",
+            "name": "eat",
             "parameters": Array [
               Object {
                 "defaultValue": undefined,
@@ -115,7 +128,7 @@ repository.",
                   "contentsRaw": "Name of the food to eat.",
                   "metadata": Object {},
                 },
-                "fileName": "src/__tests__/__fixtures__/classes.ts",
+                "fileName": undefined,
                 "flags": Object {
                   "isDeprecated": undefined,
                   "isExported": undefined,
@@ -456,6 +469,7 @@ Note that this prop has no effect on \`AnchorButton\`; it only affects \`Button\
     "kind": "interface",
     "methods": Array [
       Object {
+        "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
           "isDeprecated": undefined,
@@ -482,6 +496,7 @@ callback to extract key from each item.</p>
 callback to extract key from each item.",
               "metadata": Object {},
             },
+            "fileName": "src/__tests__/__fixtures__/interfaces.ts",
             "flags": Object {
               "isDeprecated": undefined,
               "isExported": undefined,
@@ -494,11 +509,12 @@ callback to extract key from each item.",
               "isStatic": undefined,
             },
             "kind": "signature",
+            "name": "objectify",
             "parameters": Array [
               Object {
                 "defaultValue": undefined,
                 "documentation": undefined,
-                "fileName": "src/__tests__/__fixtures__/interfaces.ts",
+                "fileName": undefined,
                 "flags": Object {
                   "isDeprecated": undefined,
                   "isExported": undefined,
@@ -517,7 +533,7 @@ callback to extract key from each item.",
               Object {
                 "defaultValue": undefined,
                 "documentation": undefined,
-                "fileName": "src/__tests__/__fixtures__/interfaces.ts",
+                "fileName": undefined,
                 "flags": Object {
                   "isDeprecated": undefined,
                   "isExported": undefined,
@@ -540,6 +556,7 @@ callback to extract key from each item.",
         ],
       },
       Object {
+        "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
           "isDeprecated": undefined,
@@ -575,6 +592,7 @@ tag words array may be provided, in which case the line will be left as
 is.",
               "metadata": Object {},
             },
+            "fileName": "src/__tests__/__fixtures__/interfaces.ts",
             "flags": Object {
               "isDeprecated": undefined,
               "isExported": undefined,
@@ -587,11 +605,12 @@ is.",
               "isStatic": undefined,
             },
             "kind": "signature",
+            "name": "renderBlock",
             "parameters": Array [
               Object {
                 "defaultValue": undefined,
                 "documentation": undefined,
-                "fileName": "src/__tests__/__fixtures__/interfaces.ts",
+                "fileName": undefined,
                 "flags": Object {
                   "isDeprecated": undefined,
                   "isExported": undefined,
@@ -610,7 +629,7 @@ is.",
               Object {
                 "defaultValue": undefined,
                 "documentation": undefined,
-                "fileName": "src/__tests__/__fixtures__/interfaces.ts",
+                "fileName": undefined,
                 "flags": Object {
                   "isDeprecated": undefined,
                   "isExported": undefined,
@@ -633,6 +652,7 @@ is.",
         ],
       },
       Object {
+        "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
           "isDeprecated": undefined,
@@ -657,6 +677,7 @@ is.",
               "contentsRaw": "Render a string of markdown to HTML, using the options from \`Documentalist\`.",
               "metadata": Object {},
             },
+            "fileName": "src/__tests__/__fixtures__/interfaces.ts",
             "flags": Object {
               "isDeprecated": undefined,
               "isExported": undefined,
@@ -669,11 +690,12 @@ is.",
               "isStatic": undefined,
             },
             "kind": "signature",
+            "name": "renderMarkdown",
             "parameters": Array [
               Object {
                 "defaultValue": undefined,
                 "documentation": undefined,
-                "fileName": "src/__tests__/__fixtures__/interfaces.ts",
+                "fileName": undefined,
                 "flags": Object {
                   "isDeprecated": undefined,
                   "isExported": undefined,
