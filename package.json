@@ -1,6 +1,6 @@
 {
   "name": "documentalist",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "description": "documentation for the rest of us",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
