@@ -118,8 +118,13 @@ export class Visitor {
         return this.compiler.renderBlock(documentation);
     }
 
-    private filterReflection = (def: Reflection) =>
-        def.flags.isExported === true || this.options.includeNonExported === true;
+    private filterReflection = (def: Reflection) => {
+        const { excludeNames = [], includeNonExportedMembers = false } = this.options;
+        return (
+            (def.flags.isExported === true || includeNonExportedMembers) &&
+            excludeNames.every(pattern => def.name.match(pattern) == null)
+        );
+    };
 }
 
 function getCommentTag(comment: Comment, tagName: string) {

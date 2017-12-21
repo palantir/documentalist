@@ -6,18 +6,47 @@
  */
 
 import { Documentalist } from "../documentalist";
-import { TypescriptPlugin } from "../plugins/typescript/index";
+import { ITypescriptPluginData } from "../plugins/index";
+import { ITypescriptPluginOptions, TypescriptPlugin } from "../plugins/typescript/index";
 
 describe("TypescriptPlugin", () => {
-    const dm = Documentalist.create().use(".ts", new TypescriptPlugin());
+    it("classes snapshot", () => expectSnapshot("classes"));
+    it("interfaces snapshot", () => expectSnapshot("interfaces"));
 
-    snapshot("classes");
-    snapshot("interfaces");
-
-    function snapshot(name: string) {
-        it(`${name} snapshot`, async () => {
-            const { typescript } = await dm.documentGlobs(`src/__tests__/__fixtures__/${name}.ts`);
-            expect(typescript).toMatchSnapshot();
+    describe("options", () => {
+        it("excludePaths", () => {
+            // this snapshot is empty: everything is excluded.
+            // `src` entry is to test brace glob construction.
+            expectSnapshot("classes", { excludePaths: ["**/__fixtures__/**", "src"] });
         });
-    }
+
+        it("excludeNames", () => {
+            // get IButtonProps properties; should be missing a few.
+            expectSnapshot("interfaces", { excludeNames: [/icon/i, "intent"] }, data =>
+                data.IButtonProps.properties.map(p => p.name),
+            );
+        });
+
+        it("includePrivateMembers", () => {
+            // class Animal has a private method
+            expectSnapshot("classes", { includePrivateMembers: true }, data => data.Animal.methods.map(m => m.name));
+        });
+
+        it("includeNonExportedMembers", () => {
+            // expect to see Animal (exported) and Food (not exported) here
+            expectSnapshot("classes", { includeNonExportedMembers: true }, Object.keys);
+        });
+    });
 });
+
+async function expectSnapshot(
+    /** name of fixture file to feed into DM */
+    name: string,
+    options?: ITypescriptPluginOptions,
+    /** a function to transform the DM data, to avoid snapshotting _everything_. defaults to identity function. */
+    transform: (data: ITypescriptPluginData["typescript"]) => any = arg => arg,
+) {
+    const dm = Documentalist.create().use(".ts", new TypescriptPlugin(options));
+    const { typescript } = await dm.documentGlobs(`src/__tests__/__fixtures__/${name}.ts`);
+    expect(transform(typescript)).toMatchSnapshot();
+}

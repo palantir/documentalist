@@ -9,33 +9,48 @@ import { Application } from "typedoc";
 import { ICompiler, IFile, IPlugin, ITypescriptPluginData } from "../../client";
 import { Visitor } from "./visitor";
 
+export { ITypescriptPluginData };
+
 export interface ITypescriptPluginOptions {
-    /** Exclude files by the given pattern when a path is provided as source. Supports standard minimatch patterns. */
-    exclude?: string;
+    /**
+     * Array of glob strings to exclude entire files.
+     * Note that when matching directories you'll need to capture the entire path using `**`s on either end.
+     */
+    excludePaths?: string[];
+
+    /** Array of patterns (string or RegExp) to exclude named members. */
+    excludeNames?: Array<string | RegExp>;
+
+    /**
+     * Enable parsing of `.d.ts` files.
+     * @default false
+     */
+    includeDeclarations?: boolean;
 
     /**
      * Whether `private` fields should be included in the data.
      * This is disabled by default as `private` fields typically do not need to be publicly documented.
      * @default false
      */
-    includePrivates?: boolean;
+    includePrivateMembers?: boolean;
 
     /**
      * Whether members not marked `export` should be included in the data.
      * This is disabled by default as non-exported members typically do not need to be publicly documented.
      * @default false
      */
-    includeNonExported?: boolean;
+    includeNonExportedMembers?: boolean;
 }
 
 export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     private app: TypedocApp;
     public constructor(private options: ITypescriptPluginOptions = {}) {
-        const { exclude, includePrivates = false } = options;
+        const { excludePaths, includeDeclarations = false, includePrivateMembers = false } = options;
         this.app = new TypedocApp({
-            exclude,
-            excludePrivate: !includePrivates,
+            exclude: buildExcludeGlob(excludePaths),
+            excludePrivate: !includePrivateMembers,
             ignoreCompilerErrors: true,
+            includeDeclarations,
             logger: "none",
         });
     }
@@ -58,5 +73,15 @@ class TypedocApp extends Application {
     // this tricks typedoc into working
     get isCLI() {
         return true;
+    }
+}
+
+function buildExcludeGlob(excludePaths: string[] = []) {
+    if (excludePaths.length === 0) {
+        return undefined;
+    } else if (excludePaths.length === 1) {
+        return excludePaths[0];
+    } else {
+        return `{${excludePaths.join(",")}}`;
     }
 }
