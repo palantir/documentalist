@@ -8,16 +8,18 @@
 import * as path from "path";
 import {
     IBlock,
+    ICompiler,
+    IFile,
     IHeadingNode,
     IMarkdownPluginData,
     IPageData,
     IPageNode,
+    IPlugin,
     isHeadingTag,
     isPageNode,
     slugify,
 } from "../client";
 import { PageMap } from "../page";
-import { ICompiler, IFile, IPlugin } from "./plugin";
 
 export interface IMarkdownPluginOptions {
     /**
