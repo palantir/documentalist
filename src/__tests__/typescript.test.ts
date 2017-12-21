@@ -40,8 +40,10 @@ describe("TypescriptPlugin", () => {
 });
 
 async function expectSnapshot(
+    /** name of fixture file to feed into DM */
     name: string,
     options?: ITypescriptPluginOptions,
+    /** a function to transform the DM data, to avoid snapshotting _everything_. defaults to identity function. */
     transform: (data: ITypescriptPluginData["typescript"]) => any = arg => arg,
 ) {
     const dm = Documentalist.create().use(".ts", new TypescriptPlugin(options));
