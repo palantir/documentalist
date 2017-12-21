@@ -119,10 +119,12 @@ export class Visitor {
     }
 
     private filterReflection = (def: Reflection) => {
-        const { excludeNames = [], includeNonExportedMembers = false } = this.options;
+        const { excludeNames = [], excludePaths = [], includeNonExportedMembers = false } = this.options;
+        const filename = getFileName(def);
         return (
             (def.flags.isExported === true || includeNonExportedMembers) &&
-            excludeNames.every(pattern => def.name.match(pattern) == null)
+            excludeNames.every(pattern => def.name.match(pattern) == null) &&
+            (filename === undefined || excludePaths.every(pattern => filename.match(pattern) == null))
         );
     };
 }

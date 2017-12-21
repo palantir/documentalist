@@ -13,7 +13,7 @@ export { ITypescriptPluginData };
 
 export interface ITypescriptPluginOptions {
     /**
-     * Array of glob strings to exclude entire files.
+     * Array of glob strings to exclude entire files. Files in `node_modules/` are always excluded.
      * Note that when matching directories you'll need to capture the entire path using `**`s on either end.
      */
     excludePaths?: string[];
@@ -45,13 +45,14 @@ export interface ITypescriptPluginOptions {
 export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     private app: TypedocApp;
     public constructor(private options: ITypescriptPluginOptions = {}) {
-        const { excludePaths, includeDeclarations = false, includePrivateMembers = false } = options;
+        const { includeDeclarations = false, includePrivateMembers = false } = options;
         this.app = new TypedocApp({
-            exclude: buildExcludeGlob(excludePaths),
+            exclude: "**/node_modules/**",
             excludePrivate: !includePrivateMembers,
             ignoreCompilerErrors: true,
             includeDeclarations,
             logger: "none",
+            mode: "modules",
         });
     }
 
@@ -73,15 +74,5 @@ class TypedocApp extends Application {
     // this tricks typedoc into working
     get isCLI() {
         return true;
-    }
-}
-
-function buildExcludeGlob(excludePaths: string[] = []) {
-    if (excludePaths.length === 0) {
-        return undefined;
-    } else if (excludePaths.length === 1) {
-        return excludePaths[0];
-    } else {
-        return `{${excludePaths.join(",")}}`;
     }
 }
