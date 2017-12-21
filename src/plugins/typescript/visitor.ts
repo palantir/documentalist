@@ -17,6 +17,7 @@ import {
 } from "typedoc";
 import { Comment } from "typedoc/dist/lib/models/comments/comment";
 import { DefaultValueContainer } from "typedoc/dist/lib/models/reflections/abstract";
+import { ICompiler } from "../../client/compiler";
 import {
     ITsClass,
     ITsFlags,
@@ -27,11 +28,8 @@ import {
     ITsProperty,
     Kind,
 } from "../../client/typescript";
-import { ICompiler } from "../plugin";
 import { ITypescriptPluginOptions } from "./index";
 import { resolveSignature, resolveTypeString } from "./typestring";
-
-export type Renderer = ICompiler["renderBlock"];
 
 export class Visitor {
     public constructor(private compiler: ICompiler, private options: ITypescriptPluginOptions) {}

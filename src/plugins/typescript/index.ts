@@ -6,8 +6,7 @@
  */
 
 import { Application } from "typedoc";
-import { ITypescriptPluginData } from "../../client";
-import { ICompiler, IFile, IPlugin } from "../plugin";
+import { ICompiler, IFile, IPlugin, ITypescriptPluginData } from "../../client";
 import { Visitor } from "./visitor";
 
 export interface ITypescriptPluginOptions {

@@ -5,7 +5,7 @@
  * repository.
  */
 
-import { IBlock } from "./index";
+import { IBlock } from "./compiler";
 
 /** Enumeration describing the various kinds of member supported by this plugin. */
 export enum Kind {

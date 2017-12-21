@@ -7,8 +7,7 @@
 
 import * as kss from "kss";
 import * as path from "path";
-import { IKssExample, IKssModifier, IKssPluginData } from "../client";
-import { ICompiler, IFile, IPlugin } from "./plugin";
+import { ICompiler, IFile, IKssExample, IKssModifier, IKssPluginData, IPlugin } from "../client";
 
 export class KssPlugin implements IPlugin<IKssPluginData> {
     public constructor(private options: kss.IOptions = {}) {}

@@ -8,4 +8,3 @@
 export * from "./kss";
 export * from "./markdown";
 export * from "./typescript/index";
-export * from "./plugin";
