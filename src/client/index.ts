@@ -68,7 +68,7 @@ export interface IMetadata {
 
     /**
      * Human-friendly title of this page, for display in the UI.
-     * @default value of first `@#` tag
+     * @default first heading tag
      */
     title?: string;
 
