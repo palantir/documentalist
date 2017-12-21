@@ -8,6 +8,7 @@
 export class Animal {
     public constructor(private noise: string) {}
 
+    /** Produce a noise. */
     public bark() {
         return this.noise;
     }
