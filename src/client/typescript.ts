@@ -5,7 +5,7 @@
  * repository.
  */
 
-import { IBlock } from "./index";
+import { IBlock } from "./compiler";
 
 export enum Kind {
     Class = "class",

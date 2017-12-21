@@ -16,7 +16,7 @@ import {
 } from "typedoc";
 import { Comment } from "typedoc/dist/lib/models/comments/comment";
 import { DefaultValueContainer } from "typedoc/dist/lib/models/reflections/abstract";
-import { ICompiler } from "../../client/plugin";
+import { ICompiler } from "../../client/compiler";
 import {
     ITsClass,
     ITsInterface,
