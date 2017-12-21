@@ -37,14 +37,11 @@ export class Visitor {
     public constructor(private compiler: ICompiler, private options: ITypescriptPluginOptions) {}
 
     public visitProject(project: ProjectReflection) {
-        const interfaces = project
-            .getReflectionsByKind(ReflectionKind.Interface)
-            .filter(this.filterReflection)
-            .map((face: ContainerReflection) => this.visitInterface(face));
-        const classes = project
-            .getReflectionsByKind(ReflectionKind.Class)
-            .filter(this.filterReflection)
-            .map((cls: ContainerReflection) => this.visitClass(cls));
+        const interfaces = this.visitChildren(
+            project.getReflectionsByKind(ReflectionKind.Interface),
+            this.visitInterface,
+        );
+        const classes = this.visitChildren(project.getReflectionsByKind(ReflectionKind.Class), this.visitClass);
         return [...interfaces, ...classes];
     }
 
@@ -58,57 +55,44 @@ export class Visitor {
         };
     }
 
-    private visitClass(def: ContainerReflection): ITsClass {
-        return {
-            ...this.visitInterface(def),
-            kind: Kind.Class,
-        };
-    }
+    private visitClass = (def: ContainerReflection): ITsClass => ({
+        ...this.visitInterface(def),
+        kind: Kind.Class,
+    });
 
-    private visitInterface(def: ContainerReflection): ITsInterface {
-        return {
-            ...this.makeDocEntry(def, Kind.Interface),
-            methods: def
-                .getChildrenByKind(ReflectionKind.Method)
-                .filter(this.filterReflection)
-                .map(method => this.visitMethod(method)),
-            properties: def
-                .getChildrenByKind(ReflectionKind.Property)
-                .filter(this.filterReflection)
-                .map(prop => this.visitProperty(prop)),
-        };
-    }
+    private visitInterface = (def: ContainerReflection): ITsInterface => ({
+        ...this.makeDocEntry(def, Kind.Interface),
+        methods: this.visitChildren(def.getChildrenByKind(ReflectionKind.Method), this.visitMethod),
+        properties: this.visitChildren(def.getChildrenByKind(ReflectionKind.Property), this.visitProperty),
+    });
 
-    private visitProperty(def: DeclarationReflection): ITsProperty {
-        return {
-            ...this.makeDocEntry(def, Kind.Property),
-            defaultValue: getDefaultValue(def),
-            type: resolveTypeString(def.type),
-        };
-    }
+    private visitProperty = (def: DeclarationReflection): ITsProperty => ({
+        ...this.makeDocEntry(def, Kind.Property),
+        defaultValue: getDefaultValue(def),
+        type: resolveTypeString(def.type),
+    });
 
-    private visitMethod(def: DeclarationReflection): ITsMethod {
-        return {
-            ...this.makeDocEntry(def, Kind.Method),
-            signatures: def.signatures.map(sig => this.visitSignature(sig)),
-        };
-    }
+    private visitMethod = (def: DeclarationReflection): ITsMethod => ({
+        ...this.makeDocEntry(def, Kind.Method),
+        signatures: def.signatures.map(sig => this.visitSignature(sig)),
+    });
 
-    private visitSignature(sig: SignatureReflection): ITsMethodSignature {
-        return {
-            ...this.makeDocEntry(sig, Kind.Signature),
-            parameters: (sig.parameters || []).map(param => this.visitParameter(param)),
-            returnType: resolveTypeString(sig.type),
-            type: resolveSignature(sig),
-        };
-    }
+    private visitSignature = (sig: SignatureReflection): ITsMethodSignature => ({
+        ...this.makeDocEntry(sig, Kind.Signature),
+        parameters: (sig.parameters || []).map(param => this.visitParameter(param)),
+        returnType: resolveTypeString(sig.type),
+        type: resolveSignature(sig),
+    });
 
-    private visitParameter(param: ParameterReflection): ITsMethodParameter {
-        return {
-            ...this.makeDocEntry(param, Kind.Parameter),
-            defaultValue: getDefaultValue(param),
-            type: resolveTypeString(param.type),
-        };
+    private visitParameter = (param: ParameterReflection): ITsMethodParameter => ({
+        ...this.makeDocEntry(param, Kind.Parameter),
+        defaultValue: getDefaultValue(param),
+        type: resolveTypeString(param.type),
+    });
+
+    /** Visits each child that passes the filter condition (based on options). */
+    private visitChildren<T>(children: Reflection[], visitor: (def: Reflection) => T): T[] {
+        return children.filter(this.filterReflection).map(visitor);
     }
 
     /**
@@ -140,6 +124,13 @@ export class Visitor {
         def.flags.isExported === true || this.options.includeNonExported === true;
 }
 
+function getCommentTag(comment: Comment, tagName: string) {
+    if (comment == null || comment.tags == null) {
+        return undefined;
+    }
+    return comment.tags.find(tag => tag.tagName === tagName);
+}
+
 function getDefaultValue(ref: DefaultValueContainer): string | undefined {
     if (ref.defaultValue != null) {
         return ref.defaultValue;
@@ -149,13 +140,6 @@ function getDefaultValue(ref: DefaultValueContainer): string | undefined {
         return defaultValue.text.trim();
     }
     return undefined;
-}
-
-function getCommentTag(comment: Comment, tagName: string) {
-    if (comment == null || comment.tags == null) {
-        return undefined;
-    }
-    return comment.tags.find(tag => tag.tagName === tagName);
 }
 
 function getFileName({ sources = [] }: Reflection): string | undefined {
