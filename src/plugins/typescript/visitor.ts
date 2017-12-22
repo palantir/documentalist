@@ -67,11 +67,13 @@ export class Visitor {
     private visitProperty = (def: DeclarationReflection): ITsProperty => ({
         ...this.makeDocEntry(def, Kind.Property),
         defaultValue: getDefaultValue(def),
+        inheritedFrom: def.inheritedFrom && resolveTypeString(def.inheritedFrom),
         type: resolveTypeString(def.type),
     });
 
     private visitMethod = (def: DeclarationReflection): ITsMethod => ({
         ...this.makeDocEntry(def, Kind.Method),
+        inheritedFrom: def.inheritedFrom && resolveTypeString(def.inheritedFrom),
         signatures: def.signatures.map(sig => this.visitSignature(sig)),
     });
 

@@ -50,6 +50,8 @@ export interface ITsDocBase {
 /** Documentation for a method. See `signatures` array for actual callable signatures and rendered docs. */
 export interface ITsMethod extends ITsDocBase {
     kind: Kind.Method;
+    /** Type name from which this method was inherited. Typically takes the form `Interface.member`. */
+    inheritedFrom?: string;
     /** A method has at least one signature, which describes the parameters and return type and contains documentation. */
     signatures: ITsMethodSignature[];
 }
@@ -75,6 +77,8 @@ export interface ITsProperty extends ITsDocBase {
     kind: Kind.Property;
     /** The default value of this property, from an initializer or an `@default` tag. */
     defaultValue?: string;
+    /** Type name from which this property was inherited. Typically takes the form `Interface.member`. */
+    inheritedFrom?: string;
     /** Type descriptor of this property. */
     type: string;
 }
