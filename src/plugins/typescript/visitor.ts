@@ -7,7 +7,6 @@
 
 import { relative } from "path";
 import {
-    ContainerReflection,
     DeclarationReflection,
     ParameterReflection,
     ProjectReflection,
@@ -53,13 +52,14 @@ export class Visitor {
         };
     }
 
-    private visitClass = (def: ContainerReflection): ITsClass => ({
+    private visitClass = (def: DeclarationReflection): ITsClass => ({
         ...this.visitInterface(def),
         kind: Kind.Class,
     });
 
-    private visitInterface = (def: ContainerReflection): ITsInterface => ({
+    private visitInterface = (def: DeclarationReflection): ITsInterface => ({
         ...this.makeDocEntry(def, Kind.Interface),
+        extends: def.extendedTypes && def.extendedTypes.map(resolveTypeString),
         methods: this.visitChildren(def.getChildrenByKind(ReflectionKind.Method), this.visitMethod),
         properties: this.visitChildren(def.getChildrenByKind(ReflectionKind.Property), this.visitProperty),
     });

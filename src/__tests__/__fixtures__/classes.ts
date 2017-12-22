@@ -4,6 +4,7 @@
  * a copy of the license in the LICENSE and PATENTS files in the root of this
  * repository.
  */
+// tslint:disable:max-classes-per-file
 
 export class Animal {
     public constructor(private noise: string) {}
@@ -29,8 +30,13 @@ export class Animal {
     }
 }
 
+export class Dog extends Animal {
+    public constructor() {
+        super("arf");
+    }
+}
+
 // non-exported class does not appear in output.
-// tslint:disable-next-line:max-classes-per-file
 class Food {
     public static retrieve(name: string) {
         return new Food(name);

@@ -80,6 +80,8 @@ export interface ITsProperty extends ITsDocBase {
 }
 
 export interface ITsObjectDefinition {
+    /** List of type names that this definition `extends`. */
+    extends?: string[];
     properties: ITsProperty[];
     methods: ITsMethod[];
 }

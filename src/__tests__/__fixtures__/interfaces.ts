@@ -12,7 +12,24 @@ export enum Intent {
 }
 export type IconName = "add" | "remove" | "plus" | "minus";
 
-export interface IButtonProps {
+export interface IActionProps {
+    /** Whether this action is non-interactive. */
+    disabled?: boolean;
+
+    /** Name of the icon (the part after `pt-icon-`) to add to the button. */
+    iconName?: IconName;
+
+    /** Visual intent color to apply to element. */
+    intent: Intent;
+
+    /** Click event handler. */
+    onClick: (event: MouseEvent) => void;
+
+    /** Action text. */
+    text: string;
+}
+
+export interface IButtonProps extends IActionProps {
     /**
      * If set to `true`, the button will display in an active state.
      * This is equivalent to setting `className="pt-active"`.
@@ -36,21 +53,6 @@ export interface IButtonProps {
      * @deprecated
      */
     loading?: boolean;
-
-    /** Whether this action is non-interactive. */
-    disabled?: boolean;
-
-    /** Name of the icon (the part after `pt-icon-`) to add to the button. */
-    iconName?: IconName;
-
-    /** Visual intent color to apply to element. */
-    intent: Intent;
-
-    /** Click event handler. */
-    onClick?: (event: MouseEvent) => void;
-
-    /** Action text. */
-    text: string;
 
     /**
      * HTML `type` attribute of button. Common values are `"button"` and `"submit"`.
