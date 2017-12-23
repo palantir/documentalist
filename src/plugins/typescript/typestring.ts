@@ -6,7 +6,14 @@
  */
 
 import { SignatureReflection } from "typedoc";
-import { IntersectionType, ReflectionKind, ReflectionType, Type, UnionType } from "typedoc/dist/lib/models";
+import {
+    IntersectionType,
+    ReferenceType,
+    ReflectionKind,
+    ReflectionType,
+    Type,
+    UnionType,
+} from "typedoc/dist/lib/models";
 
 export function resolveTypeString(type: Type): string {
     if (type instanceof ReflectionType) {
@@ -19,6 +26,8 @@ export function resolveTypeString(type: Type): string {
         return type.types.map(resolveTypeString).join(" | ");
     } else if (type instanceof IntersectionType) {
         return type.types.map(resolveTypeString).join(" & ");
+    } else if (type instanceof ReferenceType) {
+        return type.name;
     } else {
         return type.toString();
     }
