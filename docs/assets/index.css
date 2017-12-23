@@ -34,6 +34,12 @@ a:hover {
     margin-top: 3em;
 }
 
+pre,
+code {
+  font-size: 1.1em;
+  line-height: 1;
+}
+
 pre > a,
 code > a {
   text-decoration: underline;
@@ -68,15 +74,24 @@ pre > code {
     border-collapse: collapse;
 }
 
+.interface-properties td {
+    padding: 20px;
+    border-top: 1px solid #EEE;
+}
+
 .interface-properties .prop-name {
     font-weight: bold;
     width: 100px;
-    padding-right: 20px;
-    padding-left: 20px;
+    padding-right: 0;
 }
 
 .interface-properties .prop-docs {
     max-width: 300px;
+}
+
+.type-signature {
+  display: flex;
+  justify-content: space-between;
 }
 
 .method-signature {
@@ -87,11 +102,6 @@ pre > code {
 .method-signature .param-type {
     background-color: white;
     border-radius: 5px;
-}
-
-.interface-properties td {
-    padding: 20px 0px;
-    border-top: 1px solid #EEE;
 }
 
 .interface-properties tr:first-child td {
