@@ -30,12 +30,13 @@ a:hover {
     color: dodgerblue !important;
 }
 
-h2 {
-    color: dodgerblue;
-}
-
 #content h2:not(:first-child), #content h3:not(:first-child) {
     margin-top: 3em;
+}
+
+pre > a,
+code > a {
+  text-decoration: underline;
 }
 
 pre > code {
@@ -69,7 +70,8 @@ pre > code {
 
 .interface-properties .prop-name {
     font-weight: bold;
-    width: 150px;
+    width: 100px;
+    padding-right: 20px;
     padding-left: 20px;
 }
 

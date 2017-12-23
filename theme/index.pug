@@ -47,14 +47,29 @@ body
 
   mixin joinContent(doc)
     if doc && doc.contents
-      | !{doc.contents.map((c) => typeof c === "string" ? c : JSON.stringify(c)).join('')}
+      | !{doc.contents.map(c => typeof c === "string" ? c : JSON.stringify(c)).join('')}
+
+  //- split text into words and try to link each word to member of docs data
+  mixin linkify(text)
+    if text
+      each word in text.split(/([\[\]\.<> :])/g)
+        if typescript[word]
+          a(href='#' + word)= word
+        else
+          = word
 
   mixin renderType(sig)
-    pre= sig.type
+    pre
+      +linkify(sig.type)
       if sig.defaultValue
         em=" = " + sig.defaultValue
 
     +joinContent(sig.documentation)
+
+    if sig.inheritedFrom
+      em Inherited from&nbsp;
+        code
+          +linkify(sig.inheritedFrom)
 
   mixin objecttable(iface)
     .interface-block(id=iface.name)
@@ -65,7 +80,8 @@ body
         table
           for prop in iface.properties
             tr
-              td.prop-name(valign="top")= prop.name
+              td.prop-name(valign="top")
+                code= prop.name
               td.prop-type(valign="top")
                 +renderType(prop)
 
@@ -91,7 +107,12 @@ body
   each iface in typescript
     if iface.kind == "interface" || iface.kind == "class"
       .hidden(data-route=iface.name)
-        h2= iface.name
+        h2
+          code= iface.name
+            if iface.extends
+              | &nbsp;extends&nbsp;
+              each name in iface.extends
+                +linkify(name)
         +objecttable(iface)
 
   script(type='text/javascript', src='assets/index.js')
