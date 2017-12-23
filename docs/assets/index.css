@@ -1,8 +1,15 @@
+html,
+body {
+  margin: 0;
+}
+
 #nav {
-    position: absolute;
-    top: 24px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
     width: 200px;
-    padding: 0 20px;
+    overflow: auto;
+    padding: 20px;
 }
 
 #nav > div {
@@ -19,11 +26,9 @@
 }
 
 #content {
-    position: absolute;
-    top: 20px;
-    left: 250px;
-    right: 0;
+    margin-left: 250px;
     max-width: 50em;
+    padding: 20px;
 }
 
 a:hover {
@@ -53,11 +58,9 @@ pre > code {
 }
 
 .copyright {
-    position: fixed;
-    bottom: 20px;
-    left: 10px;
-    color: #AAA;
-    font-size: 10px;
+  margin-top: 20px;
+  color: #AAA;
+  font-size: 10px;
 }
 
 .interface-block {

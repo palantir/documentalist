@@ -24,17 +24,16 @@ html
 body
   #nav
     each item in nav
-      a(href="#" + item.reference)
-        h3= item.title
+      h3: a(href="#" + item.reference)= item.title
 
-    h3 Interfaces
-    each name in interfacetoc
+    h3 Classes
+    each name in classtoc
       - var name = typescript[name].name
       a(href='#' + name)
         .nav-item: code= name
 
-    h3 Classes
-    each name in classtoc
+    h3 Interfaces
+    each name in interfacetoc
       - var name = typescript[name].name
       a(href='#' + name)
         .nav-item: code= name
