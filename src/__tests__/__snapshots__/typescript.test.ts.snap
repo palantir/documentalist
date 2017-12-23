@@ -1061,6 +1061,7 @@ exports[`TypescriptPlugin options excludePaths 1`] = `Object {}`;
 exports[`TypescriptPlugin options includeNonExportedMembers 1`] = `
 Array [
   "Animal",
+  "Dog",
   "Food",
 ]
 `;
