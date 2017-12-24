@@ -17,5 +17,6 @@ Documentalist.create()
     .use(".ts", new TypescriptPlugin())
     // compile test fixtures:
     .documentGlobs(path.join(__dirname, "__tests__", "__fixtures__", "*.ts"));
-    // compile our own source code:
-    // .documentGlobs(path.join(__dirname, "..", "src", "index.ts"));
+
+// compile our own source code:
+// .documentGlobs(path.join(__dirname, "..", "src", "index.ts"))
