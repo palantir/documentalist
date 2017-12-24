@@ -12,7 +12,7 @@ import { ICompiler, IFile, IKssExample, IKssModifier, IKssPluginData, IPlugin } 
 export class KssPlugin implements IPlugin<IKssPluginData> {
     public constructor(private options: kss.IOptions = {}) {}
 
-    public compile(cssFiles: IFile[], dm: ICompiler) {
+    public compile(cssFiles: IFile[], dm: ICompiler): IKssPluginData {
         const styleguide = this.parseFiles(cssFiles);
         const sections = styleguide.sections().map(s => convertSection(s, dm));
         const css = dm.objectify(sections, s => s.reference);

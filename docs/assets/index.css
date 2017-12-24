@@ -1,97 +1,126 @@
-#nav {
-    position: absolute;
-    top: 24px;
-    width: 200px;
-    padding: 0 20px;
+/* NATIVE ELEMENT STYLES */
+
+html,
+body {
+  margin: 0;
 }
 
-#nav > div {
-    display: inline-block;
+body {
+  background-color: #F5F5F5;
+  color: #555;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
-#nav .nav-item {
-    margin-bottom: 0.5em;
-}
-
-#nav .selected {
-    color: #555;
-    font-weight: 900;
-}
-
-#content {
-    position: absolute;
-    top: 20px;
-    left: 250px;
-    right: 0;
-    max-width: 50em;
+a {
+  color: #888;
+  text-decoration: underline;
 }
 
 a:hover {
-    color: dodgerblue !important;
+  color: dodgerblue !important;
 }
 
-h2 {
-    color: dodgerblue;
+h2:not(:first-child),
+h3:not(:first-child) {
+  margin-top: 2em;
 }
 
-#content h2:not(:first-child), #content h3:not(:first-child) {
-    margin-top: 3em;
+pre,
+code {
+  font-size: 1.1em;
 }
 
 pre > code {
-    padding: 20px 20px;
-    display:block;
-    background-color: white;
-    border-radius: 5px;
+  display: block;
+  padding: 20px 20px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+[hidden] {
+  display: none;
+}
+
+/* LAYOUT */
+
+#content {
+  margin-left: 250px;
+  max-width: 50em;
+  padding: 20px;
+}
+
+#nav {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 200px;
+  overflow: auto;
+  padding: 20px;
+}
+
+.nav-item {
+  display: block;
+  margin-bottom: 0.5em;
+  text-decoration: none;
+}
+
+.nav-item.selected {
+  color: #555;
+  font-weight: 900;
 }
 
 .copyright {
-    position: fixed;
-    bottom: 20px;
-    left: 10px;
-    color: #AAA;
-    font-size: 10px;
+  margin-top: 20px;
+  color: #AAA;
+  font-size: 10px;
 }
 
+/* DOCUMENTATION BLOCKS */
+
 .interface-block {
-    margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
 .interface-properties {
-    background-color: white;
-    border-radius: 5px;
+  background-color: white;
+  border-radius: 5px;
 }
 
 .interface-properties table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.interface-properties .prop-name {
-    font-weight: bold;
-    width: 150px;
-    padding-left: 20px;
-}
-
-.interface-properties .prop-docs {
-    max-width: 300px;
-}
-
-.method-signature {
-    white-space: pre;
-    font-family: monospace;
-}
-
-.method-signature .param-type {
-    background-color: white;
-    border-radius: 5px;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .interface-properties td {
-    padding: 20px 0px;
-    border-top: 1px solid #EEE;
+  padding: 20px;
+  border-top: 1px solid #EEE;
+}
+
+.interface-properties .prop-name {
+  font-weight: bold;
+  width: 100px;
+  padding-right: 0;
+}
+
+.interface-properties .prop-docs {
+  max-width: 300px;
+}
+
+.type-signature {
+  display: flex;
+  justify-content: space-between;
+}
+
+.method-signature {
+  white-space: pre;
+  font-family: monospace;
+}
+
+.method-signature .param-type {
+  background-color: white;
+  border-radius: 5px;
 }
 
 .interface-properties tr:first-child td {
-    border-top: none;
+  border-top: none;
 }

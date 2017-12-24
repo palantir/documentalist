@@ -43,7 +43,7 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
      * Reads the given set of markdown files and adds their data to the internal storage.
      * Returns a plain object mapping page references to their data.
      */
-    public compile(markdownFiles: IFile[], compiler: ICompiler) {
+    public compile(markdownFiles: IFile[], compiler: ICompiler): IMarkdownPluginData {
         const pageMap = this.buildPageStore(markdownFiles, compiler);
         // now that we have all known pages, we can resolve @include tags.
         this.resolveIncludeTags(pageMap);
