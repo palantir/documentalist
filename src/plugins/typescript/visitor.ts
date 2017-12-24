@@ -79,6 +79,7 @@ export class Visitor {
 
     private visitSignature = (sig: SignatureReflection): ITsMethodSignature => ({
         ...this.makeDocEntry(sig, Kind.Signature),
+        flags: undefined,
         parameters: (sig.parameters || []).map(param => this.visitParameter(param)),
         returnType: resolveTypeString(sig.type),
         type: resolveSignature(sig),

@@ -59,8 +59,13 @@ export interface ITsMethod extends ITsDocBase {
 /** Documentation for a single method signature, including parameters, return type, and full type string. */
 export interface ITsMethodSignature extends ITsDocBase {
     kind: Kind.Signature;
+    /** Method signatures do not have flags of their own. Flags can be found on the method itself and on each parameter. */
+    flags: undefined;
+    /** Method parameters, each with their own docs and data. */
     parameters: ITsMethodParameter[];
+    /** Return type of the method. */
     returnType: string;
+    /** Fully qualified type string describing this method, including parameters and return type. */
     type: string;
 }
 
@@ -69,6 +74,7 @@ export interface ITsMethodParameter extends ITsDocBase {
     kind: Kind.Parameter;
     /** The default value of this property, from an initializer or an `@default` tag. */
     defaultValue?: string;
+    /** Fully qualified type string describing this parameter. */
     type: string;
 }
 
@@ -79,14 +85,16 @@ export interface ITsProperty extends ITsDocBase {
     defaultValue?: string;
     /** Type name from which this property was inherited. Typically takes the form `Interface.member`. */
     inheritedFrom?: string;
-    /** Type descriptor of this property. */
+    /** Type string describing of this property. */
     type: string;
 }
 
 export interface ITsObjectDefinition {
-    /** List of type names that this definition `extends`. */
+    /** List of type strings that this definition `extends`. */
     extends?: string[];
+    /** Property members of this definition. */
     properties: ITsProperty[];
+    /** Method members of this definiton. */
     methods: ITsMethod[];
 }
 
