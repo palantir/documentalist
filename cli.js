@@ -43,7 +43,7 @@ if (argv.md) {
     docs = docs.use(".md", new MarkdownPlugin());
 }
 if (argv.ts) {
-    docs = docs.use(/\.tsx?$/, new TypescriptPlugin({ exclude: "**/__tests__/**" }));
+    docs = docs.use(/\.tsx?$/, new TypescriptPlugin({ excludePaths: ["__tests__/"] }));
 }
 if (argv.css) {
     docs = docs.use(/\.(css|less|s[ac]ss)$/, new KssPlugin());

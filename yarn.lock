@@ -54,6 +54,10 @@
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/@types/js-yaml/-/js-yaml-3.10.1.tgz#a4ddaf67fec34151e620cdbdd22e40b64217f577"
 
+"@types/kss@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/kss/-/kss-3.0.0.tgz#8456ebcaccfd70fb7396033d9416bda710e56b95"
+
 "@types/lodash@4.14.74":
   version "4.14.74"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.74.tgz#ac3bd8db988e7f7038e5d22bd76a7ba13f876168"
@@ -73,10 +77,6 @@
 "@types/node@*", "@types/node@^8.5.1":
   version "8.5.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.1.tgz#4ec3020bcdfe2abffeef9ba3fbf26fca097514b5"
-
-"@types/react@^16.0.31":
-  version "16.0.31"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.31.tgz#5285da62f3ac62b797f6d0729a1d6181f3180c3e"
 
 "@types/shelljs@0.7.0":
   version "0.7.0"
