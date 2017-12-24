@@ -17,7 +17,7 @@ import { ICompiler, IFile, IKssExample, IKssModifier, IKssPluginData, IPlugin } 
  * @see IKssExample
  */
 export class KssPlugin implements IPlugin<IKssPluginData> {
-    public constructor(private options: kss.IOptions = {}) {}
+    public constructor(private options: kss.Options = {}) {}
 
     public compile(cssFiles: IFile[], dm: ICompiler): IKssPluginData {
         const styleguide = this.parseFiles(cssFiles);
@@ -27,7 +27,7 @@ export class KssPlugin implements IPlugin<IKssPluginData> {
     }
 
     private parseFiles(files: IFile[]) {
-        const input = files.map<kss.IFile>(file => ({
+        const input = files.map<kss.File>(file => ({
             base: path.dirname(file.path),
             contents: file.read(),
             path: file.path,
@@ -37,7 +37,7 @@ export class KssPlugin implements IPlugin<IKssPluginData> {
     }
 }
 
-function convertSection(section: kss.ISection, dm: ICompiler): IKssExample {
+function convertSection(section: kss.KssSection, dm: ICompiler): IKssExample {
     return {
         documentation: dm.renderMarkdown(section.description()),
         markup: section.markup() || "",
@@ -47,7 +47,7 @@ function convertSection(section: kss.ISection, dm: ICompiler): IKssExample {
     };
 }
 
-function convertModifier(mod: kss.IModifier, dm: ICompiler): IKssModifier {
+function convertModifier(mod: kss.KssModifier, dm: ICompiler): IKssModifier {
     return {
         documentation: dm.renderMarkdown(mod.description()),
         name: mod.name(),

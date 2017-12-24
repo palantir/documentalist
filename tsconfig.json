@@ -15,10 +15,6 @@
         "strictNullChecks": true,
         "target": "es6"
     },
-    "include": [
-        "typings/*",
-        "src/**/*"
-    ],
     "exclude": [
         "dist",
         "node_modules"
