@@ -29,6 +29,14 @@ export interface IMarkdownPluginOptions {
     navPage: string;
 }
 
+/**
+ * The `MarkdownPlugin` parses and renders markdown pages and produces a navigation tree of all documents.
+ * This plugin traces `@page` and `@#+` "heading" tags to discover pages (given a single starting `navPage`)
+ * and build up a tree representation of those pages.
+ *
+ * @see IPageData (rendered markdown page)
+ * @see IPageNode (node in navigation tree)
+ */
 export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
     private options: IMarkdownPluginOptions;
 

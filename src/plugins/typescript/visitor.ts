@@ -34,12 +34,16 @@ export class Visitor {
     public constructor(private compiler: ICompiler, private options: ITypescriptPluginOptions) {}
 
     public visitProject(project: ProjectReflection) {
+        // get top-level members of typedoc project
         const interfaces = this.visitChildren(
             project.getReflectionsByKind(ReflectionKind.Interface),
             this.visitInterface,
         );
         const classes = this.visitChildren(project.getReflectionsByKind(ReflectionKind.Class), this.visitClass);
-        return [...interfaces, ...classes];
+
+        // remove members excluded by path option
+        const { excludePaths = [] } = this.options;
+        return [...interfaces, ...classes].filter(ref => isNotExcluded(excludePaths, ref.fileName));
     }
 
     private makeDocEntry<K extends Kind>(def: Reflection, kind: K) {
@@ -79,6 +83,7 @@ export class Visitor {
 
     private visitSignature = (sig: SignatureReflection): ITsMethodSignature => ({
         ...this.makeDocEntry(sig, Kind.Signature),
+        flags: undefined,
         parameters: (sig.parameters || []).map(param => this.visitParameter(param)),
         returnType: resolveTypeString(sig.type),
         type: resolveSignature(sig),
@@ -92,7 +97,10 @@ export class Visitor {
 
     /** Visits each child that passes the filter condition (based on options). */
     private visitChildren<T>(children: Reflection[], visitor: (def: Reflection) => T): T[] {
-        return children.filter(this.filterReflection).map(visitor);
+        const { excludeNames = [], includeNonExportedMembers = false } = this.options;
+        return children
+            .filter(ref => (ref.flags.isExported || includeNonExportedMembers) && isNotExcluded(excludeNames, ref.name))
+            .map(visitor);
     }
 
     /**
@@ -119,16 +127,6 @@ export class Visitor {
         }
         return this.compiler.renderBlock(documentation);
     }
-
-    private filterReflection = (def: Reflection) => {
-        const { excludeNames = [], excludePaths = [], includeNonExportedMembers = false } = this.options;
-        const filename = getFileName(def);
-        return (
-            (def.flags.isExported === true || includeNonExportedMembers) &&
-            excludeNames.every(pattern => def.name.match(pattern) == null) &&
-            (filename === undefined || excludePaths.every(pattern => filename.match(pattern) == null))
-        );
-    };
 }
 
 function getCommentTag(comment: Comment, tagName: string) {
@@ -172,4 +170,9 @@ function getIsDeprecated(ref: Reflection) {
     }
     const text = deprecatedTag.text.trim();
     return text === "" ? true : text;
+}
+
+/** Returns true if value does not match all patterns. */
+function isNotExcluded(patterns: Array<string | RegExp>, value?: string) {
+    return value === undefined || patterns.every(p => value.match(p) == null);
 }
