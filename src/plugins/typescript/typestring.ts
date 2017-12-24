@@ -27,7 +27,8 @@ export function resolveTypeString(type: Type): string {
     } else if (type instanceof IntersectionType) {
         return type.types.map(resolveTypeString).join(" & ");
     } else if (type instanceof ReferenceType) {
-        return type.name;
+        const typeArgs = type.typeArguments == null ? "" : `<${type.typeArguments.map(resolveTypeString).join(", ")}>`;
+        return type.name + typeArgs;
     } else {
         return type.toString();
     }
