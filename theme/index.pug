@@ -30,12 +30,12 @@ body
   #content
 
   each page in pages
-    .hidden(data-route=page.reference)
+    article(data-route=page.reference,hidden=true)
       +joinContent(page)
 
   each iface in typescript
     if iface.kind == "interface" || iface.kind == "class"
-      .hidden(data-route=iface.name)
+      section(data-route=iface.name,hidden=true)
         +interfaceDocs(iface)
 
   script(type='text/javascript', src='assets/index.js')

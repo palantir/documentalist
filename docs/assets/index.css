@@ -1,3 +1,5 @@
+/* NATIVE ELEMENT STYLES */
+
 html,
 body {
   margin: 0;
@@ -14,8 +16,37 @@ a {
   text-decoration: underline;
 }
 
-.hidden {
+a:hover {
+  color: dodgerblue !important;
+}
+
+h2:not(:first-child),
+h3:not(:first-child) {
+  margin-top: 2em;
+}
+
+pre,
+code {
+  font-size: 1.1em;
+}
+
+pre > code {
+  display: block;
+  padding: 20px 20px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+[hidden] {
   display: none;
+}
+
+/* LAYOUT */
+
+#content {
+  margin-left: 250px;
+  max-width: 50em;
+  padding: 20px;
 }
 
 #nav {
@@ -27,42 +58,15 @@ a {
   padding: 20px;
 }
 
-#nav .nav-item {
+.nav-item {
   display: block;
   margin-bottom: 0.5em;
   text-decoration: none;
 }
 
-#nav .selected {
+.nav-item.selected {
   color: #555;
   font-weight: 900;
-}
-
-#content {
-  margin-left: 250px;
-  max-width: 50em;
-  padding: 20px;
-}
-
-a:hover {
-  color: dodgerblue !important;
-}
-
-#content h2:not(:first-child),
-#content h3:not(:first-child) {
-  margin-top: 2em;
-}
-
-pre,
-code {
-  font-size: 1.1em;
-}
-
-pre>code {
-  display: block;
-  padding: 20px 20px;
-  background-color: white;
-  border-radius: 5px;
 }
 
 .copyright {
@@ -70,6 +74,8 @@ pre>code {
   color: #AAA;
   font-size: 10px;
 }
+
+/* DOCUMENTATION BLOCKS */
 
 .interface-block {
   margin-bottom: 40px;
