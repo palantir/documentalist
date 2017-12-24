@@ -92,6 +92,8 @@ export interface ITsProperty extends ITsDocBase {
 export interface ITsObjectDefinition {
     /** List of type strings that this definition `extends`. */
     extends?: string[];
+    /** List of type names that this definition `implements`. */
+    implements?: string[];
     /** Property members of this definition. */
     properties: ITsProperty[];
     /** Method members of this definiton. */
@@ -105,6 +107,8 @@ export interface ITsInterface extends ITsDocBase, ITsObjectDefinition {
 
 /** Documentation for a `class` definition. */
 export interface ITsClass extends ITsDocBase, ITsObjectDefinition {
+    /** Constructor signature of this class. Note the special name here, as `constructor` is a JavaScript keyword. */
+    constructorType: ITsMethod;
     kind: Kind.Class;
 }
 

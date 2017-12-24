@@ -58,12 +58,14 @@ export class Visitor {
 
     private visitClass = (def: DeclarationReflection): ITsClass => ({
         ...this.visitInterface(def),
+        constructorType: this.visitChildren(def.getChildrenByKind(ReflectionKind.Constructor), this.visitMethod)[0],
         kind: Kind.Class,
     });
 
     private visitInterface = (def: DeclarationReflection): ITsInterface => ({
         ...this.makeDocEntry(def, Kind.Interface),
         extends: def.extendedTypes && def.extendedTypes.map(resolveTypeString),
+        implements: def.implementedTypes && def.implementedTypes.map(resolveTypeString),
         methods: this.visitChildren(def.getChildrenByKind(ReflectionKind.Method), this.visitMethod),
         properties: this.visitChildren(def.getChildrenByKind(ReflectionKind.Property), this.visitProperty),
     });
