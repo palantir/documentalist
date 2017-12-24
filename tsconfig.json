@@ -16,7 +16,6 @@
         "target": "es6"
     },
     "include": [
-        "typings/*",
         "src/**/*"
     ],
     "exclude": [
