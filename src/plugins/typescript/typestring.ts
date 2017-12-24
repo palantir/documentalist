@@ -42,7 +42,7 @@ export function resolveSignature(sig: SignatureReflection): string {
         [
             param.flags.isRest ? "..." : "",
             param.name,
-            param.flags.isOptional ? "?" : "",
+            param.flags.isOptional || param.defaultValue ? "?" : "",
             ": ",
             resolveTypeString(param.type),
         ].join(""),
