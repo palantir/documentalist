@@ -1,3 +1,16 @@
 {
-    "typescript.tsdk": "./node_modules/typescript/lib"
+    "typescript.tsdk": "./node_modules/typescript/lib",
+    "tslint.autoFixOnSave": true,
+    "files.watcherExclude": {
+        "**/dist": true,
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/dist": true
+    },
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "[css]": {
+        "editor.tabSize": 2
+    }
 }
