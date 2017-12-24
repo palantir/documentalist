@@ -4,57 +4,54 @@ body {
 }
 
 #nav {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: 200px;
-    overflow: auto;
-    padding: 20px;
-}
-
-#nav > div {
-    display: inline-block;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 200px;
+  overflow: auto;
+  padding: 20px;
 }
 
 #nav .nav-item {
-    margin-bottom: 0.5em;
+  display: block;
+  margin-bottom: 0.5em;
 }
 
 #nav .selected {
-    color: #555;
-    font-weight: 900;
+  color: #555;
+  font-weight: 900;
 }
 
 #content {
-    margin-left: 250px;
-    max-width: 50em;
-    padding: 20px;
+  margin-left: 250px;
+  max-width: 50em;
+  padding: 20px;
 }
 
 a:hover {
-    color: dodgerblue !important;
+  color: dodgerblue !important;
 }
 
-#content h2:not(:first-child), #content h3:not(:first-child) {
-    margin-top: 3em;
+#content h2:not(:first-child),
+#content h3:not(:first-child) {
+  margin-top: 2em;
 }
 
 pre,
 code {
   font-size: 1.1em;
-  line-height: 1;
 }
 
-pre > a,
-code > a {
+pre a,
+code a {
   text-decoration: underline;
 }
 
-pre > code {
-    padding: 20px 20px;
-    display:block;
-    background-color: white;
-    border-radius: 5px;
+pre>code {
+  display: block;
+  padding: 20px 20px;
+  background-color: white;
+  border-radius: 5px;
 }
 
 .copyright {
@@ -64,32 +61,32 @@ pre > code {
 }
 
 .interface-block {
-    margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
 .interface-properties {
-    background-color: white;
-    border-radius: 5px;
+  background-color: white;
+  border-radius: 5px;
 }
 
 .interface-properties table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .interface-properties td {
-    padding: 20px;
-    border-top: 1px solid #EEE;
+  padding: 20px;
+  border-top: 1px solid #EEE;
 }
 
 .interface-properties .prop-name {
-    font-weight: bold;
-    width: 100px;
-    padding-right: 0;
+  font-weight: bold;
+  width: 100px;
+  padding-right: 0;
 }
 
 .interface-properties .prop-docs {
-    max-width: 300px;
+  max-width: 300px;
 }
 
 .type-signature {
@@ -98,15 +95,15 @@ pre > code {
 }
 
 .method-signature {
-    white-space: pre;
-    font-family: monospace;
+  white-space: pre;
+  font-family: monospace;
 }
 
 .method-signature .param-type {
-    background-color: white;
-    border-radius: 5px;
+  background-color: white;
+  border-radius: 5px;
 }
 
 .interface-properties tr:first-child td {
-    border-top: none;
+  border-top: none;
 }

@@ -1,3 +1,5 @@
+include mixins
+
 - var toc = Object.keys(typescript).sort((a, b) => a.localeCompare(b))
 - var interfacetoc = Object.keys(typescript).filter((a) => typescript[a].kind === "interface").sort((a, b) => a.localeCompare(b));
 - var classtoc = Object.keys(typescript).filter((a) => typescript[a].kind === "class").sort((a, b) => a.localeCompare(b));
@@ -29,14 +31,12 @@ body
     h3 Classes
     each name in classtoc
       - var name = typescript[name].name
-      a(href='#' + name)
-        .nav-item: code= name
+      a.nav-item(href='#' + name): code= name
 
     h3 Interfaces
     each name in interfacetoc
       - var name = typescript[name].name
-      a(href='#' + name)
-        .nav-item: code= name
+      a.nav-item(href='#' + name): code= name
 
     .copyright
       | &copy; Copyright 2017-present Palantir
@@ -44,77 +44,13 @@ body
 
   #content
 
-  mixin joinContent(doc)
-    if doc && doc.contents
-      | !{doc.contents.map(c => typeof c === "string" ? c : JSON.stringify(c)).join('')}
-
-  //- split text into words and try to link each word to member of docs data
-  mixin linkify(text)
-    each word in text.split(/([\[\]\.<> :])/g)
-      if typescript[word]
-        a(href='#' + word)= word
-      else
-        = word
-
-  mixin renderType(sig)
-    .type-signature
-      code
-        +linkify(sig.type)
-        if sig.defaultValue
-          em=" = " + sig.defaultValue
-
-      if sig.inheritedFrom
-        small: em
-          = "Inherited from "
-          code: +linkify(sig.inheritedFrom)
-
-    +joinContent(sig.documentation)
-
-
-  mixin objecttable(iface)
-    .interface-block(id=iface.name)
-
-      +joinContent(iface.documentation)
-
-      .interface-properties
-        table
-          for prop in iface.properties
-            tr
-              td.prop-name(valign="top")
-                code= prop.name
-              td.prop-type(valign="top")
-                +renderType(prop)
-
-      .interface-properties
-        table
-          for prop in iface.methods
-            tr
-              td.prop-name(valign="top")= prop.name
-              td.prop-type(valign="top")
-                for sig in prop.signatures
-                  +renderType(sig)
-
-
   each page in pages
     .hidden(data-route=page.reference)
-      for block in page.contents
-        if typeof block === "string"
-          | !{block}
-        else if block.tag === "interface"
-          - var iface = typescript[block.value]
-          +objecttable(iface)
+      +joinContent(page)
 
   each iface in typescript
     if iface.kind == "interface" || iface.kind == "class"
       .hidden(data-route=iface.name)
-        h2
-          code= iface.name
-            if iface.extends
-              small= " extends "
-                each name, i in iface.extends
-                  +linkify(name)
-                  if i < iface.extends.length - 1
-                    = ", "
-        +objecttable(iface)
+        +interfaceDocs(iface)
 
   script(type='text/javascript', src='assets/index.js')

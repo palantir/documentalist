@@ -1,0 +1,77 @@
+//- Mixins for Documentalist's own docs
+
+//- renders an `@tag` from a (short) known list
+mixin renderTag(tag, value)
+  case tag
+    when "see"
+      p See: #[code: +linkify(value)]
+    when "interface"
+      +interfaceDocs(typescript[value])
+
+//- renders a `contents` array of strings or tags
+mixin joinContent(doc)
+  if doc && doc.contents
+    each block in doc.contents
+      if typeof block === "string"
+        | !{block}
+      else
+        +renderTag(block.tag, block.value)
+
+//- split text into words and try to link each word to member of docs data
+mixin linkify(text)
+  each word in text.split(/([\[\]\.<> :])/g)
+    if typescript[word]
+      a(href='#' + word)= word
+    else
+      = word
+
+//- render a type signature, including default value & inherited from
+mixin renderType(sig)
+  .type-signature
+    code
+      +linkify(sig.type)
+      if sig.defaultValue
+        em= " = " + sig.defaultValue
+
+    if sig.inheritedFrom
+      small
+        em= "Inherited from "
+        code: +linkify(sig.inheritedFrom)
+
+  +joinContent(sig.documentation)
+
+//- render docs for an interface (or class) member
+mixin interfaceDocs(iface)
+  .interface-block(id=iface.name)
+    h2
+      code= iface.name
+        if iface.extends
+          small= " extends "
+            each name, i in iface.extends
+              +linkify(name)
+              if i < iface.extends.length - 1
+                = ", "
+
+    +joinContent(iface.documentation)
+
+    if iface.properties.length > 0
+      h3 Properties
+      .interface-properties
+        table
+          each prop in iface.properties
+            tr
+              td.prop-name(valign="top")
+                code= prop.name
+              td.prop-type(valign="top")
+                +renderType(prop)
+
+    if iface.methods.length > 0
+      h3 Methods
+      .interface-properties
+        table
+          each prop in iface.methods
+            tr
+              td.prop-name(valign="top")= prop.name
+              td.prop-type(valign="top")
+                each sig in prop.signatures
+                  +renderType(sig)
