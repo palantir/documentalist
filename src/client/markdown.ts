@@ -8,11 +8,15 @@
 import { IBlock } from "./compiler";
 import { INavigable } from "./tags";
 
+/**
+ * The `MarkdownPlugin` exports a map of markdown `pages` keyed by reference,
+ * and a multi-rooted `nav` tree of page nodes.
+ */
 export interface IMarkdownPluginData {
     /**
      * An ordered, nested, multi-rooted tree describing the navigation layout
-     * of all the pages and their headings. Uses `@page` and `@#+` tags to build
-     * this representation.
+     * of all the pages and their headings. The representation is constructued by
+     * tracing `@page` and `@#+` tags.
      */
     nav: IPageNode[];
 

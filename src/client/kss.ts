@@ -33,6 +33,11 @@ export interface IKssExample {
     reference: string;
 }
 
+/**
+ * The `KssPlugin` exports a `css` key that contains a map of styleguide references to markup/modifier examples.
+ *
+ * @see KSSPlugin
+ */
 export interface IKssPluginData {
     css: {
         [reference: string]: IKssExample;

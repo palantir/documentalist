@@ -9,6 +9,13 @@ import * as kss from "kss";
 import * as path from "path";
 import { ICompiler, IFile, IKssExample, IKssModifier, IKssPluginData, IPlugin } from "../client";
 
+/**
+ * The `KSSPlugin` extracts [KSS doc comments](http://warpspire.com/kss/syntax/) from CSS code (or similar languages).
+ * It emits an object keyed by the "styleguide [ref]" section of the comment. The documentation, markup, and modifiers
+ * sections will all be emitted in the data.
+ *
+ * @see IKssExample
+ */
 export class KssPlugin implements IPlugin<IKssPluginData> {
     public constructor(private options: kss.IOptions = {}) {}
 
