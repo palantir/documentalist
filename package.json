@@ -8,6 +8,7 @@
     "documentalist": "./cli.js"
   },
   "scripts": {
+    "build": "run-s clean tsc docs:json docs",
     "clean": "rm -rf dist",
     "docs": "pug -O docs.json ./theme/index.pug --pretty -o ./docs",
     "docs:json": "./cli.js './{src,typings}/**/*' > docs.json",
