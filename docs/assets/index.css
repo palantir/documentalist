@@ -81,6 +81,10 @@ pre > code {
   margin-bottom: 40px;
 }
 
+.interface-title small {
+  font-weight: normal;
+}
+
 .interface-properties {
   background-color: white;
   border-radius: 5px;
@@ -97,9 +101,10 @@ pre > code {
 }
 
 .interface-properties .prop-name {
-  font-weight: bold;
   width: 100px;
   padding-right: 0;
+  font-weight: bold;
+  white-space: nowrap;
 }
 
 .interface-properties .prop-docs {
@@ -112,8 +117,8 @@ pre > code {
 }
 
 .method-signature {
-  white-space: pre;
   font-family: monospace;
+  white-space: pre;
 }
 
 .method-signature .param-type {

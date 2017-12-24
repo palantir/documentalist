@@ -19,11 +19,12 @@ mixin joinContent(doc)
 
 //- split text into words and try to link each word to member of docs data
 mixin linkify(text)
-  each word in text.split(/([\[\]\.<> :])/g)
+  each word in text.split(WORD_SEPARATORS)
     if typescript[word]
       a(href='#' + word)= word
     else
       = word
+- WORD_SEPARATORS = /([\[\]<>() :.]+)/g
 
 //- render a type signature, including default value & inherited from
 mixin renderType(sig)
@@ -32,27 +33,42 @@ mixin renderType(sig)
       +linkify(sig.type)
       if sig.defaultValue
         em= " = " + sig.defaultValue
-
     if sig.inheritedFrom
-      small
-        em= "Inherited from "
+      small: em
+        = "Inherited from "
         code: +linkify(sig.inheritedFrom)
-
   +joinContent(sig.documentation)
 
 //- render docs for an interface (or class) member
 mixin interfaceDocs(iface)
   .interface-block(id=iface.name)
-    h2
-      code= iface.name
+    h2.interface-title
+      code #[small= iface.kind] #{iface.name}
         if iface.extends
           small= " extends "
             each name, i in iface.extends
               +linkify(name)
               if i < iface.extends.length - 1
                 = ", "
+        if iface.implements
+          small= " implements "
+            each name, i in iface.implements
+              +linkify(name)
+              if i < iface.implements.length - 1
+                = ", "
 
     +joinContent(iface.documentation)
+
+    if iface.constructorType
+      h3 Constructor
+      .interface-properties
+        table
+          each sig in iface.constructorType.signatures
+            tr
+              td.prop-name(valign="top")
+                code= sig.name
+              td.prop-type(valign="top")
+                  +renderType(sig)
 
     if iface.properties.length > 0
       h3 Properties
@@ -71,7 +87,8 @@ mixin interfaceDocs(iface)
         table
           each prop in iface.methods
             tr
-              td.prop-name(valign="top")= prop.name
+              td.prop-name(valign="top")
+                code= prop.name
               td.prop-type(valign="top")
                 each sig in prop.signatures
                   +renderType(sig)
