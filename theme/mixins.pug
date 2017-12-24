@@ -24,7 +24,7 @@ mixin linkify(text)
       a(href='#' + word)= word
     else
       = word
-- WORD_SEPARATORS = /([\[\]<>() :.]+)/g
+- WORD_SEPARATORS = /([\[\]<>() :.,]+)/g
 
 //- render a type signature, including default value & inherited from
 mixin renderType(sig)
