@@ -15,4 +15,7 @@ import { TypescriptPlugin } from "./plugins/typescript";
 // Set breakpoints in original .ts source and debug in the editor!
 Documentalist.create()
     .use(".ts", new TypescriptPlugin())
-    .documentGlobs(path.join(__dirname, "__tests__", "__fixtures__", "button.ts"));
+    // compile test fixtures:
+    .documentGlobs(path.join(__dirname, "__tests__", "__fixtures__", "*.ts"));
+    // compile our own source code:
+    // .documentGlobs(path.join(__dirname, "..", "src", "index.ts"));
