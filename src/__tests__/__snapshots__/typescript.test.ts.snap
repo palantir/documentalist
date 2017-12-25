@@ -18,7 +18,7 @@ Object {
         "isStatic": false,
       },
       "inheritedFrom": undefined,
-      "kind": "method",
+      "kind": "constructor",
       "name": "constructor",
       "signatures": Array [
         Object {
@@ -204,7 +204,7 @@ repository.",
         "isStatic": false,
       },
       "inheritedFrom": undefined,
-      "kind": "method",
+      "kind": "constructor",
       "name": "constructor",
       "signatures": Array [
         Object {
