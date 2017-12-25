@@ -3,6 +3,56 @@
 exports[`TypescriptPlugin classes snapshot 1`] = `
 Object {
   "Animal": Object {
+    "constructorType": Object {
+      "documentation": undefined,
+      "fileName": "src/__tests__/__fixtures__/classes.ts",
+      "flags": Object {
+        "isDeprecated": undefined,
+        "isExported": true,
+        "isExternal": false,
+        "isOptional": false,
+        "isPrivate": false,
+        "isProtected": false,
+        "isPublic": true,
+        "isRest": undefined,
+        "isStatic": false,
+      },
+      "inheritedFrom": undefined,
+      "kind": "constructor",
+      "name": "constructor",
+      "signatures": Array [
+        Object {
+          "documentation": undefined,
+          "fileName": "src/__tests__/__fixtures__/classes.ts",
+          "flags": undefined,
+          "kind": "signature",
+          "name": "new Animal",
+          "parameters": Array [
+            Object {
+              "defaultValue": undefined,
+              "documentation": undefined,
+              "fileName": undefined,
+              "flags": Object {
+                "isDeprecated": undefined,
+                "isExported": undefined,
+                "isExternal": undefined,
+                "isOptional": false,
+                "isPrivate": undefined,
+                "isProtected": undefined,
+                "isPublic": undefined,
+                "isRest": false,
+                "isStatic": undefined,
+              },
+              "kind": "parameter",
+              "name": "noise",
+              "type": "string",
+            },
+          ],
+          "returnType": "Animal",
+          "type": "(noise: string) => Animal",
+        },
+      ],
+    },
     "documentation": Object {
       "contents": Array [
         "<p>Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
@@ -30,6 +80,7 @@ repository.",
       "isRest": undefined,
       "isStatic": false,
     },
+    "implements": undefined,
     "kind": "class",
     "methods": Array [
       Object {
@@ -138,6 +189,36 @@ repository.",
     "properties": Array [],
   },
   "Dog": Object {
+    "constructorType": Object {
+      "documentation": undefined,
+      "fileName": "src/__tests__/__fixtures__/classes.ts",
+      "flags": Object {
+        "isDeprecated": undefined,
+        "isExported": true,
+        "isExternal": false,
+        "isOptional": false,
+        "isPrivate": false,
+        "isProtected": false,
+        "isPublic": true,
+        "isRest": undefined,
+        "isStatic": false,
+      },
+      "inheritedFrom": undefined,
+      "kind": "constructor",
+      "name": "constructor",
+      "signatures": Array [
+        Object {
+          "documentation": undefined,
+          "fileName": "src/__tests__/__fixtures__/classes.ts",
+          "flags": undefined,
+          "kind": "signature",
+          "name": "new Dog",
+          "parameters": Array [],
+          "returnType": "Dog",
+          "type": "() => Dog",
+        },
+      ],
+    },
     "documentation": undefined,
     "extends": Array [
       "Animal",
@@ -154,6 +235,7 @@ repository.",
       "isRest": undefined,
       "isStatic": false,
     },
+    "implements": undefined,
     "kind": "class",
     "methods": Array [
       Object {
@@ -281,6 +363,7 @@ Object {
       "isRest": undefined,
       "isStatic": false,
     },
+    "implements": undefined,
     "kind": "interface",
     "methods": Array [],
     "name": "IActionProps",
@@ -439,6 +522,7 @@ Object {
       "isRest": undefined,
       "isStatic": false,
     },
+    "implements": undefined,
     "kind": "interface",
     "methods": Array [],
     "name": "IButtonProps",
@@ -743,6 +827,7 @@ Note that this prop has no effect on \`AnchorButton\`; it only affects \`Button\
       "isRest": undefined,
       "isStatic": false,
     },
+    "implements": undefined,
     "kind": "interface",
     "methods": Array [
       Object {
@@ -906,7 +991,7 @@ is.",
               },
             ],
             "returnType": "object",
-            "type": "(blockContent: string, reservedTagWords: string[]) => object",
+            "type": "(blockContent: string, reservedTagWords?: string[]) => object",
           },
         ],
       },

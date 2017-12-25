@@ -27,7 +27,9 @@ export function resolveTypeString(type: Type): string {
     } else if (type instanceof IntersectionType) {
         return type.types.map(resolveTypeString).join(" & ");
     } else if (type instanceof ReferenceType) {
-        return type.name;
+        const name = type.name === "__type" ? "{}" : type.name;
+        const typeArgs = type.typeArguments == null ? "" : `<${type.typeArguments.map(resolveTypeString).join(", ")}>`;
+        return name + typeArgs;
     } else {
         return type.toString();
     }
@@ -35,17 +37,24 @@ export function resolveTypeString(type: Type): string {
 
 export function resolveSignature(sig: SignatureReflection): string {
     const { parameters = [] } = sig;
-    const paramList = parameters.map((param: any) => {
-        const name = (param.flags && param.flags.isRest ? "..." : "") + param.name;
-        const type = resolveTypeString(param.type);
-        return `${name}: ${type}`;
-    });
+    const paramList = parameters.map(param =>
+        // [...]name[?]: type
+        [
+            param.flags.isRest ? "..." : "",
+            param.name,
+            param.flags.isOptional || param.defaultValue ? "?" : "",
+            ": ",
+            resolveTypeString(param.type),
+        ].join(""),
+    );
     const returnType = resolveTypeString(sig.type);
-    if (sig.kind === ReflectionKind.CallSignature) {
-        return `(${paramList.join(", ")}) => ${returnType}`;
-    } else if (sig.kind === ReflectionKind.IndexSignature) {
-        return `{ [${paramList}]: ${returnType} }`;
+    switch (sig.kind) {
+        case ReflectionKind.CallSignature:
+        case ReflectionKind.ConstructorSignature:
+            return `(${paramList.join(", ")}) => ${returnType}`;
+        case ReflectionKind.IndexSignature:
+            return `{ [${paramList}]: ${returnType} }`;
+        default:
+            return sig.toString();
     }
-    // TODO: more types
-    return sig.toString();
 }

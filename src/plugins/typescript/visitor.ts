@@ -19,6 +19,8 @@ import { DefaultValueContainer } from "typedoc/dist/lib/models/reflections/abstr
 import { ICompiler } from "../../client/compiler";
 import {
     ITsClass,
+    ITsConstructor,
+    ITsDocBase,
     ITsFlags,
     ITsInterface,
     ITsMethod,
@@ -58,14 +60,28 @@ export class Visitor {
 
     private visitClass = (def: DeclarationReflection): ITsClass => ({
         ...this.visitInterface(def),
+        constructorType: this.visitChildren(
+            def.getChildrenByKind(ReflectionKind.Constructor),
+            this.visitConstructor,
+        )[0],
         kind: Kind.Class,
     });
 
     private visitInterface = (def: DeclarationReflection): ITsInterface => ({
         ...this.makeDocEntry(def, Kind.Interface),
         extends: def.extendedTypes && def.extendedTypes.map(resolveTypeString),
-        methods: this.visitChildren(def.getChildrenByKind(ReflectionKind.Method), this.visitMethod),
-        properties: this.visitChildren(def.getChildrenByKind(ReflectionKind.Property), this.visitProperty),
+        implements: def.implementedTypes && def.implementedTypes.map(resolveTypeString),
+        methods: this.visitChildren(def.getChildrenByKind(ReflectionKind.Method), this.visitMethod, sortStaticFirst),
+        properties: this.visitChildren(
+            def.getChildrenByKind(ReflectionKind.Property),
+            this.visitProperty,
+            sortStaticFirst,
+        ),
+    });
+
+    private visitConstructor = (def: DeclarationReflection): ITsConstructor => ({
+        ...this.visitMethod(def),
+        kind: Kind.Constructor,
     });
 
     private visitProperty = (def: DeclarationReflection): ITsProperty => ({
@@ -96,11 +112,16 @@ export class Visitor {
     });
 
     /** Visits each child that passes the filter condition (based on options). */
-    private visitChildren<T>(children: Reflection[], visitor: (def: Reflection) => T): T[] {
+    private visitChildren<T>(
+        children: Reflection[],
+        visitor: (def: Reflection) => T,
+        comparator?: (a: T, b: T) => number,
+    ): T[] {
         const { excludeNames = [], includeNonExportedMembers = false } = this.options;
         return children
             .filter(ref => (ref.flags.isExported || includeNonExportedMembers) && isNotExcluded(excludeNames, ref.name))
-            .map(visitor);
+            .map(visitor)
+            .sort(comparator);
     }
 
     /**
@@ -175,4 +196,16 @@ function getIsDeprecated(ref: Reflection) {
 /** Returns true if value does not match all patterns. */
 function isNotExcluded(patterns: Array<string | RegExp>, value?: string) {
     return value === undefined || patterns.every(p => value.match(p) == null);
+}
+
+/** Sorts static members (`flags.isStatic`) before non-static members. */
+function sortStaticFirst<T extends ITsDocBase>({ flags: aFlags = {} }: T, { flags: bFlags = {} }: T) {
+    if (aFlags.isStatic && bFlags.isStatic) {
+        return 0;
+    } else if (aFlags.isStatic) {
+        return -1;
+    } else if (bFlags.isStatic) {
+        return 1;
+    }
+    return 0;
 }
