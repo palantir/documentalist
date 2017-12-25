@@ -10,6 +10,7 @@ import { IBlock } from "./compiler";
 /** Enumeration describing the various kinds of member supported by this plugin. */
 export enum Kind {
     Class = "class",
+    Constructor = "constructor",
     Interface = "interface",
     Method = "method",
     Parameter = "parameter",
@@ -19,6 +20,7 @@ export enum Kind {
 
 /** Compiler flags about this member. */
 export interface ITsFlags {
+    /** This flag supports an optional message, typically used to include a version number. */
     isDeprecated?: boolean | string;
     isExported?: boolean;
     isExternal?: boolean;
@@ -47,13 +49,29 @@ export interface ITsDocBase {
     name: string;
 }
 
-/** Documentation for a method. See `signatures` array for actual callable signatures and rendered docs. */
-export interface ITsMethod extends ITsDocBase {
-    kind: Kind.Method;
+/**
+ * Common type for a callable member, something that can be invoked.
+ * @see ITsConstructor
+ * @see ITsMethod
+ */
+export interface ITsCallable {
     /** Type name from which this method was inherited. Typically takes the form `Interface.member`. */
     inheritedFrom?: string;
     /** A method has at least one signature, which describes the parameters and return type and contains documentation. */
     signatures: ITsMethodSignature[];
+}
+
+/**
+ * Documentation for a class constructor. See `signatures` array for actual callable signatures and rendered docs.
+ * @see ITsClass
+ */
+export interface ITsConstructor extends ITsDocBase, ITsCallable {
+    kind: Kind.Constructor;
+}
+
+/** Documentation for a method. See `signatures` array for actual callable signatures and rendered docs. */
+export interface ITsMethod extends ITsDocBase, ITsCallable {
+    kind: Kind.Method;
 }
 
 /** Documentation for a single method signature, including parameters, return type, and full type string. */
@@ -108,7 +126,7 @@ export interface ITsInterface extends ITsDocBase, ITsObjectDefinition {
 /** Documentation for a `class` definition. */
 export interface ITsClass extends ITsDocBase, ITsObjectDefinition {
     /** Constructor signature of this class. Note the special name here, as `constructor` is a JavaScript keyword. */
-    constructorType: ITsMethod;
+    constructorType: ITsConstructor;
     kind: Kind.Class;
 }
 
