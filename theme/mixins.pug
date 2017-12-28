@@ -1,13 +1,5 @@
 //- Mixins for Documentalist's own docs
 
-//- renders an `@tag` from a (short) known list
-mixin renderTag(tag, value)
-  case tag
-    when "see"
-      p See: #[code: +linkify(value)]
-    when "interface"
-      +interfaceDocs(typescript[value])
-
 //- renders a `contents` array of strings or tags
 mixin joinContent(doc)
   if doc && doc.contents
@@ -17,6 +9,12 @@ mixin joinContent(doc)
       else
         +renderTag(block.tag, block.value)
 
+mixin joinNames(names, joiner =", ")
+  each name, i in names
+    +linkify(name)
+    if i < names.length - 1
+      = joiner
+
 //- split text into words and try to link each word to member of docs data
 mixin linkify(text)
   each word in text.split(WORD_SEPARATORS)
@@ -25,6 +23,15 @@ mixin linkify(text)
     else
       = word
 - WORD_SEPARATORS = /([\[\]<>() :.,]+)/g
+
+//- renders an `@tag` from a (short) known list
+mixin renderTag(tag, value)
+  blockquote
+    case tag
+      when "see"
+        p See: #[code: +linkify(value)]
+      when "interface"
+        +interfaceDocs(typescript[value])
 
 //- render a type signature, including default value & inherited from
 mixin renderType(sig)
@@ -46,16 +53,10 @@ mixin interfaceDocs(iface)
       code #[small= iface.kind] #{iface.name}
         if iface.extends
           small= " extends "
-            each name, i in iface.extends
-              +linkify(name)
-              if i < iface.extends.length - 1
-                = ", "
+            +joinNames(iface.extends)
         if iface.implements
           small= " implements "
-            each name, i in iface.implements
-              +linkify(name)
-              if i < iface.implements.length - 1
-                = ", "
+            +joinNames(iface.implements)
 
     +joinContent(iface.documentation)
 
@@ -64,31 +65,31 @@ mixin interfaceDocs(iface)
       .interface-properties
         table
           each sig in iface.constructorType.signatures
-            tr
-              td.prop-name(valign="top")
-                code= sig.name
-              td.prop-type(valign="top")
-                  +renderType(sig)
+            +propDocsRow(sig)
+              +renderType(sig)
 
     if iface.properties.length > 0
       h3 Properties
       .interface-properties
         table
           each prop in iface.properties
-            tr
-              td.prop-name(valign="top")
-                code= prop.name
-              td.prop-type(valign="top")
-                +renderType(prop)
+            +propDocsRow(prop)
+              +renderType(prop)
 
     if iface.methods.length > 0
       h3 Methods
       .interface-properties
         table
           each prop in iface.methods
-            tr
-              td.prop-name(valign="top")
-                code= prop.name
-              td.prop-type(valign="top")
-                each sig in prop.signatures
-                  +renderType(sig)
+            +propDocsRow(prop)
+              each sig in prop.signatures
+                +renderType(sig)
+
+mixin propDocsRow(prop)
+  tr
+    td.prop-name(valign="top")
+      if prop.flags && prop.flags.isStatic
+        code= "static "
+      code= prop.name
+    td.prop-type(valign="top")
+      block
