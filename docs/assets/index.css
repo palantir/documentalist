@@ -20,9 +20,19 @@ a:hover {
   color: dodgerblue !important;
 }
 
-h2:not(:first-child),
-h3:not(:first-child) {
+h1,
+h2,
+h3,
+h4 {
   margin-top: 2em;
+  margin-bottom: 1em;
+}
+
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child {
+  margin-top: 0em;
 }
 
 pre,
@@ -35,6 +45,12 @@ pre > code {
   padding: 20px 20px;
   background-color: white;
   border-radius: 5px;
+}
+
+blockquote {
+  border-left: 5px solid #ddd;
+  margin-left: 0;
+  padding-left: 1em;
 }
 
 [hidden] {
@@ -103,8 +119,11 @@ pre > code {
 .interface-properties .prop-name {
   width: 100px;
   padding-right: 0;
-  font-weight: bold;
   white-space: nowrap;
+}
+
+.interface-properties .prop-name code:last-child {
+  font-weight: bold;
 }
 
 .interface-properties .prop-docs {

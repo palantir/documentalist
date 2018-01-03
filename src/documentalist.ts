@@ -11,24 +11,25 @@ import * as path from "path";
 import { IFile, IPlugin } from "./client";
 import { Compiler, ICompilerOptions } from "./compiler";
 
-export interface IApi<T> {
-    /**
-     * Finds all files matching the provided variadic glob expressions and then
-     * runs `documentFiles` with them, emitting all the documentation data.
-     *
-     * @see documentFiles
-     */
-    documentGlobs: (...filesGlobs: string[]) => Promise<T>;
+/**
+ * Plugins are stored with the regex used to match against file paths.
+ */
+export interface IPluginEntry<T> {
+    pattern: RegExp;
+    plugin: IPlugin<T>;
+}
 
+export class Documentalist<T> {
     /**
-     * Iterates over all plugins, passing all matching files to each in turn.
-     * The output of each plugin is merged to produce the resulting
-     * documentation object.
-     *
-     * The return type T is a composite type has a composite type of all the
-     * plugin data types.
+     * Construct a new `Documentalist` instance with the provided options.
+     * This method lends itself particularly well to the chaining syntax:
+     * `Documentalist.create(options).use(...)`.
      */
-    documentFiles: (files: IFile[]) => Promise<T>;
+    public static create(options?: ICompilerOptions): Documentalist<{}> {
+        return new Documentalist(options, []);
+    }
+
+    constructor(private options: ICompilerOptions = {}, private plugins: Array<IPluginEntry<T>> = []) {}
 
     /**
      * Adds the plugin to Documentalist. Returns a new instance of Documentalist
@@ -43,30 +44,7 @@ export interface IApi<T> {
      * @param plugin - The plugin implementation
      * @returns A new instance of `Documentalist` with an extended type
      */
-    use: <P>(pattern: RegExp | string, plugin: IPlugin<P>) => IApi<T & P>;
-
-    /**
-     * Returns a new instance of Documentalist with no plugins.
-     */
-    clearPlugins(): IApi<{}>;
-}
-
-/**
- * Plugins are stored with the regex used to match against file paths.
- */
-export interface IPluginEntry<T> {
-    pattern: RegExp;
-    plugin: IPlugin<T>;
-}
-
-export class Documentalist<T> implements IApi<T> {
-    public static create(options?: ICompilerOptions): IApi<{}> {
-        return new Documentalist(options, []);
-    }
-
-    constructor(private options: ICompilerOptions = {}, private plugins: Array<IPluginEntry<T>> = []) {}
-
-    public use<P>(pattern: RegExp | string, plugin: IPlugin<P>): IApi<T & P> {
+    public use<P>(pattern: RegExp | string, plugin: IPlugin<P>): Documentalist<T & P> {
         if (typeof pattern === "string") {
             pattern = new RegExp(`${pattern}$`);
         }
@@ -75,15 +53,29 @@ export class Documentalist<T> implements IApi<T> {
         return new Documentalist(this.options, newPlugins);
     }
 
-    public clearPlugins(): IApi<{}> {
+    /**
+     * Returns a new instance of Documentalist with no plugins.
+     */
+    public clearPlugins(): Documentalist<{}> {
         return new Documentalist<{}>(this.options, []);
     }
 
+    /**
+     * Finds all files matching the provided variadic glob expressions and then
+     * runs `documentFiles` with them, emitting all the documentation data.
+     */
     public async documentGlobs(...filesGlobs: string[]) {
         const files = this.expandGlobs(filesGlobs);
         return this.documentFiles(files);
     }
 
+    /**
+     * Iterates over all plugins, passing all matching files to each in turn.
+     * The output of each plugin is merged to produce the resulting
+     * documentation object.
+     *
+     * The return type `T` is a union of each plugin's data type.
+     */
     public async documentFiles(files: IFile[]) {
         const compiler = new Compiler(this.options);
         // need an empty object of correct type that we can merge into
