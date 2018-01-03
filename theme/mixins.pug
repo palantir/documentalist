@@ -1,5 +1,7 @@
 //- Mixins for Documentalist's own docs
 
+- var isArray = (arr) => arr != null && arr.length > 0
+
 //- renders a `contents` array of strings or tags
 mixin joinContent(doc)
   if doc && doc.contents
@@ -16,7 +18,7 @@ mixin joinNames(names, joiner =", ")
       = joiner
 
 //- split text into words and try to link each word to member of docs data
-mixin linkify(text)
+mixin linkify(text = "")
   each word in text.split(WORD_SEPARATORS)
     if typescript[word]
       a(href='#' + word)= word
@@ -28,10 +30,10 @@ mixin linkify(text)
 mixin renderTag(tag, value)
   blockquote
     case tag
-      when "see"
-        p See: #[code: +linkify(value)]
       when "interface"
         +interfaceDocs(typescript[value])
+      default
+        p #{tag}: #[code: +linkify(value)]
 
 //- render a type signature, including default value & inherited from
 mixin renderType(sig)
@@ -68,7 +70,7 @@ mixin interfaceDocs(iface)
             +propDocsRow(sig)
               +renderType(sig)
 
-    if iface.properties.length > 0
+    if isArray(iface.properties)
       h3 Properties
       .interface-properties
         table
@@ -76,7 +78,7 @@ mixin interfaceDocs(iface)
             +propDocsRow(prop)
               +renderType(prop)
 
-    if iface.methods.length > 0
+    if isArray(iface.methods)
       h3 Methods
       .interface-properties
         table
