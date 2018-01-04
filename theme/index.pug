@@ -23,9 +23,10 @@ html
         - var name = typescript[name].name
         a.nav-item(href='#' + name): code= name
 
-      .copyright
-        | &copy; Copyright 2017-present Palantir
+      //- include current package.json version from text file (see npm script docs:version)
+      h4:  include version.txt
 
+      .copyright &copy; Copyright 2017-present Palantir
 
     #content
 
