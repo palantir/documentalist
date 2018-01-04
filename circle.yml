@@ -18,7 +18,7 @@ dependencies:
   override:
     - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
     - yarn install --frozen-lockfile
-    - yarn tsc
+    - yarn compile
 
 test:
   override:
@@ -29,7 +29,6 @@ deployment:
   preview:
     branch: /.*/
     commands:
-      - yarn docs:json
       - yarn docs
       - node theme/bot.js
   npm:
