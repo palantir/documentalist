@@ -60,7 +60,14 @@ mixin interfaceDocs(iface)
           small= " implements "
             +joinNames(iface.implements)
 
-    +joinContent(iface.documentation)
+
+    if iface.kind === "type alias"
+      .interface-properties
+        table
+          +propDocsRow(iface)
+            +renderType(iface)
+    else
+      +joinContent(iface.documentation)
 
     if iface.constructorType
       h3 Constructor
@@ -69,6 +76,14 @@ mixin interfaceDocs(iface)
           each sig in iface.constructorType.signatures
             +propDocsRow(sig)
               +renderType(sig)
+
+    if isArray(iface.members)
+      h3 Members
+      .interface-properties
+        table
+          each prop in iface.members
+            +propDocsRow(prop)
+              +renderType(prop)
 
     if isArray(iface.properties)
       h3 Properties
