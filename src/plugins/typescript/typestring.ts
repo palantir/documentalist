@@ -27,18 +27,28 @@ export function resolveTypeString(type: Type): string {
     } else if (type instanceof IntersectionType) {
         return type.types.map(resolveTypeString).join(" & ");
     } else if (type instanceof ReferenceType) {
-        const name = type.name === "__type" ? "{}" : type.name;
-        const typeArgs = type.typeArguments == null ? "" : `<${type.typeArguments.map(resolveTypeString).join(", ")}>`;
-        return name + typeArgs;
+        return resolveReferenceName(type);
     } else {
         return type.toString();
     }
 }
 
+function resolveReferenceName(type: ReferenceType): string {
+    if (type.name === "__type") {
+        return "{}";
+    } else if (type.reflection && type.reflection.kind === ReflectionKind.EnumMember) {
+        // include parent name in type string for easy identification
+        return `${type.reflection.parent.name}.${type.name}`;
+    } else if (type.typeArguments) {
+        return `${type.name}<${type.typeArguments.map(resolveTypeString).join(", ")}>`;
+    }
+    return type.name;
+}
+
 export function resolveSignature(sig: SignatureReflection): string {
     const { parameters = [] } = sig;
     const paramList = parameters.map(param =>
-        // [...]name[?]: type
+        // "[...]name[?]: type"
         [
             param.flags.isRest ? "..." : "",
             param.name,
