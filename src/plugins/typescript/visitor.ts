@@ -21,12 +21,15 @@ import {
     ITsClass,
     ITsConstructor,
     ITsDocBase,
+    ITsEnum,
+    ITsEnumMember,
     ITsFlags,
     ITsInterface,
     ITsMethod,
     ITsMethodParameter,
     ITsMethodSignature,
     ITsProperty,
+    ITsTypeAlias,
     Kind,
 } from "../../client/typescript";
 import { ITypescriptPluginOptions } from "./index";
@@ -37,15 +40,22 @@ export class Visitor {
 
     public visitProject(project: ProjectReflection) {
         // get top-level members of typedoc project
+        const classes = this.visitChildren(project.getReflectionsByKind(ReflectionKind.Class), this.visitClass);
         const interfaces = this.visitChildren(
             project.getReflectionsByKind(ReflectionKind.Interface),
             this.visitInterface,
         );
-        const classes = this.visitChildren(project.getReflectionsByKind(ReflectionKind.Class), this.visitClass);
+        const enums = this.visitChildren(project.getReflectionsByKind(ReflectionKind.Enum), this.visitEnum);
+        const aliases = this.visitChildren<ITsTypeAlias>(
+            project.getReflectionsByKind(ReflectionKind.TypeAlias),
+            def => ({ ...this.makeDocEntry(def, Kind.TypeAlias), type: resolveTypeString(def.type) }),
+        );
 
         // remove members excluded by path option
         const { excludePaths = [] } = this.options;
-        return [...interfaces, ...classes].filter(ref => isNotExcluded(excludePaths, ref.fileName));
+        return [...classes, ...interfaces, ...enums, ...aliases].filter(ref =>
+            isNotExcluded(excludePaths, ref.fileName),
+        );
     }
 
     private makeDocEntry<K extends Kind>(def: Reflection, kind: K) {
@@ -84,6 +94,15 @@ export class Visitor {
         kind: Kind.Constructor,
     });
 
+    private visitEnum = (def: DeclarationReflection): ITsEnum => ({
+        ...this.makeDocEntry(def, Kind.Enum),
+        members: this.visitChildren<ITsEnumMember>(
+            def.getChildrenByKind(ReflectionKind.EnumMember),
+            m => ({ ...this.makeDocEntry(m, Kind.EnumMember), defaultValue: getDefaultValue(m) }),
+            sortStaticFirst,
+        ),
+    });
+
     private visitProperty = (def: DeclarationReflection): ITsProperty => ({
         ...this.makeDocEntry(def, Kind.Property),
         defaultValue: getDefaultValue(def),
@@ -114,7 +133,7 @@ export class Visitor {
     /** Visits each child that passes the filter condition (based on options). */
     private visitChildren<T>(
         children: Reflection[],
-        visitor: (def: Reflection) => T,
+        visitor: (def: DeclarationReflection) => T,
         comparator?: (a: T, b: T) => number,
     ): T[] {
         const { excludeNames = [], includeNonExportedMembers = false } = this.options;
