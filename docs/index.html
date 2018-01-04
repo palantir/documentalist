@@ -2,275 +2,747 @@
 <html>
   <head>
     <title>Documentalist</title>
+    <link rel="stylesheet" href="assets/index.css"/>
   </head>
-  <style>
-    body {
-      background-color: #F5F5F5;
-      color: #555;
-      font-family: Helvetica, Arial, sans-serif;
-    }
-    
-    a {
-      color: #888;
-      text-decoration: none;
-    }
-    
-    .hidden {
-      display: none;
-    }
-  </style>
-  <link rel="stylesheet" href="assets/index.css"/>
-</html>
-<body>
-  <div id="nav"><a href="#docs">
-      <h3>Documentalist</h3></a>
-    <h3>Interfaces</h3><a href="#IApi">
-      <div class="nav-item">IApi</div></a><a href="#IBlock">
-      <div class="nav-item">IBlock</div></a><a href="#ICompiler">
-      <div class="nav-item">ICompiler</div></a><a href="#ICompilerOptions">
-      <div class="nav-item">ICompilerOptions</div></a><a href="#IFile">
-      <div class="nav-item">IFile</div></a><a href="#IHeadingNode">
-      <div class="nav-item">IHeadingNode</div></a><a href="#IHeadingTag">
-      <div class="nav-item">IHeadingTag</div></a><a href="#IKssExample">
-      <div class="nav-item">IKssExample</div></a><a href="#IKssModifier">
-      <div class="nav-item">IKssModifier</div></a><a href="#IKssPluginData">
-      <div class="nav-item">IKssPluginData</div></a><a href="#IMarkdownPluginData">
-      <div class="nav-item">IMarkdownPluginData</div></a><a href="#IMarkdownPluginOptions">
-      <div class="nav-item">IMarkdownPluginOptions</div></a><a href="#IMetadata">
-      <div class="nav-item">IMetadata</div></a><a href="#INavigable">
-      <div class="nav-item">INavigable</div></a><a href="#IPageData">
-      <div class="nav-item">IPageData</div></a><a href="#IPageNode">
-      <div class="nav-item">IPageNode</div></a><a href="#IPlugin">
-      <div class="nav-item">IPlugin</div></a><a href="#IPluginEntry">
-      <div class="nav-item">IPluginEntry</div></a><a href="#ITag">
-      <div class="nav-item">ITag</div></a><a href="#ITsClass">
-      <div class="nav-item">ITsClass</div></a><a href="#ITsDocEntry">
-      <div class="nav-item">ITsDocEntry</div></a><a href="#ITsDocType">
-      <div class="nav-item">ITsDocType</div></a><a href="#ITsInterface">
-      <div class="nav-item">ITsInterface</div></a><a href="#ITsInterfaceEntry">
-      <div class="nav-item">ITsInterfaceEntry</div></a><a href="#ITsMethod">
-      <div class="nav-item">ITsMethod</div></a><a href="#ITsMethodSignature">
-      <div class="nav-item">ITsMethodSignature</div></a><a href="#ITsObjectDefinition">
-      <div class="nav-item">ITsObjectDefinition</div></a><a href="#ITsObjectMemberDefinition">
-      <div class="nav-item">ITsObjectMemberDefinition</div></a><a href="#ITsParameter">
-      <div class="nav-item">ITsParameter</div></a><a href="#ITsProperty">
-      <div class="nav-item">ITsProperty</div></a><a href="#ITsPropertyEntry">
-      <div class="nav-item">ITsPropertyEntry</div></a><a href="#ITsType">
-      <div class="nav-item">ITsType</div></a><a href="#ITsVariableAlias">
-      <div class="nav-item">ITsVariableAlias</div></a><a href="#ITypedocPluginData">
-      <div class="nav-item">ITypedocPluginData</div></a><a href="#ITypescriptPluginData">
-      <div class="nav-item">ITypescriptPluginData</div></a>
-    <h3>Classes</h3><a href="#Compiler">
-      <div class="nav-item">Compiler</div></a><a href="#Documentalist">
-      <div class="nav-item">Documentalist</div></a><a href="#KssPlugin">
-      <div class="nav-item">KssPlugin</div></a><a href="#MarkdownPlugin">
-      <div class="nav-item">MarkdownPlugin</div></a><a href="#PageMap">
-      <div class="nav-item">PageMap</div></a><a href="#TypedocPlugin">
-      <div class="nav-item">TypedocPlugin</div></a><a href="#TypescriptPlugin">
-      <div class="nav-item">TypescriptPlugin</div></a>
-    <div class="copyright">&copy; Copyright 2017-present Palantir</div>
-  </div>
-  <div id="content"></div>
-  <div class="hidden" data-route="_nav">
-  </div>
-  <div class="hidden" data-route="docs"><h2 id="documentalist">Documentalist</h2>
-<p><strong>Documentalist</strong> is a library for parsing documentation from <strong>CSS</strong>,
-<strong>Typescript</strong>, and <strong>Markdown</strong> files. The output is a well-formed JSON object
-that can be fed directly into any number of static site generators.</p>
-<p>In fact, this documentation is made by feeding <strong>Documentalist</strong>&#39;s source
-through itself and then rendering the output with a simple <strong>Pug</strong> template.
-Docception.</p>
-<h3 id="command-line">Command Line</h3>
-<p>Install:</p>
-<pre><code class="lang-bash">npm install documentalist
-</code></pre>
-<p>Create some documentation data:</p>
-<pre><code class="lang-bash">documentalist &#39;src/**/*&#39; &gt; docs.json
-</code></pre>
-<h3 id="api">API</h3>
-<p>Of course, you can also use <strong>Documentalist</strong> in a Node.js environment like so:</p>
-<pre><code class="lang-js">const { Documentalist } = require(&quot;documentalist&quot;);
-const { writeFileSync } = require(&quot;fs&quot;);
+  <body>
+    <div id="nav">
+      <h3><a href="#docs">Documentalist</a></h3>
+      <h3>Classes</h3><a class="nav-item" href="#Compiler"><code>Compiler</code></a><a class="nav-item" href="#Documentalist"><code>Documentalist</code></a><a class="nav-item" href="#KssPlugin"><code>KssPlugin</code></a><a class="nav-item" href="#MarkdownPlugin"><code>MarkdownPlugin</code></a><a class="nav-item" href="#PageMap"><code>PageMap</code></a><a class="nav-item" href="#TypescriptPlugin"><code>TypescriptPlugin</code></a><a class="nav-item" href="#Visitor"><code>Visitor</code></a>
+      <h3>Interfaces</h3><a class="nav-item" href="#IBlock"><code>IBlock</code></a><a class="nav-item" href="#ICompiler"><code>ICompiler</code></a><a class="nav-item" href="#ICompilerOptions"><code>ICompilerOptions</code></a><a class="nav-item" href="#IFile"><code>IFile</code></a><a class="nav-item" href="#IHeadingNode"><code>IHeadingNode</code></a><a class="nav-item" href="#IHeadingTag"><code>IHeadingTag</code></a><a class="nav-item" href="#IKssExample"><code>IKssExample</code></a><a class="nav-item" href="#IKssModifier"><code>IKssModifier</code></a><a class="nav-item" href="#IKssPluginData"><code>IKssPluginData</code></a><a class="nav-item" href="#IMarkdownPluginData"><code>IMarkdownPluginData</code></a><a class="nav-item" href="#IMarkdownPluginOptions"><code>IMarkdownPluginOptions</code></a><a class="nav-item" href="#IMetadata"><code>IMetadata</code></a><a class="nav-item" href="#INavigable"><code>INavigable</code></a><a class="nav-item" href="#IPageData"><code>IPageData</code></a><a class="nav-item" href="#IPageNode"><code>IPageNode</code></a><a class="nav-item" href="#IPlugin"><code>IPlugin</code></a><a class="nav-item" href="#IPluginEntry"><code>IPluginEntry</code></a><a class="nav-item" href="#ITag"><code>ITag</code></a><a class="nav-item" href="#ITsCallable"><code>ITsCallable</code></a><a class="nav-item" href="#ITsClass"><code>ITsClass</code></a><a class="nav-item" href="#ITsConstructor"><code>ITsConstructor</code></a><a class="nav-item" href="#ITsDefaultValue"><code>ITsDefaultValue</code></a><a class="nav-item" href="#ITsDocBase"><code>ITsDocBase</code></a><a class="nav-item" href="#ITsEnum"><code>ITsEnum</code></a><a class="nav-item" href="#ITsEnumMember"><code>ITsEnumMember</code></a><a class="nav-item" href="#ITsFlags"><code>ITsFlags</code></a><a class="nav-item" href="#ITsInterface"><code>ITsInterface</code></a><a class="nav-item" href="#ITsMethod"><code>ITsMethod</code></a><a class="nav-item" href="#ITsMethodParameter"><code>ITsMethodParameter</code></a><a class="nav-item" href="#ITsMethodSignature"><code>ITsMethodSignature</code></a><a class="nav-item" href="#ITsObjectDefinition"><code>ITsObjectDefinition</code></a><a class="nav-item" href="#ITsProperty"><code>ITsProperty</code></a><a class="nav-item" href="#ITsTypeAlias"><code>ITsTypeAlias</code></a><a class="nav-item" href="#ITypescriptPluginData"><code>ITypescriptPluginData</code></a><a class="nav-item" href="#ITypescriptPluginOptions"><code>ITypescriptPluginOptions</code></a>
+      <h3>Enums</h3><a class="nav-item" href="#Kind"><code>Kind</code></a>
+      <h3>Aliases</h3><a class="nav-item" href="#StringOrTag"><code>StringOrTag</code></a>
+      <h4>v1.0.0-beta.0
 
-const dm = Documentalist.create();
-const docs = dm.documentGlobs(&quot;src/**/*&quot;);
+      </h4>
+      <div class="copyright">&copy; Copyright 2017-present Palantir</div>
+    </div>
+    <div id="content"></div>
+    <article data-route="_nav" hidden="hidden">
+      <blockquote>
+        <p>page: <code>docs</code></p>
+      </blockquote>
+    </article>
+    <article data-route="docs" hidden="hidden"><h1 id="documentalist">Documentalist</h1>
+<blockquote>
+<p>A sort-of-static site generator optimized for living documentation of software projects.</p>
+</blockquote>
+<p><a href="https://www.npmjs.com/package/documentalist"><img src="https://img.shields.io/npm/v/documentalist.svg" alt="npm"></a>
+<a href="https://circleci.com/gh/palantir/documentalist"><img src="https://circleci.com/gh/palantir/documentalist.svg?style=shield&amp;circle-token=1dbd27fe833e64bafb3e8de8ee111a2aee9bb79d" alt="CircleCI"></a></p>
+<h2 id="documentalism-101">Documentalism 101</h2>
+<p>Documentalism is a two-step process:</p>
+<ol>
+<li>Get the data.</li>
+<li>Render the data.</li>
+</ol>
+<p><code>Documentalist</code> is an extensible solution to step 1: it helps you get all your data in one place, in a consistent format.
+Configure <code>Documentalist</code> with plugins to extract documentation data from source files, then feed it a glob of files
+and <code>await</code> your magical blob of documentation data!</p>
+<h2 id="1-get-the-data">1. Get the data</h2>
+<p><code>Documentalist</code> comes with plugins for the following languages:</p>
+<ul>
+<li><strong>Markdown</strong> &mdash; longform documentation and overall structure.</li>
+<li><strong>TypeScript</strong> &mdash; JSDoc comments in TypeScript source code.</li>
+<li><strong>Stylesheets</strong> &mdash; KSS examples for HTML markup and CSS modifiers.</li>
+</ul>
+<h3 id="node">Node</h3>
+<p>Register plugins with <code>.use(pattern, plugin)</code>. Supply a <code>pattern</code> to match files against; matched files will be compiled by the <code>plugin</code>. Documentation data will be collected into a single blob and can be easily written to a file or fed into another tool.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> { Documentalist, MarkdownPlugin, TypescriptPlugin } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"documentalist"</span>);
+<span class="hljs-keyword">const</span> { writeFileSync } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"fs"</span>);
 
-writeFileSync(&quot;docs.json&quot;, JSON.stringify(docs, null, 2));
+<span class="hljs-keyword">new</span> Documentalist()
+  .use(<span class="hljs-string">".md"</span>, <span class="hljs-keyword">new</span> MarkdownPlugin())
+  .use(<span class="hljs-regexp">/\.tsx?$/</span>, <span class="hljs-keyword">new</span> TypescriptPlugin({ <span class="hljs-attr">excludeNames</span>: [<span class="hljs-regexp">/I.+State$/</span>] }))
+  .documentGlobs(<span class="hljs-string">"src/**/*"</span>) <span class="hljs-comment">// ← async operation, returns a Promise</span>
+  .then(<span class="hljs-function"><span class="hljs-params">docs</span> =&gt;</span> <span class="hljs-built_in">JSON</span>.stringify(docs, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>))
+  .then(<span class="hljs-function"><span class="hljs-params">json</span> =&gt;</span> writeFileSync(<span class="hljs-string">"docs.json"</span>, json))
 </code></pre>
-<p>The documentalist object has the following API:</p>
 
-      <div class="interface-block" id="IApi">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentFiles</td>
-              <td class="prop-type" valign="top">
-                <pre>(files: IFile[]) =&gt; Promise&lt;T&gt;</pre><p>Iterates over all plugins, passing all matching files to each in turn.
+      <blockquote>
+        <div class="interface-block" id="Documentalist">
+          <h2 class="interface-title"><code><small>class</small> Documentalist</code></h2>
+          <h3>Constructor</h3>
+          <div class="interface-properties">
+            <table>
+              <tr>
+                <td class="prop-name" valign="top"><code>new Documentalist</code>
+                </td>
+                <td class="prop-type" valign="top">
+                  <div class="type-signature"><code>(options?: <a href="#ICompilerOptions">ICompilerOptions</a>, plugins?: Array&lt;<a href="#IPluginEntry">IPluginEntry</a>&lt;T&gt;&gt;) =&gt; <a href="#Documentalist">Documentalist</a></code>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <h3>Methods</h3>
+          <div class="interface-properties">
+            <table>
+              <tr>
+                <td class="prop-name" valign="top"><code>static </code><code>create</code>
+                </td>
+                <td class="prop-type" valign="top">
+                  <div class="type-signature"><code>(options?: <a href="#ICompilerOptions">ICompilerOptions</a>) =&gt; <a href="#Documentalist">Documentalist</a>&lt;{}&gt;</code>
+                  </div><p>Construct a new <code>Documentalist</code> instance with the provided options.
+This method lends itself particularly well to the chaining syntax:
+<code>Documentalist.create(options).use(...)</code>.</p>
+
+                </td>
+              </tr>
+              <tr>
+                <td class="prop-name" valign="top"><code>clearPlugins</code>
+                </td>
+                <td class="prop-type" valign="top">
+                  <div class="type-signature"><code>() =&gt; <a href="#Documentalist">Documentalist</a>&lt;{}&gt;</code>
+                  </div><p>Returns a new instance of Documentalist with no plugins.</p>
+
+                </td>
+              </tr>
+              <tr>
+                <td class="prop-name" valign="top"><code>documentFiles</code>
+                </td>
+                <td class="prop-type" valign="top">
+                  <div class="type-signature"><code>(files: <a href="#IFile">IFile</a>[]) =&gt; Promise&lt;T&gt;</code>
+                  </div><p>Iterates over all plugins, passing all matching files to each in turn.
 The output of each plugin is merged to produce the resulting
 documentation object.</p>
-<p>The return type T is a composite type has a composite type of all the
-plugin data types.</p>
+<p>The return type <code>T</code> is a union of each plugin&#39;s data type.</p>
 
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">documentGlobs</td>
-              <td class="prop-type" valign="top">
-                <pre>(...filesGlobs: string[]) =&gt; Promise&lt;T&gt;</pre><p>Finds all files matching the provided variadic glob expressions and then
+                </td>
+              </tr>
+              <tr>
+                <td class="prop-name" valign="top"><code>documentGlobs</code>
+                </td>
+                <td class="prop-type" valign="top">
+                  <div class="type-signature"><code>(...filesGlobs: string[]) =&gt; Promise&lt;T&gt;</code>
+                  </div><p>Finds all files matching the provided variadic glob expressions and then
 runs <code>documentFiles</code> with them, emitting all the documentation data.</p>
-[object Object]
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">use</td>
-              <td class="prop-type" valign="top">
-                <pre>(pattern: RegExp | string, plugin: IPlugin&lt;P&gt;) =&gt; IApi&lt;T &amp; P&gt;</pre><p>Adds the plugin to Documentalist. Returns a new instance of Documentalist
+
+                </td>
+              </tr>
+              <tr>
+                <td class="prop-name" valign="top"><code>use</code>
+                </td>
+                <td class="prop-type" valign="top">
+                  <div class="type-signature"><code>(pattern: RegExp | string, plugin: <a href="#IPlugin">IPlugin</a>&lt;P&gt;) =&gt; <a href="#Documentalist">Documentalist</a>&lt;T &amp; P&gt;</code>
+                  </div><p>Adds the plugin to Documentalist. Returns a new instance of Documentalist
 with a template type that includes the data from the plugin. This way the
 <code>documentFiles</code> and <code>documentGlobs</code> methods will return an object that is
 already typed to include each plugin&#39;s output.</p>
 <p>The plugin is applied to all files whose absolute path matches the
 supplied pattern.</p>
-[object Object][object Object][object Object]
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">clearPlugins</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>() =&gt; IApi&lt;{}&gt;</pre><p>Returns a new instance of Documentalist with no plugins.</p>
 
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </blockquote><h3 id="cli">CLI</h3>
+<p>On the command line, the Markdown and Typescript plugins are enabled by default.
+The CSS plugin can be enabled with <code>--css</code>. Plugins can be disabled with the <code>no-</code> prefix.</p>
+<blockquote>
+<p><strong>Options are not supported</strong> via the command line interface :sob:.</p>
+</blockquote>
+<pre><code class="lang-sh">documentalist <span class="hljs-string">"src/**/*"</span> --css --no-ts &gt; docs.json
+</code></pre>
+<h3 id="plugins">Plugins</h3>
+<p>Documentalist uses a plugin architecture to support arbitrary file types.
+Use your own plugins by passing them to <code>dm.use(pattern, plugin)</code> with a
+pattern to match against source files. The collected matched files will
+be passed to your plugin&#39;s <code>compile</code> function, along with a <code>compiler</code>
+instance that can be used to render blocks of markdown text.</p>
+
+      <blockquote>
+        <div class="interface-block" id="IPlugin">
+          <h2 class="interface-title"><code><small>interface</small> IPlugin</code></h2><p>A Documentalist plugin is an object with a <code>compile(files, compiler)</code> function
+that returns a data object (or a promise for that object).</p>
+<p>A common pattern is to define a class that implements this interface and use the constructor
+to accept options.</p>
+<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { ICompiler, IFile, IPlugin } <span class="hljs-keyword">from</span> <span class="hljs-string">"documentalist/client"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> MyData {
+    pluginName: { ... }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> MyOptions {
+    ...
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> MyPlugin <span class="hljs-keyword">implements</span> IPlugin&lt;MyData&gt; {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">constructor</span>(<span class="hljs-params">options: MyOptions = {}</span>) {}
+
+    <span class="hljs-keyword">public</span> compile(files: IFile[], compiler: ICompiler) {
+        <span class="hljs-keyword">return</span> files.map(transformToMyData);
+    }
+}
+</code></pre>
+
+          <h3>Methods</h3>
+          <div class="interface-properties">
+            <table>
+              <tr>
+                <td class="prop-name" valign="top"><code>compile</code>
+                </td>
+                <td class="prop-type" valign="top">
+                  <div class="type-signature"><code>(files: <a href="#IFile">IFile</a>[], compiler: <a href="#ICompiler">ICompiler</a>) =&gt; T | Promise&lt;T&gt;</code>
                   </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </blockquote><h2 id="2-render-the-data">2. Render the data</h2>
+<p>Now that you&#39;ve got a sweet data file packed with documentation goodness, what next?</p>
+<p>Well, you&#39;ve got some options. This package does not provide the tools to render the data, but they&#39;re fairly easy to construct once you understand the data format.</p>
+<ul>
+<li>Check out the <a href="https://github.com/palantir/documentalist/tree/master/theme"><code>theme/</code></a> directory here for our simple Pug template that renders the <a href="http://palantir.github.io/documentalist">GitHub Pages site</a>.</li>
+<li>Blueprint publishes a React theme in the <a href="https://www.npmjs.com/package/@blueprintjs/docs"><code>@blueprintjs/docs-theme</code></a> package (the same one that powers <a href="http://blueprintjs.com/docs">http://blueprintjs.com/docs</a>).</li>
+</ul>
+<h2 id="license">License</h2>
+<p>This project is made available under the <a href="https://github.com/palantir/documentalist/blob/master/LICENSE">BSD License</a>
+and includes a <a href="https://github.com/palantir/documentalist/blob/master/PATENTS">Patent Grant</a>.</p>
+
+    </article>
+    <section data-route="Compiler" hidden="hidden">
+      <div class="interface-block" id="Compiler">
+        <h2 class="interface-title"><code><small>class</small> Compiler<small> implements <a href="#ICompiler">ICompiler</a></small></code></h2>
+        <h3>Constructor</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>new Compiler</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(options: <a href="#ICompilerOptions">ICompilerOptions</a>) =&gt; <a href="#Compiler">Compiler</a></code>
+                </div>
               </td>
             </tr>
           </table>
         </div>
-      </div><h3 id="plugins">Plugins</h3>
-<p>Documentalist uses a plugin architecture to support arbitrary file types.</p>
-
-  </div>
-  <div class="hidden" data-route="IBlock">
-    <h2>IBlock</h2>
-      <div class="interface-block" id="IBlock"><p>The output of <code>renderBlock</code> which parses a long form documentation block into
-metadata, rendered markdown, and tags.</p>
-
+        <h3>Methods</h3>
         <div class="interface-properties">
           <table>
             <tr>
-              <td class="prop-name" valign="top">contents</td>
+              <td class="prop-name" valign="top"><code>objectify</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>StringOrTag[]</pre><p>Parsed nodes of source file. An array of markdown-rendered HTML strings or <code>@tag</code> objects.</p>
-
+                <div class="type-signature"><code>(array: T[], getKey: (item: T) =&gt; string) =&gt; { [key: string]: T }</code>
+                </div>
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">contentsRaw</td>
+              <td class="prop-name" valign="top"><code>renderBlock</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>string</pre><p>Raw unmodified contents of source file (excluding the metadata).</p>
-
+                <div class="type-signature"><code>(blockContent: string, reservedTagWords?: undefined | string[]) =&gt; <a href="#IBlock">IBlock</a></code>
+                </div>
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">metadata</td>
+              <td class="prop-name" valign="top"><code>renderMarkdown</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>IMetadata</pre><p>Arbitrary YAML metadata parsed from front matter of source file, if any, or <code>{}</code>.</p>
-
+                <div class="type-signature"><code>(markdown: string) =&gt; string</code>
+                </div>
               </td>
             </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
           </table>
         </div>
       </div>
-  </div>
-  <div class="hidden" data-route="IHeadingNode">
-    <h2>IHeadingNode</h2>
-      <div class="interface-block" id="IHeadingNode"><p>An <code>@#+</code> tag belongs to a specific page.</p>
-
+    </section>
+    <section data-route="Documentalist" hidden="hidden">
+      <div class="interface-block" id="Documentalist">
+        <h2 class="interface-title"><code><small>class</small> Documentalist</code></h2>
+        <h3>Constructor</h3>
         <div class="interface-properties">
           <table>
             <tr>
-              <td class="prop-name" valign="top">level</td>
-              <td class="prop-type" valign="top">
-                <pre>number</pre><p>Level of heading, from 1-6. Dictates which <code>&lt;h#&gt;</code> tag to render.</p>
-
+              <td class="prop-name" valign="top"><code>new Documentalist</code>
               </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">route</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre><p>Fully-qualified route of the heading, which can be used as anchor <code>href</code>.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">title</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Display title of page heading.</p>
-
+                <div class="type-signature"><code>(options?: <a href="#ICompilerOptions">ICompilerOptions</a>, plugins?: Array&lt;<a href="#IPluginEntry">IPluginEntry</a>&lt;T&gt;&gt;) =&gt; <a href="#Documentalist">Documentalist</a></code>
+                </div>
               </td>
             </tr>
           </table>
         </div>
+        <h3>Methods</h3>
         <div class="interface-properties">
           <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>static </code><code>create</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(options?: <a href="#ICompilerOptions">ICompilerOptions</a>) =&gt; <a href="#Documentalist">Documentalist</a>&lt;{}&gt;</code>
+                </div><p>Construct a new <code>Documentalist</code> instance with the provided options.
+This method lends itself particularly well to the chaining syntax:
+<code>Documentalist.create(options).use(...)</code>.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>clearPlugins</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>() =&gt; <a href="#Documentalist">Documentalist</a>&lt;{}&gt;</code>
+                </div><p>Returns a new instance of Documentalist with no plugins.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>documentFiles</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(files: <a href="#IFile">IFile</a>[]) =&gt; Promise&lt;T&gt;</code>
+                </div><p>Iterates over all plugins, passing all matching files to each in turn.
+The output of each plugin is merged to produce the resulting
+documentation object.</p>
+<p>The return type <code>T</code> is a union of each plugin&#39;s data type.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>documentGlobs</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(...filesGlobs: string[]) =&gt; Promise&lt;T&gt;</code>
+                </div><p>Finds all files matching the provided variadic glob expressions and then
+runs <code>documentFiles</code> with them, emitting all the documentation data.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>use</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(pattern: RegExp | string, plugin: <a href="#IPlugin">IPlugin</a>&lt;P&gt;) =&gt; <a href="#Documentalist">Documentalist</a>&lt;T &amp; P&gt;</code>
+                </div><p>Adds the plugin to Documentalist. Returns a new instance of Documentalist
+with a template type that includes the data from the plugin. This way the
+<code>documentFiles</code> and <code>documentGlobs</code> methods will return an object that is
+already typed to include each plugin&#39;s output.</p>
+<p>The plugin is applied to all files whose absolute path matches the
+supplied pattern.</p>
+
+              </td>
+            </tr>
           </table>
         </div>
       </div>
-  </div>
-  <div class="hidden" data-route="IHeadingTag">
-    <h2>IHeadingTag</h2>
-      <div class="interface-block" id="IHeadingTag"><p>Represents a single <code>@#+ &lt;value&gt;</code> heading tag from a file. Note that all <code>@#+</code> tags
+    </section>
+    <section data-route="PageMap" hidden="hidden">
+      <div class="interface-block" id="PageMap">
+        <h2 class="interface-title"><code><small>class</small> PageMap</code></h2>
+        <h3>Methods</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>get</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(id: string) =&gt; undefined | <a href="#IPageData">IPageData</a></code>
+                </div><p>Returns the page with the given ID or <code>undefined</code> if not found.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>pages</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>() =&gt; IterableIterator&lt;<a href="#IPageData">IPageData</a>&gt;</code>
+                </div><p>Returns an iterator for all the pages (values) in the map.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>remove</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(id: string) =&gt; undefined | <a href="#IPageData">IPageData</a></code>
+                </div><p>Removes the page with the given ID and returns it or <code>undefined</code> if not found.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>set</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(id: string, page: <a href="#IPageData">IPageData</a>) =&gt; void</code>
+                </div><p>Sets the page data at the given ID, when you already have a full page object.
+Warns if a page with this ID already exists.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>toObject</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>() =&gt; { [key: string]: <a href="#IPageData">IPageData</a> }</code>
+                </div><p>Returns a JS object mapping page IDs to data.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>toTree</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(id: string, depth?: number) =&gt; <a href="#IPageNode">IPageNode</a></code>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="MarkdownPlugin" hidden="hidden">
+      <div class="interface-block" id="MarkdownPlugin">
+        <h2 class="interface-title"><code><small>class</small> MarkdownPlugin<small> implements <a href="#IPlugin">IPlugin</a>&lt;<a href="#IMarkdownPluginData">IMarkdownPluginData</a>&gt;</small></code></h2><p>The <code>MarkdownPlugin</code> parses and renders markdown pages and produces a navigation tree of all documents.
+This plugin traces <code>@page</code> and <code>@#+</code> &quot;heading&quot; tags to discover pages (given a single starting <code>navPage</code>)
+and build up a tree representation of those pages.</p>
+
+        <blockquote>
+          <p>see: <code><a href="#IPageData">IPageData</a> (rendered markdown page)</code></p>
+        </blockquote>
+        <blockquote>
+          <p>see: <code><a href="#IPageNode">IPageNode</a> (node in navigation tree)</code></p>
+        </blockquote>
+        <h3>Constructor</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>new MarkdownPlugin</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(options?: Partial&lt;<a href="#IMarkdownPluginOptions">IMarkdownPluginOptions</a>&gt;) =&gt; <a href="#MarkdownPlugin">MarkdownPlugin</a></code>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <h3>Methods</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>compile</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(markdownFiles: <a href="#IFile">IFile</a>[], compiler: <a href="#ICompiler">ICompiler</a>) =&gt; <a href="#IMarkdownPluginData">IMarkdownPluginData</a></code>
+                </div><p>Reads the given set of markdown files and adds their data to the internal storage.
+Returns a plain object mapping page references to their data.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="Visitor" hidden="hidden">
+      <div class="interface-block" id="Visitor">
+        <h2 class="interface-title"><code><small>class</small> Visitor</code></h2>
+        <h3>Constructor</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>new Visitor</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(compiler: <a href="#ICompiler">ICompiler</a>, options: <a href="#ITypescriptPluginOptions">ITypescriptPluginOptions</a>) =&gt; <a href="#Visitor">Visitor</a></code>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <h3>Methods</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>visitProject</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(project: ProjectReflection) =&gt; (<a href="#ITsClass">ITsClass</a> | <a href="#ITsInterface">ITsInterface</a> | <a href="#ITsEnum">ITsEnum</a> | <a href="#ITsTypeAlias">ITsTypeAlias</a>)[]</code>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="TypescriptPlugin" hidden="hidden">
+      <div class="interface-block" id="TypescriptPlugin">
+        <h2 class="interface-title"><code><small>class</small> TypescriptPlugin<small> implements <a href="#IPlugin">IPlugin</a>&lt;<a href="#ITypescriptPluginData">ITypescriptPluginData</a>&gt;</small></code></h2>
+        <h3>Constructor</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>new TypescriptPlugin</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(options?: <a href="#ITypescriptPluginOptions">ITypescriptPluginOptions</a>) =&gt; <a href="#TypescriptPlugin">TypescriptPlugin</a></code>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <h3>Methods</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>compile</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(files: <a href="#IFile">IFile</a>[], compiler: <a href="#ICompiler">ICompiler</a>) =&gt; <a href="#ITypescriptPluginData">ITypescriptPluginData</a></code>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="KssPlugin" hidden="hidden">
+      <div class="interface-block" id="KssPlugin">
+        <h2 class="interface-title"><code><small>class</small> KssPlugin<small> implements <a href="#IPlugin">IPlugin</a>&lt;<a href="#IKssPluginData">IKssPluginData</a>&gt;</small></code></h2><p>The <code>KSSPlugin</code> extracts <a href="http://warpspire.com/kss/syntax/">KSS doc comments</a> from CSS code (or similar languages).
+It emits an object keyed by the &quot;styleguide [ref]&quot; section of the comment. The documentation, markup, and modifiers
+sections will all be emitted in the data.</p>
+
+        <blockquote>
+          <p>see: <code><a href="#IKssExample">IKssExample</a></code></p>
+        </blockquote>
+        <h3>Constructor</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>new KssPlugin</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(options?: Options) =&gt; <a href="#KssPlugin">KssPlugin</a></code>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <h3>Methods</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>compile</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(cssFiles: <a href="#IFile">IFile</a>[], dm: <a href="#ICompiler">ICompiler</a>) =&gt; <a href="#IKssPluginData">IKssPluginData</a></code>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITsDocBase" hidden="hidden">
+      <div class="interface-block" id="ITsDocBase">
+        <h2 class="interface-title"><code><small>interface</small> ITsDocBase</code></h2><p>Base type for all typescript documentation members.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>documentation</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#IBlock">IBlock</a></code>
+                </div><p>Compiled documentation: <code>contents</code> field contains an array of markdown strings or <code>@tag value</code> objects.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>fileName</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code>
+                </div><p>Original file name in which this member originated.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>flags</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsFlags">ITsFlags</a></code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>kind</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#Kind">Kind</a></code>
+                </div><p>Type brand indicating kind of member; type guards will reveal further information about it.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>name</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Name of this member in code, also used as its identifiers in the data store.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITag" hidden="hidden">
+      <div class="interface-block" id="ITag">
+        <h2 class="interface-title"><code><small>interface</small> ITag</code></h2><p>Represents a single <code>@tag &lt;value&gt;</code> line from a file.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>tag</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Tag name.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>value</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Tag value, exactly as written in source.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="INavigable" hidden="hidden">
+      <div class="interface-block" id="INavigable">
+        <h2 class="interface-title"><code><small>interface</small> INavigable</code></h2><p>The basic components of a navigable resource: a &quot;route&quot; at which it can be accessed and
+its depth in the layout hierarchy. Heading tags and hierarchy nodes both extend this interface.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>level</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>number</code>
+                </div><p>Level of heading, from 1-6. Dictates which <code>&lt;h#&gt;</code> tag to render.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>route</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Fully-qualified route of the heading, which can be used as anchor <code>href</code>.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="IHeadingTag" hidden="hidden">
+      <div class="interface-block" id="IHeadingTag">
+        <h2 class="interface-title"><code><small>interface</small> IHeadingTag<small> extends <a href="#ITag">ITag</a>, <a href="#INavigable">INavigable</a></small></code></h2><p>Represents a single <code>@#+ &lt;value&gt;</code> heading tag from a file. Note that all <code>@#+</code> tags
 (<code>@#</code> through <code>@######</code>) are emitted as <code>tag: &quot;heading&quot;</code> so only one renderer is necessary to
 capture all six levels.</p>
 <p>Heading tags include additional information over regular tags: fully-qualified <code>route</code> of the
 heading (which can be used as anchor <code>href</code>), and <code>level</code> to determine which <code>&lt;h#&gt;</code> tag to use.</p>
 
+        <h3>Properties</h3>
         <div class="interface-properties">
           <table>
             <tr>
-              <td class="prop-name" valign="top">level</td>
+              <td class="prop-name" valign="top"><code>level</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>number</pre><p>Level of heading, from 1-6. Dictates which <code>&lt;h#&gt;</code> tag to render.</p>
+                <div class="type-signature"><code>number</code><small><em>Inherited from <code><a href="#INavigable">INavigable</a>.level</code></em></small>
+                </div><p>Level of heading, from 1-6. Dictates which <code>&lt;h#&gt;</code> tag to render.</p>
 
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">route</td>
+              <td class="prop-name" valign="top"><code>route</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>string</pre><p>Fully-qualified route of the heading, which can be used as anchor <code>href</code>.</p>
+                <div class="type-signature"><code>string</code><small><em>Inherited from <code><a href="#INavigable">INavigable</a>.route</code></em></small>
+                </div><p>Fully-qualified route of the heading, which can be used as anchor <code>href</code>.</p>
 
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">tag</td>
+              <td class="prop-name" valign="top"><code>tag</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>?</pre>
+                <div class="type-signature"><code>&quot;heading&quot;</code>
+                </div>
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">value</td>
+              <td class="prop-name" valign="top"><code>value</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>string</pre><p>Tag value, exactly as written in source.</p>
+                <div class="type-signature"><code>string</code><small><em>Inherited from <code><a href="#ITag">ITag</a>.value</code></em></small>
+                </div><p>Tag value, exactly as written in source.</p>
 
               </td>
             </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
           </table>
         </div>
       </div>
-  </div>
-  <div class="hidden" data-route="IMetadata">
-    <h2>IMetadata</h2>
-      <div class="interface-block" id="IMetadata"><p>Metadata is parsed from YAML front matter in files and can contain arbitrary data.
+    </section>
+    <section data-route="ICompiler" hidden="hidden">
+      <div class="interface-block" id="ICompiler">
+        <h2 class="interface-title"><code><small>interface</small> ICompiler</code></h2><p>Each plugin receives a <code>Compiler</code> instance to aid in the processing of source files.</p>
+
+        <h3>Methods</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>objectify</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(array: T[], getKey: (item: T) =&gt; string) =&gt; { [key: string]: T }</code>
+                </div><p>Converts an array of entries into a map of key to entry, using given
+callback to extract key from each item.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>renderBlock</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(blockContent: string, reservedTagWords?: string[]) =&gt; <a href="#IBlock">IBlock</a></code>
+                </div><p>Render a block of content by extracting metadata (YAML front matter) and
+splitting text content into markdown-rendered HTML strings and <code>{ tag,
+value }</code> objects.</p>
+<p>To prevent special strings like &quot;@include&quot; from being parsed, a reserved
+tag words array may be provided, in which case the line will be left as
+is.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>renderMarkdown</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(markdown: string) =&gt; string</code>
+                </div><p>Render a string of markdown to HTML, using the options from <code>Documentalist</code>.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="IMetadata" hidden="hidden">
+      <div class="interface-block" id="IMetadata">
+        <h2 class="interface-title"><code><small>interface</small> IMetadata</code></h2><p>Metadata is parsed from YAML front matter in files and can contain arbitrary data.
 A few keys are understood by Documentalist and, if defined in front matter,
 will override default behavior.</p>
 <pre><code class="lang-md">---
@@ -280,1064 +752,1421 @@ reference: overview
 actual contents of file...
 </code></pre>
 
+        <h3>Properties</h3>
         <div class="interface-properties">
           <table>
             <tr>
-              <td class="prop-name" valign="top">reference</td>
-              <td class="prop-type" valign="top">
-                <pre>undefined | string</pre><p>Unique ID for addressing this page.</p>
-[object Object]
+              <td class="prop-name" valign="top"><code>reference</code>
               </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">title</td>
               <td class="prop-type" valign="top">
-                <pre>undefined | string</pre><p>Human-friendly title of this page, for display in the UI.</p>
-[object Object]
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="INavigable">
-    <h2>INavigable</h2>
-      <div class="interface-block" id="INavigable"><p>The basic components of a navigable resource: a &quot;route&quot; at which it can be accessed and
-its depth in the layout hierarchy. Heading tags and hierarchy nodes both extend this interface.</p>
-
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">level</td>
-              <td class="prop-type" valign="top">
-                <pre>number</pre><p>Level of heading, from 1-6. Dictates which <code>&lt;h#&gt;</code> tag to render.</p>
+                <div class="type-signature"><code>undefined | string<em> = filename without extension</em></code>
+                </div><p>Unique ID for addressing this page.</p>
 
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">route</td>
+              <td class="prop-name" valign="top"><code>title</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>string</pre><p>Fully-qualified route of the heading, which can be used as anchor <code>href</code>.</p>
+                <div class="type-signature"><code>undefined | string<em> = value of first `@#` tag</em></code>
+                </div><p>Human-friendly title of this page, for display in the UI.</p>
 
               </td>
             </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IPageData">
-    <h2>IPageData</h2>
-      <div class="interface-block" id="IPageData"><p>A single Documentalist page, parsed from a single source file.</p>
-
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">contents</td>
-              <td class="prop-type" valign="top">
-                <pre>StringOrTag[]</pre><p>Parsed nodes of source file. An array of markdown-rendered HTML strings or <code>@tag</code> objects.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">contentsRaw</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Raw unmodified contents of source file (excluding the metadata).</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">metadata</td>
-              <td class="prop-type" valign="top">
-                <pre>IMetadata</pre><p>Arbitrary YAML metadata parsed from front matter of source file, if any, or <code>{}</code>.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">reference</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Unique identifier for addressing this page.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">route</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Fully qualified route to this page: slash-separated references of all parent pages.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">title</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Human-friendly title of this page.</p>
-
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IPageNode">
-    <h2>IPageNode</h2>
-      <div class="interface-block" id="IPageNode"><p>A page has ordered children composed of <code>@#+</code> and <code>@page</code> tags.</p>
-
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">children</td>
-              <td class="prop-type" valign="top">
-                <pre>Array&lt;IPageNode | IHeadingNode&gt;</pre><p>Ordered list of pages and headings that appear on this page.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">level</td>
-              <td class="prop-type" valign="top">
-                <pre>number</pre><p>Level of heading, from 1-6. Dictates which <code>&lt;h#&gt;</code> tag to render.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">reference</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Unique reference of this page, used for retrieval from store.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">route</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Fully-qualified route of the heading, which can be used as anchor <code>href</code>.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">title</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Display title of page heading.</p>
-
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITag">
-    <h2>ITag</h2>
-      <div class="interface-block" id="ITag"><p>Represents a single <code>@tag &lt;value&gt;</code> line from a file.</p>
-
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">tag</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Tag name.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">value</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Tag value, exactly as written in source.</p>
-
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
           </table>
         </div>
       </div>
-  </div>
-  <div class="hidden" data-route="IKssExample">
-    <h2>IKssExample</h2>
-      <div class="interface-block" id="IKssExample"><p>A markup/modifiers example parsed from a KSS comment block.</p>
+    </section>
+    <section data-route="IBlock" hidden="hidden">
+      <div class="interface-block" id="IBlock">
+        <h2 class="interface-title"><code><small>interface</small> IBlock</code></h2><p>The output of <code>renderBlock</code> which parses a long form documentation block into
+metadata, rendered markdown, and tags.</p>
 
+        <h3>Properties</h3>
         <div class="interface-properties">
           <table>
             <tr>
-              <td class="prop-name" valign="top">documentation</td>
+              <td class="prop-name" valign="top"><code>contents</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>string</pre><p>Raw documentation string.</p>
+                <div class="type-signature"><code><a href="#StringOrTag">StringOrTag</a>[]</code>
+                </div><p>Parsed nodes of source file. An array of markdown-rendered HTML strings or <code>@tag</code> objects.</p>
 
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">markup</td>
+              <td class="prop-name" valign="top"><code>contentsRaw</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>string</pre><p>Raw HTML markup for example with <code>{{.modifier}}</code> templates,
+                <div class="type-signature"><code>string</code>
+                </div><p>Raw unmodified contents of source file (excluding the metadata).</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>metadata</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#IMetadata">IMetadata</a></code>
+                </div><p>Arbitrary YAML metadata parsed from front matter of source file, if any, or <code>{}</code>.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="IKssModifier" hidden="hidden">
+      <div class="interface-block" id="IKssModifier">
+        <h2 class="interface-title"><code><small>interface</small> IKssModifier</code></h2><p>A single modifier for an example.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>documentation</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>name</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="IKssExample" hidden="hidden">
+      <div class="interface-block" id="IKssExample">
+        <h2 class="interface-title"><code><small>interface</small> IKssExample</code></h2><p>A markup/modifiers example parsed from a KSS comment block.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>documentation</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Raw documentation string.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>markup</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Raw HTML markup for example with <code>{{.modifier}}</code> templates,
 to be used to render the markup for each modifier.</p>
 
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">markupHtml</td>
+              <td class="prop-name" valign="top"><code>markupHtml</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>string</pre><p>Syntax-highlighted version of the markup HTML, to be used
+                <div class="type-signature"><code>string</code>
+                </div><p>Syntax-highlighted version of the markup HTML, to be used
 for rendering the markup itself with pretty colors.</p>
 
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">modifiers</td>
+              <td class="prop-name" valign="top"><code>modifiers</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>IKssModifier[]</pre><p>Array of modifiers supported by HTML markup.</p>
+                <div class="type-signature"><code><a href="#IKssModifier">IKssModifier</a>[]</code>
+                </div><p>Array of modifiers supported by HTML markup.</p>
 
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">reference</td>
+              <td class="prop-name" valign="top"><code>reference</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>string</pre><p>Unique reference for addressing this example.</p>
+                <div class="type-signature"><code>string</code>
+                </div><p>Unique reference for addressing this example.</p>
 
               </td>
             </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
           </table>
         </div>
       </div>
-  </div>
-  <div class="hidden" data-route="IKssModifier">
-    <h2>IKssModifier</h2>
-      <div class="interface-block" id="IKssModifier"><p>A single modifier for an example.</p>
-
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">name</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IKssPluginData">
-    <h2>IKssPluginData</h2>
+    </section>
+    <section data-route="IKssPluginData" hidden="hidden">
       <div class="interface-block" id="IKssPluginData">
+        <h2 class="interface-title"><code><small>interface</small> IKssPluginData</code></h2><p>The <code>KssPlugin</code> exports a <code>css</code> key that contains a map of styleguide references to markup/modifier examples.</p>
+
+        <blockquote>
+          <p>see: <code>KSSPlugin</code></p>
+        </blockquote>
+        <h3>Properties</h3>
         <div class="interface-properties">
           <table>
             <tr>
-              <td class="prop-name" valign="top">css</td>
+              <td class="prop-name" valign="top"><code>css</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>??</pre>
+                <div class="type-signature"><code>{ [reference: string]: <a href="#IKssExample">IKssExample</a> }</code>
+                </div>
               </td>
             </tr>
           </table>
         </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
       </div>
-  </div>
-  <div class="hidden" data-route="IMarkdownPluginData">
-    <h2>IMarkdownPluginData</h2>
+    </section>
+    <section data-route="IMarkdownPluginData" hidden="hidden">
       <div class="interface-block" id="IMarkdownPluginData">
+        <h2 class="interface-title"><code><small>interface</small> IMarkdownPluginData</code></h2><p>The <code>MarkdownPlugin</code> exports a map of markdown <code>pages</code> keyed by reference,
+and a multi-rooted <code>nav</code> tree of page nodes.</p>
+
+        <h3>Properties</h3>
         <div class="interface-properties">
           <table>
             <tr>
-              <td class="prop-name" valign="top">nav</td>
+              <td class="prop-name" valign="top"><code>nav</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>IPageNode[]</pre><p>An ordered, nested, multi-rooted tree describing the navigation layout
-of all the pages and their headings. Uses <code>@page</code> and <code>@#+</code> tags to build
-this representation.</p>
+                <div class="type-signature"><code><a href="#IPageNode">IPageNode</a>[]</code>
+                </div><p>An ordered, nested, multi-rooted tree describing the navigation layout
+of all the pages and their headings. The representation is constructued by
+tracing <code>@page</code> and <code>@#+</code> tags.</p>
 
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">pages</td>
+              <td class="prop-name" valign="top"><code>pages</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>??</pre><p>A map of page reference to data.</p>
+                <div class="type-signature"><code>{ [reference: string]: <a href="#IPageData">IPageData</a> }</code>
+                </div><p>A map of page reference to data.</p>
 
               </td>
             </tr>
           </table>
         </div>
+      </div>
+    </section>
+    <section data-route="IPageData" hidden="hidden">
+      <div class="interface-block" id="IPageData">
+        <h2 class="interface-title"><code><small>interface</small> IPageData<small> extends <a href="#IBlock">IBlock</a></small></code></h2><p>A single Documentalist page, parsed from a single source file.</p>
+
+        <h3>Properties</h3>
         <div class="interface-properties">
           <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>contents</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#StringOrTag">StringOrTag</a>[]</code><small><em>Inherited from <code><a href="#IBlock">IBlock</a>.contents</code></em></small>
+                </div><p>Parsed nodes of source file. An array of markdown-rendered HTML strings or <code>@tag</code> objects.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>contentsRaw</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code><small><em>Inherited from <code><a href="#IBlock">IBlock</a>.contentsRaw</code></em></small>
+                </div><p>Raw unmodified contents of source file (excluding the metadata).</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>metadata</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#IMetadata">IMetadata</a></code><small><em>Inherited from <code><a href="#IBlock">IBlock</a>.metadata</code></em></small>
+                </div><p>Arbitrary YAML metadata parsed from front matter of source file, if any, or <code>{}</code>.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>reference</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Unique identifier for addressing this page.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>route</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Fully qualified route to this page: slash-separated references of all parent pages.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>title</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Human-friendly title of this page.</p>
+
+              </td>
+            </tr>
           </table>
         </div>
       </div>
-  </div>
-  <div class="hidden" data-route="ITsClass">
-    <h2>ITsClass</h2>
-      <div class="interface-block" id="ITsClass">
+    </section>
+    <section data-route="IHeadingNode" hidden="hidden">
+      <div class="interface-block" id="IHeadingNode">
+        <h2 class="interface-title"><code><small>interface</small> IHeadingNode<small> extends <a href="#INavigable">INavigable</a></small></code></h2><p>An <code>@#+</code> tag belongs to a specific page.</p>
+
+        <h3>Properties</h3>
         <div class="interface-properties">
           <table>
             <tr>
-              <td class="prop-name" valign="top">documentation</td>
+              <td class="prop-name" valign="top"><code>level</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>IBlock</pre>
+                <div class="type-signature"><code>number</code><small><em>Inherited from <code><a href="#INavigable">INavigable</a>.level</code></em></small>
+                </div><p>Level of heading, from 1-6. Dictates which <code>&lt;h#&gt;</code> tag to render.</p>
+
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">extends</td>
+              <td class="prop-name" valign="top"><code>route</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>string[]</pre>
+                <div class="type-signature"><code>string</code><small><em>Inherited from <code><a href="#INavigable">INavigable</a>.route</code></em></small>
+                </div><p>Fully-qualified route of the heading, which can be used as anchor <code>href</code>.</p>
+
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">fileName</td>
+              <td class="prop-name" valign="top"><code>title</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
+                <div class="type-signature"><code>string</code>
+                </div><p>Display title of page heading.</p>
+
               </td>
             </tr>
-            <tr>
-              <td class="prop-name" valign="top">implements</td>
-              <td class="prop-type" valign="top">
-                <pre>string[]</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">kind</td>
-              <td class="prop-type" valign="top">
-                <pre>?</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">methods</td>
-              <td class="prop-type" valign="top">
-                <pre>ITsMethod[]</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">name</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">properties</td>
-              <td class="prop-type" valign="top">
-                <pre>ITsProperty[]</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITsDocType">
-    <h2>ITsDocType</h2>
-      <div class="interface-block" id="ITsDocType">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>IBlock</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">fileName</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">kind</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">name</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITsInterface">
-    <h2>ITsInterface</h2>
-      <div class="interface-block" id="ITsInterface">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>IBlock</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">extends</td>
-              <td class="prop-type" valign="top">
-                <pre>string[]</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">fileName</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">kind</td>
-              <td class="prop-type" valign="top">
-                <pre>?</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">methods</td>
-              <td class="prop-type" valign="top">
-                <pre>ITsMethod[]</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">name</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">properties</td>
-              <td class="prop-type" valign="top">
-                <pre>ITsProperty[]</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITsMethod">
-    <h2>ITsMethod</h2>
-      <div class="interface-block" id="ITsMethod">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>IBlock</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">fileName</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">kind</td>
-              <td class="prop-type" valign="top">
-                <pre>?</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">name</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">optional</td>
-              <td class="prop-type" valign="top">
-                <pre>undefined | true | false</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">signatures</td>
-              <td class="prop-type" valign="top">
-                <pre>ITsMethodSignature</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITsMethodSignature">
-    <h2>ITsMethodSignature</h2>
-      <div class="interface-block" id="ITsMethodSignature">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>IBlock</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">kind</td>
-              <td class="prop-type" valign="top">
-                <pre>?</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">parameters</td>
-              <td class="prop-type" valign="top">
-                <pre>ITsParameter[]</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">returnType</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">type</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
           </table>
         </div>
       </div>
-  </div>
-  <div class="hidden" data-route="ITsObjectDefinition">
-    <h2>ITsObjectDefinition</h2>
+    </section>
+    <section data-route="IPageNode" hidden="hidden">
+      <div class="interface-block" id="IPageNode">
+        <h2 class="interface-title"><code><small>interface</small> IPageNode<small> extends <a href="#IHeadingNode">IHeadingNode</a></small></code></h2><p>A page has ordered children composed of <code>@#+</code> and <code>@page</code> tags.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>children</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>Array&lt;<a href="#IPageNode">IPageNode</a> | <a href="#IHeadingNode">IHeadingNode</a>&gt;</code>
+                </div><p>Ordered list of pages and headings that appear on this page.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>level</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>number</code><small><em>Inherited from <code><a href="#INavigable">INavigable</a>.level</code></em></small>
+                </div><p>Level of heading, from 1-6. Dictates which <code>&lt;h#&gt;</code> tag to render.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>reference</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Unique reference of this page, used for retrieval from store.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>route</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code><small><em>Inherited from <code><a href="#INavigable">INavigable</a>.route</code></em></small>
+                </div><p>Fully-qualified route of the heading, which can be used as anchor <code>href</code>.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>title</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code><small><em>Inherited from <code><a href="#IHeadingNode">IHeadingNode</a>.title</code></em></small>
+                </div><p>Display title of page heading.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="IPlugin" hidden="hidden">
+      <div class="interface-block" id="IPlugin">
+        <h2 class="interface-title"><code><small>interface</small> IPlugin</code></h2><p>A Documentalist plugin is an object with a <code>compile(files, compiler)</code> function
+that returns a data object (or a promise for that object).</p>
+<p>A common pattern is to define a class that implements this interface and use the constructor
+to accept options.</p>
+<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { ICompiler, IFile, IPlugin } <span class="hljs-keyword">from</span> <span class="hljs-string">"documentalist/client"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> MyData {
+    pluginName: { ... }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> MyOptions {
+    ...
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> MyPlugin <span class="hljs-keyword">implements</span> IPlugin&lt;MyData&gt; {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">constructor</span>(<span class="hljs-params">options: MyOptions = {}</span>) {}
+
+    <span class="hljs-keyword">public</span> compile(files: IFile[], compiler: ICompiler) {
+        <span class="hljs-keyword">return</span> files.map(transformToMyData);
+    }
+}
+</code></pre>
+
+        <h3>Methods</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>compile</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>(files: <a href="#IFile">IFile</a>[], compiler: <a href="#ICompiler">ICompiler</a>) =&gt; T | Promise&lt;T&gt;</code>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="IFile" hidden="hidden">
+      <div class="interface-block" id="IFile">
+        <h2 class="interface-title"><code><small>interface</small> IFile</code></h2><p>Abstract representation of a file, containing absolute path and synchronous <code>read</code> operation.
+This allows plugins to use only the path of a file without reading it.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>path</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <h3>Methods</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>read</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>() =&gt; string</code>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITsFlags" hidden="hidden">
+      <div class="interface-block" id="ITsFlags">
+        <h2 class="interface-title"><code><small>interface</small> ITsFlags</code></h2><p>Compiler flags about this member.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>isDeprecated</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>boolean | string</code>
+                </div><p>This flag supports an optional message, typically used to include a version number.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>isExported</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | true | false</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>isExternal</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | true | false</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>isOptional</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | true | false</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>isPrivate</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | true | false</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>isProtected</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | true | false</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>isPublic</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | true | false</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>isRest</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | true | false</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>isStatic</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | true | false</code>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITsCallable" hidden="hidden">
+      <div class="interface-block" id="ITsCallable">
+        <h2 class="interface-title"><code><small>interface</small> ITsCallable</code></h2><p>Common type for a callable member, something that can be invoked.</p>
+
+        <blockquote>
+          <p>see: <code><a href="#ITsConstructor">ITsConstructor</a></code></p>
+        </blockquote>
+        <blockquote>
+          <p>see: <code><a href="#ITsMethod">ITsMethod</a></code></p>
+        </blockquote>
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>inheritedFrom</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code>
+                </div><p>Type name from which this method was inherited. Typically takes the form <code>Interface.member</code>.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>signatures</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsMethodSignature">ITsMethodSignature</a>[]</code>
+                </div><p>A method has at least one signature, which describes the parameters and return type and contains documentation.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITsDefaultValue" hidden="hidden">
+      <div class="interface-block" id="ITsDefaultValue">
+        <h2 class="interface-title"><code><small>interface</small> ITsDefaultValue</code></h2><p>Re-usable interface for Typescript members that support a notion of &quot;default value.&quot;</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>defaultValue</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code>
+                </div><p>The default value of this property, from an initializer or an <code>@default</code> tag.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITsObjectDefinition" hidden="hidden">
       <div class="interface-block" id="ITsObjectDefinition">
+        <h2 class="interface-title"><code><small>interface</small> ITsObjectDefinition</code></h2><p>Re-usable interface for Typescript members that look like objects.</p>
+
+        <h3>Properties</h3>
         <div class="interface-properties">
           <table>
             <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>IBlock</pre>
+              <td class="prop-name" valign="top"><code>extends</code>
               </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">fileName</td>
               <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">kind</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">methods</td>
-              <td class="prop-type" valign="top">
-                <pre>ITsMethod[]</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">name</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">properties</td>
-              <td class="prop-type" valign="top">
-                <pre>ITsProperty[]</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITsObjectMemberDefinition">
-    <h2>ITsObjectMemberDefinition</h2>
-      <div class="interface-block" id="ITsObjectMemberDefinition">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>IBlock</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">fileName</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">kind</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">name</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">optional</td>
-              <td class="prop-type" valign="top">
-                <pre>undefined | true | false</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITsParameter">
-    <h2>ITsParameter</h2>
-      <div class="interface-block" id="ITsParameter">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>IBlock</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">fileName</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">flags</td>
-              <td class="prop-type" valign="top">
-                <pre>any</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">kind</td>
-              <td class="prop-type" valign="top">
-                <pre>?</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">name</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">type</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITsProperty">
-    <h2>ITsProperty</h2>
-      <div class="interface-block" id="ITsProperty">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>IBlock</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">fileName</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">kind</td>
-              <td class="prop-type" valign="top">
-                <pre>?</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">name</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">optional</td>
-              <td class="prop-type" valign="top">
-                <pre>undefined | true | false</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">type</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITsType">
-    <h2>ITsType</h2>
-      <div class="interface-block" id="ITsType">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>IBlock</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">fileName</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">kind</td>
-              <td class="prop-type" valign="top">
-                <pre>?</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">name</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITsVariableAlias">
-    <h2>ITsVariableAlias</h2>
-      <div class="interface-block" id="ITsVariableAlias">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>IBlock</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">fileName</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">kind</td>
-              <td class="prop-type" valign="top">
-                <pre>?</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">name</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITypedocPluginData">
-    <h2>ITypedocPluginData</h2>
-      <div class="interface-block" id="ITypedocPluginData">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">typedoc</td>
-              <td class="prop-type" valign="top">
-                <pre>??</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITsDocEntry">
-    <h2>ITsDocEntry</h2>
-      <div class="interface-block" id="ITsDocEntry">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>IBlock</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">fileName</td>
-              <td class="prop-type" valign="top">
-                <pre>undefined | string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">name</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">tags</td>
-              <td class="prop-type" valign="top">
-                <pre>IJsDocTags</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">type</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITsInterfaceEntry">
-    <h2>ITsInterfaceEntry</h2>
-      <div class="interface-block" id="ITsInterfaceEntry">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>IBlock</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">extends</td>
-              <td class="prop-type" valign="top">
-                <pre>string[]</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">fileName</td>
-              <td class="prop-type" valign="top">
-                <pre>undefined | string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">name</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">properties</td>
-              <td class="prop-type" valign="top">
-                <pre>ITsPropertyEntry[]</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">tags</td>
-              <td class="prop-type" valign="top">
-                <pre>IJsDocTags</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">type</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITsPropertyEntry">
-    <h2>ITsPropertyEntry</h2>
-      <div class="interface-block" id="ITsPropertyEntry">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentation</td>
-              <td class="prop-type" valign="top">
-                <pre>IBlock</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">fileName</td>
-              <td class="prop-type" valign="top">
-                <pre>undefined | string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">name</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">optional</td>
-              <td class="prop-type" valign="top">
-                <pre>undefined | true | false</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">tags</td>
-              <td class="prop-type" valign="top">
-                <pre>IJsDocTags</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">type</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ITypescriptPluginData">
-    <h2>ITypescriptPluginData</h2>
-      <div class="interface-block" id="ITypescriptPluginData">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">ts</td>
-              <td class="prop-type" valign="top">
-                <pre>??</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="Compiler">
-    <h2>Compiler</h2>
-      <div class="interface-block" id="Compiler">
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">objectify</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(array: T[], getKey: (item: T) =&gt; string) =&gt; ??</pre>
-                  </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">renderBlock</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(blockContent: string, reservedTagWords: undefined | string[]) =&gt; IBlock</pre>
-                  </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">renderMarkdown</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(markdown: string) =&gt; string</pre>
-                  </div>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ICompilerOptions">
-    <h2>ICompilerOptions</h2>
-      <div class="interface-block" id="ICompilerOptions">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">markdown</td>
-              <td class="prop-type" valign="top">
-                <pre>MarkedOptions</pre><p>Options for markdown rendering. See <a href="https://github.com/chjj/marked#options-1">https://github.com/chjj/marked#options-1</a>.</p>
+                <div class="type-signature"><code>string[]</code>
+                </div><p>List of type strings that this definition <code>extends</code>.</p>
 
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">reservedTags</td>
+              <td class="prop-name" valign="top"><code>implements</code>
+              </td>
               <td class="prop-type" valign="top">
-                <pre>string[]</pre><p>Reserved @tags that should be preserved in the contents string.
+                <div class="type-signature"><code>string[]</code>
+                </div><p>List of type names that this definition <code>implements</code>.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>methods</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsMethod">ITsMethod</a>[]</code>
+                </div><p>Method members of this definiton.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>properties</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsProperty">ITsProperty</a>[]</code>
+                </div><p>Property members of this definition.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITsConstructor" hidden="hidden">
+      <div class="interface-block" id="ITsConstructor">
+        <h2 class="interface-title"><code><small>interface</small> ITsConstructor<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsCallable">ITsCallable</a></small></code></h2><p>Documentation for a class constructor. See <code>signatures</code> array for actual callable signatures and rendered docs.</p>
+
+        <blockquote>
+          <p>see: <code><a href="#ITsClass">ITsClass</a></code></p>
+        </blockquote>
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>documentation</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#IBlock">IBlock</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.documentation</code></em></small>
+                </div><p>Compiled documentation: <code>contents</code> field contains an array of markdown strings or <code>@tag value</code> objects.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>fileName</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.fileName</code></em></small>
+                </div><p>Original file name in which this member originated.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>flags</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsFlags">ITsFlags</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.flags</code></em></small>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>inheritedFrom</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code><small><em>Inherited from <code><a href="#ITsCallable">ITsCallable</a>.inheritedFrom</code></em></small>
+                </div><p>Type name from which this method was inherited. Typically takes the form <code>Interface.member</code>.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>kind</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#Kind">Kind</a>.Constructor</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>name</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.name</code></em></small>
+                </div><p>Name of this member in code, also used as its identifiers in the data store.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>signatures</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsMethodSignature">ITsMethodSignature</a>[]</code><small><em>Inherited from <code><a href="#ITsCallable">ITsCallable</a>.signatures</code></em></small>
+                </div><p>A method has at least one signature, which describes the parameters and return type and contains documentation.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITsMethod" hidden="hidden">
+      <div class="interface-block" id="ITsMethod">
+        <h2 class="interface-title"><code><small>interface</small> ITsMethod<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsCallable">ITsCallable</a></small></code></h2><p>Documentation for a method. See <code>signatures</code> array for actual callable signatures and rendered docs.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>documentation</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#IBlock">IBlock</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.documentation</code></em></small>
+                </div><p>Compiled documentation: <code>contents</code> field contains an array of markdown strings or <code>@tag value</code> objects.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>fileName</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.fileName</code></em></small>
+                </div><p>Original file name in which this member originated.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>flags</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsFlags">ITsFlags</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.flags</code></em></small>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>inheritedFrom</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code><small><em>Inherited from <code><a href="#ITsCallable">ITsCallable</a>.inheritedFrom</code></em></small>
+                </div><p>Type name from which this method was inherited. Typically takes the form <code>Interface.member</code>.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>kind</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#Kind">Kind</a>.Method</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>name</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.name</code></em></small>
+                </div><p>Name of this member in code, also used as its identifiers in the data store.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>signatures</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsMethodSignature">ITsMethodSignature</a>[]</code><small><em>Inherited from <code><a href="#ITsCallable">ITsCallable</a>.signatures</code></em></small>
+                </div><p>A method has at least one signature, which describes the parameters and return type and contains documentation.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITsMethodSignature" hidden="hidden">
+      <div class="interface-block" id="ITsMethodSignature">
+        <h2 class="interface-title"><code><small>interface</small> ITsMethodSignature<small> extends <a href="#ITsDocBase">ITsDocBase</a></small></code></h2><p>Documentation for a single method signature, including parameters, return type, and full type string.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>documentation</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#IBlock">IBlock</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.documentation</code></em></small>
+                </div><p>Compiled documentation: <code>contents</code> field contains an array of markdown strings or <code>@tag value</code> objects.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>fileName</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.fileName</code></em></small>
+                </div><p>Original file name in which this member originated.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>flags</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined</code>
+                </div><p>Method signatures do not have flags of their own. Flags can be found on the method itself and on each parameter.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>kind</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#Kind">Kind</a>.Signature</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>name</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.name</code></em></small>
+                </div><p>Name of this member in code, also used as its identifiers in the data store.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>parameters</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsMethodParameter">ITsMethodParameter</a>[]</code>
+                </div><p>Method parameters, each with their own docs and data.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>returnType</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Return type of the method.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>type</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Fully qualified type string describing this method, including parameters and return type.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITsMethodParameter" hidden="hidden">
+      <div class="interface-block" id="ITsMethodParameter">
+        <h2 class="interface-title"><code><small>interface</small> ITsMethodParameter<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsDefaultValue">ITsDefaultValue</a></small></code></h2><p>Documentation for a single parameter to a method signature.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>defaultValue</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code><small><em>Inherited from <code><a href="#ITsDefaultValue">ITsDefaultValue</a>.defaultValue</code></em></small>
+                </div><p>The default value of this property, from an initializer or an <code>@default</code> tag.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>documentation</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#IBlock">IBlock</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.documentation</code></em></small>
+                </div><p>Compiled documentation: <code>contents</code> field contains an array of markdown strings or <code>@tag value</code> objects.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>fileName</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.fileName</code></em></small>
+                </div><p>Original file name in which this member originated.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>flags</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsFlags">ITsFlags</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.flags</code></em></small>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>kind</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#Kind">Kind</a>.Parameter</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>name</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.name</code></em></small>
+                </div><p>Name of this member in code, also used as its identifiers in the data store.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>type</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Fully qualified type string describing this parameter.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITsProperty" hidden="hidden">
+      <div class="interface-block" id="ITsProperty">
+        <h2 class="interface-title"><code><small>interface</small> ITsProperty<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsDefaultValue">ITsDefaultValue</a></small></code></h2><p>Documentation for a property of an object, which may have a default value.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>defaultValue</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code><small><em>Inherited from <code><a href="#ITsDefaultValue">ITsDefaultValue</a>.defaultValue</code></em></small>
+                </div><p>The default value of this property, from an initializer or an <code>@default</code> tag.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>documentation</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#IBlock">IBlock</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.documentation</code></em></small>
+                </div><p>Compiled documentation: <code>contents</code> field contains an array of markdown strings or <code>@tag value</code> objects.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>fileName</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.fileName</code></em></small>
+                </div><p>Original file name in which this member originated.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>flags</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsFlags">ITsFlags</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.flags</code></em></small>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>inheritedFrom</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code>
+                </div><p>Type name from which this property was inherited. Typically takes the form <code>Interface.member</code>.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>kind</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#Kind">Kind</a>.Property</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>name</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.name</code></em></small>
+                </div><p>Name of this member in code, also used as its identifiers in the data store.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>type</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Type string describing of this property.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITsInterface" hidden="hidden">
+      <div class="interface-block" id="ITsInterface">
+        <h2 class="interface-title"><code><small>interface</small> ITsInterface<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsObjectDefinition">ITsObjectDefinition</a></small></code></h2><p>Documentation for an <code>interface</code> definition.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>documentation</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#IBlock">IBlock</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.documentation</code></em></small>
+                </div><p>Compiled documentation: <code>contents</code> field contains an array of markdown strings or <code>@tag value</code> objects.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>extends</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string[]</code><small><em>Inherited from <code><a href="#ITsObjectDefinition">ITsObjectDefinition</a>.extends</code></em></small>
+                </div><p>List of type strings that this definition <code>extends</code>.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>fileName</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.fileName</code></em></small>
+                </div><p>Original file name in which this member originated.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>flags</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsFlags">ITsFlags</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.flags</code></em></small>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>implements</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string[]</code><small><em>Inherited from <code><a href="#ITsObjectDefinition">ITsObjectDefinition</a>.implements</code></em></small>
+                </div><p>List of type names that this definition <code>implements</code>.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>kind</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#Kind">Kind</a>.Interface</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>methods</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsMethod">ITsMethod</a>[]</code><small><em>Inherited from <code><a href="#ITsObjectDefinition">ITsObjectDefinition</a>.methods</code></em></small>
+                </div><p>Method members of this definiton.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>name</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.name</code></em></small>
+                </div><p>Name of this member in code, also used as its identifiers in the data store.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>properties</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsProperty">ITsProperty</a>[]</code><small><em>Inherited from <code><a href="#ITsObjectDefinition">ITsObjectDefinition</a>.properties</code></em></small>
+                </div><p>Property members of this definition.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITsClass" hidden="hidden">
+      <div class="interface-block" id="ITsClass">
+        <h2 class="interface-title"><code><small>interface</small> ITsClass<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsObjectDefinition">ITsObjectDefinition</a></small></code></h2><p>Documentation for a <code>class</code> definition.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>constructorType</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsConstructor">ITsConstructor</a></code>
+                </div><p>Constructor signature of this class. Note the special name here, as <code>constructor</code> is a JavaScript keyword.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>documentation</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#IBlock">IBlock</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.documentation</code></em></small>
+                </div><p>Compiled documentation: <code>contents</code> field contains an array of markdown strings or <code>@tag value</code> objects.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>extends</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string[]</code><small><em>Inherited from <code><a href="#ITsObjectDefinition">ITsObjectDefinition</a>.extends</code></em></small>
+                </div><p>List of type strings that this definition <code>extends</code>.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>fileName</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.fileName</code></em></small>
+                </div><p>Original file name in which this member originated.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>flags</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsFlags">ITsFlags</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.flags</code></em></small>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>implements</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string[]</code><small><em>Inherited from <code><a href="#ITsObjectDefinition">ITsObjectDefinition</a>.implements</code></em></small>
+                </div><p>List of type names that this definition <code>implements</code>.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>kind</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#Kind">Kind</a>.Class</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>methods</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsMethod">ITsMethod</a>[]</code><small><em>Inherited from <code><a href="#ITsObjectDefinition">ITsObjectDefinition</a>.methods</code></em></small>
+                </div><p>Method members of this definiton.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>name</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.name</code></em></small>
+                </div><p>Name of this member in code, also used as its identifiers in the data store.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>properties</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsProperty">ITsProperty</a>[]</code><small><em>Inherited from <code><a href="#ITsObjectDefinition">ITsObjectDefinition</a>.properties</code></em></small>
+                </div><p>Property members of this definition.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITsEnumMember" hidden="hidden">
+      <div class="interface-block" id="ITsEnumMember">
+        <h2 class="interface-title"><code><small>interface</small> ITsEnumMember<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsDefaultValue">ITsDefaultValue</a></small></code></h2><p>A member of an <code>enum</code> definition. An enum member will have a <code>defaultValue</code> if it was declared with an initializer.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>defaultValue</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code><small><em>Inherited from <code><a href="#ITsDefaultValue">ITsDefaultValue</a>.defaultValue</code></em></small>
+                </div><p>The default value of this property, from an initializer or an <code>@default</code> tag.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>documentation</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#IBlock">IBlock</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.documentation</code></em></small>
+                </div><p>Compiled documentation: <code>contents</code> field contains an array of markdown strings or <code>@tag value</code> objects.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>fileName</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.fileName</code></em></small>
+                </div><p>Original file name in which this member originated.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>flags</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsFlags">ITsFlags</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.flags</code></em></small>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>kind</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#Kind">Kind</a>.EnumMember</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>name</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.name</code></em></small>
+                </div><p>Name of this member in code, also used as its identifiers in the data store.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITsEnum" hidden="hidden">
+      <div class="interface-block" id="ITsEnum">
+        <h2 class="interface-title"><code><small>interface</small> ITsEnum<small> extends <a href="#ITsDocBase">ITsDocBase</a></small></code></h2><p>Documentation for an <code>enum</code> definition.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>documentation</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#IBlock">IBlock</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.documentation</code></em></small>
+                </div><p>Compiled documentation: <code>contents</code> field contains an array of markdown strings or <code>@tag value</code> objects.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>fileName</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.fileName</code></em></small>
+                </div><p>Original file name in which this member originated.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>flags</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsFlags">ITsFlags</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.flags</code></em></small>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>kind</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#Kind">Kind</a>.Enum</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>members</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsEnumMember">ITsEnumMember</a>[]</code>
+                </div><p>Enumeration members.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>name</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.name</code></em></small>
+                </div><p>Name of this member in code, also used as its identifiers in the data store.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITsTypeAlias" hidden="hidden">
+      <div class="interface-block" id="ITsTypeAlias">
+        <h2 class="interface-title"><code><small>interface</small> ITsTypeAlias<small> extends <a href="#ITsDocBase">ITsDocBase</a></small></code></h2><p>A type alias, defined using <code>export type {name} = {type}.</code> The <code>type</code> property will contain the full type alias as a string.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>documentation</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#IBlock">IBlock</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.documentation</code></em></small>
+                </div><p>Compiled documentation: <code>contents</code> field contains an array of markdown strings or <code>@tag value</code> objects.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>fileName</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.fileName</code></em></small>
+                </div><p>Original file name in which this member originated.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>flags</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsFlags">ITsFlags</a></code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.flags</code></em></small>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>kind</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#Kind">Kind</a>.TypeAlias</code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>name</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code><small><em>Inherited from <code><a href="#ITsDocBase">ITsDocBase</a>.name</code></em></small>
+                </div><p>Name of this member in code, also used as its identifiers in the data store.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ITypescriptPluginData" hidden="hidden">
+      <div class="interface-block" id="ITypescriptPluginData">
+        <h2 class="interface-title"><code><small>interface</small> ITypescriptPluginData</code></h2><p>The <code>TypescriptPlugin</code> exports a <code>typescript</code> key that contains a map of member name to
+<code>class</code> or <code>interface</code> definition.</p>
+<p>Only classes and interfaces are provided at this root level, but each member contains full
+information about its children, such as methods (and signatures and parameters) and properties.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>typescript</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>{ [name: string]: <a href="#ITsClass">ITsClass</a> | <a href="#ITsInterface">ITsInterface</a> | <a href="#ITsEnum">ITsEnum</a> | <a href="#ITsTypeAlias">ITsTypeAlias</a> }</code>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="ICompilerOptions" hidden="hidden">
+      <div class="interface-block" id="ICompilerOptions">
+        <h2 class="interface-title"><code><small>interface</small> ICompilerOptions</code></h2>
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>markdown</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>marked.MarkedOptions</code>
+                </div><p>Options for markdown rendering. See <a href="https://github.com/chjj/marked#options-1">https://github.com/chjj/marked#options-1</a>.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>reservedTags</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string[]</code>
+                </div><p>Reserved @tags that should be preserved in the contents string.
 A common use case is allowing specific code constructs, like <code>@Decorator</code> names.
 Do not include the <code>@</code> prefix in the strings.</p>
 
@@ -1345,412 +2174,221 @@ Do not include the <code>@</code> prefix in the strings.</p>
             </tr>
           </table>
         </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
       </div>
-  </div>
-  <div class="hidden" data-route="Documentalist">
-    <h2>Documentalist</h2>
-      <div class="interface-block" id="Documentalist">
+    </section>
+    <section data-route="IPluginEntry" hidden="hidden">
+      <div class="interface-block" id="IPluginEntry">
+        <h2 class="interface-title"><code><small>interface</small> IPluginEntry</code></h2><p>Plugins are stored with the regex used to match against file paths.</p>
+
+        <h3>Properties</h3>
         <div class="interface-properties">
           <table>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
             <tr>
-              <td class="prop-name" valign="top">clearPlugins</td>
+              <td class="prop-name" valign="top"><code>pattern</code>
+              </td>
               <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>() =&gt; IApi&lt;{}&gt;</pre>
-                  </div>
+                <div class="type-signature"><code>RegExp</code>
+                </div>
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">documentFiles</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(files: IFile[]) =&gt; Promise&lt;T&gt;</pre>
-                  </div>
+              <td class="prop-name" valign="top"><code>plugin</code>
               </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">documentGlobs</td>
               <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(...filesGlobs: string[]) =&gt; Promise&lt;T&gt;</pre>
-                  </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">use</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(pattern: RegExp | string, plugin: IPlugin&lt;P&gt;) =&gt; IApi&lt;T &amp; P&gt;</pre>
-                  </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">create</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(options: ICompilerOptions) =&gt; IApi&lt;{}&gt;</pre>
-                  </div>
+                <div class="type-signature"><code><a href="#IPlugin">IPlugin</a>&lt;T&gt;</code>
+                </div>
               </td>
             </tr>
           </table>
         </div>
       </div>
-  </div>
-  <div class="hidden" data-route="IApi">
-    <h2>IApi</h2>
-      <div class="interface-block" id="IApi">
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">documentFiles</td>
-              <td class="prop-type" valign="top">
-                <pre>(files: IFile[]) =&gt; Promise&lt;T&gt;</pre><p>Iterates over all plugins, passing all matching files to each in turn.
-The output of each plugin is merged to produce the resulting
-documentation object.</p>
-<p>The return type T is a composite type has a composite type of all the
-plugin data types.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">documentGlobs</td>
-              <td class="prop-type" valign="top">
-                <pre>(...filesGlobs: string[]) =&gt; Promise&lt;T&gt;</pre><p>Finds all files matching the provided variadic glob expressions and then
-runs <code>documentFiles</code> with them, emitting all the documentation data.</p>
-[object Object]
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">use</td>
-              <td class="prop-type" valign="top">
-                <pre>(pattern: RegExp | string, plugin: IPlugin&lt;P&gt;) =&gt; IApi&lt;T &amp; P&gt;</pre><p>Adds the plugin to Documentalist. Returns a new instance of Documentalist
-with a template type that includes the data from the plugin. This way the
-<code>documentFiles</code> and <code>documentGlobs</code> methods will return an object that is
-already typed to include each plugin&#39;s output.</p>
-<p>The plugin is applied to all files whose absolute path matches the
-supplied pattern.</p>
-[object Object][object Object][object Object]
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">clearPlugins</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>() =&gt; IApi&lt;{}&gt;</pre><p>Returns a new instance of Documentalist with no plugins.</p>
-
-                  </div>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IPluginEntry">
-    <h2>IPluginEntry</h2>
-      <div class="interface-block" id="IPluginEntry"><p>Plugins are stored with the regex used to match against file paths.</p>
-
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">pattern</td>
-              <td class="prop-type" valign="top">
-                <pre>RegExp</pre>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">plugin</td>
-              <td class="prop-type" valign="top">
-                <pre>IPlugin&lt;T&gt;</pre>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="PageMap">
-    <h2>PageMap</h2>
-      <div class="interface-block" id="PageMap">
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">get</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(id: string) =&gt; undefined | IPageData</pre><p>Returns the page with the given ID or <code>undefined</code> if not found.</p>
-
-                  </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">pages</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>() =&gt; IterableIterator&lt;IPageData&gt;</pre><p>Returns an iterator for all the pages (values) in the map.</p>
-
-                  </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">remove</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(id: string) =&gt; undefined | IPageData</pre><p>Removes the page with the given ID and returns it or <code>undefined</code> if not found.</p>
-
-                  </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">set</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(id: string, page: IPageData) =&gt; void</pre><p>Sets the page data at the given ID, when you already have a full page object.
-Warns if a page with this ID already exists.</p>
-
-                  </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">toObject</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>() =&gt; ??</pre><p>Returns a JS object mapping page IDs to data.</p>
-
-                  </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top">toTree</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(id: string, depth: number) =&gt; IPageNode</pre>
-                  </div>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="KssPlugin">
-    <h2>KssPlugin</h2>
-      <div class="interface-block" id="KssPlugin">
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">compile</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(cssFiles: IFile[], dm: ICompiler) =&gt; ??</pre>
-                  </div>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="MarkdownPlugin">
-    <h2>MarkdownPlugin</h2>
-      <div class="interface-block" id="MarkdownPlugin">
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">compile</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(markdownFiles: IFile[], compiler: ICompiler) =&gt; ??</pre><p>Reads the given set of markdown files and adds their data to the internal storage.
-Returns a plain object mapping page references to their data.</p>
-
-                  </div>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IMarkdownPluginOptions">
-    <h2>IMarkdownPluginOptions</h2>
+    </section>
+    <section data-route="IMarkdownPluginOptions" hidden="hidden">
       <div class="interface-block" id="IMarkdownPluginOptions">
+        <h2 class="interface-title"><code><small>interface</small> IMarkdownPluginOptions</code></h2>
+        <h3>Properties</h3>
         <div class="interface-properties">
           <table>
             <tr>
-              <td class="prop-name" valign="top">navPage</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre><p>Page reference that lists the nav roots.</p>
-[object Object]
+              <td class="prop-name" valign="top"><code>navPage</code>
               </td>
-            </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="ICompiler">
-    <h2>ICompiler</h2>
-      <div class="interface-block" id="ICompiler"><p>Each plugin receives a <code>Compiler</code> instance to aid in the processing of source files.</p>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string<em> = &quot;_nav&quot;</em></code>
+                </div><p>Page reference that lists the nav roots.</p>
 
-        <div class="interface-properties">
-          <table>
+              </td>
+            </tr>
           </table>
         </div>
+      </div>
+    </section>
+    <section data-route="ITypescriptPluginOptions" hidden="hidden">
+      <div class="interface-block" id="ITypescriptPluginOptions">
+        <h2 class="interface-title"><code><small>interface</small> ITypescriptPluginOptions</code></h2>
+        <h3>Properties</h3>
         <div class="interface-properties">
           <table>
             <tr>
-              <td class="prop-name" valign="top">objectify</td>
+              <td class="prop-name" valign="top"><code>excludeNames</code>
+              </td>
               <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(array: T[], getKey: (item: T) =&gt; string) =&gt; ??</pre><p>Converts an array of entries into a map of key to entry, using given
-callback to extract key from each item.</p>
+                <div class="type-signature"><code>Array&lt;string | RegExp&gt;</code>
+                </div><p>Array of patterns (string or RegExp) to exclude named members.</p>
 
-                  </div>
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">renderBlock</td>
+              <td class="prop-name" valign="top"><code>excludePaths</code>
+              </td>
               <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(blockContent: string, reservedTagWords: string[]) =&gt; IBlock</pre><p>Render a block of content by extracting metadata (YAML front matter) and
-splitting text content into markdown-rendered HTML strings and <code>{ tag,
-value }</code> objects.</p>
-<p>To prevent special strings like &quot;@include&quot; from being parsed, a reserved
-tag words array may be provided, in which case the line will be left as
-is.</p>
+                <div class="type-signature"><code>string[]</code>
+                </div><p>Array of glob strings to exclude entire files. Files in <code>node_modules/</code> are always excluded.
+Note that when matching directories you&#39;ll need to capture the entire path using <code>**</code>s on either end.</p>
 
-                  </div>
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top">renderMarkdown</td>
+              <td class="prop-name" valign="top"><code>includeDeclarations</code>
+              </td>
               <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(markdown: string) =&gt; string</pre><p>Render a string of markdown to HTML, using the options from <code>Documentalist</code>.</p>
+                <div class="type-signature"><code>undefined | true | false<em> = false</em></code>
+                </div><p>Enable parsing of <code>.d.ts</code> files.</p>
 
-                  </div>
               </td>
             </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <div class="hidden" data-route="IFile">
-    <h2>IFile</h2>
-      <div class="interface-block" id="IFile"><p>Abstract representation of a file, containing absolute path and synchronous <code>read</code> operation.</p>
+            <tr>
+              <td class="prop-name" valign="top"><code>includeNonExportedMembers</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | true | false<em> = false</em></code>
+                </div><p>Whether members not marked <code>export</code> should be included in the data.
+This is disabled by default as non-exported members typically do not need to be publicly documented.</p>
 
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">path</td>
-              <td class="prop-type" valign="top">
-                <pre>string</pre>
               </td>
             </tr>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
             <tr>
-              <td class="prop-name" valign="top">read</td>
+              <td class="prop-name" valign="top"><code>includePrivateMembers</code>
+              </td>
               <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>() =&gt; string</pre>
-                  </div>
+                <div class="type-signature"><code>undefined | true | false<em> = false</em></code>
+                </div><p>Whether <code>private</code> fields should be included in the data.
+This is disabled by default as <code>private</code> fields typically do not need to be publicly documented.</p>
+
               </td>
             </tr>
           </table>
         </div>
       </div>
-  </div>
-  <div class="hidden" data-route="IPlugin">
-    <h2>IPlugin</h2>
-      <div class="interface-block" id="IPlugin">
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
+    </section>
+    <section data-route="Kind" hidden="hidden">
+      <div class="interface-block" id="Kind">
+        <h2 class="interface-title"><code><small>enum</small> Kind</code></h2><p>Enumeration describing the various kinds of member supported by this plugin.</p>
+
+        <h3>Members</h3>
         <div class="interface-properties">
           <table>
             <tr>
-              <td class="prop-name" valign="top">compile</td>
+              <td class="prop-name" valign="top"><code>Class</code>
+              </td>
               <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(files: IFile[], doc: ICompiler) =&gt; T | Promise&lt;T&gt;</pre>
-                  </div>
+                <div class="type-signature"><code><em> = &quot;class&quot;</em></code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>Constructor</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><em> = &quot;constructor&quot;</em></code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>Enum</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><em> = &quot;enum&quot;</em></code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>EnumMember</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><em> = &quot;enum member&quot;</em></code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>Interface</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><em> = &quot;interface&quot;</em></code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>Method</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><em> = &quot;method&quot;</em></code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>Parameter</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><em> = &quot;parameter&quot;</em></code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>Property</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><em> = &quot;property&quot;</em></code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>Signature</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><em> = &quot;signature&quot;</em></code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>TypeAlias</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><em> = &quot;type alias&quot;</em></code>
+                </div>
               </td>
             </tr>
           </table>
         </div>
       </div>
-  </div>
-  <div class="hidden" data-route="TypedocPlugin">
-    <h2>TypedocPlugin</h2>
-      <div class="interface-block" id="TypedocPlugin">
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
+    </section>
+    <section data-route="StringOrTag" hidden="hidden">
+      <div class="interface-block" id="StringOrTag">
+        <h2 class="interface-title"><code><small>type alias</small> StringOrTag</code></h2>
         <div class="interface-properties">
           <table>
             <tr>
-              <td class="prop-name" valign="top">compile</td>
+              <td class="prop-name" valign="top"><code>StringOrTag</code>
+              </td>
               <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(files: IFile[], compiler: ICompiler) =&gt; ITypedocPluginData</pre>
-                  </div>
+                <div class="type-signature"><code>string | <a href="#ITag">ITag</a></code>
+                </div><p>An entry in <code>contents</code> array: either an HTML string or an <code>@tag</code>.</p>
+
               </td>
             </tr>
           </table>
         </div>
       </div>
-  </div>
-  <div class="hidden" data-route="TypescriptPlugin">
-    <h2>TypescriptPlugin</h2>
-      <div class="interface-block" id="TypescriptPlugin">
-        <div class="interface-properties">
-          <table>
-          </table>
-        </div>
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top">compile</td>
-              <td class="prop-type" valign="top">
-                  <div class="method">
-                    <pre>(files: IFile[], __namedParameters: ??) =&gt; ??</pre>
-                  </div>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-  </div>
-  <script type="text/javascript" src="assets/index.js"></script>
-</body>
+    </section>
+    <script type="text/javascript" src="assets/index.js"></script>
+  </body>
+</html>
