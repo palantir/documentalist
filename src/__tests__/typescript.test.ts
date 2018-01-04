@@ -5,8 +5,8 @@
  * repository.
  */
 
+import { isTsClass, isTsInterface, ITypescriptPluginData } from "../client/typescript";
 import { Documentalist } from "../documentalist";
-import { ITypescriptPluginData } from "../plugins/index";
 import { ITypescriptPluginOptions, TypescriptPlugin } from "../plugins/typescript/index";
 
 describe("TypescriptPlugin", () => {
@@ -21,14 +21,20 @@ describe("TypescriptPlugin", () => {
 
         it("excludeNames", () => {
             // get IButtonProps properties; should be missing a few.
-            expectSnapshot("interfaces", { excludeNames: [/icon/i, "intent"] }, data =>
-                data.IButtonProps.properties.map(p => p.name),
+            expectSnapshot(
+                "interfaces",
+                { excludeNames: [/icon/i, "intent"] },
+                ({ IButtonProps }) => isTsInterface(IButtonProps) && IButtonProps.properties.map(p => p.name),
             );
         });
 
         it("includePrivateMembers", () => {
             // class Animal has a private method
-            expectSnapshot("classes", { includePrivateMembers: true }, data => data.Animal.methods.map(m => m.name));
+            expectSnapshot(
+                "classes",
+                { includePrivateMembers: true },
+                ({ Animal }) => isTsClass(Animal) && Animal.methods.map(m => m.name),
+            );
         });
 
         it("includeNonExportedMembers", () => {
