@@ -8,15 +8,17 @@
     "documentalist": "./cli.js"
   },
   "scripts": {
-    "build": "run-s clean tsc docs:json docs",
+    "build": "run-s clean compile docs",
     "clean": "rm -rf dist",
-    "docs": "pug -O docs.json ./theme/index.pug --pretty -o ./docs",
+    "compile": "tsc --project .",
+    "docs": "run-s docs:json docs:version docs:pug",
     "docs:json": "./cli.js './src/**/*' > docs.json",
+    "docs:version": "echo v$npm_package_version > theme/version.txt",
+    "docs:pug": "pug -O docs.json ./theme/index.pug --pretty -o ./docs",
     "lint": "tslint --project .",
     "lint.fix": "yarn lint --fix",
     "test": "jest --config jest.config.json",
-    "tsc": "tsc --project .",
-    "watch": "yarn tsc --watch"
+    "watch": "yarn compile --watch"
   },
   "dependencies": {
     "@types/kss": "^3.0.0",
