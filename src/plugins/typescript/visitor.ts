@@ -117,7 +117,7 @@ export class Visitor {
     });
 
     private visitSignature = (sig: SignatureReflection): ITsMethodSignature => ({
-        ...this.makeDocEntry(sig, Kind.Signature),
+        ...this.makeDocEntry(sig, Kind.MethodSignature),
         flags: undefined,
         parameters: (sig.parameters || []).map(param => this.visitParameter(param)),
         returnType: resolveTypeString(sig.type),
@@ -125,7 +125,7 @@ export class Visitor {
     });
 
     private visitParameter = (param: ParameterReflection): ITsMethodParameter => ({
-        ...this.makeDocEntry(param, Kind.Parameter),
+        ...this.makeDocEntry(param, Kind.MethodParameter),
         defaultValue: getDefaultValue(param),
         type: resolveTypeString(param.type),
     });

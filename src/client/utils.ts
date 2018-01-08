@@ -5,29 +5,28 @@
  * repository.
  */
 
-import { IHeadingTag, IPageNode, ITag } from "./index";
+/**
+ * Splits the `text` string into words and invokes the `callback` for each word that is
+ * found in the `data` record. If not found, the word appears unchanged in the output
+ * array.
+ *
+ * Example:
+ * ```tsx
+ * linkify("string | ITag", docs.typescript, (name) => <a href={`#api/${name}`}>{name}</a>)
+ * // =>
+ * ["string", " | ", <a href="#api/ITag">ITag</a>]
+ * ```
+ */
+export function linkify<D, T>(
+    text: string,
+    data: Record<string, D>,
+    callback: (name: string, data: D) => T,
+): Array<string | T> {
+    return text.split(WORD_SEPARATORS).map(word => (data[word] == null ? word : callback(word, data[word])));
+}
+const WORD_SEPARATORS = /([\[\]<>()| :.,]+)/g;
 
 /** Slugify a string: "Really Cool Heading!" => "really-cool-heading-" */
 export function slugify(str: string) {
     return str.toLowerCase().replace(/[^\w.\/]/g, "-");
-}
-
-/**
- * Type guard to determine if a `contents` node is an `@tag` statement.
- * Optionally tests tag name too, if `tagName` arg is provided.
- */
-export function isTag(node: any, tagName?: string): node is ITag {
-    return (
-        node != null && (node as ITag).tag !== undefined && (tagName === undefined || (node as ITag).tag === tagName)
-    );
-}
-
-/** Type guard to deterimine if a `contents` node is an `@#+` heading tag. */
-export function isHeadingTag(node: any): node is IHeadingTag {
-    return isTag(node, "heading");
-}
-
-/** Type guard for `IPageNode`, useful for its `children` array. */
-export function isPageNode(node: any): node is IPageNode {
-    return node != null && (node as IPageNode).children != null;
 }
