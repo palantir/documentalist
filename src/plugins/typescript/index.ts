@@ -13,13 +13,19 @@ export { ITypescriptPluginData };
 
 export interface ITypescriptPluginOptions {
     /**
-     * Array of glob strings to exclude entire files. Files in `node_modules/` are always excluded.
-     * Note that when matching directories you'll need to capture the entire path using `**`s on either end.
+     * Array of patterns (string or RegExp) to exclude members by name.
+     * Strings will be converted to regular expressions through `string.match(pattern)`.
+     *
+     * Note that excluded members will still be parsed by the compiler, so they can be referenced
+     * by other symbols, but they will not appear in the output data.
      */
-    excludePaths?: string[];
-
-    /** Array of patterns (string or RegExp) to exclude named members. */
     excludeNames?: Array<string | RegExp>;
+
+    /**
+     * Array of patterns (string or RegExp) to exclude members based on file path.
+     * See `excludeNames` above for usage notes.
+     */
+    excludePaths?: Array<string | RegExp>;
 
     /**
      * Enable parsing of `.d.ts` files.

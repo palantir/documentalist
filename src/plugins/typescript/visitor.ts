@@ -131,15 +131,16 @@ export class Visitor {
     });
 
     /** Visits each child that passes the filter condition (based on options). */
-    private visitChildren<T>(
+    private visitChildren<T extends ITsDocBase>(
         children: Reflection[],
         visitor: (def: DeclarationReflection) => T,
         comparator?: (a: T, b: T) => number,
     ): T[] {
-        const { excludeNames = [], includeNonExportedMembers = false } = this.options;
+        const { excludeNames = [], excludePaths = [], includeNonExportedMembers = false } = this.options;
         return children
-            .filter(ref => (ref.flags.isExported || includeNonExportedMembers) && isNotExcluded(excludeNames, ref.name))
+            .filter(ref => ref.flags.isExported || includeNonExportedMembers)
             .map(visitor)
+            .filter(doc => isNotExcluded(excludeNames, doc.name) && isNotExcluded(excludePaths, doc.fileName))
             .sort(comparator);
     }
 
