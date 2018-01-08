@@ -5,7 +5,7 @@
  * repository.
  */
 
-import { isHeadingTag } from "../client/utils";
+import { isHeadingTag } from "../client/tags";
 import { Compiler } from "../compiler";
 
 describe("Compiler", () => {

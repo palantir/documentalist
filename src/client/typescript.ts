@@ -15,9 +15,9 @@ export enum Kind {
     EnumMember = "enum member",
     Interface = "interface",
     Method = "method",
-    Parameter = "parameter",
+    MethodParameter = "method parameter",
+    MethodSignature = "method signature",
     Property = "property",
-    Signature = "signature",
     TypeAlias = "type alias",
 }
 
@@ -97,7 +97,7 @@ export interface ITsMethod extends ITsDocBase, ITsCallable {
 
 /** Documentation for a single method signature, including parameters, return type, and full type string. */
 export interface ITsMethodSignature extends ITsDocBase {
-    kind: Kind.Signature;
+    kind: Kind.MethodSignature;
     /** Method signatures do not have flags of their own. Flags can be found on the method itself and on each parameter. */
     flags: undefined;
     /** Method parameters, each with their own docs and data. */
@@ -110,7 +110,7 @@ export interface ITsMethodSignature extends ITsDocBase {
 
 /** Documentation for a single parameter to a method signature. */
 export interface ITsMethodParameter extends ITsDocBase, ITsDefaultValue {
-    kind: Kind.Parameter;
+    kind: Kind.MethodParameter;
     /** Fully qualified type string describing this parameter. */
     type: string;
 }
@@ -120,7 +120,7 @@ export interface ITsProperty extends ITsDocBase, ITsDefaultValue {
     kind: Kind.Property;
     /** Type name from which this property was inherited. Typically takes the form `Interface.member`. */
     inheritedFrom?: string;
-    /** Type string describing of this property. */
+    /** Type string describing this property. */
     type: string;
 }
 
@@ -150,6 +150,8 @@ export interface ITsEnum extends ITsDocBase {
 /** A type alias, defined using `export type {name} = {type}.` The `type` property will contain the full type alias as a string. */
 export interface ITsTypeAlias extends ITsDocBase {
     kind: Kind.TypeAlias;
+    /** Type string for which this member is an alias. */
+    type: string;
 }
 
 /**
@@ -165,18 +167,18 @@ export interface ITypescriptPluginData {
     };
 }
 
-export function isTsClass(data: any): data is ITsClass {
-    return data != null && (data as ITsClass).kind === Kind.Class;
+function typeguard<T extends ITsDocBase>(kind: Kind) {
+    return (data: any): data is T => data != null && (data as T).kind === kind;
 }
 
-export function isTsEnum(data: any): data is ITsEnum {
-    return data != null && (data as ITsEnum).kind === Kind.Enum;
-}
-
-export function isTsInterface(data: any): data is ITsInterface {
-    return data != null && (data as ITsInterface).kind === Kind.Interface;
-}
-
-export function isTsTypeAlias(data: any): data is ITsTypeAlias {
-    return data != null && (data as ITsTypeAlias).kind === Kind.TypeAlias;
-}
+// wooooo typeguards
+export const isTsClass = typeguard<ITsClass>(Kind.Class);
+export const isTsConstructor = typeguard<ITsConstructor>(Kind.Constructor);
+export const isTsEnum = typeguard<ITsEnum>(Kind.Enum);
+export const isTsEnumMember = typeguard<ITsEnumMember>(Kind.EnumMember);
+export const isTsInterface = typeguard<ITsInterface>(Kind.Interface);
+export const isTsMethod = typeguard<ITsMethod>(Kind.Method);
+export const isTsMethodParameter = typeguard<ITsMethodParameter>(Kind.MethodParameter);
+export const isTsProperty = typeguard<ITsProperty>(Kind.Property);
+export const isTsMethodSignature = typeguard<ITsMethodSignature>(Kind.MethodSignature);
+export const isTsTypeAlias = typeguard<ITsTypeAlias>(Kind.TypeAlias);

@@ -40,3 +40,16 @@ export interface IHeadingTag extends ITag, INavigable {
 
 /** An entry in `contents` array: either an HTML string or an `@tag`. */
 export type StringOrTag = string | ITag;
+
+/**
+ * Type guard to determine if a `contents` node is an `@tag` statement.
+ * Optionally tests tag name too, if `tagName` arg is provided.
+ */
+export function isTag(node: any, tagName?: string): node is ITag {
+    return node != null && (node as ITag).tag != null && (tagName == null || (node as ITag).tag === tagName);
+}
+
+/** Type guard to deterimine if a `contents` node is an `@#+` heading tag. */
+export function isHeadingTag(node: any): node is IHeadingTag {
+    return isTag(node, "heading");
+}

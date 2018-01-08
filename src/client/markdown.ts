@@ -54,3 +54,8 @@ export interface IPageNode extends IHeadingNode {
     /** Unique reference of this page, used for retrieval from store. */
     reference: string;
 }
+
+/** Type guard for `IPageNode`, useful for its `children` array. */
+export function isPageNode(node: any): node is IPageNode {
+    return node != null && (node as IPageNode).children != null;
+}
