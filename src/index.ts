@@ -5,6 +5,5 @@
  * repository.
  */
 
-export * from "./client";
 export * from "./documentalist";
 export * from "./plugins";
