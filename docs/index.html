@@ -532,54 +532,34 @@ sections will all be emitted in the data.</p>
         </div>
       </div>
     </section>
-    <section data-route="ITsDocBase" hidden="hidden">
-      <div class="interface-block" id="ITsDocBase">
-        <h2 class="interface-title"><code><small>interface</small> ITsDocBase</code></h2><p>Base type for all typescript documentation members.</p>
+    <section data-route="ITsCallable" hidden="hidden">
+      <div class="interface-block" id="ITsCallable">
+        <h2 class="interface-title"><code><small>interface</small> ITsCallable</code></h2><p>Common type for a callable member, something that can be invoked.</p>
 
+        <blockquote>
+          <p>see: <code><a href="#ITsConstructor">ITsConstructor</a></code></p>
+        </blockquote>
+        <blockquote>
+          <p>see: <code><a href="#ITsMethod">ITsMethod</a></code></p>
+        </blockquote>
         <h3>Properties</h3>
         <div class="interface-properties">
           <table>
             <tr>
-              <td class="prop-name" valign="top"><code>documentation</code>
-              </td>
-              <td class="prop-type" valign="top">
-                <div class="type-signature"><code><a href="#IBlock">IBlock</a></code>
-                </div><p>Compiled documentation: <code>contents</code> field contains an array of markdown strings or <code>@tag value</code> objects.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top"><code>fileName</code>
+              <td class="prop-name" valign="top"><code>inheritedFrom</code>
               </td>
               <td class="prop-type" valign="top">
                 <div class="type-signature"><code>undefined | string</code>
-                </div><p>Original file name in which this member originated.</p>
+                </div><p>Type name from which this method was inherited. Typically takes the form <code>Interface.member</code>.</p>
 
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top"><code>flags</code>
+              <td class="prop-name" valign="top"><code>signatures</code>
               </td>
               <td class="prop-type" valign="top">
-                <div class="type-signature"><code><a href="#ITsFlags">ITsFlags</a></code>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top"><code>kind</code>
-              </td>
-              <td class="prop-type" valign="top">
-                <div class="type-signature"><code><a href="#Kind">Kind</a></code>
-                </div><p>Type brand indicating kind of member; type guards will reveal further information about it.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top"><code>name</code>
-              </td>
-              <td class="prop-type" valign="top">
-                <div class="type-signature"><code>string</code>
-                </div><p>Name of this member in code, also used as its identifiers in the data store.</p>
+                <div class="type-signature"><code><a href="#ITsMethodSignature">ITsMethodSignature</a>[]</code>
+                </div><p>A method has at least one signature, which describes the parameters and return type and contains documentation.</p>
 
               </td>
             </tr>
@@ -609,36 +589,6 @@ sections will all be emitted in the data.</p>
               <td class="prop-type" valign="top">
                 <div class="type-signature"><code>string</code>
                 </div><p>Tag value, exactly as written in source.</p>
-
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </section>
-    <section data-route="INavigable" hidden="hidden">
-      <div class="interface-block" id="INavigable">
-        <h2 class="interface-title"><code><small>interface</small> INavigable</code></h2><p>The basic components of a navigable resource: a &quot;route&quot; at which it can be accessed and
-its depth in the layout hierarchy. Heading tags and hierarchy nodes both extend this interface.</p>
-
-        <h3>Properties</h3>
-        <div class="interface-properties">
-          <table>
-            <tr>
-              <td class="prop-name" valign="top"><code>level</code>
-              </td>
-              <td class="prop-type" valign="top">
-                <div class="type-signature"><code>number</code>
-                </div><p>Level of heading, from 1-6. Dictates which <code>&lt;h#&gt;</code> tag to render.</p>
-
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top"><code>route</code>
-              </td>
-              <td class="prop-type" valign="top">
-                <div class="type-signature"><code>string</code>
-                </div><p>Fully-qualified route of the heading, which can be used as anchor <code>href</code>.</p>
 
               </td>
             </tr>
@@ -1271,34 +1221,84 @@ This allows plugins to use only the path of a file without reading it.</p>
         </div>
       </div>
     </section>
-    <section data-route="ITsCallable" hidden="hidden">
-      <div class="interface-block" id="ITsCallable">
-        <h2 class="interface-title"><code><small>interface</small> ITsCallable</code></h2><p>Common type for a callable member, something that can be invoked.</p>
+    <section data-route="ITsDocBase" hidden="hidden">
+      <div class="interface-block" id="ITsDocBase">
+        <h2 class="interface-title"><code><small>interface</small> ITsDocBase</code></h2><p>Base type for all typescript documentation members.</p>
 
-        <blockquote>
-          <p>see: <code><a href="#ITsConstructor">ITsConstructor</a></code></p>
-        </blockquote>
-        <blockquote>
-          <p>see: <code><a href="#ITsMethod">ITsMethod</a></code></p>
-        </blockquote>
         <h3>Properties</h3>
         <div class="interface-properties">
           <table>
             <tr>
-              <td class="prop-name" valign="top"><code>inheritedFrom</code>
+              <td class="prop-name" valign="top"><code>documentation</code>
               </td>
               <td class="prop-type" valign="top">
-                <div class="type-signature"><code>undefined | string</code>
-                </div><p>Type name from which this method was inherited. Typically takes the form <code>Interface.member</code>.</p>
+                <div class="type-signature"><code><a href="#IBlock">IBlock</a></code>
+                </div><p>Compiled documentation: <code>contents</code> field contains an array of markdown strings or <code>@tag value</code> objects.</p>
 
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top"><code>signatures</code>
+              <td class="prop-name" valign="top"><code>fileName</code>
               </td>
               <td class="prop-type" valign="top">
-                <div class="type-signature"><code><a href="#ITsMethodSignature">ITsMethodSignature</a>[]</code>
-                </div><p>A method has at least one signature, which describes the parameters and return type and contains documentation.</p>
+                <div class="type-signature"><code>undefined | string</code>
+                </div><p>Original file name in which this member originated.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>flags</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#ITsFlags">ITsFlags</a></code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>kind</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><a href="#Kind">Kind</a></code>
+                </div><p>Type brand indicating kind of member; type guards will reveal further information about it.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>name</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Name of this member in code, also used as its identifiers in the data store.</p>
+
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section data-route="INavigable" hidden="hidden">
+      <div class="interface-block" id="INavigable">
+        <h2 class="interface-title"><code><small>interface</small> INavigable</code></h2><p>The basic components of a navigable resource: a &quot;route&quot; at which it can be accessed and
+its depth in the layout hierarchy. Heading tags and hierarchy nodes both extend this interface.</p>
+
+        <h3>Properties</h3>
+        <div class="interface-properties">
+          <table>
+            <tr>
+              <td class="prop-name" valign="top"><code>level</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>number</code>
+                </div><p>Level of heading, from 1-6. Dictates which <code>&lt;h#&gt;</code> tag to render.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>route</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Fully-qualified route of the heading, which can be used as anchor <code>href</code>.</p>
 
               </td>
             </tr>
@@ -1558,7 +1558,7 @@ This allows plugins to use only the path of a file without reading it.</p>
               <td class="prop-name" valign="top"><code>kind</code>
               </td>
               <td class="prop-type" valign="top">
-                <div class="type-signature"><code><a href="#Kind">Kind</a>.Signature</code>
+                <div class="type-signature"><code><a href="#Kind">Kind</a>.MethodSignature</code>
                 </div>
               </td>
             </tr>
@@ -1648,7 +1648,7 @@ This allows plugins to use only the path of a file without reading it.</p>
               <td class="prop-name" valign="top"><code>kind</code>
               </td>
               <td class="prop-type" valign="top">
-                <div class="type-signature"><code><a href="#Kind">Kind</a>.Parameter</code>
+                <div class="type-signature"><code><a href="#Kind">Kind</a>.MethodParameter</code>
                 </div>
               </td>
             </tr>
@@ -1747,7 +1747,7 @@ This allows plugins to use only the path of a file without reading it.</p>
               </td>
               <td class="prop-type" valign="top">
                 <div class="type-signature"><code>string</code>
-                </div><p>Type string describing of this property.</p>
+                </div><p>Type string describing this property.</p>
 
               </td>
             </tr>
@@ -2120,6 +2120,15 @@ This allows plugins to use only the path of a file without reading it.</p>
 
               </td>
             </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>type</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>string</code>
+                </div><p>Type string for which this member is an alias.</p>
+
+              </td>
+            </tr>
           </table>
         </div>
       </div>
@@ -2233,7 +2242,10 @@ Do not include the <code>@</code> prefix in the strings.</p>
               </td>
               <td class="prop-type" valign="top">
                 <div class="type-signature"><code>Array&lt;string | RegExp&gt;</code>
-                </div><p>Array of patterns (string or RegExp) to exclude named members.</p>
+                </div><p>Array of patterns (string or RegExp) to exclude members by name.
+Strings will be converted to regular expressions through <code>string.match(pattern)</code>.</p>
+<p>Note that excluded members will still be parsed by the compiler, so they can be referenced
+by other symbols, but they will not appear in the output data.</p>
 
               </td>
             </tr>
@@ -2241,9 +2253,9 @@ Do not include the <code>@</code> prefix in the strings.</p>
               <td class="prop-name" valign="top"><code>excludePaths</code>
               </td>
               <td class="prop-type" valign="top">
-                <div class="type-signature"><code>string[]</code>
-                </div><p>Array of glob strings to exclude entire files. Files in <code>node_modules/</code> are always excluded.
-Note that when matching directories you&#39;ll need to capture the entire path using <code>**</code>s on either end.</p>
+                <div class="type-signature"><code>Array&lt;string | RegExp&gt;</code>
+                </div><p>Array of patterns (string or RegExp) to exclude members based on file path.
+See <code>excludeNames</code> above for usage notes.</p>
 
               </td>
             </tr>
@@ -2336,10 +2348,18 @@ This is disabled by default as <code>private</code> fields typically do not need
               </td>
             </tr>
             <tr>
-              <td class="prop-name" valign="top"><code>Parameter</code>
+              <td class="prop-name" valign="top"><code>MethodParameter</code>
               </td>
               <td class="prop-type" valign="top">
-                <div class="type-signature"><code><em> = &quot;parameter&quot;</em></code>
+                <div class="type-signature"><code><em> = &quot;method parameter&quot;</em></code>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>MethodSignature</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code><em> = &quot;method signature&quot;</em></code>
                 </div>
               </td>
             </tr>
@@ -2348,14 +2368,6 @@ This is disabled by default as <code>private</code> fields typically do not need
               </td>
               <td class="prop-type" valign="top">
                 <div class="type-signature"><code><em> = &quot;property&quot;</em></code>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="prop-name" valign="top"><code>Signature</code>
-              </td>
-              <td class="prop-type" valign="top">
-                <div class="type-signature"><code><em> = &quot;signature&quot;</em></code>
                 </div>
               </td>
             </tr>
