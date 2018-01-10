@@ -11,7 +11,7 @@
       <h3>Interfaces</h3><a class="nav-item" href="#IBlock"><code>IBlock</code></a><a class="nav-item" href="#ICompiler"><code>ICompiler</code></a><a class="nav-item" href="#ICompilerOptions"><code>ICompilerOptions</code></a><a class="nav-item" href="#IFile"><code>IFile</code></a><a class="nav-item" href="#IHeadingNode"><code>IHeadingNode</code></a><a class="nav-item" href="#IHeadingTag"><code>IHeadingTag</code></a><a class="nav-item" href="#IKssExample"><code>IKssExample</code></a><a class="nav-item" href="#IKssModifier"><code>IKssModifier</code></a><a class="nav-item" href="#IKssPluginData"><code>IKssPluginData</code></a><a class="nav-item" href="#IMarkdownPluginData"><code>IMarkdownPluginData</code></a><a class="nav-item" href="#IMarkdownPluginOptions"><code>IMarkdownPluginOptions</code></a><a class="nav-item" href="#IMetadata"><code>IMetadata</code></a><a class="nav-item" href="#INavigable"><code>INavigable</code></a><a class="nav-item" href="#IPageData"><code>IPageData</code></a><a class="nav-item" href="#IPageNode"><code>IPageNode</code></a><a class="nav-item" href="#IPlugin"><code>IPlugin</code></a><a class="nav-item" href="#IPluginEntry"><code>IPluginEntry</code></a><a class="nav-item" href="#ITag"><code>ITag</code></a><a class="nav-item" href="#ITsCallable"><code>ITsCallable</code></a><a class="nav-item" href="#ITsClass"><code>ITsClass</code></a><a class="nav-item" href="#ITsConstructor"><code>ITsConstructor</code></a><a class="nav-item" href="#ITsDefaultValue"><code>ITsDefaultValue</code></a><a class="nav-item" href="#ITsDocBase"><code>ITsDocBase</code></a><a class="nav-item" href="#ITsEnum"><code>ITsEnum</code></a><a class="nav-item" href="#ITsEnumMember"><code>ITsEnumMember</code></a><a class="nav-item" href="#ITsFlags"><code>ITsFlags</code></a><a class="nav-item" href="#ITsInterface"><code>ITsInterface</code></a><a class="nav-item" href="#ITsMethod"><code>ITsMethod</code></a><a class="nav-item" href="#ITsMethodParameter"><code>ITsMethodParameter</code></a><a class="nav-item" href="#ITsMethodSignature"><code>ITsMethodSignature</code></a><a class="nav-item" href="#ITsObjectDefinition"><code>ITsObjectDefinition</code></a><a class="nav-item" href="#ITsProperty"><code>ITsProperty</code></a><a class="nav-item" href="#ITsTypeAlias"><code>ITsTypeAlias</code></a><a class="nav-item" href="#ITypescriptPluginData"><code>ITypescriptPluginData</code></a><a class="nav-item" href="#ITypescriptPluginOptions"><code>ITypescriptPluginOptions</code></a>
       <h3>Enums</h3><a class="nav-item" href="#Kind"><code>Kind</code></a>
       <h3>Aliases</h3><a class="nav-item" href="#StringOrTag"><code>StringOrTag</code></a>
-      <h4>v1.0.0-beta.0
+      <h4>v1.0.0-beta.2
 
       </h4>
       <div class="copyright">&copy; Copyright 2017-present Palantir</div>
@@ -2285,6 +2285,25 @@ This is disabled by default as non-exported members typically do not need to be 
                 <div class="type-signature"><code>undefined | true | false<em> = false</em></code>
                 </div><p>Whether <code>private</code> fields should be included in the data.
 This is disabled by default as <code>private</code> fields typically do not need to be publicly documented.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>tsconfigPath</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | string</code>
+                </div><p>Path to tsconfig file.</p>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="prop-name" valign="top"><code>verbose</code>
+              </td>
+              <td class="prop-type" valign="top">
+                <div class="type-signature"><code>undefined | true | false<em> = false</em></code>
+                </div><p>If enabled, logs messages and compiler errors to the console.
+Note that compiler errors are ignored by Typedoc so they do not affect docs generation.</p>
 
               </td>
             </tr>
