@@ -54,23 +54,28 @@ export interface ITypescriptPluginOptions {
      */
     silent?: boolean;
 
-    /** Path to `tsconfig.json` file. */
+    /** Path to tsconfig file. */
     tsconfigPath?: string;
 }
 
 export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     private app: TypedocApp;
     public constructor(private options: ITypescriptPluginOptions = {}) {
-        const { includeDeclarations = false, includePrivateMembers = false, tsconfigPath: tsconfig } = options;
-        this.app = new TypedocApp({
+        const { includeDeclarations = false, includePrivateMembers = false, tsconfigPath } = options;
+        // options docs: https://gist.github.com/mootari/d39895574c8deacc57d0fc04eb0d21ca#file-options-md
+        const typedocOptions: any = {
             exclude: "**/node_modules/**",
             excludePrivate: !includePrivateMembers,
             ignoreCompilerErrors: true,
             includeDeclarations,
             logger: options.silent ? "none" : console.log,
             mode: "modules",
-            tsconfig,
-        });
+        };
+        if (options.tsconfigPath != null) {
+            // typedoc complains if given `undefined`, so only set if necessary
+            typedocOptions.tsconfig = tsconfigPath;
+        }
+        this.app = new TypedocApp(typedocOptions);
     }
 
     public compile(files: IFile[], compiler: ICompiler): ITypescriptPluginData {
