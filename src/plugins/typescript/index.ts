@@ -46,20 +46,36 @@ export interface ITypescriptPluginOptions {
      * @default false
      */
     includeNonExportedMembers?: boolean;
+
+    /** Path to tsconfig file. */
+    tsconfigPath?: string;
+
+    /**
+     * If enabled, logs messages and compiler errors to the console.
+     * Note that compiler errors are ignored by Typedoc so they do not affect docs generation.
+     * @default false
+     */
+    verbose?: boolean;
 }
 
 export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     private app: TypedocApp;
     public constructor(private options: ITypescriptPluginOptions = {}) {
-        const { includeDeclarations = false, includePrivateMembers = false } = options;
-        this.app = new TypedocApp({
+        const { includeDeclarations = false, includePrivateMembers = false, tsconfigPath, verbose = false } = options;
+        // options docs: https://gist.github.com/mootari/d39895574c8deacc57d0fc04eb0d21ca#file-options-md
+        const typedocOptions: any = {
             exclude: "**/node_modules/**",
             excludePrivate: !includePrivateMembers,
             ignoreCompilerErrors: true,
             includeDeclarations,
-            logger: "none",
+            logger: verbose ? console.log : "none",
             mode: "modules",
-        });
+        };
+        if (options.tsconfigPath != null) {
+            // typedoc complains if given `undefined`, so only set if necessary
+            typedocOptions.tsconfig = tsconfigPath;
+        }
+        this.app = new TypedocApp(typedocOptions);
     }
 
     public compile(files: IFile[], compiler: ICompiler): ITypescriptPluginData {
