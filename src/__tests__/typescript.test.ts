@@ -51,7 +51,7 @@ async function expectSnapshot(
     /** a function to transform the DM data, to avoid snapshotting _everything_. defaults to identity function. */
     transform: (data: ITypescriptPluginData["typescript"]) => any = arg => arg,
 ) {
-    const dm = Documentalist.create().use(".ts", new TypescriptPlugin({ silent: true, ...options }));
+    const dm = Documentalist.create().use(".ts", new TypescriptPlugin(options));
     const { typescript } = await dm.documentGlobs(`src/__tests__/__fixtures__/${name}.ts`);
     expect(transform(typescript)).toMatchSnapshot();
 }
