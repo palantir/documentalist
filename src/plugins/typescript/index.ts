@@ -46,19 +46,30 @@ export interface ITypescriptPluginOptions {
      * @default false
      */
     includeNonExportedMembers?: boolean;
+
+    /**
+     * Prevents logging messages and compiler errors to the console.
+     * Note that compiler errors are ignored by Typedoc so they do not affect docs generation.
+     * @default false
+     */
+    silent?: boolean;
+
+    /** Path to `tsconfig.json` file. */
+    tsconfigPath?: string;
 }
 
 export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     private app: TypedocApp;
     public constructor(private options: ITypescriptPluginOptions = {}) {
-        const { includeDeclarations = false, includePrivateMembers = false } = options;
+        const { includeDeclarations = false, includePrivateMembers = false, tsconfigPath: tsconfig } = options;
         this.app = new TypedocApp({
             exclude: "**/node_modules/**",
             excludePrivate: !includePrivateMembers,
             ignoreCompilerErrors: true,
             includeDeclarations,
-            logger: "none",
+            logger: options.silent ? "none" : console.log,
             mode: "modules",
+            tsconfig,
         });
     }
 
