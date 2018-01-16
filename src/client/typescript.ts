@@ -15,8 +15,8 @@ export enum Kind {
     EnumMember = "enum member",
     Interface = "interface",
     Method = "method",
-    MethodParameter = "method parameter",
-    MethodSignature = "method signature",
+    Parameter = "parameter",
+    Signature = "signature",
     Property = "property",
     TypeAlias = "type alias",
 }
@@ -61,7 +61,7 @@ export interface ITsCallable {
     /** Type name from which this method was inherited. Typically takes the form `Interface.member`. */
     inheritedFrom?: string;
     /** A method has at least one signature, which describes the parameters and return type and contains documentation. */
-    signatures: ITsMethodSignature[];
+    signatures: ITsSignature[];
 }
 
 /** Re-usable interface for Typescript members that support a notion of "default value." */
@@ -76,6 +76,8 @@ export interface ITsObjectDefinition {
     extends?: string[];
     /** List of type names that this definition `implements`. */
     implements?: string[];
+    /** Index signature for this object, if declared. */
+    indexSignature?: ITsSignature;
     /** Property members of this definition. */
     properties: ITsProperty[];
     /** Method members of this definiton. */
@@ -95,22 +97,25 @@ export interface ITsMethod extends ITsDocBase, ITsCallable {
     kind: Kind.Method;
 }
 
-/** Documentation for a single method signature, including parameters, return type, and full type string. */
-export interface ITsMethodSignature extends ITsDocBase {
-    kind: Kind.MethodSignature;
-    /** Method signatures do not have flags of their own. Flags can be found on the method itself and on each parameter. */
+/**
+ * Documentation for a single signature, including parameters, return type, and full type string.
+ * Signatures are used for methods and constructors on classes or interfaces, and for index signatures on objects.
+ */
+export interface ITsSignature extends ITsDocBase {
+    kind: Kind.Signature;
+    /** Signatures do not have flags of their own. Flags can be found on the parent and on each parameter. */
     flags: undefined;
-    /** Method parameters, each with their own docs and data. */
-    parameters: ITsMethodParameter[];
-    /** Return type of the method. */
+    /** Signature parameters, each with their own docs and data. */
+    parameters: ITsParameter[];
+    /** Return type of the signature. */
     returnType: string;
     /** Fully qualified type string describing this method, including parameters and return type. */
     type: string;
 }
 
-/** Documentation for a single parameter to a method signature. */
-export interface ITsMethodParameter extends ITsDocBase, ITsDefaultValue {
-    kind: Kind.MethodParameter;
+/** Documentation for a single parameter to a signature. */
+export interface ITsParameter extends ITsDocBase, ITsDefaultValue {
+    kind: Kind.Parameter;
     /** Fully qualified type string describing this parameter. */
     type: string;
 }
@@ -178,7 +183,7 @@ export const isTsEnum = typeguard<ITsEnum>(Kind.Enum);
 export const isTsEnumMember = typeguard<ITsEnumMember>(Kind.EnumMember);
 export const isTsInterface = typeguard<ITsInterface>(Kind.Interface);
 export const isTsMethod = typeguard<ITsMethod>(Kind.Method);
-export const isTsMethodParameter = typeguard<ITsMethodParameter>(Kind.MethodParameter);
+export const isTsParameter = typeguard<ITsParameter>(Kind.Parameter);
 export const isTsProperty = typeguard<ITsProperty>(Kind.Property);
-export const isTsMethodSignature = typeguard<ITsMethodSignature>(Kind.MethodSignature);
+export const isTsSignature = typeguard<ITsSignature>(Kind.Signature);
 export const isTsTypeAlias = typeguard<ITsTypeAlias>(Kind.TypeAlias);
