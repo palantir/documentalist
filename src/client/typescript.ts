@@ -51,7 +51,12 @@ export interface ITsDocBase<K extends Kind = Kind> {
     /** Name of this member in code, also used as its identifiers in the data store. */
     name: string;
 
-    /** Absolute URL pointing to source file in repository, typically including the current commit hash and line number. */
+    /**
+     * Absolute URL pointing to source file in repository, including line number.
+     * If `gitBranch` option is provided to the `TypescriptPlugin`, the URL will reference that branch.
+     * Otherwise, it will reference the current commit hash.
+     * @see ITypescriptPluginOptions.gitBranch
+     */
     url?: string;
 }
 
