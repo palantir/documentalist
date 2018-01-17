@@ -58,13 +58,14 @@ export class Visitor {
         );
     }
 
-    private makeDocEntry<K extends Kind>(def: Reflection, kind: K) {
+    private makeDocEntry<K extends Kind>(def: Reflection, kind: K): ITsDocBase<K> {
         return {
             documentation: this.renderComment(def.comment),
-            fileName: getFileName(def),
+            fileName: getSourceFileName(def),
             flags: getFlags(def),
             kind,
             name: def.name,
+            url: getSourceUrl(def),
         };
     }
 
@@ -128,6 +129,7 @@ export class Visitor {
         ...this.makeDocEntry(param, Kind.MethodParameter),
         defaultValue: getDefaultValue(param),
         type: resolveTypeString(param.type),
+        url: undefined,
     });
 
     /** Visits each child that passes the filter condition (based on options). */
@@ -188,11 +190,16 @@ function getDefaultValue(ref: DefaultValueContainer): string | undefined {
     return undefined;
 }
 
-function getFileName({ sources = [] }: Reflection): string | undefined {
+function getSourceFileName({ sources = [] }: Reflection): string | undefined {
     const source = sources[0];
     const fileName = source && source.file && source.file.fullFileName;
     // filename relative to cwd, so it can be saved in a snapshot (machine-independent)
     return fileName && relative(process.cwd(), fileName);
+}
+
+function getSourceUrl({ sources = [] }: Reflection): string | undefined {
+    const source = sources[0];
+    return source && source.url;
 }
 
 function getFlags(ref: Reflection): ITsFlags | undefined {

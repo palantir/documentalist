@@ -36,20 +36,23 @@ export interface ITsFlags {
 }
 
 /** Base type for all typescript documentation members. */
-export interface ITsDocBase {
+export interface ITsDocBase<K extends Kind = Kind> {
     /** Type brand indicating kind of member; type guards will reveal further information about it. */
-    kind: Kind;
+    kind: K;
 
     /** Compiled documentation: `contents` field contains an array of markdown strings or `@tag value` objects. */
     documentation?: IBlock;
 
-    /** Original file name in which this member originated. */
+    /** Original file name in which this member originated, relative to current working directory. */
     fileName?: string;
 
     flags?: ITsFlags;
 
     /** Name of this member in code, also used as its identifiers in the data store. */
     name: string;
+
+    /** Absolute URL pointing to source file in repository, typically including the current commit hash and line number. */
+    url?: string;
 }
 
 /**
@@ -113,6 +116,8 @@ export interface ITsMethodParameter extends ITsDocBase, ITsDefaultValue {
     kind: Kind.MethodParameter;
     /** Fully qualified type string describing this parameter. */
     type: string;
+    /** Parameters do not have their own URL; see the containing signature. */
+    url: undefined;
 }
 
 /** Documentation for a property of an object, which may have a default value. */
