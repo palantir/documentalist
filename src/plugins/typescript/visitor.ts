@@ -26,9 +26,9 @@ import {
     ITsFlags,
     ITsInterface,
     ITsMethod,
-    ITsMethodParameter,
-    ITsMethodSignature,
+    ITsParameter,
     ITsProperty,
+    ITsSignature,
     ITsTypeAlias,
     Kind,
 } from "../../client/typescript";
@@ -81,6 +81,7 @@ export class Visitor {
         ...this.makeDocEntry(def, Kind.Interface),
         extends: def.extendedTypes && def.extendedTypes.map(resolveTypeString),
         implements: def.implementedTypes && def.implementedTypes.map(resolveTypeString),
+        indexSignature: def.indexSignature && this.visitSignature(def.indexSignature),
         methods: this.visitChildren(def.getChildrenByKind(ReflectionKind.Method), this.visitMethod, sortStaticFirst),
         properties: this.visitChildren(
             def.getChildrenByKind(ReflectionKind.Property),
@@ -116,16 +117,16 @@ export class Visitor {
         signatures: def.signatures.map(sig => this.visitSignature(sig)),
     });
 
-    private visitSignature = (sig: SignatureReflection): ITsMethodSignature => ({
-        ...this.makeDocEntry(sig, Kind.MethodSignature),
+    private visitSignature = (sig: SignatureReflection): ITsSignature => ({
+        ...this.makeDocEntry(sig, Kind.Signature),
         flags: undefined,
         parameters: (sig.parameters || []).map(param => this.visitParameter(param)),
         returnType: resolveTypeString(sig.type),
         type: resolveSignature(sig),
     });
 
-    private visitParameter = (param: ParameterReflection): ITsMethodParameter => ({
-        ...this.makeDocEntry(param, Kind.MethodParameter),
+    private visitParameter = (param: ParameterReflection): ITsParameter => ({
+        ...this.makeDocEntry(param, Kind.Parameter),
         defaultValue: getDefaultValue(param),
         type: resolveTypeString(param.type),
     });

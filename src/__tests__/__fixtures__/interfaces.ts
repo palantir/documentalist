@@ -60,6 +60,9 @@ export interface IButtonProps extends IActionProps {
      * @default "button"
      */
     type?: string;
+
+    /** Index signature for the masses. */
+    [x: string]: any;
 }
 
 /**
