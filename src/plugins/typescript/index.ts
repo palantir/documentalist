@@ -28,6 +28,13 @@ export interface ITypescriptPluginOptions {
     excludePaths?: Array<string | RegExp>;
 
     /**
+     * Specify the branch name to use when generating source file URLs.
+     * If omitted, the current commit hash will be used.
+     * @see ITsDocBase.url
+     */
+    gitBranch?: string;
+
+    /**
      * Enable parsing of `.d.ts` files.
      * @default false
      */
@@ -66,6 +73,7 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
         const typedocOptions: any = {
             exclude: "**/node_modules/**",
             excludePrivate: !includePrivateMembers,
+            gitRevision: options.gitBranch,
             ignoreCompilerErrors: true,
             includeDeclarations,
             logger: verbose ? console.log : "none",
