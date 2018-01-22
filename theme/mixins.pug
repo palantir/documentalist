@@ -59,6 +59,8 @@ mixin interfaceDocs(iface)
         if iface.implements
           small= " implements "
             +joinNames(iface.implements)
+        small= " "
+          a(href=iface.sourceUrl,target="_blank",title="View source") #
 
 
     if iface.kind === "type alias"
