@@ -65,7 +65,7 @@ export class Visitor {
             flags: getFlags(def),
             kind,
             name: def.name,
-            url: getSourceUrl(def),
+            sourceUrl: getSourceUrl(def),
         };
     }
 
@@ -128,8 +128,8 @@ export class Visitor {
     private visitParameter = (param: ParameterReflection): ITsMethodParameter => ({
         ...this.makeDocEntry(param, Kind.MethodParameter),
         defaultValue: getDefaultValue(param),
+        sourceUrl: undefined,
         type: resolveTypeString(param.type),
-        url: undefined,
     });
 
     /** Visits each child that passes the filter condition (based on options). */

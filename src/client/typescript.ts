@@ -57,7 +57,7 @@ export interface ITsDocBase<K extends Kind = Kind> {
      * Otherwise, it will reference the current commit hash.
      * @see ITypescriptPluginOptions.gitBranch
      */
-    url?: string;
+    sourceUrl?: string;
 }
 
 /**
@@ -122,7 +122,7 @@ export interface ITsMethodParameter extends ITsDocBase, ITsDefaultValue {
     /** Fully qualified type string describing this parameter. */
     type: string;
     /** Parameters do not have their own URL; see the containing signature. */
-    url: undefined;
+    sourceUrl: undefined;
 }
 
 /** Documentation for a property of an object, which may have a default value. */
