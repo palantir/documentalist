@@ -12,7 +12,7 @@ export class PageMap {
 
     /** Returns an iterator for all the pages (values) in the map. */
     public pages() {
-        return this.store.values();
+        return Array.from(this.store.values());
     }
 
     /** Returns the page with the given ID or `undefined` if not found. */
@@ -44,7 +44,7 @@ export class PageMap {
     /** Returns a JS object mapping page IDs to data. */
     public toObject() {
         const object: { [key: string]: IPageData } = {};
-        for (const [key, val] of this.store.entries()) {
+        for (const [key, val] of Array.from(this.store.entries())) {
             object[key] = val;
         }
         return object;
