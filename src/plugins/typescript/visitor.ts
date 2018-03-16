@@ -177,7 +177,7 @@ function getCommentTag(comment: Comment, tagName: string) {
     if (comment == null || comment.tags == null) {
         return undefined;
     }
-    return comment.tags.find(tag => tag.tagName === tagName);
+    return comment.tags.filter(tag => tag.tagName === tagName)[0];
 }
 
 function getDefaultValue(ref: DefaultValueContainer): string | undefined {
