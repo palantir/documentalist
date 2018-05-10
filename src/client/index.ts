@@ -18,6 +18,7 @@
 export * from "./compiler";
 export * from "./kss";
 export * from "./markdown";
+export * from "./npm";
 export * from "./plugin";
 export * from "./tags";
 export * from "./typescript";
