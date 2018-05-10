@@ -90,7 +90,10 @@ workflows:
       - test: *run_on_tags
       - preview:
           requires: [build]
-          # this job never runs on a tag
+          # this job never runs on tags and ignores master
+          filters:
+            branches:
+              ignore: /master/
       - publish:
           requires: [build, test]
           filters:
