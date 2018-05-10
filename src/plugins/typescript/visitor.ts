@@ -39,22 +39,19 @@ export class Visitor {
     public constructor(private compiler: ICompiler, private options: ITypescriptPluginOptions) {}
 
     public visitProject(project: ProjectReflection) {
-        // get top-level members of typedoc project
-        const classes = this.visitChildren(project.getReflectionsByKind(ReflectionKind.Class), this.visitClass);
-        const interfaces = this.visitChildren(
-            project.getReflectionsByKind(ReflectionKind.Interface),
-            this.visitInterface,
-        );
-        const enums = this.visitChildren(project.getReflectionsByKind(ReflectionKind.Enum), this.visitEnum);
-        const aliases = this.visitChildren<ITsTypeAlias>(
-            project.getReflectionsByKind(ReflectionKind.TypeAlias),
-            def => ({ ...this.makeDocEntry(def, Kind.TypeAlias), type: resolveTypeString(def.type) }),
-        );
-
-        // remove members excluded by path option
         const { excludePaths = [] } = this.options;
-        return [...classes, ...interfaces, ...enums, ...aliases].filter(ref =>
-            isNotExcluded(excludePaths, ref.fileName),
+        // get top-level members of typedoc project
+        return [
+            ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Class), this.visitClass),
+            ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Enum), this.visitEnum),
+            ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Interface), this.visitInterface),
+            ...this.visitChildren<ITsTypeAlias>(project.getReflectionsByKind(ReflectionKind.TypeAlias), def => ({
+                ...this.makeDocEntry(def, Kind.TypeAlias),
+                type: resolveTypeString(def.type),
+            })),
+        ].filter(
+            // remove members excluded by path option
+            ref => isNotExcluded(excludePaths, ref.fileName),
         );
     }
 
