@@ -1702,6 +1702,14 @@ jest-jasmine2@^22.0.3:
     jest-snapshot "^22.0.3"
     source-map-support "^0.5.0"
 
+jest-junit@^3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/jest-junit/-/jest-junit-3.7.0.tgz#34abaed677439eb96557815d18b5ba01364fd897"
+  dependencies:
+    mkdirp "^0.5.1"
+    strip-ansi "^4.0.0"
+    xml "^1.0.1"
+
 jest-leak-detector@^22.0.3:
   version "22.0.3"
   resolved "https://registry.yarnpkg.com/jest-leak-detector/-/jest-leak-detector-22.0.3.tgz#b64904f0e8954a11edb79b0809ff4717fa762d99"
@@ -3462,6 +3470,10 @@ write-file-atomic@^2.1.0:
 xml-name-validator@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-2.0.1.tgz#4d8b8f1eccd3419aa362061becef515e1e559635"
+
+xml@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/xml/-/xml-1.0.1.tgz#78ba72020029c5bc87b8a81a3cfcd74b4a2fc1e5"
 
 y18n@^3.2.1:
   version "3.2.1"
