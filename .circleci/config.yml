@@ -26,9 +26,10 @@ jobs:
           at: '.'
       - run: yarn --frozen-lockfile
       - save_cache: *save_cache
+      - run: mkdir ./reports
       - run: yarn compile
-      - run: yarn lint ---format junit --out ./reports
-      - run: yarn test
+      - run: yarn lint --format junit --out ./reports/tslint.xml
+      - run: JEST_JUNIT_OUTPUT="./reports/jest.xml" yarn test --ci --testResultsProcessor="jest-junit"
       - store_artifacts:
           path: dist
       - store_test_results: *reports_path
