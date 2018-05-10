@@ -40,7 +40,7 @@ export class Compiler implements ICompiler {
         return array.reduce<{ [key: string]: T }>((obj, item) => {
             obj[getKey(item)] = item;
             return obj;
-        }, {})
+        }, {});
     }
 
     public renderBlock = (blockContent: string, reservedTagWords = this.options.reservedTags): IBlock => {

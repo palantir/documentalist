@@ -12,8 +12,6 @@ describe("Compiler", () => {
     const API = new Compiler({});
 
     describe("objectify", () => {
-        it("fails", () => expect(false).toBe(true));
-
         it("empty array returns empty object", () => {
             expect(API.objectify([], x => x)).toEqual({});
         });
