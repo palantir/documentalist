@@ -14,7 +14,7 @@ import {
     ReflectionKind,
     SignatureReflection,
 } from "typedoc";
-import { Comment } from "typedoc/dist/lib/models/comments/comment";
+import { Comment, UnionType } from "typedoc/dist/lib/models";
 import { DefaultValueContainer } from "typedoc/dist/lib/models/reflections/abstract";
 import { ICompiler } from "../../client/compiler";
 import {
@@ -45,6 +45,11 @@ export class Visitor {
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Class), this.visitClass),
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Enum), this.visitEnum),
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Interface), this.visitInterface),
+            ...this.visitChildren(
+                // detect if a `const X = { A, B, C }` also has a corresponding `type X = A | B | C`
+                project.getReflectionsByKind(ReflectionKind.ObjectLiteral).filter(isConstTypePair),
+                this.visitConstTypePair,
+            ),
             ...this.visitChildren<ITsTypeAlias>(project.getReflectionsByKind(ReflectionKind.TypeAlias), def => ({
                 ...this.makeDocEntry(def, Kind.TypeAlias),
                 type: resolveTypeString(def.type),
@@ -93,13 +98,21 @@ export class Visitor {
         kind: Kind.Constructor,
     });
 
+    private visitConstTypePair = (def: DeclarationReflection): ITsEnum => ({
+        ...this.makeDocEntry(def, Kind.Enum),
+        // ObjectLiteral has Variable children, but we'll expose them as enum members
+        members: this.visitChildren<ITsEnumMember>(def.getChildrenByKind(ReflectionKind.Variable), m => ({
+            ...this.makeDocEntry(m, Kind.EnumMember),
+            defaultValue: resolveTypeString(m.type),
+        })),
+    });
+
     private visitEnum = (def: DeclarationReflection): ITsEnum => ({
         ...this.makeDocEntry(def, Kind.Enum),
-        members: this.visitChildren<ITsEnumMember>(
-            def.getChildrenByKind(ReflectionKind.EnumMember),
-            m => ({ ...this.makeDocEntry(m, Kind.EnumMember), defaultValue: getDefaultValue(m) }),
-            sortStaticFirst,
-        ),
+        members: this.visitChildren<ITsEnumMember>(def.getChildrenByKind(ReflectionKind.EnumMember), m => ({
+            ...this.makeDocEntry(m, Kind.EnumMember),
+            defaultValue: getDefaultValue(m),
+        })),
     });
 
     private visitProperty = (def: DeclarationReflection): ITsProperty => ({
@@ -216,6 +229,10 @@ function getIsDeprecated(ref: Reflection) {
     }
     const text = deprecatedTag.text.trim();
     return text === "" ? true : text;
+}
+
+function isConstTypePair(def: DeclarationReflection) {
+    return def.kind === ReflectionKind.ObjectLiteral && def.type instanceof UnionType;
 }
 
 /** Returns true if value does not match all patterns. */
