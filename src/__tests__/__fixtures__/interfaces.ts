@@ -4,12 +4,6 @@
  * This file contains dummy code for testing the typescript plugin.
  */
 
-export enum Intent {
-    Primary,
-    Success,
-    Warning,
-    Danger,
-}
 export type IconName = "add" | "remove" | "plus" | "minus";
 
 export interface IActionProps {
@@ -18,9 +12,6 @@ export interface IActionProps {
 
     /** Name of the icon (the part after `pt-icon-`) to add to the button. */
     iconName?: IconName;
-
-    /** Visual intent color to apply to element. */
-    intent: Intent;
 
     /** Click event handler. */
     onClick: (event: MouseEvent) => void;
