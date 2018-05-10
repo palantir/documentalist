@@ -13,12 +13,6 @@ references:
     keys:
       - v1-dependency-cache-{{ checksum "yarn.lock" }}
       - v1-dependency-cache-
-  persist_to_workspace: &persist_to_workspace
-    root: '.'
-    paths:
-      # directories to persist to workspace
-      - dist
-      - docs
   reports_path: &reports_path
     path: ./reports
 
@@ -37,7 +31,10 @@ jobs:
       - run: yarn test
       - store_artifacts:
           path: dist
-      - persist_to_workspace: *persist_to_workspace
+      - persist_to_workspace:
+          root: '.'
+          paths:
+            - dist
 
   preview:
     <<: *setup_env
