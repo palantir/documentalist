@@ -27,9 +27,9 @@ jobs:
     <<: *setup_env
     steps:
       - checkout
+      - restore_cache: *restore_cache
       - attach_workspace:
           at: '.'
-      - restore_cache: *restore_cache
       - run: yarn --frozen-lockfile
       - save_cache: *save_cache
       - run: yarn compile
@@ -43,6 +43,7 @@ jobs:
     <<: *setup_env
     steps:
       - checkout
+      - restore_cache: *restore_cache
       - attach_workspace:
           at: '.'
       - run: yarn docs
@@ -56,6 +57,7 @@ jobs:
     <<: *setup_env
     steps:
       - checkout
+      - restore_cache: *restore_cache
       - attach_workspace:
           at: '.'
       - run: echo -e "$NPM_USER\n$NPM_PASS\n$NPM_EMAIL" | npm login
