@@ -11,6 +11,7 @@ import { ITypescriptPluginOptions, TypescriptPlugin } from "../plugins/typescrip
 
 describe("TypescriptPlugin", () => {
     it("classes snapshot", () => expectSnapshot("classes"));
+    it("enums snapshot", () => expectSnapshot("enums"));
     it("interfaces snapshot", () => expectSnapshot("interfaces"));
 
     describe("options", () => {
