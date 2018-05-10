@@ -68,6 +68,9 @@ jobs:
       - run:
           name: Submit Github comment with links to built artifacts
           command: node theme/bot.js
+          environment:
+            # circle-github-bot@0.4.0 expects this env variable
+            CIRCLE_ARTIFACTS: dopedopedope
 
   publish:
     <<: *setup_env
