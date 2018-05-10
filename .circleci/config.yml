@@ -1,0 +1,84 @@
+version: 2
+
+# this block contains anchors to reusable blocks of config.
+references:
+  setup_env: &setup_env
+    docker:
+      - image: circleci/node:8.10.0
+  save_cache: &save_cache
+    key: v1-dependency-cache-{{ checksum "yarn.lock" }}
+    paths:
+      - node_modules
+  restore_cache: &restore_cache
+    keys:
+      - v1-dependency-cache-{{ checksum "yarn.lock" }}
+      - v1-dependency-cache-
+  persist_to_workspace: &persist_to_workspace
+    root: '.'
+    paths:
+      # directories to persist to workspace
+      - dist
+      - docs
+  reports_path: &reports_path
+    path: ./reports
+
+jobs:
+  build:
+    <<: *setup_env
+    steps:
+      - checkout
+      - attach_workspace:
+          at: '.'
+      - restore_cache: *restore_cache
+      - run: yarn --frozen-lockfile
+      - save_cache: *save_cache
+      - run: yarn compile
+      - run: yarn lint
+      - run: yarn test
+      - store_artifacts:
+          path: dist
+      - persist_to_workspace: *persist_to_workspace
+
+  preview:
+    <<: *setup_env
+    steps:
+      - checkout
+      - attach_workspace:
+          at: '.'
+      - run: yarn docs
+      - store_artifacts:
+          path: docs
+      - run:
+          name: Submit Github comment with links to built artifacts
+          command: node theme/bot.js
+
+  publish:
+    <<: *setup_env
+    steps:
+      - checkout
+      - attach_workspace:
+          at: '.'
+      - run: echo -e "$NPM_USER\n$NPM_PASS\n$NPM_EMAIL" | npm login
+      - run: npm publish
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          filters:
+            # run this job for tags as well
+            tags:
+              only: /.*/
+      - preview:
+          requires: [build]
+          # this job never runs on a tag
+      - publish:
+          requires: [build]
+          filters:
+            # run this job only on tags
+            tags:
+              only: /^release-.*/
+            branches:
+              ignore: /.*/
+
