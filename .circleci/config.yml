@@ -27,10 +27,11 @@ jobs:
       - run: yarn --frozen-lockfile
       - save_cache: *save_cache
       - run: yarn compile
-      - run: yarn lint
+      - run: yarn lint ---format junit --out ./reports
       - run: yarn test
       - store_artifacts:
           path: dist
+      - store_test_results: *reports_path
       - persist_to_workspace:
           root: '.'
           paths:
