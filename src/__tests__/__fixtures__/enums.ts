@@ -6,10 +6,10 @@
 
 /** classic typescript enum */
 export enum Intent {
-    Primary,
-    Success,
-    Warning,
-    Danger,
+    PRIMARY = "primary",
+    SUCCESS = "success",
+    WARNING = "warning",
+    DANGER = "danger",
 }
 
 /** const/type pair: enum & string literals */

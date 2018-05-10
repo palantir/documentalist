@@ -494,7 +494,7 @@ Object {
     "kind": "enum",
     "members": Array [
       Object {
-        "defaultValue": undefined,
+        "defaultValue": "\\"danger\\"",
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/enums.ts",
         "flags": Object {
@@ -509,11 +509,11 @@ Object {
           "isStatic": false,
         },
         "kind": "enum member",
-        "name": "Danger",
+        "name": "DANGER",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/src/__tests__/__fixtures__/enums.ts#L12",
       },
       Object {
-        "defaultValue": undefined,
+        "defaultValue": "\\"primary\\"",
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/enums.ts",
         "flags": Object {
@@ -528,11 +528,11 @@ Object {
           "isStatic": false,
         },
         "kind": "enum member",
-        "name": "Primary",
+        "name": "PRIMARY",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/src/__tests__/__fixtures__/enums.ts#L9",
       },
       Object {
-        "defaultValue": undefined,
+        "defaultValue": "\\"success\\"",
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/enums.ts",
         "flags": Object {
@@ -547,11 +547,11 @@ Object {
           "isStatic": false,
         },
         "kind": "enum member",
-        "name": "Success",
+        "name": "SUCCESS",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/src/__tests__/__fixtures__/enums.ts#L10",
       },
       Object {
-        "defaultValue": undefined,
+        "defaultValue": "\\"warning\\"",
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/enums.ts",
         "flags": Object {
@@ -566,7 +566,7 @@ Object {
           "isStatic": false,
         },
         "kind": "enum member",
-        "name": "Warning",
+        "name": "WARNING",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/src/__tests__/__fixtures__/enums.ts#L11",
       },
     ],
