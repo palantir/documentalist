@@ -79,7 +79,8 @@ jobs:
       - restore_cache: *restore_cache
       - attach_workspace:
           at: '.'
-      - run: echo -e "$NPM_USER\n$NPM_PASS\n$NPM_EMAIL" | npm login
+      - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
+      - run: chmod 0600 .npmrc
       - run: npm publish
 
 workflows:
