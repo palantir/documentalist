@@ -20,13 +20,18 @@
 export function linkify<D, T>(
     text: string,
     data: Record<string, D>,
-    callback: (name: string, data: D) => T,
+    callback: (name: string, data: D, index: number) => T,
 ): Array<string | T> {
-    return text.split(WORD_SEPARATORS).map(word => (data[word] == null ? word : callback(word, data[word])));
+    return text
+        .split(WORD_SEPARATORS)
+        .map((word, idx) => (data[word] == null ? word : callback(word, data[word], idx)));
 }
+
 const WORD_SEPARATORS = /([\[\]<>()| :.,]+)/g;
 
-/** Slugify a string: "Really Cool Heading!" => "really-cool-heading-" */
+/**
+ * Slugify a string: "Really Cool Heading!" => "really-cool-heading-"
+ */
 export function slugify(str: string) {
     return str.toLowerCase().replace(/[^\w.\/]/g, "-");
 }
