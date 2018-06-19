@@ -36,6 +36,9 @@ export interface IPageData extends IBlock {
     /** Fully qualified route to this page: slash-separated references of all parent pages. */
     route: string;
 
+    /** Relative path from cwd to the original source file. */
+    sourcePath: string;
+
     /** Human-friendly title of this page. */
     title: string;
 }

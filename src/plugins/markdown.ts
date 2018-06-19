@@ -69,6 +69,7 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
         return {
             reference,
             route: reference,
+            sourcePath: path.relative(process.cwd(), filePath),
             title: getTitle(block),
             ...block,
         };

@@ -19,16 +19,16 @@ key: value
 @othertag params
 `;
 
-const TEST_NAV = `@page test
+const TEST_NAV = `@page file
 `;
 
 const TEST_FILES = [
     {
-        path: "/whatever/other/test.md",
+        path: "path/to/file.md",
         read: () => TEST_MARKDOWN,
     },
     {
-        path: "/who/cares/_nav.md",
+        path: "path/to/_nav.md",
         read: () => TEST_NAV,
     },
 ];
