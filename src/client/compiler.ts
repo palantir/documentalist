@@ -18,6 +18,11 @@ export interface ICompiler {
     objectify<T>(array: T[], getKey: (item: T) => string): { [key: string]: T };
 
     /**
+     * Get the relative path from `sourceBaseDir` to the given path.
+     */
+    relativePath(path: string): string;
+
+    /**
      * Render a block of content by extracting metadata (YAML front matter) and
      * splitting text content into markdown-rendered HTML strings and `{ tag,
      * value }` objects.

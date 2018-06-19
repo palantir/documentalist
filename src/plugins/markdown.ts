@@ -64,23 +64,23 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
         return { nav, pages };
     }
 
-    private blockToPage(filePath: string, block: IBlock): IPageData {
-        const reference = getReference(filePath, block);
+    private blockToPage(sourcePath: string, block: IBlock): IPageData {
+        const reference = getReference(sourcePath, block);
         return {
             reference,
             route: reference,
-            sourcePath: path.relative(process.cwd(), filePath),
+            sourcePath,
             title: getTitle(block),
             ...block,
         };
     }
 
     /** Convert each file to IPageData and populate store. */
-    private buildPageStore(markdownFiles: IFile[], { renderBlock }: ICompiler) {
+    private buildPageStore(markdownFiles: IFile[], { relativePath, renderBlock }: ICompiler) {
         const pageMap = new PageMap();
         for (const file of markdownFiles) {
             const block = renderBlock(file.read());
-            const page = this.blockToPage(file.path, block);
+            const page = this.blockToPage(relativePath(file.path), block);
             pageMap.set(page.reference, page);
         }
         return pageMap;

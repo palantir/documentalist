@@ -7,6 +7,7 @@
 
 import * as path from "path";
 import { Documentalist } from "./documentalist";
+import { NpmPlugin } from "./plugins/npm";
 import { TypescriptPlugin } from "./plugins/typescript";
 
 // Launch "Documentalist" from Debug panel in VS Code (see .vscode/launch.json).
@@ -15,7 +16,9 @@ import { TypescriptPlugin } from "./plugins/typescript";
 // Set breakpoints in original .ts source and debug in the editor!
 Documentalist.create()
     .use(".ts", new TypescriptPlugin())
+    .use("package.json", new NpmPlugin())
     .documentGlobs(
+        path.join(__dirname, "..", "package.json"),
         // compile test fixtures:
         path.join(__dirname, "__tests__", "__fixtures__", "*.ts"),
         // compile our own source code:
