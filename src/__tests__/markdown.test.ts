@@ -19,7 +19,7 @@ key: value
 @othertag params
 `;
 
-const TEST_NAV = `@page test
+const TEST_NAV = `@page file
 `;
 
 const TEST_FILES = [
