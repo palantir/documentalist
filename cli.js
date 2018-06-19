@@ -13,7 +13,7 @@
 const yargs = require("yargs");
 const fs = require("fs");
 const glob = require("glob");
-const { Documentalist, KssPlugin, MarkdownPlugin, TypescriptPlugin } = require("./dist/");
+const { Documentalist, KssPlugin, MarkdownPlugin, NpmPlugin, TypescriptPlugin } = require("./dist/");
 
 const argv = yargs
     .alias("v", "version")
@@ -23,6 +23,11 @@ const argv = yargs
     .option("md", {
         default: true,
         desc: "use MarkdownPlugin for .md files",
+        type: "boolean",
+    })
+    .option("npm", {
+        default: true,
+        desc: "use NPM plugin for package.json files",
         type: "boolean",
     })
     .option("ts", {
@@ -41,6 +46,9 @@ let docs = Documentalist.create();
 
 if (argv.md) {
     docs = docs.use(".md", new MarkdownPlugin());
+}
+if (argv.npm) {
+    docs = docs.use("package.json", new NpmPlugin());
 }
 if (argv.ts) {
     docs = docs.use(/\.tsx?$/, new TypescriptPlugin({ excludePaths: ["__tests__/"] }));
