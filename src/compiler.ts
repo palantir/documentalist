@@ -53,10 +53,10 @@ export class Compiler implements ICompiler {
         }, {});
     }
 
-    public relativePath(path: string) {
+    public relativePath = (path: string) => {
         const { sourceBaseDir = process.cwd() } = this.options;
         return relative(sourceBaseDir, path);
-    }
+    };
 
     public renderBlock = (blockContent: string, reservedTagWords = this.options.reservedTags): IBlock => {
         const { contentsRaw, metadata } = this.extractMetadata(blockContent.trim());
