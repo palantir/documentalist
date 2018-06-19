@@ -30,6 +30,9 @@ export interface IMarkdownPluginData {
  * A single Documentalist page, parsed from a single source file.
  */
 export interface IPageData extends IBlock {
+    /** Relative path to the original source file. */
+    filePath: string;
+
     /** Unique identifier for addressing this page. */
     reference: string;
 
