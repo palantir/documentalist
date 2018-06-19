@@ -6,20 +6,21 @@ Object {
     "contents": Array [
       Object {
         "tag": "page",
-        "value": "test",
+        "value": "file",
       },
     ],
-    "contentsRaw": "@page test",
+    "contentsRaw": "@page file",
     "metadata": Object {},
     "reference": "_nav",
     "route": "_nav",
+    "sourcePath": "path/to/_nav.md",
     "title": "(untitled)",
   },
-  "test": Object {
+  "file": Object {
     "contents": Array [
       Object {
         "level": 1,
-        "route": "test",
+        "route": "file",
         "tag": "heading",
         "value": "I'm special",
       },
@@ -39,8 +40,9 @@ Object {
     "metadata": Object {
       "key": "value",
     },
-    "reference": "test",
-    "route": "test",
+    "reference": "file",
+    "route": "file",
+    "sourcePath": "path/to/file.md",
     "title": "I'm special",
   },
 }
