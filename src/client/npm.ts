@@ -21,7 +21,7 @@ export interface INpmPackage {
     /** Next version of the package (npm `next` dist-tag). */
     nextVersion?: string;
 
-    /** Relative path from cwd to the package directory. */
+    /** Relative path from `sourceBaseDir` to this package. */
     sourcePath: string;
 
     /** All published versions of this package. */
