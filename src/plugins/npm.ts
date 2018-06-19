@@ -38,6 +38,8 @@ export class NpmPlugin implements IPlugin<INpmPluginData> {
         const sourcePath = dm.relativePath(packageJson.path);
         const json = JSON.parse(packageJson.read());
         const data = JSON.parse(await this.getNpmInfo(json.name));
+        // `npm info` returns an error if it doesn't know the package
+        // so we can use package.json data instead
         if (data.error) {
             return {
                 name: json.name,
