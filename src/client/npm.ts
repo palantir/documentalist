@@ -5,21 +5,24 @@
  * repository.
  */
 
-/**
- * Version information about an NPM package.
- */
 export interface INpmPackage {
+    /** Package name. */
+    name: string;
+
     /** Package description. */
     description?: string;
 
     /** Latest version of the package (npm `latest` dist-tag). */
-    latestVersion?: string;
-
-    /** Package name. */
-    name: string;
+    latestVersion: string;
 
     /** Next version of the package (npm `next` dist-tag). */
     nextVersion?: string;
+
+    /** Whether this package is marked `private`. */
+    private: boolean;
+
+    /** Whether this package is published to NPM. */
+    published: boolean;
 
     /** Relative path from `sourceBaseDir` to this package. */
     sourcePath: string;

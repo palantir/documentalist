@@ -17,6 +17,35 @@ describe("NpmPlugin", () => {
         // NOTE: not using snapshot as it would change with every release due to `npm info` call.
         expect(documentalist.name).toBe(pkg.name);
         expect(documentalist.description).toBe(pkg.description);
-        expect(documentalist.nextVersion || documentalist.latestVersion).toBe(pkg.version);
+        expect(documentalist.latestVersion).toBe(pkg.version);
+    });
+
+    it("handles npm info fails", async () => {
+        const { npm: { doesNotExist } } = await dm.documentFiles([
+            { path: "package.json", read: () => `{ "name": "doesNotExist", "version": "1.0.0" }` },
+        ]);
+        expect(doesNotExist.name).toBe("doesNotExist");
+        expect(doesNotExist.latestVersion).toBe("1.0.0");
+        expect(doesNotExist.published).toBe(false);
+    });
+
+    it("options", async () => {
+        const dm2 = Documentalist.create().use(
+            "package.json",
+            new NpmPlugin({ excludeNames: [/two/i], excludePrivate: true }),
+        );
+        const { npm } = await dm2.documentFiles([
+            {
+                // excludePrivate
+                path: "one/package.json",
+                read: () => `{ "name": "packageOne", "private": true, "version": "1.0.0" }`,
+            },
+            {
+                // excludeNames
+                path: "two/package.json",
+                read: () => `{ "name": "packageTwo", "version": "1.0.0" }`,
+            },
+        ]);
+        expect(Object.keys(npm)).toHaveLength(0);
     });
 });

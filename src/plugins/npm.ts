@@ -8,32 +8,59 @@
 import { spawn } from "child_process";
 import { ICompiler, IFile, INpmPackage, INpmPluginData, IPlugin } from "../client";
 
+export interface INpmPluginOptions {
+    /** Whether to exclude packages marked `private`. */
+    excludePrivate?: boolean;
+
+    /** Array of patterns to exclude packages by `name`. */
+    excludeNames?: Array<string | RegExp>;
+}
+
 /**
- * The `NpmPlugin` parses `package.json` files and emits data about each
- * NPM package. Packages marked `private: true` will be ignored.
+ * The `NpmPlugin` parses `package.json` files and emits data about each NPM
+ * package. It uses `npm info` to look up data about published packages, and
+ * falls back to `package.json` info if the package is private or unpublished.
  */
 export class NpmPlugin implements IPlugin<INpmPluginData> {
+    public constructor(private options: INpmPluginOptions = {}) {}
+
     public async compile(packageJsons: IFile[], dm: ICompiler): Promise<INpmPluginData> {
         const info = await Promise.all(packageJsons.map(pkg => this.parseNpmInfo(pkg, dm)));
-        const npm = arrayToObject(info.filter(isDefined), pkg => pkg.name);
+        const { excludeNames, excludePrivate } = this.options;
+        const npm = arrayToObject(
+            info.filter(pkg => isNotExcluded(excludeNames, pkg.name) && excludePrivate !== pkg.private),
+            pkg => pkg.name,
+        );
         return { npm };
     }
 
-    private parseNpmInfo = async (packageJson: IFile, dm: ICompiler): Promise<INpmPackage | undefined> => {
+    private parseNpmInfo = async (packageJson: IFile, dm: ICompiler): Promise<INpmPackage> => {
+        const sourcePath = dm.relativePath(packageJson.path);
         const json = JSON.parse(packageJson.read());
-        if (json.private === true) {
-            // ignore private packages as they will not appear in `npm info`
-            return undefined;
-        }
         const data = JSON.parse(await this.getNpmInfo(json.name));
+        if (data.error) {
+            return {
+                name: json.name,
+                published: false,
+                // tslint:disable-next-line:object-literal-sort-keys
+                description: json.description,
+                latestVersion: json.version,
+                private: json.private === true,
+                sourcePath,
+                versions: [json.version],
+            };
+        }
+
         const distTags = data["dist-tags"] || {};
         return {
             name: data.name,
+            published: true,
             // tslint:disable-next-line:object-literal-sort-keys
             description: data.description,
             latestVersion: distTags.latest,
             nextVersion: distTags.next,
-            sourcePath: dm.relativePath(packageJson.path),
+            private: false,
+            sourcePath,
             versions: data.versions,
         };
     };
@@ -55,6 +82,7 @@ function arrayToObject<T>(array: T[], keyFn: ((item: T) => string)) {
     return obj;
 }
 
-function isDefined<T>(arg: T | undefined): arg is T {
-    return arg !== undefined;
+/** Returns true if value does not match all patterns. */
+function isNotExcluded(patterns: Array<string | RegExp> = [], value?: string) {
+    return value === undefined || patterns.every(p => value.match(p) == null);
 }
