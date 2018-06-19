@@ -160,26 +160,11 @@ export class Visitor {
     /**
      * Converts a typedoc comment object to a rendered `IBlock`.
      */
-    private renderComment(comment: Comment) {
+    private renderComment(comment?: Comment) {
         if (!comment) {
             return undefined;
         }
-        let documentation = "";
-        if (comment.shortText) {
-            documentation += comment.shortText;
-        }
-        if (comment.text) {
-            documentation += "\n\n" + comment.text;
-        }
-        if (comment.tags) {
-            documentation +=
-                "\n\n" +
-                comment.tags
-                    .filter(tag => tag.tagName !== "default" && tag.tagName !== "deprecated")
-                    .map(tag => `@${tag.tagName} ${tag.text}`)
-                    .join("\n");
-        }
-        return this.compiler.renderBlock(documentation);
+        return this.compiler.renderBlock(getCommentText(comment));
     }
 }
 
@@ -189,6 +174,26 @@ function getCommentTag(comment: Comment, tagName: string) {
     }
     return comment.tags.filter(tag => tag.tagName === tagName)[0];
 }
+
+function getCommentText(comment: Comment) {
+    let documentation = "";
+    if (comment.shortText) {
+        documentation += comment.shortText;
+    }
+    if (comment.text) {
+        documentation += "\n\n" + comment.text;
+    }
+    if (comment.tags) {
+        documentation +=
+            "\n\n" +
+            comment.tags
+                .filter(tag => IGNORED_TAGS.indexOf(tag.tagName) === -1)
+                .map(tag => `@${tag.tagName} ${tag.text}`)
+                .join("\n");
+    }
+    return documentation;
+}
+const IGNORED_TAGS = ["default", "deprecated", "inheritdoc", "param", "returns"];
 
 function getDefaultValue(ref: DefaultValueContainer): string | undefined {
     if (ref.defaultValue != null) {
