@@ -10,10 +10,10 @@ Object {
       },
     ],
     "contentsRaw": "@page file",
-    "filePath": "path/to/_nav.md",
     "metadata": Object {},
     "reference": "_nav",
     "route": "_nav",
+    "sourcePath": "path/to/_nav.md",
     "title": "(untitled)",
   },
   "file": Object {
@@ -37,12 +37,12 @@ Object {
 ## I'm regular
 
 @othertag params",
-    "filePath": "path/to/file.md",
     "metadata": Object {
       "key": "value",
     },
     "reference": "file",
     "route": "file",
+    "sourcePath": "path/to/file.md",
     "title": "I'm special",
   },
 }

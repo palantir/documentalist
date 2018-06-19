@@ -30,14 +30,14 @@ export interface IMarkdownPluginData {
  * A single Documentalist page, parsed from a single source file.
  */
 export interface IPageData extends IBlock {
-    /** Relative path from cwd to the original source file. */
-    filePath: string;
-
     /** Unique identifier for addressing this page. */
     reference: string;
 
     /** Fully qualified route to this page: slash-separated references of all parent pages. */
     route: string;
+
+    /** Relative path from cwd to the original source file. */
+    sourcePath: string;
 
     /** Human-friendly title of this page. */
     title: string;

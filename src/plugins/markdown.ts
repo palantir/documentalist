@@ -67,9 +67,9 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
     private blockToPage(filePath: string, block: IBlock): IPageData {
         const reference = getReference(filePath, block);
         return {
-            filePath: path.relative(process.cwd(), filePath),
             reference,
             route: reference,
+            sourcePath: path.relative(process.cwd(), filePath),
             title: getTitle(block),
             ...block,
         };
