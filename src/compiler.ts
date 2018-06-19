@@ -7,6 +7,7 @@
 
 import * as yaml from "js-yaml";
 import * as marked from "marked";
+import { relative } from "path";
 import { IBlock, ICompiler, IHeadingTag, StringOrTag } from "./client";
 
 /**
@@ -31,6 +32,15 @@ export interface ICompilerOptions {
      * Do not include the `@` prefix in the strings.
      */
     reservedTags?: string[];
+
+    /**
+     * Base directory for generating relative `sourcePath`s.
+     *
+     * This option _does not affect_ glob expansion, only the generation of
+     * `sourcePath` in plugin data.
+     * @default process.cwd()
+     */
+    sourceBaseDir?: string;
 }
 
 export class Compiler implements ICompiler {
@@ -41,6 +51,11 @@ export class Compiler implements ICompiler {
             obj[getKey(item)] = item;
             return obj;
         }, {});
+    }
+
+    public relativePath(path: string) {
+        const { sourceBaseDir = process.cwd() } = this.options;
+        return relative(sourceBaseDir, path);
     }
 
     public renderBlock = (blockContent: string, reservedTagWords = this.options.reservedTags): IBlock => {
