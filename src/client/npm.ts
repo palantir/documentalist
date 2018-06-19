@@ -9,17 +9,20 @@
  * Version information about an NPM package.
  */
 export interface INpmPackage {
-    /** Latest version of the package (npm `latest` tag). */
-    latestVersion: string;
+    /** Package description. */
+    description?: string;
 
-    /** Most recent release of each major version of this package. */
-    majorVersions: string[];
+    /** Latest version of the package (npm `latest` dist-tag). */
+    latestVersion?: string;
 
-    /** Name of package */
+    /** Package name. */
     name: string;
 
-    /** Next version of the package (npm `next` tag). */
-    nextVersion: string;
+    /** Next version of the package (npm `next` dist-tag). */
+    nextVersion?: string;
+
+    /** All published versions of this package. */
+    versions: string[];
 }
 
 /**
