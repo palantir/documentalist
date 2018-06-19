@@ -26,12 +26,13 @@ export class NpmPlugin implements IPlugin<INpmPluginData> {
             return undefined;
         }
         const data = JSON.parse(await this.getNpmInfo(json.name));
+        const distTags = data["dist-tags"] || {};
         return {
             name: data.name,
             // tslint:disable-next-line:object-literal-sort-keys
             description: data.description,
-            latestVersion: data["dist-tags"].latest,
-            nextVersion: data["dist-tags"].next,
+            latestVersion: distTags.latest,
+            nextVersion: distTags.next,
             sourcePath: dm.relativePath(packageJson.path),
             versions: data.versions,
         };

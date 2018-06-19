@@ -16,7 +16,7 @@ import { TypescriptPlugin } from "./plugins/typescript";
 // Set breakpoints in original .ts source and debug in the editor!
 Documentalist.create()
     .use(".ts", new TypescriptPlugin())
-    .use(".json", new NpmPlugin())
+    .use("package.json", new NpmPlugin())
     .documentGlobs(
         path.join(__dirname, "..", "package.json"),
         // compile test fixtures:
