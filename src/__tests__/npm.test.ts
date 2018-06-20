@@ -17,7 +17,8 @@ describe("NpmPlugin", () => {
         // NOTE: not using snapshot as it would change with every release due to `npm info` call.
         expect(documentalist.name).toBe(pkg.name);
         expect(documentalist.description).toBe(pkg.description);
-        expect(documentalist.latestVersion).toBe(pkg.version);
+        expect(documentalist.version).toBe(pkg.version);
+        expect(documentalist.latestVersion).toBeDefined(); // npm-info succeeded
     });
 
     it("handles npm info fails", async () => {
@@ -25,8 +26,9 @@ describe("NpmPlugin", () => {
             { path: "package.json", read: () => `{ "name": "doesNotExist", "version": "1.0.0" }` },
         ]);
         expect(doesNotExist.name).toBe("doesNotExist");
-        expect(doesNotExist.latestVersion).toBe("1.0.0");
+        expect(doesNotExist.version).toBe("1.0.0");
         expect(doesNotExist.published).toBe(false);
+        expect(doesNotExist.latestVersion).toBeUndefined();
     });
 
     it("options", async () => {

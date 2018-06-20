@@ -44,9 +44,9 @@ export class NpmPlugin implements IPlugin<INpmPluginData> {
             return {
                 name: json.name,
                 published: false,
+                version: json.version,
                 // tslint:disable-next-line:object-literal-sort-keys
                 description: json.description,
-                latestVersion: json.version,
                 private: json.private === true,
                 sourcePath,
                 versions: [json.version],
@@ -57,6 +57,7 @@ export class NpmPlugin implements IPlugin<INpmPluginData> {
         return {
             name: data.name,
             published: true,
+            version: json.version,
             // tslint:disable-next-line:object-literal-sort-keys
             description: data.description,
             latestVersion: distTags.latest,

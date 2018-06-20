@@ -12,10 +12,13 @@ export interface INpmPackage {
     /** Package description. */
     description?: string;
 
-    /** Latest version of the package (npm `latest` dist-tag). */
-    latestVersion: string;
+    /** Version string from package.json. */
+    version: string;
 
-    /** Next version of the package (npm `next` dist-tag). */
+    /** NPM `latest` dist-tag version. */
+    latestVersion?: string;
+
+    /** NPM `next` dist-tag version. */
     nextVersion?: string;
 
     /** Whether this package is marked `private`. */
@@ -27,7 +30,7 @@ export interface INpmPackage {
     /** Relative path from `sourceBaseDir` to this package. */
     sourcePath: string;
 
-    /** All published versions of this package. */
+    /** All published versions of this package. If published, this contains only `version`. */
     versions: string[];
 }
 
