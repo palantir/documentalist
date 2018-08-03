@@ -56,7 +56,11 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
         // now that we have all known pages, we can resolve @include tags.
         this.resolveIncludeTags(pageMap);
         // generate navigation tree after all pages loaded and processed.
-        const nav = pageMap.toTree(this.options.navPage).children as IPageNode[];
+        const { navPage } = this.options;
+        if (pageMap.get(navPage) == null) {
+            throw new Error(`Error generating page map: options.navPage "${navPage}" does not exist.`);
+        }
+        const nav = pageMap.toTree(navPage).children.filter(isPageNode);
         // use nav tree to fill in `route` for all pages and headings.
         this.resolveRoutes(pageMap, nav);
         // generate object at the end, after `route` has been computed throughout.
