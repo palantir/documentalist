@@ -26,7 +26,7 @@
 
 "@types/fs-extra@^5.0.3":
   version "5.0.4"
-  resolved "https://registry.npmjs.org/@types/fs-extra/-/fs-extra-5.0.4.tgz#b971134d162cc0497d221adde3dbb67502225599"
+  resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-5.0.4.tgz#b971134d162cc0497d221adde3dbb67502225599"
   dependencies:
     "@types/node" "*"
 
@@ -48,11 +48,11 @@
 
 "@types/handlebars@^4.0.38":
   version "4.0.39"
-  resolved "https://registry.npmjs.org/@types/handlebars/-/handlebars-4.0.39.tgz#961fb54db68030890942e6aeffe9f93a957807bd"
+  resolved "https://registry.yarnpkg.com/@types/handlebars/-/handlebars-4.0.39.tgz#961fb54db68030890942e6aeffe9f93a957807bd"
 
 "@types/highlight.js@^9.12.3":
   version "9.12.3"
-  resolved "https://registry.npmjs.org/@types/highlight.js/-/highlight.js-9.12.3.tgz#b672cfaac25cbbc634a0fd92c515f66faa18dbca"
+  resolved "https://registry.yarnpkg.com/@types/highlight.js/-/highlight.js-9.12.3.tgz#b672cfaac25cbbc634a0fd92c515f66faa18dbca"
 
 "@types/jest@^21.1.8":
   version "21.1.8"
@@ -68,7 +68,7 @@
 
 "@types/lodash@^4.14.110":
   version "4.14.116"
-  resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.116.tgz#5ccf215653e3e8c786a58390751033a9adca0eb9"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.116.tgz#5ccf215653e3e8c786a58390751033a9adca0eb9"
 
 "@types/marked@^0.3.0":
   version "0.3.0"
@@ -76,7 +76,7 @@
 
 "@types/marked@^0.4.0":
   version "0.4.1"
-  resolved "https://registry.npmjs.org/@types/marked/-/marked-0.4.1.tgz#6595701c4d0dfde9d04894d3be04b8a97a49e0d7"
+  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-0.4.1.tgz#6595701c4d0dfde9d04894d3be04b8a97a49e0d7"
 
 "@types/minimatch@*":
   version "3.0.2"
@@ -92,7 +92,7 @@
 
 "@types/shelljs@^0.8.0":
   version "0.8.0"
-  resolved "https://registry.npmjs.org/@types/shelljs/-/shelljs-0.8.0.tgz#0caa56b68baae4f68f44e0dd666ab30b098e3632"
+  resolved "https://registry.yarnpkg.com/@types/shelljs/-/shelljs-0.8.0.tgz#0caa56b68baae4f68f44e0dd666ab30b098e3632"
   dependencies:
     "@types/glob" "*"
     "@types/node" "*"
@@ -1097,7 +1097,7 @@ fs-extra@^2.0.0:
 
 fs-extra@^7.0.0:
   version "7.0.0"
-  resolved "https://registry.npmjs.org/fs-extra/-/fs-extra-7.0.0.tgz#8cc3f47ce07ef7b3593a11b9fb245f7e34c041d6"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-7.0.0.tgz#8cc3f47ce07ef7b3593a11b9fb245f7e34c041d6"
   dependencies:
     graceful-fs "^4.1.2"
     jsonfile "^4.0.0"
@@ -2042,7 +2042,7 @@ lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.4:
 
 lodash@^4.17.10:
   version "4.17.11"
-  resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
 longest@^1.0.1:
   version "1.0.1"
@@ -2081,7 +2081,7 @@ marked@^0.3.6, marked@^0.3.7:
 
 marked@^0.4.0:
   version "0.4.0"
-  resolved "https://registry.npmjs.org/marked/-/marked-0.4.0.tgz#9ad2c2a7a1791f10a852e0112f77b571dce10c66"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-0.4.0.tgz#9ad2c2a7a1791f10a852e0112f77b571dce10c66"
 
 mem@^1.1.0:
   version "1.1.0"
@@ -2880,7 +2880,7 @@ shell-quote@^1.6.1:
 
 shelljs@^0.8.2:
   version "0.8.2"
-  resolved "https://registry.npmjs.org/shelljs/-/shelljs-0.8.2.tgz#345b7df7763f4c2340d584abb532c5f752ca9e35"
+  resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.8.2.tgz#345b7df7763f4c2340d584abb532c5f752ca9e35"
   dependencies:
     glob "^7.0.0"
     interpret "^1.0.0"
@@ -3280,7 +3280,7 @@ typedoc-default-themes@^0.5.0:
 
 typedoc@^0.12.0:
   version "0.12.0"
-  resolved "https://registry.npmjs.org/typedoc/-/typedoc-0.12.0.tgz#c5d606f52af29d841658e18d9faa1a72acf0e270"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.12.0.tgz#c5d606f52af29d841658e18d9faa1a72acf0e270"
   dependencies:
     "@types/fs-extra" "^5.0.3"
     "@types/handlebars" "^4.0.38"
@@ -3302,7 +3302,7 @@ typedoc@^0.12.0:
 
 typescript@3.0.x:
   version "3.0.3"
-  resolved "https://registry.npmjs.org/typescript/-/typescript-3.0.3.tgz#4853b3e275ecdaa27f78fda46dc273a7eb7fc1c8"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.0.3.tgz#4853b3e275ecdaa27f78fda46dc273a7eb7fc1c8"
 
 typescript@^2.7.2:
   version "2.7.2"
