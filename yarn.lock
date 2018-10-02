@@ -616,9 +616,9 @@ ci-info@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-1.1.2.tgz#03561259db48d0474c8bdc90f5b47b068b6bbfb4"
 
-circle-github-bot@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/circle-github-bot/-/circle-github-bot-0.4.0.tgz#d1702cea19277db4333936647828cd433fbcafd9"
+circle-github-bot@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/circle-github-bot/-/circle-github-bot-1.0.0.tgz#ed86b3a8003c3f9a4ef0e7c4311f6c4e58fdafdb"
 
 clean-css@^3.3.0:
   version "3.4.28"
