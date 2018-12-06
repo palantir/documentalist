@@ -44,7 +44,7 @@ export interface ITypescriptPluginOptions {
      * Whether files in `node_modules` should be included in the TypeScript
      * compilation context. This is disabled by default because it typically
      * results in an explosion of data size due to including all types from _all
-     * installed packages_, the vast majority of which is not useful for
+     * installed packages_, the vast majority of which are not useful for
      * documenting your own APIs.
      *
      * Enable at your own risk, and consider using the `excludeNames` and
