@@ -74,7 +74,7 @@ Now that you've got a sweet data file packed with documentation goodness, what n
 Well, you've got some options. This package does not provide the tools to render the data, but they're fairly easy to construct once you understand the data format.
 
 - Check out the [`theme/`](https://github.com/palantir/documentalist/tree/master/theme) directory here for our simple Pug template that renders the [GitHub Pages site](http://palantir.github.io/documentalist).
-- Blueprint publishes a React theme in the [`@blueprintjs/docs-theme`](https://www.npmjs.com/package/@blueprintjs/docs) package (the same one that powers http://blueprintjs.com/docs).
+- Blueprint publishes a React theme in the [`@blueprintjs/docs-theme`](https://www.npmjs.com/package/@blueprintjs/docs-theme) package (the same one that powers http://blueprintjs.com/docs).
 
 ## License
 
