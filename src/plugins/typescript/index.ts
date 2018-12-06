@@ -41,6 +41,19 @@ export interface ITypescriptPluginOptions {
     includeDeclarations?: boolean;
 
     /**
+     * Whether files in `node_modules` should be included in the TypeScript
+     * compilation context. This is disabled by default because it typically
+     * results in an explosion of data size due to including all types from _all
+     * installed packages_, the vast majority of which is not useful for
+     * documenting your own APIs.
+     *
+     * Enable at your own risk, and consider using the `excludeNames` and
+     * `excludePaths` options above to filter the output data.
+     * @default false
+     */
+    includeNodeModules?: boolean;
+
+    /**
      * Whether `private` fields should be included in the data.
      * This is disabled by default as `private` fields typically do not need to be publicly documented.
      * @default false
@@ -79,6 +92,9 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
             logger: verbose ? console.log : "none",
             mode: "modules",
         };
+        if (options.includeNodeModules) {
+            delete typedocOptions.exclude;
+        }
         if (options.tsconfigPath != null) {
             // typedoc complains if given `undefined`, so only set if necessary
             typedocOptions.tsconfig = tsconfigPath;
