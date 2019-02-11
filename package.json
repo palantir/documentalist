@@ -27,7 +27,7 @@
     "js-yaml": "^3.10.0",
     "kss": "^3.0.0-beta.18",
     "marked": "^0.3.7",
-    "typedoc": "^0.12.0",
+    "typedoc": "^0.14.2",
     "yargs": "^10.0.3"
   },
   "devDependencies": {
