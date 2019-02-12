@@ -125,7 +125,7 @@ export class Visitor {
     private visitMethod = (def: DeclarationReflection): ITsMethod => ({
         ...this.makeDocEntry(def, Kind.Method),
         inheritedFrom: def.inheritedFrom && resolveTypeString(def.inheritedFrom),
-        signatures: def.signatures.map(sig => this.visitSignature(sig)),
+        signatures: def.signatures !== undefined ? def.signatures.map(sig => this.visitSignature(sig)) : [],
     });
 
     private visitSignature = (sig: SignatureReflection): ITsSignature => ({
@@ -160,7 +160,7 @@ export class Visitor {
     /**
      * Converts a typedoc comment object to a rendered `IBlock`.
      */
-    private renderComment(comment: Comment) {
+    private renderComment(comment: Comment | undefined) {
         if (!comment) {
             return undefined;
         }
@@ -183,7 +183,7 @@ export class Visitor {
     }
 }
 
-function getCommentTag(comment: Comment, tagName: string) {
+function getCommentTag(comment: Comment | undefined, tagName: string) {
     if (comment == null || comment.tags == null) {
         return undefined;
     }
