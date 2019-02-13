@@ -15,7 +15,7 @@ import {
     UnionType,
 } from "typedoc/dist/lib/models";
 
-export function resolveTypeString(type: Type): string {
+export function resolveTypeString(type: Type | undefined): string {
     if (type instanceof ReflectionType) {
         // reflection types include generics and object index signatures
         return type.declaration
@@ -28,6 +28,8 @@ export function resolveTypeString(type: Type): string {
         return type.types.map(resolveTypeString).join(" & ");
     } else if (type instanceof ReferenceType) {
         return resolveReferenceName(type);
+    } else if (type === undefined) {
+        return "";
     } else {
         return type.toString();
     }
@@ -36,7 +38,11 @@ export function resolveTypeString(type: Type): string {
 function resolveReferenceName(type: ReferenceType): string {
     if (type.name === "__type") {
         return "{}";
-    } else if (type.reflection && type.reflection.kind === ReflectionKind.EnumMember) {
+    } else if (
+        type.reflection &&
+        type.reflection.parent !== undefined &&
+        type.reflection.kind === ReflectionKind.EnumMember
+    ) {
         // include parent name in type string for easy identification
         return `${type.reflection.parent.name}.${type.name}`;
     } else if (type.typeArguments) {
