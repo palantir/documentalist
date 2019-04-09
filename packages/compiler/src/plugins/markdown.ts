@@ -5,7 +5,6 @@
  * repository.
  */
 
-import * as path from "path";
 import {
     IBlock,
     ICompiler,
@@ -19,6 +18,7 @@ import {
     isPageNode,
     slugify,
 } from "@documentalist/client";
+import * as path from "path";
 import { PageMap } from "../page";
 
 export interface IMarkdownPluginOptions {

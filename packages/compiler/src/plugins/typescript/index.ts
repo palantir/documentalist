@@ -89,6 +89,7 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
             gitRevision: options.gitBranch,
             ignoreCompilerErrors: true,
             includeDeclarations,
+            // tslint:disable-next-line no-console
             logger: verbose ? console.log : "none",
             mode: "modules",
         };

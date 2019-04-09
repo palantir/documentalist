@@ -12,7 +12,9 @@ describe("NpmPlugin", () => {
     const dm = Documentalist.create().use("package.json", new NpmPlugin());
 
     it("npm info matches package.json", async () => {
-        const { npm: { documentalist } } = await dm.documentGlobs("package.json");
+        const {
+            npm: { documentalist },
+        } = await dm.documentGlobs("package.json");
         const pkg = require("../../package.json");
         // NOTE: not using snapshot as it would change with every release due to `npm info` call.
         expect(documentalist.name).toBe(pkg.name);
@@ -22,7 +24,9 @@ describe("NpmPlugin", () => {
     });
 
     it("handles npm info fails", async () => {
-        const { npm: { doesNotExist } } = await dm.documentFiles([
+        const {
+            npm: { doesNotExist },
+        } = await dm.documentFiles([
             { path: "package.json", read: () => `{ "name": "doesNotExist", "version": "1.0.0" }` },
         ]);
         expect(doesNotExist.name).toBe("doesNotExist");

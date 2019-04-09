@@ -5,8 +5,8 @@
  * repository.
  */
 
-import { spawn } from "child_process";
 import { ICompiler, IFile, INpmPackage, INpmPluginData, IPlugin } from "@documentalist/client";
+import { spawn } from "child_process";
 
 export interface INpmPluginOptions {
     /** Whether to exclude packages marked `private`. */
@@ -79,7 +79,7 @@ export class NpmPlugin implements IPlugin<INpmPluginData> {
     }
 }
 
-function arrayToObject<T>(array: T[], keyFn: ((item: T) => string)) {
+function arrayToObject<T>(array: T[], keyFn: (item: T) => string) {
     const obj: { [key: string]: T } = {};
     array.forEach(item => (obj[keyFn(item)] = item));
     return obj;

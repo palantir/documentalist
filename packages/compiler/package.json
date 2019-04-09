@@ -12,7 +12,7 @@
     "clean": "rm -rf lib",
     "compile": "tsc --project .",
     "lint": "tslint --project .",
-    "lint.fix": "yarn lint --fix",
+    "lint-fix": "yarn lint --fix",
     "test": "jest --config jest.config.json",
     "watch": "yarn compile --watch"
   },
