@@ -4,7 +4,7 @@ version: 2
 references:
   setup_env: &setup_env
     docker:
-      - image: circleci/node:8.11.0
+      - image: circleci/node:lts
   save_cache: &save_cache
     key: v2-dependency-cache-{{ checksum "yarn.lock" }}
     paths:

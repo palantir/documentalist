@@ -16,9 +16,6 @@
         "test": "lerna run test --parallel",
         "verify": "npm-run-all -s compile dist -p test lint"
     },
-    "engines": {
-        "node": ">=8.15.1"
-    },
     "repository": {
         "type": "git",
         "url": "git@github.com:palantir/documentalist.git"
