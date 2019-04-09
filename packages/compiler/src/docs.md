@@ -6,7 +6,8 @@ title: Documentalist
 
 > A sort-of-static site generator optimized for living documentation of software projects.
 
-[![npm](https://img.shields.io/npm/v/documentalist.svg)](https://www.npmjs.com/package/documentalist)
+[![npm](https://img.shields.io/npm/v/@documentalist/compiler.svg?label=@documentalist/compiler)](https://www.npmjs.com/package/@documentalist/compiler)
+[![npm](https://img.shields.io/npm/v/@documentalist/client.svg?label=@documentalist/client)](https://www.npmjs.com/package/@documentalist/client)
 [![CircleCI](https://circleci.com/gh/palantir/documentalist.svg?style=shield&circle-token=1dbd27fe833e64bafb3e8de8ee111a2aee9bb79d)](https://circleci.com/gh/palantir/documentalist)
 
 ## Documentalism 101
@@ -22,7 +23,7 @@ and `await` your magical blob of documentation data!
 
 ## 1. Get the data
 
-`Documentalist` comes with plugins for the following languages:
+The Documentalist compiler is available in the `@documentalist/compiler` package. It comes with plugins for the following languages:
 
 - __Markdown__ &mdash; longform documentation and overall structure.
 - __TypeScript__ &mdash; JSDoc comments in TypeScript source code.
@@ -33,7 +34,7 @@ and `await` your magical blob of documentation data!
 Register plugins with `.use(pattern, plugin)`. Supply a `pattern` to match files against; matched files will be compiled by the `plugin`. Documentation data will be collected into a single blob and can be easily written to a file or fed into another tool.
 
 ```js
-const { Documentalist, MarkdownPlugin, TypescriptPlugin } = require("documentalist");
+const { Documentalist, MarkdownPlugin, TypescriptPlugin } = require("@documentalist/compiler");
 const { writeFileSync } = require("fs");
 
 new Documentalist()
@@ -73,10 +74,12 @@ Now that you've got a sweet data file packed with documentation goodness, what n
 
 Well, you've got some options. This package does not provide the tools to render the data, but they're fairly easy to construct once you understand the data format.
 
-- Check out the [`theme/`](https://github.com/palantir/documentalist/tree/master/theme) directory here for our simple Pug template that renders the [GitHub Pages site](http://palantir.github.io/documentalist).
-- Blueprint publishes a React theme in the [`@blueprintjs/docs-theme`](https://www.npmjs.com/package/@blueprintjs/docs-theme) package (the same one that powers http://blueprintjs.com/docs).
+- Check out the private [`@documentalist/docs` package](https://github.com/palantir/documentalist/tree/develop/packages/docs) for our simple Pug template that renders the [GitHub Pages site](http://palantir.github.io/documentalist).
+- Blueprint publishes a React theme in the [`@blueprintjs/docs-theme`](https://www.npmjs.com/package/@blueprintjs/docs-theme) package (the same one that powers https://blueprintjs.com/docs).
+
+Note that these themes utilize functions and interfaces from the `@documentalist/client` package.
 
 ## License
 
-This project is made available under the [BSD License](https://github.com/palantir/documentalist/blob/master/LICENSE)
-and includes a [Patent Grant](https://github.com/palantir/documentalist/blob/master/PATENTS).
+This project is made available under the [BSD License](https://github.com/palantir/documentalist/blob/develop/LICENSE)
+and includes a [Patent Grant](https://github.com/palantir/documentalist/blob/develop/PATENTS).
