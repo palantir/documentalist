@@ -1,0 +1,10 @@
+lib/__tests__
+src/
+
+.npmrc
+.vscode
+.yarnrc
+
+jest.config.json
+tsconfig.json
+tslint.json

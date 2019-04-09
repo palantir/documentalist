@@ -1,6 +1,8 @@
-build
-dist
 node_modules
+reports/*.xml
+packages/*/lib
+packages/*/dist
 npm-debug.log
-docs.json
-theme/version.txt
+yarn-error.log
+packages/docs/docs.json
+packages/docs/theme/version.txt

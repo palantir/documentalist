@@ -1,0 +1,41 @@
+include mixins
+
+- var toc = Object.keys(typescript).sort((a, b) => a.localeCompare(b))
+
+mixin listing(title, kind)
+  h3= title
+  each id in toc.filter(a => typescript[a].kind === kind)
+    - var name = typescript[id].name
+    a.nav-item(href='#' + name): code= name
+
+html
+  head
+    title Documentalist
+    link(rel='stylesheet', href='index.css')
+  body
+    #nav
+      each item in nav
+        h3: a(href="#" + item.reference)= item.title
+
+      +listing("Classes", "class")
+      +listing("Interfaces", "interface")
+      +listing("Enums", "enum")
+      +listing("Aliases", "type alias")
+
+      //- include current package.json version from text file (see npm script docs:version)
+      h4:  include version.txt
+
+      .copyright &copy; Copyright 2017-present Palantir
+
+    #content
+
+    each page in pages
+      article(data-route=page.reference,hidden=true)
+        +joinContent(page)
+
+    each iface in typescript
+      section(data-route=iface.name,hidden=true)
+        +interfaceDocs(iface)
+
+    script(type='text/javascript', src='https://unpkg.com/core-js@2.5.3/client/shim.min.js')
+    script(type='text/javascript', src='index.js')

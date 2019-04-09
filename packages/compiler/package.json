@@ -1,0 +1,54 @@
+{
+  "name": "@documentalist/compiler",
+  "version": "1.6.0",
+  "description": "The documentalist compiler",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "bin": {
+    "documentalist": "./cli.js"
+  },
+  "scripts": {
+    "build": "run-s compile",
+    "clean": "rm -rf lib",
+    "compile": "tsc --project .",
+    "lint": "tslint --project .",
+    "lint-fix": "yarn lint --fix",
+    "test": "jest --config jest.config.json",
+    "watch": "yarn compile --watch"
+  },
+  "dependencies": {
+    "@documentalist/client": "^1.6.0",
+    "@types/kss": "^3.0.1",
+    "glob": "^7.1.3",
+    "js-yaml": "^3.12.0",
+    "kss": "^3.0.0-beta.25",
+    "marked": "^0.5.1",
+    "typedoc": "^0.14.2",
+    "yargs": "^12.0.2"
+  },
+  "devDependencies": {
+    "@blueprintjs/tslint-config": "^1.8.0",
+    "@types/glob": "^7.1.1",
+    "@types/jest": "^24.0.11",
+    "@types/js-yaml": "^3.12.1",
+    "@types/marked": "^0.6.5",
+    "@types/node": "^11.13.2",
+    "@types/yargs": "^13.0.0",
+    "jest": "^23.6.0",
+    "jest-junit": "^5.2.0",
+    "npm-run-all": "^4.1.3",
+    "ts-jest": "^23.10.3",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.15.0",
+    "typescript": "~3.2.2"
+  },
+  "engines": {
+    "node": ">=8.15.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:palantir/documentalist.git"
+  },
+  "author": "Palantir Technologies",
+  "license": "BSD-3-Clause"
+}

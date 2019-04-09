@@ -4,24 +4,33 @@ version: 2
 references:
   setup_env: &setup_env
     docker:
-      - image: circleci/node:8.11.0
+      - image: circleci/node:lts
   save_cache: &save_cache
-    key: v1-dependency-cache-{{ checksum "yarn.lock" }}
+    key: v2-dependency-cache-{{ checksum "yarn.lock" }}
     paths:
       - node_modules
   restore_cache: &restore_cache
     keys:
-      - v1-dependency-cache-{{ checksum "yarn.lock" }}
-      - v1-dependency-cache-
+      - v2-dependency-cache-{{ checksum "yarn.lock" }}
+      - v2-dependency-cache-
   reports_path: &reports_path
     path: ./reports
-  run_on_tags: &run_on_tags
-    filters:
-      # run this job for tags as well
-      tags:
-        only: /.*/
 
 jobs:
+  install-dependencies:
+    <<: *setup_env
+    steps:
+      - checkout
+      - restore_cache: *restore_cache
+      - attach_workspace:
+          at: '.'
+      - run: yarn --frozen-lockfile
+      - save_cache: *save_cache
+      - persist_to_workspace:
+          root: '.'
+          paths:
+            - yarn.lock
+
   build:
     <<: *setup_env
     steps:
@@ -31,16 +40,25 @@ jobs:
           at: '.'
       - run: yarn --frozen-lockfile
       - save_cache: *save_cache
-      - run: mkdir ./reports
-      - run: yarn compile
-      - run: yarn lint --format junit --out ./reports/tslint.xml
+      - run: yarn build
       - store_artifacts:
           path: dist
-      - store_test_results: *reports_path
       - persist_to_workspace:
           root: '.'
           paths:
-            - dist
+            - packages/*/dist
+            - packages/*/lib
+
+  lint:
+    <<: *setup_env
+    steps:
+      - checkout
+      - restore_cache: *restore_cache
+      - attach_workspace:
+          at: '.'
+      - run: mkdir -p ./reports
+      - run: yarn lint -- -- --format junit --out ../../reports/tslint.xml
+      - store_test_results: *reports_path
 
   test:
     <<: *setup_env
@@ -49,58 +67,57 @@ jobs:
       - restore_cache: *restore_cache
       - attach_workspace:
           at: '.'
+      - run: mkdir -p ./reports
       - run:
-          command: yarn test --ci --testResultsProcessor="jest-junit"
+          command: yarn test -- -- --ci --testResultsProcessor="jest-junit"
           environment:
             JEST_JUNIT_OUTPUT: ./reports/jest.xml
       - store_test_results: *reports_path
 
-  preview:
+  deploy-preview:
     <<: *setup_env
     steps:
       - checkout
       - restore_cache: *restore_cache
       - attach_workspace:
           at: '.'
-      - run: yarn docs
       - store_artifacts:
-          path: docs
+          path: packages/docs/dist
       - run:
           name: Submit Github comment with links to built artifacts
-          command: node theme/bot.js
-          environment:
-            # circle-github-bot@0.4.0 expects this env variable
-            CIRCLE_ARTIFACTS: dopedopedope
+          command: node scripts/circle-build-preview.js
 
-  publish:
+  deploy-npm:
     <<: *setup_env
     steps:
       - checkout
       - restore_cache: *restore_cache
       - attach_workspace:
           at: '.'
-      - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
-      - run: chmod 0600 .npmrc
-      - run: npm publish
+      - run: ./scripts/publish-npm-semver-tagged
 
 workflows:
   version: 2
-  build:
+  build_lint_test_deploy:
     jobs:
-      - build: *run_on_tags
-      - test: *run_on_tags
-      - preview:
+      - install-dependencies
+      - build:
+          requires: [install-dependencies]
+      - lint:
+          requires: [install-dependencies]
+      - test:
+          requires: [build]
+      - deploy-preview:
           requires: [build]
           # this job never runs on tags and ignores master
           filters:
             branches:
               ignore: /master/
-      - publish:
+      - deploy-npm:
           requires: [build, test]
           filters:
-            # run this job only on tags, never on branches
-            tags:
-              only: /^release-.*/
             branches:
-              ignore: /.*/
-
+              only:
+                - develop
+                - next
+                - /^release\/.*/
