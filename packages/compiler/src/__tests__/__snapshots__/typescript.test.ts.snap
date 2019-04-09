@@ -421,7 +421,7 @@ Object {
         },
         "kind": "enum member",
         "name": "ADD",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L17",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L27",
       },
       Object {
         "defaultValue": "\\"minus\\"",
@@ -440,7 +440,7 @@ Object {
         },
         "kind": "enum member",
         "name": "MINUS",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L21",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L31",
       },
       Object {
         "defaultValue": "\\"plus\\"",
@@ -459,7 +459,7 @@ Object {
         },
         "kind": "enum member",
         "name": "PLUS",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L20",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L30",
       },
       Object {
         "defaultValue": "\\"remove\\"",
@@ -478,11 +478,11 @@ Object {
         },
         "kind": "enum member",
         "name": "REMOVE",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L18",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L28",
       },
     ],
     "name": "IconName",
-    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L16",
+    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L26",
   },
   "Intent": Object {
     "documentation": Object {
@@ -524,7 +524,7 @@ Object {
         },
         "kind": "enum member",
         "name": "DANGER",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L12",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L22",
       },
       Object {
         "defaultValue": "\\"primary\\"",
@@ -543,7 +543,7 @@ Object {
         },
         "kind": "enum member",
         "name": "PRIMARY",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L9",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L19",
       },
       Object {
         "defaultValue": "\\"success\\"",
@@ -562,7 +562,7 @@ Object {
         },
         "kind": "enum member",
         "name": "SUCCESS",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L10",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L20",
       },
       Object {
         "defaultValue": "\\"warning\\"",
@@ -581,11 +581,11 @@ Object {
         },
         "kind": "enum member",
         "name": "WARNING",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L11",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L21",
       },
     ],
     "name": "Intent",
-    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L8",
+    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L18",
   },
 }
 `;
@@ -638,7 +638,7 @@ Object {
         "inheritedFrom": undefined,
         "kind": "property",
         "name": "disabled",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L11",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L21",
         "type": "undefined | false | true",
       },
       Object {
@@ -666,7 +666,7 @@ Object {
         "inheritedFrom": undefined,
         "kind": "property",
         "name": "iconName",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L14",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L24",
         "type": "IconName",
       },
       Object {
@@ -694,7 +694,7 @@ Object {
         "inheritedFrom": undefined,
         "kind": "property",
         "name": "onClick",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L17",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L27",
         "type": "(event: MouseEvent) => void",
       },
       Object {
@@ -722,11 +722,11 @@ Object {
         "inheritedFrom": undefined,
         "kind": "property",
         "name": "text",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L20",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L30",
         "type": "string",
       },
     ],
-    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L9",
+    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L19",
   },
   "IButtonProps": Object {
     "documentation": undefined,
@@ -782,7 +782,7 @@ Object {
         },
       ],
       "returnType": "any",
-      "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L53",
+      "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L63",
       "type": "{ [x: string]: any }",
     },
     "kind": "interface",
@@ -816,7 +816,7 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.",
         "inheritedFrom": undefined,
         "kind": "property",
         "name": "active",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L29",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L39",
         "type": "undefined | false | true",
       },
       Object {
@@ -844,7 +844,7 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.",
         "inheritedFrom": "IActionProps.disabled",
         "kind": "property",
         "name": "disabled",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L11",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L21",
         "type": "undefined | false | true",
       },
       Object {
@@ -872,7 +872,7 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.",
         "inheritedFrom": undefined,
         "kind": "property",
         "name": "elementRef",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L32",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L42",
         "type": "undefined | (ref: HTMLElement) => any",
       },
       Object {
@@ -900,7 +900,7 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.",
         "inheritedFrom": "IActionProps.iconName",
         "kind": "property",
         "name": "iconName",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L14",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L24",
         "type": "IconName",
       },
       Object {
@@ -930,7 +930,7 @@ The width of the button is not affected by the value of this prop.",
         "inheritedFrom": undefined,
         "kind": "property",
         "name": "loading",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L46",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L56",
         "type": "undefined | false | true",
       },
       Object {
@@ -958,7 +958,7 @@ The width of the button is not affected by the value of this prop.",
         "inheritedFrom": "IActionProps.onClick",
         "kind": "property",
         "name": "onClick",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L17",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L27",
         "type": "(event: MouseEvent) => void",
       },
       Object {
@@ -986,7 +986,7 @@ The width of the button is not affected by the value of this prop.",
         "inheritedFrom": undefined,
         "kind": "property",
         "name": "rightIconName",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L38",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L48",
         "type": "IconName",
       },
       Object {
@@ -1014,7 +1014,7 @@ The width of the button is not affected by the value of this prop.",
         "inheritedFrom": "IActionProps.text",
         "kind": "property",
         "name": "text",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L20",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L30",
         "type": "string",
       },
       Object {
@@ -1044,11 +1044,11 @@ Note that this prop has no effect on \`AnchorButton\`; it only affects \`Button\
         "inheritedFrom": undefined,
         "kind": "property",
         "name": "type",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L53",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L63",
         "type": "undefined | string",
       },
     ],
-    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L23",
+    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L33",
   },
   "ICompiler": Object {
     "documentation": Object {
@@ -1152,11 +1152,11 @@ callback to extract key from each item.",
               },
             ],
             "returnType": "{ [key: string]: T }",
-            "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L67",
+            "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L77",
             "type": "(array: T[], getKey: (item: T) => string) => { [key: string]: T }",
           },
         ],
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L67",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L77",
       },
       Object {
         "documentation": undefined,
@@ -1243,11 +1243,11 @@ is.",
               },
             ],
             "returnType": "object",
-            "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L78",
+            "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L88",
             "type": "(blockContent: string, reservedTagWords?: string[]) => object",
           },
         ],
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L78",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L88",
       },
       Object {
         "documentation": undefined,
@@ -1303,19 +1303,46 @@ is.",
               },
             ],
             "returnType": "string",
-            "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L83",
+            "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L93",
             "type": "(markdown: string) => string",
           },
         ],
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L83",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L93",
       },
     ],
     "name": "ICompiler",
     "properties": Array [],
-    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L62",
+    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L72",
   },
   "IconName": Object {
-    "documentation": undefined,
+    "documentation": Object {
+      "contents": Array [
+        "<p>Copyright 2017 Palantir Technologies, Inc. All rights reserved.</p>
+<p>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at</p>
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0</code></pre><p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
+",
+      ],
+      "contentsRaw": "Copyright 2017 Palantir Technologies, Inc. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the \\"License\\");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an \\"AS IS\\" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.",
+      "metadata": Object {},
+    },
     "fileName": "src/__tests__/__fixtures__/interfaces.ts",
     "flags": Object {
       "isDeprecated": undefined,
@@ -1330,7 +1357,7 @@ is.",
     },
     "kind": "type alias",
     "name": "IconName",
-    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L7",
+    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L17",
     "type": "\\"add\\" | \\"remove\\" | \\"plus\\" | \\"minus\\"",
   },
 }
