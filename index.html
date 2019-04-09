@@ -2,51 +2,50 @@
 <html>
   <head>
     <title>Documentalist</title>
-    <link rel="stylesheet" href="assets/index.css"/>
+    <link rel="stylesheet" href="index.css"/>
   </head>
   <body>
     <div id="nav">
-      <h3><a href="#docs">Documentalist</a></h3>
+      <h3><a href="#overview">Documentalist</a></h3>
+      <h3><a href="#compiler">Compiler</a></h3>
+      <h3><a href="#client">Client</a></h3>
       <h3>Classes</h3><a class="nav-item" href="#Compiler"><code>Compiler</code></a><a class="nav-item" href="#Documentalist"><code>Documentalist</code></a><a class="nav-item" href="#KssPlugin"><code>KssPlugin</code></a><a class="nav-item" href="#MarkdownPlugin"><code>MarkdownPlugin</code></a><a class="nav-item" href="#NpmPlugin"><code>NpmPlugin</code></a><a class="nav-item" href="#PageMap"><code>PageMap</code></a><a class="nav-item" href="#TypescriptPlugin"><code>TypescriptPlugin</code></a><a class="nav-item" href="#Visitor"><code>Visitor</code></a>
       <h3>Interfaces</h3><a class="nav-item" href="#IBlock"><code>IBlock</code></a><a class="nav-item" href="#ICompiler"><code>ICompiler</code></a><a class="nav-item" href="#ICompilerOptions"><code>ICompilerOptions</code></a><a class="nav-item" href="#IFile"><code>IFile</code></a><a class="nav-item" href="#IHeadingNode"><code>IHeadingNode</code></a><a class="nav-item" href="#IHeadingTag"><code>IHeadingTag</code></a><a class="nav-item" href="#IKssExample"><code>IKssExample</code></a><a class="nav-item" href="#IKssModifier"><code>IKssModifier</code></a><a class="nav-item" href="#IKssPluginData"><code>IKssPluginData</code></a><a class="nav-item" href="#IMarkdownPluginData"><code>IMarkdownPluginData</code></a><a class="nav-item" href="#IMarkdownPluginOptions"><code>IMarkdownPluginOptions</code></a><a class="nav-item" href="#IMetadata"><code>IMetadata</code></a><a class="nav-item" href="#INavigable"><code>INavigable</code></a><a class="nav-item" href="#INpmPackage"><code>INpmPackage</code></a><a class="nav-item" href="#INpmPluginData"><code>INpmPluginData</code></a><a class="nav-item" href="#INpmPluginOptions"><code>INpmPluginOptions</code></a><a class="nav-item" href="#IPageData"><code>IPageData</code></a><a class="nav-item" href="#IPageNode"><code>IPageNode</code></a><a class="nav-item" href="#IPlugin"><code>IPlugin</code></a><a class="nav-item" href="#IPluginEntry"><code>IPluginEntry</code></a><a class="nav-item" href="#ITag"><code>ITag</code></a><a class="nav-item" href="#ITsCallable"><code>ITsCallable</code></a><a class="nav-item" href="#ITsClass"><code>ITsClass</code></a><a class="nav-item" href="#ITsConstructor"><code>ITsConstructor</code></a><a class="nav-item" href="#ITsDefaultValue"><code>ITsDefaultValue</code></a><a class="nav-item" href="#ITsDocBase"><code>ITsDocBase</code></a><a class="nav-item" href="#ITsEnum"><code>ITsEnum</code></a><a class="nav-item" href="#ITsEnumMember"><code>ITsEnumMember</code></a><a class="nav-item" href="#ITsFlags"><code>ITsFlags</code></a><a class="nav-item" href="#ITsInterface"><code>ITsInterface</code></a><a class="nav-item" href="#ITsMethod"><code>ITsMethod</code></a><a class="nav-item" href="#ITsObjectDefinition"><code>ITsObjectDefinition</code></a><a class="nav-item" href="#ITsParameter"><code>ITsParameter</code></a><a class="nav-item" href="#ITsProperty"><code>ITsProperty</code></a><a class="nav-item" href="#ITsSignature"><code>ITsSignature</code></a><a class="nav-item" href="#ITsTypeAlias"><code>ITsTypeAlias</code></a><a class="nav-item" href="#ITypescriptPluginData"><code>ITypescriptPluginData</code></a><a class="nav-item" href="#ITypescriptPluginOptions"><code>ITypescriptPluginOptions</code></a>
       <h3>Enums</h3><a class="nav-item" href="#Kind"><code>Kind</code></a>
       <h3>Aliases</h3><a class="nav-item" href="#StringOrTag"><code>StringOrTag</code></a>
-      <h4>v1.5.0
+      <h4>v2.0.1
 
       </h4>
       <div class="copyright">&copy; Copyright 2017-present Palantir</div>
     </div>
     <div id="content"></div>
+    <article data-route="client" hidden="hidden">
+      <blockquote>
+        <p>heading: <code>Client</code></p>
+      </blockquote><p>Now that you&#39;ve compiled a sweet data file packed with documentation goodness, what next?</p>
+<p>Well, you&#39;ve got some options. This package does not provide the tools to render the data, but they&#39;re fairly easy to construct once you understand the data format. The <code>@documentalist/client</code> package provides functions, interfaces, and type guards for working with the output of the compiler.</p>
+<ul>
+<li>Check out the private <a href="https://github.com/palantir/documentalist/tree/develop/packages/docs"><code>@documentalist/docs</code> package</a> for our simple Pug template that renders the <a href="http://palantir.github.io/documentalist">GitHub Pages site</a>.</li>
+<li>Blueprint publishes a React theme in the <a href="https://www.npmjs.com/package/@blueprintjs/docs-theme"><code>@blueprintjs/docs-theme</code></a> package (the same one that powers <a href="https://blueprintjs.com/docs">https://blueprintjs.com/docs</a>).</li>
+</ul>
+
+    </article>
     <article data-route="_nav" hidden="hidden">
       <blockquote>
-        <p>page: <code>docs</code></p>
+        <p>page: <code>overview</code></p>
+      </blockquote>
+      <blockquote>
+        <p>page: <code>compiler</code></p>
+      </blockquote>
+      <blockquote>
+        <p>page: <code>client</code></p>
       </blockquote>
     </article>
-    <article data-route="docs" hidden="hidden"><h1 id="documentalist">Documentalist</h1>
-<blockquote>
-<p>A sort-of-static site generator optimized for living documentation of software projects.</p>
-</blockquote>
-<p><a href="https://www.npmjs.com/package/documentalist"><img src="https://img.shields.io/npm/v/documentalist.svg" alt="npm"></a>
-<a href="https://circleci.com/gh/palantir/documentalist"><img src="https://circleci.com/gh/palantir/documentalist.svg?style=shield&amp;circle-token=1dbd27fe833e64bafb3e8de8ee111a2aee9bb79d" alt="CircleCI"></a></p>
-<h2 id="documentalism-101">Documentalism 101</h2>
-<p>Documentalism is a two-step process:</p>
-<ol>
-<li>Get the data.</li>
-<li>Render the data.</li>
-</ol>
-<p><code>Documentalist</code> is an extensible solution to step 1: it helps you get all your data in one place, in a consistent format.
-Configure <code>Documentalist</code> with plugins to extract documentation data from source files, then feed it a glob of files
-and <code>await</code> your magical blob of documentation data!</p>
-<h2 id="1-get-the-data">1. Get the data</h2>
-<p><code>Documentalist</code> comes with plugins for the following languages:</p>
-<ul>
-<li><strong>Markdown</strong> &mdash; longform documentation and overall structure.</li>
-<li><strong>TypeScript</strong> &mdash; JSDoc comments in TypeScript source code.</li>
-<li><strong>Stylesheets</strong> &mdash; KSS examples for HTML markup and CSS modifiers.</li>
-</ul>
-<h3 id="node">Node</h3>
-<p>Register plugins with <code>.use(pattern, plugin)</code>. Supply a <code>pattern</code> to match files against; matched files will be compiled by the <code>plugin</code>. Documentation data will be collected into a single blob and can be easily written to a file or fed into another tool.</p>
-<pre><code class="lang-js">const { Documentalist, MarkdownPlugin, TypescriptPlugin } = require(&quot;documentalist&quot;);
+    <article data-route="compiler" hidden="hidden">
+      <blockquote>
+        <p>heading: <code><a href="#Compiler">Compiler</a></code></p>
+      </blockquote><p>Register plugins with <code>.use(pattern, plugin)</code>. Supply a <code>pattern</code> to match files against; matched files will be compiled by the <code>plugin</code>. Documentation data will be collected into a single blob and can be easily written to a file or fed into another tool.</p>
+<pre><code class="language-js">const { Documentalist, MarkdownPlugin, TypescriptPlugin } = require(&quot;@documentalist/compiler&quot;);
 const { writeFileSync } = require(&quot;fs&quot;);
 
 new Documentalist()
@@ -54,12 +53,11 @@ new Documentalist()
   .use(/\.tsx?$/, new TypescriptPlugin({ excludeNames: [/I.+State$/] }))
   .documentGlobs(&quot;src/**/*&quot;) // ← async operation, returns a Promise
   .then(docs =&gt; JSON.stringify(docs, null, 2))
-  .then(json =&gt; writeFileSync(&quot;docs.json&quot;, json))
-</code></pre>
+  .then(json =&gt; writeFileSync(&quot;docs.json&quot;, json))</code></pre>
 
       <blockquote>
         <div class="interface-block" id="Documentalist">
-          <h2 class="interface-title"><code><small>class</small> Documentalist<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/documentalist.ts#L22" target="_blank" title="View source">#</a></small></code></h2>
+          <h2 class="interface-title"><code><small>class</small> Documentalist<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/compiler/src/documentalist.ts#L31" target="_blank" title="View source">#</a></small></code></h2>
           <h3>Constructor</h3>
           <div class="interface-properties">
             <table>
@@ -135,15 +133,14 @@ supplied pattern.</p>
             </table>
           </div>
         </div>
-      </blockquote><h3 id="cli">CLI</h3>
+      </blockquote><h2 id="cli">CLI</h2>
 <p>On the command line, the Markdown and Typescript plugins are enabled by default.
 The CSS plugin can be enabled with <code>--css</code>. Plugins can be disabled with the <code>no-</code> prefix.</p>
 <blockquote>
 <p><strong>Options are not supported</strong> via the command line interface :sob:.</p>
 </blockquote>
-<pre><code class="lang-sh">documentalist &quot;src/**/*&quot; --css --no-ts &gt; docs.json
-</code></pre>
-<h3 id="plugins">Plugins</h3>
+<pre><code class="language-sh">documentalist &quot;src/**/*&quot; --css --no-ts &gt; docs.json</code></pre>
+<h2 id="plugins">Plugins</h2>
 <p>Documentalist uses a plugin architecture to support arbitrary file types.
 Use your own plugins by passing them to <code>dm.use(pattern, plugin)</code> with a
 pattern to match against source files. The collected matched files will
@@ -152,11 +149,11 @@ instance that can be used to render blocks of markdown text.</p>
 
       <blockquote>
         <div class="interface-block" id="IPlugin">
-          <h2 class="interface-title"><code><small>interface</small> IPlugin<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/plugin.ts#L37" target="_blank" title="View source">#</a></small></code></h2><p>A Documentalist plugin is an object with a <code>compile(files, compiler)</code> function
+          <h2 class="interface-title"><code><small>interface</small> IPlugin<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/plugin.ts#L46" target="_blank" title="View source">#</a></small></code></h2><p>A Documentalist plugin is an object with a <code>compile(files, compiler)</code> function
 that returns a data object (or a promise for that object).</p>
 <p>A common pattern is to define a class that implements this interface and use the constructor
 to accept options.</p>
-<pre><code class="lang-ts">import { ICompiler, IFile, IPlugin } from &quot;documentalist/client&quot;;
+<pre><code class="language-ts">import { ICompiler, IFile, IPlugin } from &quot;documentalist/client&quot;;
 
 export interface MyData {
     pluginName: { ... }
@@ -172,8 +169,7 @@ export class MyPlugin implements IPlugin&lt;MyData&gt; {
     public compile(files: IFile[], compiler: ICompiler) {
         return files.map(transformToMyData);
     }
-}
-</code></pre>
+}</code></pre>
 
           <h3>Methods</h3>
           <div class="interface-properties">
@@ -189,21 +185,37 @@ export class MyPlugin implements IPlugin&lt;MyData&gt; {
             </table>
           </div>
         </div>
-      </blockquote><h2 id="2-render-the-data">2. Render the data</h2>
-<p>Now that you&#39;ve got a sweet data file packed with documentation goodness, what next?</p>
-<p>Well, you&#39;ve got some options. This package does not provide the tools to render the data, but they&#39;re fairly easy to construct once you understand the data format.</p>
+      </blockquote>
+    </article>
+    <article data-route="overview" hidden="hidden"><h1 id="overview">Overview</h1>
+<blockquote>
+<p>A sort-of-static site generator optimized for living documentation of software projects.</p>
+</blockquote>
+<p><a href="https://www.npmjs.com/package/@documentalist/compiler"><img src="https://img.shields.io/npm/v/@documentalist/compiler.svg?label=@documentalist/compiler" alt="npm"></a>
+<a href="https://www.npmjs.com/package/@documentalist/client"><img src="https://img.shields.io/npm/v/@documentalist/client.svg?label=@documentalist/client" alt="npm"></a>
+<a href="https://circleci.com/gh/palantir/documentalist"><img src="https://circleci.com/gh/palantir/documentalist.svg?style=shield&circle-token=1dbd27fe833e64bafb3e8de8ee111a2aee9bb79d" alt="CircleCI"></a></p>
+<h2 id="documentalism-101">Documentalism 101</h2>
+<p>Documentalism is a two-step process:</p>
+<ol>
+<li>Get the data.</li>
+<li>Render the data.</li>
+</ol>
+<p>The Documentalist compiler is an extensible solution to step 1: it helps you get all your data in one place, in a consistent format.
+Configure Documentalist with plugins to extract documentation data from source files, then feed it a glob of files
+and <code>await</code> your magical blob of documentation data!</p>
+<h2 id="packages">Packages</h2>
+<p>This project contains multiple NPM packages:</p>
 <ul>
-<li>Check out the <a href="https://github.com/palantir/documentalist/tree/master/theme"><code>theme/</code></a> directory here for our simple Pug template that renders the <a href="http://palantir.github.io/documentalist">GitHub Pages site</a>.</li>
-<li>Blueprint publishes a React theme in the <a href="https://www.npmjs.com/package/@blueprintjs/docs-theme"><code>@blueprintjs/docs-theme</code></a> package (the same one that powers <a href="http://blueprintjs.com/docs">http://blueprintjs.com/docs</a>).</li>
+<li><a href="#compiler"><code>@documentalist/compiler</code></a></li>
+<li><a href="#client"><code>@documentalist/client</code></a></li>
 </ul>
 <h2 id="license">License</h2>
-<p>This project is made available under the <a href="https://github.com/palantir/documentalist/blob/master/LICENSE">BSD License</a>
-and includes a <a href="https://github.com/palantir/documentalist/blob/master/PATENTS">Patent Grant</a>.</p>
+<p>This project is made available under the <a href="https://github.com/palantir/documentalist/blob/develop/LICENSE">Apache-2.0 License</a>.</p>
 
     </article>
     <section data-route="Compiler" hidden="hidden">
       <div class="interface-block" id="Compiler">
-        <h2 class="interface-title"><code><small>class</small> Compiler<small> implements <a href="#ICompiler">ICompiler</a></small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/compiler.ts#L46" target="_blank" title="View source">#</a></small></code></h2>
+        <h2 class="interface-title"><code><small>class</small> Compiler<small> implements <a href="#ICompiler">ICompiler</a></small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/compiler/src/compiler.ts#L55" target="_blank" title="View source">#</a></small></code></h2>
         <h3>Constructor</h3>
         <div class="interface-properties">
           <table>
@@ -258,7 +270,7 @@ and includes a <a href="https://github.com/palantir/documentalist/blob/master/PA
     </section>
     <section data-route="Documentalist" hidden="hidden">
       <div class="interface-block" id="Documentalist">
-        <h2 class="interface-title"><code><small>class</small> Documentalist<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/documentalist.ts#L22" target="_blank" title="View source">#</a></small></code></h2>
+        <h2 class="interface-title"><code><small>class</small> Documentalist<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/compiler/src/documentalist.ts#L31" target="_blank" title="View source">#</a></small></code></h2>
         <h3>Constructor</h3>
         <div class="interface-properties">
           <table>
@@ -337,7 +349,7 @@ supplied pattern.</p>
     </section>
     <section data-route="PageMap" hidden="hidden">
       <div class="interface-block" id="PageMap">
-        <h2 class="interface-title"><code><small>class</small> PageMap<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/page.ts#L10" target="_blank" title="View source">#</a></small></code></h2>
+        <h2 class="interface-title"><code><small>class</small> PageMap<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/compiler/src/page.ts#L19" target="_blank" title="View source">#</a></small></code></h2>
         <h3>Methods</h3>
         <div class="interface-properties">
           <table>
@@ -345,7 +357,7 @@ supplied pattern.</p>
               <td class="prop-name" valign="top"><code>get</code>
               </td>
               <td class="prop-type" valign="top">
-                <div class="type-signature"><code>(id: string) =&gt; undefined | <a href="#IPageData">IPageData</a></code>
+                <div class="type-signature"><code>(id: string) =&gt; any</code>
                 </div><p>Returns the page with the given ID or <code>undefined</code> if not found.</p>
 
               </td>
@@ -363,7 +375,7 @@ supplied pattern.</p>
               <td class="prop-name" valign="top"><code>remove</code>
               </td>
               <td class="prop-type" valign="top">
-                <div class="type-signature"><code>(id: string) =&gt; undefined | <a href="#IPageData">IPageData</a></code>
+                <div class="type-signature"><code>(id: string) =&gt; any</code>
                 </div><p>Removes the page with the given ID and returns it or <code>undefined</code> if not found.</p>
 
               </td>
@@ -401,7 +413,7 @@ Warns if a page with this ID already exists.</p>
     </section>
     <section data-route="MarkdownPlugin" hidden="hidden">
       <div class="interface-block" id="MarkdownPlugin">
-        <h2 class="interface-title"><code><small>class</small> MarkdownPlugin<small> implements <a href="#IPlugin">IPlugin</a>&lt;<a href="#IMarkdownPluginData">IMarkdownPluginData</a>&gt;</small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/plugins/markdown.ts#L40" target="_blank" title="View source">#</a></small></code></h2><p>The <code>MarkdownPlugin</code> parses and renders markdown pages and produces a navigation tree of all documents.
+        <h2 class="interface-title"><code><small>class</small> MarkdownPlugin<small> implements <a href="#IPlugin">IPlugin</a>&lt;<a href="#IMarkdownPluginData">IMarkdownPluginData</a>&gt;</small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/compiler/src/plugins/markdown.ts#L49" target="_blank" title="View source">#</a></small></code></h2><p>The <code>MarkdownPlugin</code> parses and renders markdown pages and produces a navigation tree of all documents.
 This plugin traces <code>@page</code> and <code>@#+</code> &quot;heading&quot; tags to discover pages (given a single starting <code>navPage</code>)
 and build up a tree representation of those pages.</p>
 
@@ -443,7 +455,7 @@ Returns a plain object mapping page references to their data.</p>
     </section>
     <section data-route="NpmPlugin" hidden="hidden">
       <div class="interface-block" id="NpmPlugin">
-        <h2 class="interface-title"><code><small>class</small> NpmPlugin<small> implements <a href="#IPlugin">IPlugin</a>&lt;<a href="#INpmPluginData">INpmPluginData</a>&gt;</small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/plugins/npm.ts#L24" target="_blank" title="View source">#</a></small></code></h2><p>The <code>NpmPlugin</code> parses <code>package.json</code> files and emits data about each NPM
+        <h2 class="interface-title"><code><small>class</small> NpmPlugin<small> implements <a href="#IPlugin">IPlugin</a>&lt;<a href="#INpmPluginData">INpmPluginData</a>&gt;</small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/compiler/src/plugins/npm.ts#L33" target="_blank" title="View source">#</a></small></code></h2><p>The <code>NpmPlugin</code> parses <code>package.json</code> files and emits data about each NPM
 package. It uses <code>npm info</code> to look up data about published packages, and
 falls back to <code>package.json</code> info if the package is private or unpublished.</p>
 
@@ -477,7 +489,7 @@ falls back to <code>package.json</code> info if the package is private or unpubl
     </section>
     <section data-route="Visitor" hidden="hidden">
       <div class="interface-block" id="Visitor">
-        <h2 class="interface-title"><code><small>class</small> Visitor<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/plugins/typescript/visitor.ts#L38" target="_blank" title="View source">#</a></small></code></h2>
+        <h2 class="interface-title"><code><small>class</small> Visitor<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/compiler/src/plugins/typescript/visitor.ts#L47" target="_blank" title="View source">#</a></small></code></h2>
         <h3>Constructor</h3>
         <div class="interface-properties">
           <table>
@@ -498,7 +510,7 @@ falls back to <code>package.json</code> info if the package is private or unpubl
               <td class="prop-name" valign="top"><code>visitProject</code>
               </td>
               <td class="prop-type" valign="top">
-                <div class="type-signature"><code>(project: ProjectReflection) =&gt; (<a href="#ITsClass">ITsClass</a> | <a href="#ITsInterface">ITsInterface</a> | <a href="#ITsEnum">ITsEnum</a> | <a href="#ITsTypeAlias">ITsTypeAlias</a>)[]</code>
+                <div class="type-signature"><code>(project: ProjectReflection) =&gt; (<a href="#ITsClass">ITsClass</a> | <a href="#ITsEnum">ITsEnum</a> | <a href="#ITsInterface">ITsInterface</a> | <a href="#ITsTypeAlias">ITsTypeAlias</a>)[]</code>
                 </div>
               </td>
             </tr>
@@ -508,7 +520,7 @@ falls back to <code>package.json</code> info if the package is private or unpubl
     </section>
     <section data-route="TypescriptPlugin" hidden="hidden">
       <div class="interface-block" id="TypescriptPlugin">
-        <h2 class="interface-title"><code><small>class</small> TypescriptPlugin<small> implements <a href="#IPlugin">IPlugin</a>&lt;<a href="#ITypescriptPluginData">ITypescriptPluginData</a>&gt;</small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/plugins/typescript/index.ts#L81" target="_blank" title="View source">#</a></small></code></h2>
+        <h2 class="interface-title"><code><small>class</small> TypescriptPlugin<small> implements <a href="#IPlugin">IPlugin</a>&lt;<a href="#ITypescriptPluginData">ITypescriptPluginData</a>&gt;</small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/compiler/src/plugins/typescript/index.ts#L90" target="_blank" title="View source">#</a></small></code></h2>
         <h3>Constructor</h3>
         <div class="interface-properties">
           <table>
@@ -539,7 +551,7 @@ falls back to <code>package.json</code> info if the package is private or unpubl
     </section>
     <section data-route="KssPlugin" hidden="hidden">
       <div class="interface-block" id="KssPlugin">
-        <h2 class="interface-title"><code><small>class</small> KssPlugin<small> implements <a href="#IPlugin">IPlugin</a>&lt;<a href="#IKssPluginData">IKssPluginData</a>&gt;</small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/plugins/kss.ts#L19" target="_blank" title="View source">#</a></small></code></h2><p>The <code>KssPlugin</code> extracts <a href="http://warpspire.com/kss/syntax/">KSS doc comments</a> from CSS code (or similar languages).
+        <h2 class="interface-title"><code><small>class</small> KssPlugin<small> implements <a href="#IPlugin">IPlugin</a>&lt;<a href="#IKssPluginData">IKssPluginData</a>&gt;</small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/compiler/src/plugins/kss.ts#L28" target="_blank" title="View source">#</a></small></code></h2><p>The <code>KssPlugin</code> extracts <a href="http://warpspire.com/kss/syntax/">KSS doc comments</a> from CSS code (or similar languages).
 It emits an object keyed by the &quot;styleguide [ref]&quot; section of the comment. The documentation, markup, and modifiers
 sections will all be emitted in the data.</p>
 
@@ -576,7 +588,7 @@ sections will all be emitted in the data.</p>
     </section>
     <section data-route="Kind" hidden="hidden">
       <div class="interface-block" id="Kind">
-        <h2 class="interface-title"><code><small>enum</small> Kind<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L11" target="_blank" title="View source">#</a></small></code></h2><p>Enumeration describing the various kinds of member supported by this plugin.</p>
+        <h2 class="interface-title"><code><small>enum</small> Kind<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L20" target="_blank" title="View source">#</a></small></code></h2><p>Enumeration describing the various kinds of member supported by this plugin.</p>
 
         <h3>Members</h3>
         <div class="interface-properties">
@@ -667,7 +679,7 @@ sections will all be emitted in the data.</p>
     </section>
     <section data-route="ITsCallable" hidden="hidden">
       <div class="interface-block" id="ITsCallable">
-        <h2 class="interface-title"><code><small>interface</small> ITsCallable<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L68" target="_blank" title="View source">#</a></small></code></h2><p>Common type for a callable member, something that can be invoked.</p>
+        <h2 class="interface-title"><code><small>interface</small> ITsCallable<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L77" target="_blank" title="View source">#</a></small></code></h2><p>Common type for a callable member, something that can be invoked.</p>
 
         <blockquote>
           <p>see: <code><a href="#ITsConstructor">ITsConstructor</a></code></p>
@@ -702,7 +714,7 @@ sections will all be emitted in the data.</p>
     </section>
     <section data-route="ITag" hidden="hidden">
       <div class="interface-block" id="ITag">
-        <h2 class="interface-title"><code><small>interface</small> ITag<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/tags.ts#L9" target="_blank" title="View source">#</a></small></code></h2><p>Represents a single <code>@tag &lt;value&gt;</code> line from a file.</p>
+        <h2 class="interface-title"><code><small>interface</small> ITag<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/tags.ts#L18" target="_blank" title="View source">#</a></small></code></h2><p>Represents a single <code>@tag &lt;value&gt;</code> line from a file.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -731,7 +743,7 @@ sections will all be emitted in the data.</p>
     </section>
     <section data-route="IHeadingTag" hidden="hidden">
       <div class="interface-block" id="IHeadingTag">
-        <h2 class="interface-title"><code><small>interface</small> IHeadingTag<small> extends <a href="#ITag">ITag</a>, <a href="#INavigable">INavigable</a></small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/tags.ts#L37" target="_blank" title="View source">#</a></small></code></h2><p>Represents a single <code>@#+ &lt;value&gt;</code> heading tag from a file. Note that all <code>@#+</code> tags
+        <h2 class="interface-title"><code><small>interface</small> IHeadingTag<small> extends <a href="#ITag">ITag</a>, <a href="#INavigable">INavigable</a></small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/tags.ts#L46" target="_blank" title="View source">#</a></small></code></h2><p>Represents a single <code>@#+ &lt;value&gt;</code> heading tag from a file. Note that all <code>@#+</code> tags
 (<code>@#</code> through <code>@######</code>) are emitted as <code>tag: &quot;heading&quot;</code> so only one renderer is necessary to
 capture all six levels.</p>
 <p>Heading tags include additional information over regular tags: fully-qualified <code>route</code> of the
@@ -781,7 +793,7 @@ heading (which can be used as anchor <code>href</code>), and <code>level</code> 
     </section>
     <section data-route="ICompiler" hidden="hidden">
       <div class="interface-block" id="ICompiler">
-        <h2 class="interface-title"><code><small>interface</small> ICompiler<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/compiler.ts#L13" target="_blank" title="View source">#</a></small></code></h2><p>Each plugin receives a <code>Compiler</code> instance to aid in the processing of source files.</p>
+        <h2 class="interface-title"><code><small>interface</small> ICompiler<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/compiler.ts#L22" target="_blank" title="View source">#</a></small></code></h2><p>Each plugin receives a <code>Compiler</code> instance to aid in the processing of source files.</p>
 
         <h3>Methods</h3>
         <div class="interface-properties">
@@ -834,15 +846,14 @@ is.</p>
     </section>
     <section data-route="IMetadata" hidden="hidden">
       <div class="interface-block" id="IMetadata">
-        <h2 class="interface-title"><code><small>interface</small> IMetadata<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/compiler.ts#L55" target="_blank" title="View source">#</a></small></code></h2><p>Metadata is parsed from YAML front matter in files and can contain arbitrary data.
+        <h2 class="interface-title"><code><small>interface</small> IMetadata<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/compiler.ts#L64" target="_blank" title="View source">#</a></small></code></h2><p>Metadata is parsed from YAML front matter in files and can contain arbitrary data.
 A few keys are understood by Documentalist and, if defined in front matter,
 will override default behavior.</p>
-<pre><code class="lang-md">---
+<pre><code class="language-md">---
 reference: overview
 title: &quot;Welcome to the Jungle&quot;
 ---
-actual contents of file...
-</code></pre>
+actual contents of file...</code></pre>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -871,7 +882,7 @@ actual contents of file...
     </section>
     <section data-route="IBlock" hidden="hidden">
       <div class="interface-block" id="IBlock">
-        <h2 class="interface-title"><code><small>interface</small> IBlock<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/compiler.ts#L76" target="_blank" title="View source">#</a></small></code></h2><p>The output of <code>renderBlock</code> which parses a long form documentation block into
+        <h2 class="interface-title"><code><small>interface</small> IBlock<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/compiler.ts#L85" target="_blank" title="View source">#</a></small></code></h2><p>The output of <code>renderBlock</code> which parses a long form documentation block into
 metadata, rendered markdown, and tags.</p>
 
         <h3>Properties</h3>
@@ -910,7 +921,7 @@ metadata, rendered markdown, and tags.</p>
     </section>
     <section data-route="IKssModifier" hidden="hidden">
       <div class="interface-block" id="IKssModifier">
-        <h2 class="interface-title"><code><small>interface</small> IKssModifier<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/kss.ts#L9" target="_blank" title="View source">#</a></small></code></h2><p>A single modifier for an example.</p>
+        <h2 class="interface-title"><code><small>interface</small> IKssModifier<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/kss.ts#L18" target="_blank" title="View source">#</a></small></code></h2><p>A single modifier for an example.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -937,7 +948,7 @@ metadata, rendered markdown, and tags.</p>
     </section>
     <section data-route="IKssExample" hidden="hidden">
       <div class="interface-block" id="IKssExample">
-        <h2 class="interface-title"><code><small>interface</small> IKssExample<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/kss.ts#L17" target="_blank" title="View source">#</a></small></code></h2><p>A markup/modifiers example parsed from a KSS comment block.</p>
+        <h2 class="interface-title"><code><small>interface</small> IKssExample<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/kss.ts#L26" target="_blank" title="View source">#</a></small></code></h2><p>A markup/modifiers example parsed from a KSS comment block.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -995,7 +1006,7 @@ for rendering the markup itself with pretty colors.</p>
     </section>
     <section data-route="IKssPluginData" hidden="hidden">
       <div class="interface-block" id="IKssPluginData">
-        <h2 class="interface-title"><code><small>interface</small> IKssPluginData<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/kss.ts#L41" target="_blank" title="View source">#</a></small></code></h2><p>The <code>KssPlugin</code> exports a <code>css</code> key that contains a map of styleguide references to markup/modifier examples.</p>
+        <h2 class="interface-title"><code><small>interface</small> IKssPluginData<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/kss.ts#L50" target="_blank" title="View source">#</a></small></code></h2><p>The <code>KssPlugin</code> exports a <code>css</code> key that contains a map of styleguide references to markup/modifier examples.</p>
 
         <blockquote>
           <p>see: <code>KSSPlugin</code></p>
@@ -1017,7 +1028,7 @@ for rendering the markup itself with pretty colors.</p>
     </section>
     <section data-route="IMarkdownPluginData" hidden="hidden">
       <div class="interface-block" id="IMarkdownPluginData">
-        <h2 class="interface-title"><code><small>interface</small> IMarkdownPluginData<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/markdown.ts#L15" target="_blank" title="View source">#</a></small></code></h2><p>The <code>MarkdownPlugin</code> exports a map of markdown <code>pages</code> keyed by reference,
+        <h2 class="interface-title"><code><small>interface</small> IMarkdownPluginData<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/markdown.ts#L24" target="_blank" title="View source">#</a></small></code></h2><p>The <code>MarkdownPlugin</code> exports a map of markdown <code>pages</code> keyed by reference,
 and a multi-rooted <code>nav</code> tree of page nodes.</p>
 
         <h3>Properties</h3>
@@ -1049,7 +1060,7 @@ tracing <code>@page</code> and <code>@#+</code> tags.</p>
     </section>
     <section data-route="IPageData" hidden="hidden">
       <div class="interface-block" id="IPageData">
-        <h2 class="interface-title"><code><small>interface</small> IPageData<small> extends <a href="#IBlock">IBlock</a></small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/markdown.ts#L32" target="_blank" title="View source">#</a></small></code></h2><p>A single Documentalist page, parsed from a single source file.</p>
+        <h2 class="interface-title"><code><small>interface</small> IPageData<small> extends <a href="#IBlock">IBlock</a></small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/markdown.ts#L41" target="_blank" title="View source">#</a></small></code></h2><p>A single Documentalist page, parsed from a single source file.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -1123,7 +1134,7 @@ tracing <code>@page</code> and <code>@#+</code> tags.</p>
     </section>
     <section data-route="IHeadingNode" hidden="hidden">
       <div class="interface-block" id="IHeadingNode">
-        <h2 class="interface-title"><code><small>interface</small> IHeadingNode<small> extends <a href="#INavigable">INavigable</a></small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/markdown.ts#L47" target="_blank" title="View source">#</a></small></code></h2><p>An <code>@#+</code> tag belongs to a specific page.</p>
+        <h2 class="interface-title"><code><small>interface</small> IHeadingNode<small> extends <a href="#INavigable">INavigable</a></small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/markdown.ts#L56" target="_blank" title="View source">#</a></small></code></h2><p>An <code>@#+</code> tag belongs to a specific page.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -1161,7 +1172,7 @@ tracing <code>@page</code> and <code>@#+</code> tags.</p>
     </section>
     <section data-route="IPageNode" hidden="hidden">
       <div class="interface-block" id="IPageNode">
-        <h2 class="interface-title"><code><small>interface</small> IPageNode<small> extends <a href="#IHeadingNode">IHeadingNode</a></small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/markdown.ts#L53" target="_blank" title="View source">#</a></small></code></h2><p>A page has ordered children composed of <code>@#+</code> and <code>@page</code> tags.</p>
+        <h2 class="interface-title"><code><small>interface</small> IPageNode<small> extends <a href="#IHeadingNode">IHeadingNode</a></small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/markdown.ts#L62" target="_blank" title="View source">#</a></small></code></h2><p>A page has ordered children composed of <code>@#+</code> and <code>@page</code> tags.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -1217,10 +1228,15 @@ tracing <code>@page</code> and <code>@#+</code> tags.</p>
     </section>
     <section data-route="INpmPackage" hidden="hidden">
       <div class="interface-block" id="INpmPackage">
-        <h2 class="interface-title"><code><small>interface</small> INpmPackage<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/npm.ts#L8" target="_blank" title="View source">#</a></small></code></h2><p>Copyright 2018-present Palantir Technologies, Inc. All rights reserved.
-Licensed under the BSD-3 License as modified (the “License”); you may obtain
-a copy of the license in the LICENSE and PATENTS files in the root of this
-repository.</p>
+        <h2 class="interface-title"><code><small>interface</small> INpmPackage<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/npm.ts#L17" target="_blank" title="View source">#</a></small></code></h2><p>Copyright 2018 Palantir Technologies, Inc. All rights reserved.</p>
+<p>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at</p>
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0</code></pre><p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -1312,7 +1328,7 @@ repository.</p>
     </section>
     <section data-route="INpmPluginData" hidden="hidden">
       <div class="interface-block" id="INpmPluginData">
-        <h2 class="interface-title"><code><small>interface</small> INpmPluginData<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/npm.ts#L42" target="_blank" title="View source">#</a></small></code></h2><p>The <code>KssPlugin</code> exports a <code>css</code> key that contains a map of styleguide references to markup/modifier examples.</p>
+        <h2 class="interface-title"><code><small>interface</small> INpmPluginData<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/npm.ts#L51" target="_blank" title="View source">#</a></small></code></h2><p>The <code>KssPlugin</code> exports a <code>css</code> key that contains a map of styleguide references to markup/modifier examples.</p>
 
         <blockquote>
           <p>see: <code>KSSPlugin</code></p>
@@ -1334,11 +1350,11 @@ repository.</p>
     </section>
     <section data-route="IPlugin" hidden="hidden">
       <div class="interface-block" id="IPlugin">
-        <h2 class="interface-title"><code><small>interface</small> IPlugin<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/plugin.ts#L37" target="_blank" title="View source">#</a></small></code></h2><p>A Documentalist plugin is an object with a <code>compile(files, compiler)</code> function
+        <h2 class="interface-title"><code><small>interface</small> IPlugin<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/plugin.ts#L46" target="_blank" title="View source">#</a></small></code></h2><p>A Documentalist plugin is an object with a <code>compile(files, compiler)</code> function
 that returns a data object (or a promise for that object).</p>
 <p>A common pattern is to define a class that implements this interface and use the constructor
 to accept options.</p>
-<pre><code class="lang-ts">import { ICompiler, IFile, IPlugin } from &quot;documentalist/client&quot;;
+<pre><code class="language-ts">import { ICompiler, IFile, IPlugin } from &quot;documentalist/client&quot;;
 
 export interface MyData {
     pluginName: { ... }
@@ -1354,8 +1370,7 @@ export class MyPlugin implements IPlugin&lt;MyData&gt; {
     public compile(files: IFile[], compiler: ICompiler) {
         return files.map(transformToMyData);
     }
-}
-</code></pre>
+}</code></pre>
 
         <h3>Methods</h3>
         <div class="interface-properties">
@@ -1374,7 +1389,7 @@ export class MyPlugin implements IPlugin&lt;MyData&gt; {
     </section>
     <section data-route="IFile" hidden="hidden">
       <div class="interface-block" id="IFile">
-        <h2 class="interface-title"><code><small>interface</small> IFile<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/plugin.ts#L45" target="_blank" title="View source">#</a></small></code></h2><p>Abstract representation of a file, containing absolute path and synchronous <code>read</code> operation.
+        <h2 class="interface-title"><code><small>interface</small> IFile<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/plugin.ts#L54" target="_blank" title="View source">#</a></small></code></h2><p>Abstract representation of a file, containing absolute path and synchronous <code>read</code> operation.
 This allows plugins to use only the path of a file without reading it.</p>
 
         <h3>Properties</h3>
@@ -1407,7 +1422,7 @@ This allows plugins to use only the path of a file without reading it.</p>
     </section>
     <section data-route="ITsFlags" hidden="hidden">
       <div class="interface-block" id="ITsFlags">
-        <h2 class="interface-title"><code><small>interface</small> ITsFlags<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L25" target="_blank" title="View source">#</a></small></code></h2><p>Compiler flags about this member.</p>
+        <h2 class="interface-title"><code><small>interface</small> ITsFlags<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L34" target="_blank" title="View source">#</a></small></code></h2><p>Compiler flags about this member.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -1491,7 +1506,7 @@ This allows plugins to use only the path of a file without reading it.</p>
     </section>
     <section data-route="ITsDocBase" hidden="hidden">
       <div class="interface-block" id="ITsDocBase">
-        <h2 class="interface-title"><code><small>interface</small> ITsDocBase<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L39" target="_blank" title="View source">#</a></small></code></h2><p>Base type for all typescript documentation members.</p>
+        <h2 class="interface-title"><code><small>interface</small> ITsDocBase<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L48" target="_blank" title="View source">#</a></small></code></h2><p>Base type for all typescript documentation members.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -1560,7 +1575,7 @@ Otherwise, it will reference the current commit hash.</p>
     </section>
     <section data-route="INavigable" hidden="hidden">
       <div class="interface-block" id="INavigable">
-        <h2 class="interface-title"><code><small>interface</small> INavigable<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/tags.ts#L21" target="_blank" title="View source">#</a></small></code></h2><p>The basic components of a navigable resource: a &quot;route&quot; at which it can be accessed and
+        <h2 class="interface-title"><code><small>interface</small> INavigable<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/tags.ts#L30" target="_blank" title="View source">#</a></small></code></h2><p>The basic components of a navigable resource: a &quot;route&quot; at which it can be accessed and
 its depth in the layout hierarchy. Heading tags and hierarchy nodes both extend this interface.</p>
 
         <h3>Properties</h3>
@@ -1590,7 +1605,7 @@ its depth in the layout hierarchy. Heading tags and hierarchy nodes both extend 
     </section>
     <section data-route="ITsDefaultValue" hidden="hidden">
       <div class="interface-block" id="ITsDefaultValue">
-        <h2 class="interface-title"><code><small>interface</small> ITsDefaultValue<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L76" target="_blank" title="View source">#</a></small></code></h2><p>Re-usable interface for Typescript members that support a notion of &quot;default value.&quot;</p>
+        <h2 class="interface-title"><code><small>interface</small> ITsDefaultValue<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L85" target="_blank" title="View source">#</a></small></code></h2><p>Re-usable interface for Typescript members that support a notion of &quot;default value.&quot;</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -1610,7 +1625,7 @@ its depth in the layout hierarchy. Heading tags and hierarchy nodes both extend 
     </section>
     <section data-route="ITsObjectDefinition" hidden="hidden">
       <div class="interface-block" id="ITsObjectDefinition">
-        <h2 class="interface-title"><code><small>interface</small> ITsObjectDefinition<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L82" target="_blank" title="View source">#</a></small></code></h2><p>Re-usable interface for Typescript members that look like objects.</p>
+        <h2 class="interface-title"><code><small>interface</small> ITsObjectDefinition<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L91" target="_blank" title="View source">#</a></small></code></h2><p>Re-usable interface for Typescript members that look like objects.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -1666,7 +1681,7 @@ its depth in the layout hierarchy. Heading tags and hierarchy nodes both extend 
     </section>
     <section data-route="ITsConstructor" hidden="hidden">
       <div class="interface-block" id="ITsConstructor">
-        <h2 class="interface-title"><code><small>interface</small> ITsConstructor<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsCallable">ITsCallable</a></small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L99" target="_blank" title="View source">#</a></small></code></h2><p>Documentation for a class constructor. See <code>signatures</code> array for actual callable signatures and rendered docs.</p>
+        <h2 class="interface-title"><code><small>interface</small> ITsConstructor<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsCallable">ITsCallable</a></small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L108" target="_blank" title="View source">#</a></small></code></h2><p>Documentation for a class constructor. See <code>signatures</code> array for actual callable signatures and rendered docs.</p>
 
         <blockquote>
           <p>see: <code><a href="#ITsClass">ITsClass</a></code></p>
@@ -1755,7 +1770,7 @@ Otherwise, it will reference the current commit hash.</p>
     </section>
     <section data-route="ITsMethod" hidden="hidden">
       <div class="interface-block" id="ITsMethod">
-        <h2 class="interface-title"><code><small>interface</small> ITsMethod<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsCallable">ITsCallable</a></small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L104" target="_blank" title="View source">#</a></small></code></h2><p>Documentation for a method. See <code>signatures</code> array for actual callable signatures and rendered docs.</p>
+        <h2 class="interface-title"><code><small>interface</small> ITsMethod<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsCallable">ITsCallable</a></small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L113" target="_blank" title="View source">#</a></small></code></h2><p>Documentation for a method. See <code>signatures</code> array for actual callable signatures and rendered docs.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -1841,7 +1856,7 @@ Otherwise, it will reference the current commit hash.</p>
     </section>
     <section data-route="ITsSignature" hidden="hidden">
       <div class="interface-block" id="ITsSignature">
-        <h2 class="interface-title"><code><small>interface</small> ITsSignature<small> extends <a href="#ITsDocBase">ITsDocBase</a></small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L112" target="_blank" title="View source">#</a></small></code></h2><p>Documentation for a single signature, including parameters, return type, and full type string.
+        <h2 class="interface-title"><code><small>interface</small> ITsSignature<small> extends <a href="#ITsDocBase">ITsDocBase</a></small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L121" target="_blank" title="View source">#</a></small></code></h2><p>Documentation for a single signature, including parameters, return type, and full type string.
 Signatures are used for methods and constructors on classes or interfaces, and for index signatures on objects.</p>
 
         <h3>Properties</h3>
@@ -1938,7 +1953,7 @@ Otherwise, it will reference the current commit hash.</p>
     </section>
     <section data-route="ITsParameter" hidden="hidden">
       <div class="interface-block" id="ITsParameter">
-        <h2 class="interface-title"><code><small>interface</small> ITsParameter<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsDefaultValue">ITsDefaultValue</a></small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L125" target="_blank" title="View source">#</a></small></code></h2><p>Documentation for a single parameter to a signature.</p>
+        <h2 class="interface-title"><code><small>interface</small> ITsParameter<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsDefaultValue">ITsDefaultValue</a></small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L134" target="_blank" title="View source">#</a></small></code></h2><p>Documentation for a single parameter to a signature.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -2019,7 +2034,7 @@ Otherwise, it will reference the current commit hash.</p>
     </section>
     <section data-route="ITsProperty" hidden="hidden">
       <div class="interface-block" id="ITsProperty">
-        <h2 class="interface-title"><code><small>interface</small> ITsProperty<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsDefaultValue">ITsDefaultValue</a></small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L134" target="_blank" title="View source">#</a></small></code></h2><p>Documentation for a property of an object, which may have a default value.</p>
+        <h2 class="interface-title"><code><small>interface</small> ITsProperty<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsDefaultValue">ITsDefaultValue</a></small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L143" target="_blank" title="View source">#</a></small></code></h2><p>Documentation for a property of an object, which may have a default value.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -2114,7 +2129,7 @@ Otherwise, it will reference the current commit hash.</p>
     </section>
     <section data-route="ITsInterface" hidden="hidden">
       <div class="interface-block" id="ITsInterface">
-        <h2 class="interface-title"><code><small>interface</small> ITsInterface<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsObjectDefinition">ITsObjectDefinition</a></small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L143" target="_blank" title="View source">#</a></small></code></h2><p>Documentation for an <code>interface</code> definition.</p>
+        <h2 class="interface-title"><code><small>interface</small> ITsInterface<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsObjectDefinition">ITsObjectDefinition</a></small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L152" target="_blank" title="View source">#</a></small></code></h2><p>Documentation for an <code>interface</code> definition.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -2227,7 +2242,7 @@ Otherwise, it will reference the current commit hash.</p>
     </section>
     <section data-route="ITsClass" hidden="hidden">
       <div class="interface-block" id="ITsClass">
-        <h2 class="interface-title"><code><small>interface</small> ITsClass<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsObjectDefinition">ITsObjectDefinition</a></small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L148" target="_blank" title="View source">#</a></small></code></h2><p>Documentation for a <code>class</code> definition.</p>
+        <h2 class="interface-title"><code><small>interface</small> ITsClass<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsObjectDefinition">ITsObjectDefinition</a></small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L157" target="_blank" title="View source">#</a></small></code></h2><p>Documentation for a <code>class</code> definition.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -2349,7 +2364,7 @@ Otherwise, it will reference the current commit hash.</p>
     </section>
     <section data-route="ITsEnumMember" hidden="hidden">
       <div class="interface-block" id="ITsEnumMember">
-        <h2 class="interface-title"><code><small>interface</small> ITsEnumMember<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsDefaultValue">ITsDefaultValue</a></small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L154" target="_blank" title="View source">#</a></small></code></h2><p>A member of an <code>enum</code> definition. An enum member will have a <code>defaultValue</code> if it was declared with an initializer.</p>
+        <h2 class="interface-title"><code><small>interface</small> ITsEnumMember<small> extends <a href="#ITsDocBase">ITsDocBase</a>, <a href="#ITsDefaultValue">ITsDefaultValue</a></small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L163" target="_blank" title="View source">#</a></small></code></h2><p>A member of an <code>enum</code> definition. An enum member will have a <code>defaultValue</code> if it was declared with an initializer.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -2426,7 +2441,7 @@ Otherwise, it will reference the current commit hash.</p>
     </section>
     <section data-route="ITsEnum" hidden="hidden">
       <div class="interface-block" id="ITsEnum">
-        <h2 class="interface-title"><code><small>interface</small> ITsEnum<small> extends <a href="#ITsDocBase">ITsDocBase</a></small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L159" target="_blank" title="View source">#</a></small></code></h2><p>Documentation for an <code>enum</code> definition.</p>
+        <h2 class="interface-title"><code><small>interface</small> ITsEnum<small> extends <a href="#ITsDocBase">ITsDocBase</a></small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L168" target="_blank" title="View source">#</a></small></code></h2><p>Documentation for an <code>enum</code> definition.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -2503,7 +2518,7 @@ Otherwise, it will reference the current commit hash.</p>
     </section>
     <section data-route="ITsTypeAlias" hidden="hidden">
       <div class="interface-block" id="ITsTypeAlias">
-        <h2 class="interface-title"><code><small>interface</small> ITsTypeAlias<small> extends <a href="#ITsDocBase">ITsDocBase</a></small><small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L166" target="_blank" title="View source">#</a></small></code></h2><p>A type alias, defined using <code>export type {name} = {type}.</code> The <code>type</code> property will contain the full type alias as a string.</p>
+        <h2 class="interface-title"><code><small>interface</small> ITsTypeAlias<small> extends <a href="#ITsDocBase">ITsDocBase</a></small><small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L175" target="_blank" title="View source">#</a></small></code></h2><p>A type alias, defined using <code>export type {name} = {type}.</code> The <code>type</code> property will contain the full type alias as a string.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -2580,7 +2595,7 @@ Otherwise, it will reference the current commit hash.</p>
     </section>
     <section data-route="ITypescriptPluginData" hidden="hidden">
       <div class="interface-block" id="ITypescriptPluginData">
-        <h2 class="interface-title"><code><small>interface</small> ITypescriptPluginData<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/typescript.ts#L179" target="_blank" title="View source">#</a></small></code></h2><p>The <code>TypescriptPlugin</code> exports a <code>typescript</code> key that contains a map of member name to
+        <h2 class="interface-title"><code><small>interface</small> ITypescriptPluginData<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/typescript.ts#L188" target="_blank" title="View source">#</a></small></code></h2><p>The <code>TypescriptPlugin</code> exports a <code>typescript</code> key that contains a map of member name to
 <code>class</code> or <code>interface</code> definition.</p>
 <p>Only classes and interfaces are provided at this root level, but each member contains full
 information about its children, such as methods (and signatures and parameters) and properties.</p>
@@ -2602,7 +2617,7 @@ information about its children, such as methods (and signatures and parameters) 
     </section>
     <section data-route="ICompilerOptions" hidden="hidden">
       <div class="interface-block" id="ICompilerOptions">
-        <h2 class="interface-title"><code><small>interface</small> ICompilerOptions<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/compiler.ts#L25" target="_blank" title="View source">#</a></small></code></h2>
+        <h2 class="interface-title"><code><small>interface</small> ICompilerOptions<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/compiler/src/compiler.ts#L34" target="_blank" title="View source">#</a></small></code></h2>
         <h3>Properties</h3>
         <div class="interface-properties">
           <table>
@@ -2643,7 +2658,7 @@ Do not include the <code>@</code> prefix in the strings.</p>
     </section>
     <section data-route="IPluginEntry" hidden="hidden">
       <div class="interface-block" id="IPluginEntry">
-        <h2 class="interface-title"><code><small>interface</small> IPluginEntry<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/documentalist.ts#L17" target="_blank" title="View source">#</a></small></code></h2><p>Plugins are stored with the regex used to match against file paths.</p>
+        <h2 class="interface-title"><code><small>interface</small> IPluginEntry<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/compiler/src/documentalist.ts#L26" target="_blank" title="View source">#</a></small></code></h2><p>Plugins are stored with the regex used to match against file paths.</p>
 
         <h3>Properties</h3>
         <div class="interface-properties">
@@ -2670,7 +2685,7 @@ Do not include the <code>@</code> prefix in the strings.</p>
     </section>
     <section data-route="IMarkdownPluginOptions" hidden="hidden">
       <div class="interface-block" id="IMarkdownPluginOptions">
-        <h2 class="interface-title"><code><small>interface</small> IMarkdownPluginOptions<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/plugins/markdown.ts#L24" target="_blank" title="View source">#</a></small></code></h2>
+        <h2 class="interface-title"><code><small>interface</small> IMarkdownPluginOptions<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/compiler/src/plugins/markdown.ts#L33" target="_blank" title="View source">#</a></small></code></h2>
         <h3>Properties</h3>
         <div class="interface-properties">
           <table>
@@ -2689,7 +2704,7 @@ Do not include the <code>@</code> prefix in the strings.</p>
     </section>
     <section data-route="INpmPluginOptions" hidden="hidden">
       <div class="interface-block" id="INpmPluginOptions">
-        <h2 class="interface-title"><code><small>interface</small> INpmPluginOptions<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/plugins/npm.ts#L11" target="_blank" title="View source">#</a></small></code></h2>
+        <h2 class="interface-title"><code><small>interface</small> INpmPluginOptions<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/compiler/src/plugins/npm.ts#L20" target="_blank" title="View source">#</a></small></code></h2>
         <h3>Properties</h3>
         <div class="interface-properties">
           <table>
@@ -2717,7 +2732,7 @@ Do not include the <code>@</code> prefix in the strings.</p>
     </section>
     <section data-route="ITypescriptPluginOptions" hidden="hidden">
       <div class="interface-block" id="ITypescriptPluginOptions">
-        <h2 class="interface-title"><code><small>interface</small> ITypescriptPluginOptions<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/plugins/typescript/index.ts#L14" target="_blank" title="View source">#</a></small></code></h2>
+        <h2 class="interface-title"><code><small>interface</small> ITypescriptPluginOptions<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/compiler/src/plugins/typescript/index.ts#L23" target="_blank" title="View source">#</a></small></code></h2>
         <h3>Properties</h3>
         <div class="interface-properties">
           <table>
@@ -2772,8 +2787,8 @@ If omitted, the current commit hash will be used.</p>
                 <div class="type-signature"><code>undefined | false | true<em> = false</em></code>
                 </div><p>Whether files in <code>node_modules</code> should be included in the TypeScript
 compilation context. This is disabled by default because it typically
-results in an explosion of data size due to including all types from <em>all
-installed packages</em>, the vast majority of which are not useful for
+results in an explosion of data size due to including all types from _all
+installed packages_, the vast majority of which are not useful for
 documenting your own APIs.</p>
 <p>Enable at your own risk, and consider using the <code>excludeNames</code> and
 <code>excludePaths</code> options above to filter the output data.</p>
@@ -2825,7 +2840,7 @@ Note that compiler errors are ignored by Typedoc so they do not affect docs gene
     </section>
     <section data-route="StringOrTag" hidden="hidden">
       <div class="interface-block" id="StringOrTag">
-        <h2 class="interface-title"><code><small>type alias</small> StringOrTag<small> <a href="https://github.com/palantir/documentalist/blob/7de9f2b/src/client/tags.ts#L42" target="_blank" title="View source">#</a></small></code></h2>
+        <h2 class="interface-title"><code><small>type alias</small> StringOrTag<small> <a href="https://github.com/palantir/documentalist/blob/e6e7bed/packages/client/src/tags.ts#L51" target="_blank" title="View source">#</a></small></code></h2>
         <div class="interface-properties">
           <table>
             <tr>
@@ -2841,7 +2856,7 @@ Note that compiler errors are ignored by Typedoc so they do not affect docs gene
         </div>
       </div>
     </section>
-    <script type="text/javascript" src="https://unpkg.com/core-js@2.5.1/client/shim.min.js"></script>
-    <script type="text/javascript" src="assets/index.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/core-js@2.5.3/client/shim.min.js"></script>
+    <script type="text/javascript" src="index.js"></script>
   </body>
 </html>

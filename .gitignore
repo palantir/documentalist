@@ -1,6 +1,0 @@
-build
-dist
-node_modules
-npm-debug.log
-docs.json
-theme/version.txt
