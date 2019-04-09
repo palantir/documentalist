@@ -30,5 +30,4 @@ This project contains multiple NPM packages:
 
 ## License
 
-This project is made available under the [BSD License](https://github.com/palantir/documentalist/blob/develop/LICENSE)
-and includes a [Patent Grant](https://github.com/palantir/documentalist/blob/develop/PATENTS).
+This project is made available under the [Apache-2.0 License](https://github.com/palantir/documentalist/blob/develop/LICENSE).
