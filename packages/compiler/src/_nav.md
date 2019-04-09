@@ -1,1 +1,3 @@
-@page docs
+@page overview
+@page compiler
+@page client
