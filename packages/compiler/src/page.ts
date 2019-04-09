@@ -5,7 +5,7 @@
  * repository.
  */
 
-import { IHeadingNode, IPageData, IPageNode, isHeadingTag, isTag } from "./client";
+import { IHeadingNode, IPageData, IPageNode, isHeadingTag, isTag } from "@documentalist/client";
 
 export class PageMap {
     private store: Map<string, IPageData> = new Map();

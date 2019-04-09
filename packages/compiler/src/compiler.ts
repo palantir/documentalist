@@ -5,10 +5,10 @@
  * repository.
  */
 
+import { IBlock, ICompiler, IHeadingTag, StringOrTag } from "@documentalist/client";
 import * as yaml from "js-yaml";
 import * as marked from "marked";
 import { relative } from "path";
-import { IBlock, ICompiler, IHeadingTag, StringOrTag } from "./client";
 
 /**
  * Matches the triple-dash metadata block on the first line of markdown file.

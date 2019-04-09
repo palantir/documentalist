@@ -5,7 +5,7 @@
  * repository.
  */
 
-import { isTsClass, isTsInterface, ITypescriptPluginData } from "../client/typescript";
+import { isTsClass, isTsInterface, ITypescriptPluginData } from "@documentalist/client";
 import { Documentalist } from "../documentalist";
 import { ITypescriptPluginOptions, TypescriptPlugin } from "../plugins/typescript/index";
 

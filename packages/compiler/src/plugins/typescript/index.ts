@@ -5,8 +5,8 @@
  * repository.
  */
 
+import { ICompiler, IFile, IPlugin, ITypescriptPluginData } from "@documentalist/client";
 import { Application } from "typedoc";
-import { ICompiler, IFile, IPlugin, ITypescriptPluginData } from "../../client";
 import { Visitor } from "./visitor";
 
 export { ITypescriptPluginData };

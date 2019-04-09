@@ -5,10 +5,10 @@
  * repository.
  */
 
+import { IFile, IPlugin } from "@documentalist/client";
 import * as fs from "fs";
 import * as glob from "glob";
 import * as path from "path";
-import { IFile, IPlugin } from "./client";
 import { Compiler, ICompilerOptions } from "./compiler";
 
 /**

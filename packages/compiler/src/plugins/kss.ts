@@ -7,7 +7,7 @@
 
 import * as kss from "kss";
 import * as path from "path";
-import { ICompiler, IFile, IKssExample, IKssModifier, IKssPluginData, IPlugin } from "../client";
+import { ICompiler, IFile, IKssExample, IKssModifier, IKssPluginData, IPlugin } from "@documentalist/client";
 
 /**
  * The `KssPlugin` extracts [KSS doc comments](http://warpspire.com/kss/syntax/) from CSS code (or similar languages).

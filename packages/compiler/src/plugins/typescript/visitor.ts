@@ -5,19 +5,8 @@
  * repository.
  */
 
-import { relative } from "path";
 import {
-    DeclarationReflection,
-    ParameterReflection,
-    ProjectReflection,
-    Reflection,
-    ReflectionKind,
-    SignatureReflection,
-} from "typedoc";
-import { Comment, UnionType } from "typedoc/dist/lib/models";
-import { DefaultValueContainer } from "typedoc/dist/lib/models/reflections/abstract";
-import { ICompiler } from "../../client/compiler";
-import {
+    ICompiler,
     ITsClass,
     ITsConstructor,
     ITsDocBase,
@@ -31,7 +20,18 @@ import {
     ITsSignature,
     ITsTypeAlias,
     Kind,
-} from "../../client/typescript";
+} from "@documentalist/client";
+import { relative } from "path";
+import {
+    DeclarationReflection,
+    ParameterReflection,
+    ProjectReflection,
+    Reflection,
+    ReflectionKind,
+    SignatureReflection,
+} from "typedoc";
+import { Comment, UnionType } from "typedoc/dist/lib/models";
+import { DefaultValueContainer } from "typedoc/dist/lib/models/reflections/abstract";
 import { ITypescriptPluginOptions } from "./index";
 import { resolveSignature, resolveTypeString } from "./typestring";
 

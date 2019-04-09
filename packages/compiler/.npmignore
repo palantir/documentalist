@@ -1,14 +1,10 @@
-dist/__tests__
-docs/
+lib/__tests__
 src/
-theme/
 
 .npmrc
 .vscode
 .yarnrc
 
-circle.yml
 jest.config.json
 tsconfig.json
 tslint.json
-yarn.lock

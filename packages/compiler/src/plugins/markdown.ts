@@ -18,7 +18,7 @@ import {
     isHeadingTag,
     isPageNode,
     slugify,
-} from "../client";
+} from "@documentalist/client";
 import { PageMap } from "../page";
 
 export interface IMarkdownPluginOptions {

@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 // @ts-check
 
-// Example Usage
-// ./cli.js "./src/**/*"
 /**
  * Copyright 2017-present Palantir Technologies, Inc. All rights reserved.
  * Licensed under the BSD-3 License as modified (the “License”); you may obtain
@@ -10,10 +8,13 @@
  * repository.
  */
 
+// Example Usage
+// documentalist "./src/**/*"
+
 const yargs = require("yargs");
 const fs = require("fs");
 const glob = require("glob");
-const { Documentalist, KssPlugin, MarkdownPlugin, NpmPlugin, TypescriptPlugin } = require("./dist/");
+const { Documentalist, KssPlugin, MarkdownPlugin, NpmPlugin, TypescriptPlugin } = require("./lib/");
 
 const argv = yargs
     .alias("v", "version")

@@ -6,7 +6,7 @@
  */
 
 import { spawn } from "child_process";
-import { ICompiler, IFile, INpmPackage, INpmPluginData, IPlugin } from "../client";
+import { ICompiler, IFile, INpmPackage, INpmPluginData, IPlugin } from "@documentalist/client";
 
 export interface INpmPluginOptions {
     /** Whether to exclude packages marked `private`. */
