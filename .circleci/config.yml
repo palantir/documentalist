@@ -57,7 +57,7 @@ jobs:
       - attach_workspace:
           at: '.'
       - run: mkdir -p ./reports
-      - run: yarn lint -- --format junit --out ../../reports/tslint.xml
+      - run: yarn lint -- -- --format junit --out ../../reports/tslint.xml
       - store_test_results: *reports_path
 
   test:
@@ -69,7 +69,7 @@ jobs:
           at: '.'
       - run: mkdir -p ./reports
       - run:
-          command: yarn test -- --ci --testResultsProcessor="jest-junit"
+          command: yarn test -- -- --ci --testResultsProcessor="jest-junit"
           environment:
             JEST_JUNIT_OUTPUT: ./reports/jest.xml
       - store_test_results: *reports_path
