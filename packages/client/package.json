@@ -12,7 +12,7 @@
     },
     "devDependencies": {
         "tslint": "^5.15.0",
-        "typescript": "~3.2.2"
+        "typescript": "~3.3.4000"
     },
     "engines": {
         "node": ">=8.15.1"
