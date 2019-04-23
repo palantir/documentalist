@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+/** All icon identifiers */
 export type IconName = "add" | "remove" | "plus" | "minus";
 
 export interface IActionProps {
