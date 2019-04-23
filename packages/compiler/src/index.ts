@@ -14,5 +14,10 @@
  * limitations under the License.
  */
 
+// HACKHACK(https://github.com/palantir/documentalist/issues/87)
+// latest typedoc + handlebars fail to compile because they don't deal with ambient types correctly
+// tslint:disable-next-line no-implicit-dependencies
+import "handlebars";
+
 export * from "./documentalist";
 export * from "./plugins";
