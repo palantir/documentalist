@@ -24,7 +24,7 @@ Object {
         "tag": "heading",
         "value": "I'm special",
       },
-      "<h2 id=\\"i-m-regular\\">I&#39;m regular</h2>
+      "<h2 id=\\"im-regular\\">I&#39;m regular</h2>
 ",
       Object {
         "tag": "othertag",
