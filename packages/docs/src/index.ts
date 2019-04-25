@@ -64,7 +64,7 @@ function selectCurrent(route: string) {
     }
 }
 
-const router = new Router(document.querySelector<HTMLElement>("#content")!, "docs");
+const router = new Router(document.querySelector<HTMLElement>("#content")!, "overview");
 const routables = queryAll(document.body, "[data-route]");
 routables.forEach(routable => {
     const route = routable.getAttribute("data-route")!;
