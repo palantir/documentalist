@@ -63,6 +63,9 @@ mixin interfaceDocs(iface)
         small= " "
           a(href=iface.sourceUrl,target="_blank",title="View source") #
 
+    em
+      small= "Exported from: "
+      code @documentalist/#{iface.fileName.split("/", 2)[1]}
 
     if iface.kind === "type alias"
       .interface-properties
