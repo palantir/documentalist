@@ -28,12 +28,13 @@ mixin linkify(text = "")
 
 //- renders an `@tag` from a (short) known list
 mixin renderTag(tag, value)
-  blockquote
-    case tag
-      when "interface"
-        +interfaceDocs(typescript[value])
-      default
-        p #{tag}: #[code: +linkify(value)]
+  case tag
+    when "heading"
+      h1= value
+    when "interface"
+      +interfaceDocs(typescript[value])
+    default
+      p #{tag}: #[code: +linkify(value)]
 
 //- render a type signature, including default value & inherited from
 mixin renderType(sig)
@@ -50,7 +51,7 @@ mixin renderType(sig)
 
 //- render docs for an interface (or class) member
 mixin interfaceDocs(iface)
-  .interface-block(id=iface.name)
+  blockquote.interface-block(id=iface.name)
     h2.interface-title
       code #[small= iface.kind] #{iface.name}
         if iface.extends
