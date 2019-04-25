@@ -58,7 +58,7 @@ function selectCurrent(route) {
         // just bail if this doesn't work (IE)
     }
 }
-var router = new Router(document.querySelector("#content"), "docs");
+var router = new Router(document.querySelector("#content"), "overview");
 var routables = queryAll(document.body, "[data-route]");
 routables.forEach(function (routable) {
     var route = routable.getAttribute("data-route");
