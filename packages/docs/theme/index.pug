@@ -3,7 +3,7 @@ include mixins
 - var toc = Object.keys(typescript).sort((a, b) => a.localeCompare(b))
 
 mixin listing(title, kind)
-  h3= title
+  h4= title
   each id in toc.filter(a => typescript[a].kind === kind)
     - var name = typescript[id].name
     a.nav-item(href='#' + name): code= name
@@ -17,6 +17,7 @@ html
       each item in nav
         h3: a(href="#" + item.reference)= item.title
 
+      h3 API Reference
       +listing("Classes", "class")
       +listing("Interfaces", "interface")
       +listing("Enums", "enum")
