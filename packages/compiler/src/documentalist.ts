@@ -119,8 +119,8 @@ export class Documentalist<T> {
      */
     private mergeInto(destination: T, source: T) {
         for (const key in source) {
-            if (source.hasOwnProperty(key)) {
-                if (destination.hasOwnProperty(key)) {
+            if (source[key] != null) {
+                if (destination[key] != null) {
                     console.warn(`WARNING: Duplicate plugin key "${key}". Your plugins are overwriting each other.`);
                 }
                 destination[key] = source[key];

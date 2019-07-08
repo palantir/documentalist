@@ -15,7 +15,7 @@
  */
 
 import { ICompiler, IFile, IPlugin, ITypescriptPluginData } from "@documentalist/client";
-import { Application } from "typedoc";
+import { Application } from "@gerrit0/typedoc";
 import { Visitor } from "./visitor";
 
 export { ITypescriptPluginData };
