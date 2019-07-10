@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { SignatureReflection } from "typedoc";
+import { SignatureReflection } from "@gerrit0/typedoc";
 import {
     IntersectionType,
     ReferenceType,
@@ -22,7 +22,7 @@ import {
     ReflectionType,
     Type,
     UnionType,
-} from "typedoc/dist/lib/models";
+} from "@gerrit0/typedoc/dist/lib/models";
 
 export function resolveTypeString(type: Type | undefined): string {
     if (type instanceof ReflectionType) {
