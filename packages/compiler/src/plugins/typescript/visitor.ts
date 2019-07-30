@@ -22,13 +22,13 @@ import {
     ITsEnum,
     ITsEnumMember,
     ITsFlags,
+    ITsFunction,
     ITsInterface,
     ITsMethod,
     ITsParameter,
     ITsProperty,
     ITsSignature,
     ITsTypeAlias,
-    ITsFunction,
     Kind,
 } from "@documentalist/client";
 import {
