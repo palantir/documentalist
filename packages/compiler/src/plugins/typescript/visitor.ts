@@ -28,6 +28,7 @@ import {
     ITsProperty,
     ITsSignature,
     ITsTypeAlias,
+    ITsFunction,
     Kind,
 } from "@documentalist/client";
 import {
@@ -54,6 +55,7 @@ export class Visitor {
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Class), this.visitClass),
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Enum), this.visitEnum),
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Interface), this.visitInterface),
+            ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Function), this.visitFunction),
             ...this.visitChildren(
                 // detect if a `const X = { A, B, C }` also has a corresponding `type X = A | B | C`
                 project.getReflectionsByKind(ReflectionKind.ObjectLiteral).filter(isConstTypePair),
@@ -100,6 +102,12 @@ export class Visitor {
             this.visitProperty,
             sortStaticFirst,
         ),
+    });
+
+    private visitFunction = (def: DeclarationReflection): ITsFunction => ({
+        ...this.makeDocEntry(def, Kind.Function),
+        inheritedFrom: def.inheritedFrom && resolveTypeString(def.inheritedFrom),
+        signatures: def.signatures !== undefined ? def.signatures.map(sig => this.visitSignature(sig)) : [],
     });
 
     private visitConstructor = (def: DeclarationReflection): ITsConstructor => ({

@@ -28,6 +28,7 @@ export enum Kind {
     Signature = "signature",
     Property = "property",
     TypeAlias = "type alias",
+    Function = "function",
 }
 
 /** Compiler flags about this member. */
@@ -178,16 +179,21 @@ export interface ITsTypeAlias extends ITsDocBase {
     type: string;
 }
 
+/** Documentation for a `function` definition. */
+export interface ITsFunction extends ITsDocBase, ITsCallable {
+    kind: Kind.Function;
+}
+
 /**
- * The `TypescriptPlugin` exports a `typescript` key that contains a map of member name to
- * `class` or `interface` definition.
+ * The `TypescriptPlugin` exports a `typescript` key that contains a map of a member name to its
+ * `class`, `interface` or `function` definition.
  *
- * Only classes and interfaces are provided at this root level, but each member contains full
+ * Only classes, functions and interfaces are provided at this root level, but each member contains full
  * information about its children, such as methods (and signatures and parameters) and properties.
  */
 export interface ITypescriptPluginData {
     typescript: {
-        [name: string]: ITsClass | ITsInterface | ITsEnum | ITsTypeAlias;
+        [name: string]: ITsClass | ITsInterface | ITsEnum | ITsTypeAlias | ITsFunction;
     };
 }
 
@@ -206,3 +212,4 @@ export const isTsParameter = typeguard<ITsParameter>(Kind.Parameter);
 export const isTsProperty = typeguard<ITsProperty>(Kind.Property);
 export const isTsSignature = typeguard<ITsSignature>(Kind.Signature);
 export const isTsTypeAlias = typeguard<ITsTypeAlias>(Kind.TypeAlias);
+export const isTsFunction = typeguard<ITsFunction>(Kind.Function);
