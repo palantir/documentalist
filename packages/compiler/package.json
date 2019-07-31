@@ -18,7 +18,7 @@
     },
     "dependencies": {
         "@documentalist/client": "^2.1.0",
-        "@gerrit0/typedoc": "^0.15.2",
+        "typedoc": "^0.15.0",
         "@types/kss": "^3.0.1",
         "glob": "^7.1.3",
         "js-yaml": "^3.12.0",

@@ -10,7 +10,7 @@
       ]
     },
     "no-submodule-imports": {
-      "options": ["@gerrit0/typedoc/dist/lib/models"]
+      "options": ["typedoc/dist/lib/models"]
     }
   },
   "jsRules": {
