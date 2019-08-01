@@ -30,6 +30,7 @@ import {
     ITsTypeAlias,
     Kind,
 } from "@documentalist/client";
+import { relative } from "path";
 import {
     DeclarationReflection,
     ParameterReflection,
@@ -37,10 +38,9 @@ import {
     Reflection,
     ReflectionKind,
     SignatureReflection,
-} from "@gerrit0/typedoc";
-import { Comment, UnionType } from "@gerrit0/typedoc/dist/lib/models";
-import { DefaultValueContainer } from "@gerrit0/typedoc/dist/lib/models/reflections/abstract";
-import { relative } from "path";
+} from "typedoc";
+import { Comment, UnionType } from "typedoc/dist/lib/models";
+import { DefaultValueContainer } from "typedoc/dist/lib/models/reflections/abstract";
 import { ITypescriptPluginOptions } from "./index";
 import { resolveSignature, resolveTypeString } from "./typestring";
 
