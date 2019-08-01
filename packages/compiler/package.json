@@ -27,13 +27,13 @@
         "yargs": "^12.0.2"
     },
     "devDependencies": {
-        "@blueprintjs/tslint-config": "^1.8.0",
+        "@blueprintjs/tslint-config": "^1.9.0",
         "@types/glob": "^7.1.1",
-        "@types/jest": "^24.0.11",
+        "@types/jest": "^24.0.16",
         "@types/js-yaml": "^3.12.1",
         "@types/marked": "^0.6.5",
-        "@types/node": "^11.13.2",
-        "@types/yargs": "^13.0.0",
+        "@types/node": "^12.6.9",
+        "@types/yargs": "^13.0.2",
         "jest": "^23.6.0",
         "jest-junit": "^5.2.0",
         "npm-run-all": "^4.1.3",
