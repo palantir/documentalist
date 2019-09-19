@@ -16,6 +16,7 @@
 
 import {
     ICompiler,
+    ITsAccessor,
     ITsClass,
     ITsConstructor,
     ITsDocBase,
@@ -82,6 +83,7 @@ export class Visitor {
 
     private visitClass = (def: DeclarationReflection): ITsClass => ({
         ...this.visitInterface(def),
+        accessors: this.visitChildren(def.getChildrenByKind(ReflectionKind.Accessor), this.visitAccessor),
         constructorType: this.visitChildren(
             def.getChildrenByKind(ReflectionKind.Constructor),
             this.visitConstructor,
@@ -150,6 +152,15 @@ export class Visitor {
         defaultValue: getDefaultValue(param),
         sourceUrl: undefined,
         type: resolveTypeString(param.type),
+    });
+
+    private visitAccessor = (param: DeclarationReflection): ITsAccessor => ({
+        ...this.makeDocEntry(param, Kind.Accessor),
+        returnType: param.getSignature ? resolveTypeString(param.getSignature.type) : null,
+        valueType:
+            param.setSignature && param.setSignature.parameters && param.setSignature.parameters[0]
+                ? resolveTypeString(param.setSignature.parameters[0].type)
+                : null,
     });
 
     /** Visits each child that passes the filter condition (based on options). */

@@ -28,6 +28,7 @@ export enum Kind {
     Signature = "signature",
     Property = "property",
     TypeAlias = "type alias",
+    Accessor = "accessor",
 }
 
 /** Compiler flags about this member. */
@@ -109,6 +110,14 @@ export interface ITsConstructor extends ITsDocBase, ITsCallable {
     kind: Kind.Constructor;
 }
 
+export interface ITsAccessor extends ITsDocBase {
+    kind: Kind.Accessor;
+    /** Value type for the set accessor, or null if set accessor is not defined. */
+    valueType: string | null;
+    /** Return type of the get accessor, or null if get accessor is not defined. */
+    returnType: string | null;
+}
+
 /** Documentation for a method. See `signatures` array for actual callable signatures and rendered docs. */
 export interface ITsMethod extends ITsDocBase, ITsCallable {
     kind: Kind.Method;
@@ -158,6 +167,7 @@ export interface ITsClass extends ITsDocBase, ITsObjectDefinition {
     kind: Kind.Class;
     /** Constructor signature of this class. Note the special name here, as `constructor` is a JavaScript keyword. */
     constructorType: ITsConstructor;
+    accessors: ITsAccessor[];
 }
 /** A member of an `enum` definition. An enum member will have a `defaultValue` if it was declared with an initializer. */
 export interface ITsEnumMember extends ITsDocBase, ITsDefaultValue {
