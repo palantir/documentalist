@@ -112,10 +112,12 @@ export interface ITsConstructor extends ITsDocBase, ITsCallable {
 
 export interface ITsAccessor extends ITsDocBase {
     kind: Kind.Accessor;
-    /** Value type for the set accessor, or null if set accessor is not defined. */
-    valueType: string | null;
-    /** Return type of the get accessor, or null if get accessor is not defined. */
-    returnType: string | null;
+    /** If a set signature is defined and documented for this accessor, this will contain its documentation. */
+    getDocumentation: IBlock | undefined;
+    /** If a get signature is defined and documented for this accessor, this will contain its documentation. */
+    setDocumentation: IBlock | undefined;
+    /** Type of the accessor, or null if neither a get or a set accessor is defined. */
+    type: string | null;
 }
 
 /** Documentation for a method. See `signatures` array for actual callable signatures and rendered docs. */

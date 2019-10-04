@@ -27,11 +27,26 @@ Set the noise for the animal",
           "isRest": false,
           "isStatic": false,
         },
+        "getDocumentation": Object {
+          "contents": Array [
+            "<p>Get the noise of the animal</p>
+",
+          ],
+          "contentsRaw": "Get the noise of the animal",
+          "metadata": Object {},
+        },
         "kind": "accessor",
         "name": "accessorNoise",
-        "returnType": "string",
+        "setDocumentation": Object {
+          "contents": Array [
+            "<p>Set the noise for the animal</p>
+",
+          ],
+          "contentsRaw": "Set the noise for the animal",
+          "metadata": Object {},
+        },
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L20",
-        "valueType": "string",
+        "type": "string",
       },
     ],
     "constructorType": Object {
@@ -268,11 +283,26 @@ Set the noise for the animal",
           "isRest": false,
           "isStatic": false,
         },
+        "getDocumentation": Object {
+          "contents": Array [
+            "<p>Get the noise of the animal</p>
+",
+          ],
+          "contentsRaw": "Get the noise of the animal",
+          "metadata": Object {},
+        },
         "kind": "accessor",
         "name": "accessorNoise",
-        "returnType": "string",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L20",
-        "valueType": "string",
+        "setDocumentation": Object {
+          "contents": Array [
+            "<p>Set the noise for the animal</p>
+",
+          ],
+          "contentsRaw": "Set the noise for the animal",
+          "metadata": Object {},
+        },
+        "sourceUrl": "https://github.com/lukasbach/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L20",
+        "type": "string",
       },
     ],
     "constructorType": Object {

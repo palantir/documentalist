@@ -154,14 +154,33 @@ export class Visitor {
         type: resolveTypeString(param.type),
     });
 
-    private visitAccessor = (param: DeclarationReflection): ITsAccessor => ({
-        ...this.makeDocEntry(param, Kind.Accessor),
-        returnType: param.getSignature ? resolveTypeString(param.getSignature.type) : null,
-        valueType:
-            param.setSignature && param.setSignature.parameters && param.setSignature.parameters[0]
-                ? resolveTypeString(param.setSignature.parameters[0].type)
-                : null,
-    });
+    private visitAccessor = (param: DeclarationReflection): ITsAccessor => {
+        let type: string;
+        let getDocumentation;
+        let setDocumentation;
+
+        if (param.getSignature) {
+            type = resolveTypeString(param.getSignature.type);
+        } else if (param.setSignature && param.setSignature.parameters && param.setSignature.parameters[0]) {
+            type = resolveTypeString(param.setSignature.parameters[0].type);
+        } else {
+            throw Error("Accessor did neither define get nor set signature.");
+        }
+
+        if (param.getSignature) {
+            getDocumentation = this.renderComment(param.getSignature.comment);
+        }
+        if (param.setSignature) {
+            setDocumentation = this.renderComment(param.setSignature.comment);
+        }
+
+        return {
+            ...this.makeDocEntry(param, Kind.Accessor),
+            getDocumentation,
+            setDocumentation,
+            type,
+        };
+    };
 
     /** Visits each child that passes the filter condition (based on options). */
     private visitChildren<T extends ITsDocBase>(
