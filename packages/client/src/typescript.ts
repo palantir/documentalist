@@ -116,8 +116,8 @@ export interface ITsAccessor extends ITsDocBase {
     getDocumentation: IBlock | undefined;
     /** If a get signature is defined and documented for this accessor, this will contain its documentation. */
     setDocumentation: IBlock | undefined;
-    /** Type of the accessor, or null if neither a get or a set accessor is defined. */
-    type: string | null;
+    /** Type of the accessor. */
+    type: string;
 }
 
 /** Documentation for a method. See `signatures` array for actual callable signatures and rendered docs. */
