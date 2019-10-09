@@ -9,12 +9,12 @@
     "scripts": {
         "build": "lerna run build",
         "clean": "lerna run clean --parallel",
-        "deploy": "gh-pages -d packages/docs/dist -b master",
+        "deploy": "NODE_DEBUG=gh-pages gh-pages -d packages/docs/dist -b master",
         "dev": "lerna run dev --parallel",
         "lint": "lerna run lint --parallel",
         "lint-fix": "lerna run lint-fix --parallel",
         "test": "lerna run test --parallel",
-        "verify": "npm-run-all -s compile dist -p test lint"
+        "verify": "npm-run-all -s build -p test lint"
     },
     "repository": {
         "type": "git",
@@ -23,7 +23,7 @@
     "author": "Palantir Technologies",
     "dependencies": {
         "circle-github-bot": "^2.0.1",
-        "gh-pages": "^2.0.1",
+        "gh-pages": "^2.1.1",
         "lerna": "^3.13.0",
         "npm-run-all": "^4.1.3"
     }
