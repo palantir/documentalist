@@ -16,6 +16,16 @@
 // tslint:disable:max-classes-per-file
 
 export class Animal {
+    /** Get the noise of the animal */
+    public get accessorNoise(): string {
+        return this.noise;
+    }
+
+    /** Set the noise for the animal */
+    public set accessorNoise(newNoise: string) {
+        this.noise = newNoise;
+    }
+
     public constructor(private noise: string) {}
 
     /** Produce a noise. */

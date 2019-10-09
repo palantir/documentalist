@@ -16,6 +16,7 @@
 
 import {
     ICompiler,
+    ITsAccessor,
     ITsClass,
     ITsConstructor,
     ITsDocBase,
@@ -82,6 +83,7 @@ export class Visitor {
 
     private visitClass = (def: DeclarationReflection): ITsClass => ({
         ...this.visitInterface(def),
+        accessors: this.visitChildren(def.getChildrenByKind(ReflectionKind.Accessor), this.visitAccessor),
         constructorType: this.visitChildren(
             def.getChildrenByKind(ReflectionKind.Constructor),
             this.visitConstructor,
@@ -151,6 +153,34 @@ export class Visitor {
         sourceUrl: undefined,
         type: resolveTypeString(param.type),
     });
+
+    private visitAccessor = (param: DeclarationReflection): ITsAccessor => {
+        let type: string;
+        let getDocumentation;
+        let setDocumentation;
+
+        if (param.getSignature) {
+            type = resolveTypeString(param.getSignature.type);
+        } else if (param.setSignature && param.setSignature.parameters && param.setSignature.parameters[0]) {
+            type = resolveTypeString(param.setSignature.parameters[0].type);
+        } else {
+            throw Error("Accessor did neither define get nor set signature.");
+        }
+
+        if (param.getSignature) {
+            getDocumentation = this.renderComment(param.getSignature.comment);
+        }
+        if (param.setSignature) {
+            setDocumentation = this.renderComment(param.setSignature.comment);
+        }
+
+        return {
+            ...this.makeDocEntry(param, Kind.Accessor),
+            getDocumentation,
+            setDocumentation,
+            type,
+        };
+    };
 
     /** Visits each child that passes the filter condition (based on options). */
     private visitChildren<T extends ITsDocBase>(
