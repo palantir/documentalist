@@ -1,6 +1,6 @@
 {
     "name": "@documentalist/client",
-    "version": "2.2.0",
+    "version": "2.3.0",
     "description": "Runtime functions and interfaces used in rendering documentalist data",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
