@@ -15,7 +15,7 @@
  */
 
 import { ICompiler, IFile, IPlugin, ITypescriptPluginData } from "@documentalist/client";
-import { Application } from "typedoc";
+import { Application, TSConfigReader, TypeDocReader } from "typedoc";
 import { Visitor } from "./visitor";
 
 export { ITypescriptPluginData };
@@ -88,7 +88,7 @@ export interface ITypescriptPluginOptions {
 }
 
 export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
-    private app: TypedocApp;
+    private app: Application;
     public constructor(private options: ITypescriptPluginOptions = {}) {
         const { includeDeclarations = false, includePrivateMembers = false, tsconfigPath, verbose = false } = options;
         // options docs: https://gist.github.com/mootari/d39895574c8deacc57d0fc04eb0d21ca#file-options-md
@@ -109,7 +109,11 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
             // typedoc complains if given `undefined`, so only set if necessary
             typedocOptions.tsconfig = tsconfigPath;
         }
-        this.app = new TypedocApp(typedocOptions);
+        this.app = new Application();
+        // Support reading tsconfig.json + typedoc.json
+        this.app.options.addReader(new TypeDocReader());
+        this.app.options.addReader(new TSConfigReader());
+        this.app.bootstrap(typedocOptions);
     }
 
     public compile(files: IFile[], compiler: ICompiler): ITypescriptPluginData {
@@ -127,13 +131,5 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     private getTypedocProject(files: string[]) {
         const expanded = this.app.expandInputFiles(files);
         return this.app.convert(expanded);
-    }
-}
-
-// tslint:disable-next-line:max-classes-per-file
-class TypedocApp extends Application {
-    // this tricks typedoc into working
-    get isCLI() {
-        return true;
     }
 }
