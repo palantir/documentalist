@@ -22,6 +22,7 @@ describe("TypescriptPlugin", () => {
     it("classes snapshot", () => expectSnapshot("classes"));
     it("enums snapshot", () => expectSnapshot("enums"));
     it("interfaces snapshot", () => expectSnapshot("interfaces"));
+    it("functions snapshot", () => expectSnapshot("functions"));
 
     describe("options", () => {
         it("excludePaths", () => {
@@ -50,6 +51,8 @@ describe("TypescriptPlugin", () => {
         it("includeNonExportedMembers", () => {
             // expect to see Animal (exported) and Food (not exported) here
             expectSnapshot("classes", { includeNonExportedMembers: true }, Object.keys);
+            // expect to see both functions here
+            expectSnapshot("functions", { includeNonExportedMembers: true });
         });
     });
 });

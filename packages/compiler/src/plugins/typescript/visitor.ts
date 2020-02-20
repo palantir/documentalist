@@ -54,6 +54,7 @@ export class Visitor {
         return [
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Class), this.visitClass),
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Enum), this.visitEnum),
+            ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Function), this.visitMethod),
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Interface), this.visitInterface),
             ...this.visitChildren(
                 // detect if a `const X = { A, B, C }` also has a corresponding `type X = A | B | C`

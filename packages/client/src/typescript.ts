@@ -199,7 +199,7 @@ export interface ITsTypeAlias extends ITsDocBase {
  */
 export interface ITypescriptPluginData {
     typescript: {
-        [name: string]: ITsClass | ITsInterface | ITsEnum | ITsTypeAlias;
+        [name: string]: ITsClass | ITsInterface | ITsEnum | ITsMethod | ITsTypeAlias;
     };
 }
 

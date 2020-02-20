@@ -598,6 +598,105 @@ Object {
 }
 `;
 
+exports[`TypescriptPlugin functions snapshot 1`] = `
+Object {
+  "numberAndString": Object {
+    "documentation": undefined,
+    "fileName": "src/__tests__/__fixtures__/functions.ts",
+    "flags": Object {
+      "isDeprecated": undefined,
+      "isExported": true,
+      "isExternal": false,
+      "isOptional": false,
+      "isPrivate": false,
+      "isProtected": false,
+      "isPublic": false,
+      "isRest": false,
+      "isStatic": false,
+    },
+    "inheritedFrom": undefined,
+    "kind": "method",
+    "name": "numberAndString",
+    "signatures": Array [
+      Object {
+        "documentation": Object {
+          "contents": Array [
+            "<p>Exported function.</p>
+",
+          ],
+          "contentsRaw": "Exported function.",
+          "metadata": Object {},
+        },
+        "fileName": "src/__tests__/__fixtures__/functions.ts",
+        "flags": undefined,
+        "kind": "signature",
+        "name": "numberAndString",
+        "parameters": Array [
+          Object {
+            "defaultValue": undefined,
+            "documentation": Object {
+              "contents": Array [
+                "<p>The number passed to the function.</p>
+",
+              ],
+              "contentsRaw": "The number passed to the function.",
+              "metadata": Object {},
+            },
+            "fileName": undefined,
+            "flags": Object {
+              "isDeprecated": undefined,
+              "isExported": true,
+              "isExternal": false,
+              "isOptional": false,
+              "isPrivate": false,
+              "isProtected": false,
+              "isPublic": false,
+              "isRest": false,
+              "isStatic": false,
+            },
+            "kind": "parameter",
+            "name": "first",
+            "sourceUrl": undefined,
+            "type": "number",
+          },
+          Object {
+            "defaultValue": undefined,
+            "documentation": Object {
+              "contents": Array [
+                "<p>The string passed to the function.</p>
+",
+              ],
+              "contentsRaw": "The string passed to the function.",
+              "metadata": Object {},
+            },
+            "fileName": undefined,
+            "flags": Object {
+              "isDeprecated": undefined,
+              "isExported": true,
+              "isExternal": false,
+              "isOptional": false,
+              "isPrivate": false,
+              "isProtected": false,
+              "isPublic": false,
+              "isRest": false,
+              "isStatic": false,
+            },
+            "kind": "parameter",
+            "name": "second",
+            "sourceUrl": undefined,
+            "type": "string",
+          },
+        ],
+        "returnType": "string",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L22",
+        "type": "(first: number, second: string) => string",
+      },
+    ],
+    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L22",
+  },
+}
+`;
+
 exports[`TypescriptPlugin interfaces snapshot 1`] = `
 Object {
   "IActionProps": Object {
@@ -1371,6 +1470,199 @@ Array [
   "Dog",
   "Food",
 ]
+`;
+
+exports[`TypescriptPlugin options includeNonExportedMembers 2`] = `
+Object {
+  "numberAndString": Object {
+    "documentation": undefined,
+    "fileName": "src/__tests__/__fixtures__/functions.ts",
+    "flags": Object {
+      "isDeprecated": undefined,
+      "isExported": true,
+      "isExternal": false,
+      "isOptional": false,
+      "isPrivate": false,
+      "isProtected": false,
+      "isPublic": false,
+      "isRest": false,
+      "isStatic": false,
+    },
+    "inheritedFrom": undefined,
+    "kind": "method",
+    "name": "numberAndString",
+    "signatures": Array [
+      Object {
+        "documentation": Object {
+          "contents": Array [
+            "<p>Exported function.</p>
+",
+          ],
+          "contentsRaw": "Exported function.",
+          "metadata": Object {},
+        },
+        "fileName": "src/__tests__/__fixtures__/functions.ts",
+        "flags": undefined,
+        "kind": "signature",
+        "name": "numberAndString",
+        "parameters": Array [
+          Object {
+            "defaultValue": undefined,
+            "documentation": Object {
+              "contents": Array [
+                "<p>The number passed to the function.</p>
+",
+              ],
+              "contentsRaw": "The number passed to the function.",
+              "metadata": Object {},
+            },
+            "fileName": undefined,
+            "flags": Object {
+              "isDeprecated": undefined,
+              "isExported": true,
+              "isExternal": false,
+              "isOptional": false,
+              "isPrivate": false,
+              "isProtected": false,
+              "isPublic": false,
+              "isRest": false,
+              "isStatic": false,
+            },
+            "kind": "parameter",
+            "name": "first",
+            "sourceUrl": undefined,
+            "type": "number",
+          },
+          Object {
+            "defaultValue": undefined,
+            "documentation": Object {
+              "contents": Array [
+                "<p>The string passed to the function.</p>
+",
+              ],
+              "contentsRaw": "The string passed to the function.",
+              "metadata": Object {},
+            },
+            "fileName": undefined,
+            "flags": Object {
+              "isDeprecated": undefined,
+              "isExported": true,
+              "isExternal": false,
+              "isOptional": false,
+              "isPrivate": false,
+              "isProtected": false,
+              "isPublic": false,
+              "isRest": false,
+              "isStatic": false,
+            },
+            "kind": "parameter",
+            "name": "second",
+            "sourceUrl": undefined,
+            "type": "string",
+          },
+        ],
+        "returnType": "string",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L22",
+        "type": "(first: number, second: string) => string",
+      },
+    ],
+    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L22",
+  },
+  "stringAndBoolean": Object {
+    "documentation": undefined,
+    "fileName": "src/__tests__/__fixtures__/functions.ts",
+    "flags": Object {
+      "isDeprecated": undefined,
+      "isExported": false,
+      "isExternal": false,
+      "isOptional": false,
+      "isPrivate": false,
+      "isProtected": false,
+      "isPublic": false,
+      "isRest": false,
+      "isStatic": false,
+    },
+    "inheritedFrom": undefined,
+    "kind": "method",
+    "name": "stringAndBoolean",
+    "signatures": Array [
+      Object {
+        "documentation": Object {
+          "contents": Array [
+            "<p>Non-exported function.</p>
+",
+          ],
+          "contentsRaw": "Non-exported function.",
+          "metadata": Object {},
+        },
+        "fileName": "src/__tests__/__fixtures__/functions.ts",
+        "flags": undefined,
+        "kind": "signature",
+        "name": "stringAndBoolean",
+        "parameters": Array [
+          Object {
+            "defaultValue": undefined,
+            "documentation": Object {
+              "contents": Array [
+                "<p>The string parameter.</p>
+",
+              ],
+              "contentsRaw": "The string parameter.",
+              "metadata": Object {},
+            },
+            "fileName": undefined,
+            "flags": Object {
+              "isDeprecated": undefined,
+              "isExported": false,
+              "isExternal": false,
+              "isOptional": false,
+              "isPrivate": false,
+              "isProtected": false,
+              "isPublic": false,
+              "isRest": false,
+              "isStatic": false,
+            },
+            "kind": "parameter",
+            "name": "str",
+            "sourceUrl": undefined,
+            "type": "string",
+          },
+          Object {
+            "defaultValue": undefined,
+            "documentation": Object {
+              "contents": Array [
+                "<p>The boolean parameter.</p>
+",
+              ],
+              "contentsRaw": "The boolean parameter.",
+              "metadata": Object {},
+            },
+            "fileName": undefined,
+            "flags": Object {
+              "isDeprecated": undefined,
+              "isExported": false,
+              "isExternal": false,
+              "isOptional": false,
+              "isPrivate": false,
+              "isProtected": false,
+              "isPublic": false,
+              "isRest": false,
+              "isStatic": false,
+            },
+            "kind": "parameter",
+            "name": "bool",
+            "sourceUrl": undefined,
+            "type": "boolean",
+          },
+        ],
+        "returnType": "string",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L31",
+        "type": "(str: string, bool: boolean) => string",
+      },
+    ],
+    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L31",
+  },
+}
 `;
 
 exports[`TypescriptPlugin options includePrivateMembers 1`] = `
