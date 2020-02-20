@@ -31,3 +31,6 @@ export function numberAndString(first: number, second: string) {
 function stringAndBoolean(str: string, bool: boolean) {
     return str + bool;
 }
+
+// so tsc doesn't complain that the unexported function is never used.
+export const MyFunc = stringAndBoolean;
