@@ -688,11 +688,11 @@ Object {
           },
         ],
         "returnType": "string",
-        "sourceUrl": undefined,
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L22",
         "type": "(first: number, second: string) => string",
       },
     ],
-    "sourceUrl": undefined,
+    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L22",
   },
 }
 `;
@@ -1562,11 +1562,11 @@ Object {
           },
         ],
         "returnType": "string",
-        "sourceUrl": undefined,
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L22",
         "type": "(first: number, second: string) => string",
       },
     ],
-    "sourceUrl": undefined,
+    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L22",
   },
   "stringAndBoolean": Object {
     "documentation": undefined,
@@ -1656,11 +1656,11 @@ Object {
           },
         ],
         "returnType": "string",
-        "sourceUrl": undefined,
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L31",
         "type": "(str: string, bool: boolean) => string",
       },
     ],
-    "sourceUrl": undefined,
+    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L31",
   },
 }
 `;
