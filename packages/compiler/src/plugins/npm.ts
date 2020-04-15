@@ -80,7 +80,7 @@ export class NpmPlugin implements IPlugin<INpmPluginData> {
     private getNpmInfo(packageName: string) {
         return new Promise<string>(resolve => {
             let stdout = "";
-            const child = spawn("npm", ["info", "--json", packageName]);
+            const child = spawn("npm", ["info", "--json", packageName], { shell: true });
             child.stdout.setEncoding("utf8");
             child.stdout.on("data", data => (stdout += data));
             child.on("close", () => resolve(stdout));
