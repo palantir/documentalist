@@ -3,6 +3,10 @@ Changelog
 
 ### 2020-04-15
 
+`@documentalist/compiler@2.8.1`
+
+- [#106](https://github.com/palantir/documentalist/pull/106) fix: NOENT error on win platform
+
 `@documentalist/client@2.5.0`, `@documentalist/compiler@2.8.0`, `@documentalist/docs@2.8.0`
 
 - [#107](https://github.com/palantir/documentalist/pull/107) feat: upgrade to TypeScript 3.8
