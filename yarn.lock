@@ -1246,7 +1246,7 @@ asynckit@^0.4.0:
 
 at-least-node@^1.0.0:
   version "1.0.0"
-  resolved "https://artifactory.palantir.build/artifactory/api/npm/all-npm/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
+  resolved "https://registry.yarnpkg.com/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
   integrity sha1-YCzUtG6EStTv/JKoARo8RuAjjcI=
 
 atob-lite@^2.0.0:
@@ -2795,7 +2795,7 @@ fs-extra@^8.1.0:
 
 fs-extra@^9.0.1:
   version "9.0.1"
-  resolved "https://artifactory.palantir.build/artifactory/api/npm/all-npm/fs-extra/-/fs-extra-9.0.1.tgz#910da0062437ba4c39fedd863f1675ccfefcb9fc"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-9.0.1.tgz#910da0062437ba4c39fedd863f1675ccfefcb9fc"
   integrity sha1-kQ2gBiQ3ukw5/t2GPxZ1zP78ufw=
   dependencies:
     at-least-node "^1.0.0"
@@ -3149,7 +3149,7 @@ has@^1.0.1, has@^1.0.3:
 
 highlight.js@^10.0.0:
   version "10.1.2"
-  resolved "https://artifactory.palantir.build/artifactory/api/npm/all-npm/highlight.js/-/highlight.js-10.1.2.tgz#c20db951ba1c22c055010648dfffd7b2a968e00c"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.1.2.tgz#c20db951ba1c22c055010648dfffd7b2a968e00c"
   integrity sha1-wg25UbocIsBVAQZI3//Xsqlo4Aw=
 
 highlight.js@^9.12.0:
@@ -4201,7 +4201,7 @@ jsonfile@^4.0.0:
 
 jsonfile@^6.0.1:
   version "6.0.1"
-  resolved "https://artifactory.palantir.build/artifactory/api/npm/all-npm/jsonfile/-/jsonfile-6.0.1.tgz#98966cba214378c8c84b82e085907b40bf614179"
+  resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-6.0.1.tgz#98966cba214378c8c84b82e085907b40bf614179"
   integrity sha1-mJZsuiFDeMjIS4LghZB7QL9hQXk=
   dependencies:
     universalify "^1.0.0"
@@ -4600,7 +4600,7 @@ marked@^0.7.0:
 
 marked@^1.1.1:
   version "1.1.1"
-  resolved "https://artifactory.palantir.build/artifactory/api/npm/all-npm/marked/-/marked-1.1.1.tgz#e5d61b69842210d5df57b05856e0c91572703e6a"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-1.1.1.tgz#e5d61b69842210d5df57b05856e0c91572703e6a"
   integrity sha1-5dYbaYQiENXfV7BYVuDJFXJwPmo=
 
 math-random@^1.0.1:
@@ -6257,7 +6257,7 @@ shell-quote@^1.6.1:
 
 shelljs@^0.8.4:
   version "0.8.4"
-  resolved "https://artifactory.palantir.build/artifactory/api/npm/all-npm/shelljs/-/shelljs-0.8.4.tgz#de7684feeb767f8716b326078a8a00875890e3c2"
+  resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.8.4.tgz#de7684feeb767f8716b326078a8a00875890e3c2"
   integrity sha1-3naE/ut2f4cWsyYHiooAh1iQ48I=
   dependencies:
     glob "^7.0.0"
@@ -6986,14 +6986,14 @@ typedarray@^0.0.6:
 
 typedoc-default-themes@^0.10.2:
   version "0.10.2"
-  resolved "https://artifactory.palantir.build/artifactory/api/npm/all-npm/typedoc-default-themes/-/typedoc-default-themes-0.10.2.tgz#743380a80afe62c5ef92ca1bd4abe2ac596be4d2"
+  resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.10.2.tgz#743380a80afe62c5ef92ca1bd4abe2ac596be4d2"
   integrity sha1-dDOAqAr+YsXvksob1KvirFlr5NI=
   dependencies:
     lunr "^2.3.8"
 
 typedoc@^0.18.0:
   version "0.18.0"
-  resolved "https://artifactory.palantir.build/artifactory/api/npm/all-npm/typedoc/-/typedoc-0.18.0.tgz#8bf53ddd7df5b8966b52c946929a09549d78682b"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.18.0.tgz#8bf53ddd7df5b8966b52c946929a09549d78682b"
   integrity sha1-i/U93X31uJZrUslGkpoJVJ14aCs=
   dependencies:
     fs-extra "^9.0.1"
@@ -7088,7 +7088,7 @@ universalify@^0.1.0:
 
 universalify@^1.0.0:
   version "1.0.0"
-  resolved "https://artifactory.palantir.build/artifactory/api/npm/all-npm/universalify/-/universalify-1.0.0.tgz#b61a1da173e8435b2fe3c67d29b9adf8594bd16d"
+  resolved "https://registry.yarnpkg.com/universalify/-/universalify-1.0.0.tgz#b61a1da173e8435b2fe3c67d29b9adf8594bd16d"
   integrity sha1-thodoXPoQ1sv48Z9Kbmt+FlL0W0=
 
 unset-value@^1.0.0:
