@@ -1,5 +1,11 @@
-Changelog
----------
+## Changelog
+
+### 2020-08-17
+
+`@documentalist/compiler@2.9.0`
+
+- [#113](https://github.com/palantir/documentalist/pull/109) chore(deps): upgrade typedoc to 0.18.0
+- [#109](https://github.com/palantir/documentalist/pull/109) chore(deps): upgrade marked to v0.8
 
 ### 2020-04-15
 
