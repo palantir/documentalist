@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+/**
+ * Route
+ */
 interface IRoute {
     route: string;
     render: () => string;
