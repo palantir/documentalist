@@ -117,14 +117,14 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     }
 
     public compile(files: IFile[], compiler: ICompiler): ITypescriptPluginData {
-        const project = this.getTypedocProject(files.map(f => f.path));
+        const project = this.getTypedocProject(files.map((f) => f.path));
         const visitor = new Visitor(compiler, this.options);
 
         if (project === undefined) {
             return { typescript: {} };
         }
 
-        const typescript = compiler.objectify(visitor.visitProject(project), i => i.name);
+        const typescript = compiler.objectify(visitor.visitProject(project), (i) => i.name);
         return { typescript };
     }
 

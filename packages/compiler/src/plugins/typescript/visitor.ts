@@ -61,13 +61,13 @@ export class Visitor {
                 project.getReflectionsByKind(ReflectionKind.ObjectLiteral).filter(isConstTypePair),
                 this.visitConstTypePair,
             ),
-            ...this.visitChildren<ITsTypeAlias>(project.getReflectionsByKind(ReflectionKind.TypeAlias), def => ({
+            ...this.visitChildren<ITsTypeAlias>(project.getReflectionsByKind(ReflectionKind.TypeAlias), (def) => ({
                 ...this.makeDocEntry(def, Kind.TypeAlias),
                 type: resolveTypeString(def.type),
             })),
         ].filter(
             // remove members excluded by path option
-            ref => isNotExcluded(excludePaths, ref.fileName),
+            (ref) => isNotExcluded(excludePaths, ref.fileName),
         );
     }
 
@@ -113,7 +113,7 @@ export class Visitor {
     private visitConstTypePair = (def: DeclarationReflection): ITsEnum => ({
         ...this.makeDocEntry(def, Kind.Enum),
         // ObjectLiteral has Variable children, but we'll expose them as enum members
-        members: this.visitChildren<ITsEnumMember>(def.getChildrenByKind(ReflectionKind.Variable), m => ({
+        members: this.visitChildren<ITsEnumMember>(def.getChildrenByKind(ReflectionKind.Variable), (m) => ({
             ...this.makeDocEntry(m, Kind.EnumMember),
             defaultValue: resolveTypeString(m.type),
         })),
@@ -121,7 +121,7 @@ export class Visitor {
 
     private visitEnum = (def: DeclarationReflection): ITsEnum => ({
         ...this.makeDocEntry(def, Kind.Enum),
-        members: this.visitChildren<ITsEnumMember>(def.getChildrenByKind(ReflectionKind.EnumMember), m => ({
+        members: this.visitChildren<ITsEnumMember>(def.getChildrenByKind(ReflectionKind.EnumMember), (m) => ({
             ...this.makeDocEntry(m, Kind.EnumMember),
             defaultValue: getDefaultValue(m),
         })),
@@ -137,13 +137,13 @@ export class Visitor {
     private visitMethod = (def: DeclarationReflection): ITsMethod => ({
         ...this.makeDocEntry(def, Kind.Method),
         inheritedFrom: def.inheritedFrom && resolveTypeString(def.inheritedFrom),
-        signatures: def.signatures !== undefined ? def.signatures.map(sig => this.visitSignature(sig)) : [],
+        signatures: def.signatures !== undefined ? def.signatures.map((sig) => this.visitSignature(sig)) : [],
     });
 
     private visitSignature = (sig: SignatureReflection): ITsSignature => ({
         ...this.makeDocEntry(sig, Kind.Signature),
         flags: undefined,
-        parameters: (sig.parameters || []).map(param => this.visitParameter(param)),
+        parameters: (sig.parameters || []).map((param) => this.visitParameter(param)),
         returnType: resolveTypeString(sig.type),
         type: resolveSignature(sig),
     });
@@ -191,9 +191,9 @@ export class Visitor {
     ): T[] {
         const { excludeNames = [], excludePaths = [], includeNonExportedMembers = false } = this.options;
         return children
-            .filter(ref => ref.flags.isExported || includeNonExportedMembers)
+            .filter((ref) => ref.flags.isExported || includeNonExportedMembers)
             .map(visitor)
-            .filter(doc => isNotExcluded(excludeNames, doc.name) && isNotExcluded(excludePaths, doc.fileName))
+            .filter((doc) => isNotExcluded(excludeNames, doc.name) && isNotExcluded(excludePaths, doc.fileName))
             .sort(comparator);
     }
 
@@ -215,8 +215,8 @@ export class Visitor {
             documentation +=
                 "\n\n" +
                 comment.tags
-                    .filter(tag => tag.tagName !== "default" && tag.tagName !== "deprecated")
-                    .map(tag => `@${tag.tagName} ${tag.text}`)
+                    .filter((tag) => tag.tagName !== "default" && tag.tagName !== "deprecated")
+                    .map((tag) => `@${tag.tagName} ${tag.text}`)
                     .join("\n");
         }
         return this.compiler.renderBlock(documentation);
@@ -227,7 +227,7 @@ function getCommentTag(comment: Comment | undefined, tagName: string) {
     if (comment == null || comment.tags == null) {
         return undefined;
     }
-    return comment.tags.filter(tag => tag.tagName === tagName)[0];
+    return comment.tags.filter((tag) => tag.tagName === tagName)[0];
 }
 
 function getDefaultValue(ref: DefaultValueContainer): string | undefined {
@@ -259,7 +259,17 @@ function getFlags(ref: Reflection): ITsFlags | undefined {
     }
     const isDeprecated = getIsDeprecated(ref);
     const { isExported, isExternal, isOptional, isPrivate, isProtected, isPublic, isRest, isStatic } = ref.flags;
-    return { isDeprecated, isExported, isExternal, isOptional, isPrivate, isProtected, isPublic, isRest, isStatic };
+    return {
+        isDeprecated,
+        isExported,
+        isExternal,
+        isOptional,
+        isPrivate,
+        isProtected,
+        isPublic,
+        isRest,
+        isStatic,
+    };
 }
 
 function getIsDeprecated(ref: Reflection) {
@@ -277,7 +287,7 @@ function isConstTypePair(def: DeclarationReflection) {
 
 /** Returns true if value does not match all patterns. */
 function isNotExcluded(patterns: Array<string | RegExp>, value?: string) {
-    return value === undefined || patterns.every(p => value.match(p) == null);
+    return value === undefined || patterns.every((p) => value.match(p) == null);
 }
 
 /** Sorts static members (`flags.isStatic`) before non-static members. */

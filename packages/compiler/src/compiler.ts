@@ -73,7 +73,11 @@ export class Compiler implements ICompiler {
         return { contents, contentsRaw, metadata };
     };
 
-    public renderMarkdown = (markdown: string) => marked(markdown, this.options.markdown);
+    public renderMarkdown = (markdown: string) =>
+        marked(markdown, {
+            highlight: null as any,
+            ...this.options.markdown,
+        });
 
     /**
      * Converts the content string into an array of `ContentNode`s. If the
@@ -83,8 +87,8 @@ export class Compiler implements ICompiler {
     private renderContents(content: string, reservedTagWords?: string[]) {
         const splitContents = this.parseTags(content, reservedTagWords);
         return splitContents
-            .map(node => (typeof node === "string" ? this.renderMarkdown(node) : node))
-            .filter(node => node !== "");
+            .map((node) => (typeof node === "string" ? this.renderMarkdown(node) : node))
+            .filter((node) => node !== "");
     }
 
     /**
@@ -122,7 +126,12 @@ export class Compiler implements ICompiler {
                 const value = match[2];
                 if (/#+/.test(tag)) {
                     // NOTE: not enough information to populate `route` field yet
-                    const heading: IHeadingTag = { tag: "heading", value, level: tag.length, route: "" };
+                    const heading: IHeadingTag = {
+                        level: tag.length,
+                        route: "",
+                        tag: "heading",
+                        value,
+                    };
                     arr.push(heading);
                 } else {
                     arr.push({ tag, value });

@@ -34,11 +34,11 @@ export class NpmPlugin implements IPlugin<INpmPluginData> {
     public constructor(private options: INpmPluginOptions = {}) {}
 
     public async compile(packageJsons: IFile[], dm: ICompiler): Promise<INpmPluginData> {
-        const info = await Promise.all(packageJsons.map(pkg => this.parseNpmInfo(pkg, dm)));
+        const info = await Promise.all(packageJsons.map((pkg) => this.parseNpmInfo(pkg, dm)));
         const { excludeNames, excludePrivate } = this.options;
         const npm = arrayToObject(
-            info.filter(pkg => isNotExcluded(excludeNames, pkg.name) && excludePrivate !== pkg.private),
-            pkg => pkg.name,
+            info.filter((pkg) => isNotExcluded(excludeNames, pkg.name) && excludePrivate !== pkg.private),
+            (pkg) => pkg.name,
         );
         return { npm };
     }
@@ -78,11 +78,13 @@ export class NpmPlugin implements IPlugin<INpmPluginData> {
     };
 
     private getNpmInfo(packageName: string) {
-        return new Promise<string>(resolve => {
+        return new Promise<string>((resolve) => {
             let stdout = "";
-            const child = spawn("npm", ["info", "--json", packageName], { shell: true });
+            const child = spawn("npm", ["info", "--json", packageName], {
+                shell: true,
+            });
             child.stdout.setEncoding("utf8");
-            child.stdout.on("data", data => (stdout += data));
+            child.stdout.on("data", (data) => (stdout += data));
             child.on("close", () => resolve(stdout));
         });
     }
@@ -90,11 +92,11 @@ export class NpmPlugin implements IPlugin<INpmPluginData> {
 
 function arrayToObject<T>(array: T[], keyFn: (item: T) => string) {
     const obj: { [key: string]: T } = {};
-    array.forEach(item => (obj[keyFn(item)] = item));
+    array.forEach((item) => (obj[keyFn(item)] = item));
     return obj;
 }
 
 /** Returns true if value does not match all patterns. */
 function isNotExcluded(patterns: Array<string | RegExp> = [], value?: string) {
-    return value === undefined || patterns.every(p => value.match(p) == null);
+    return value === undefined || patterns.every((p) => value.match(p) == null);
 }

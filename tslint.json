@@ -1,8 +1,10 @@
 {
   "extends": [
+    "tslint-plugin-prettier",
     "@blueprintjs/tslint-config"
   ],
   "rules": {
+    "align": false,
     "file-header": {
       "options": [
         "Copyright \\d{4} Palantir Technologies, Inc\\. All rights reserved.",
@@ -11,7 +13,16 @@
     },
     "no-submodule-imports": {
       "options": ["typedoc/dist/lib/models"]
-    }
+    },
+    "prettier": {
+      "options": {
+        "printWidth": 120,
+        "tabWidth": 4,
+        "trailingComma": "all"
+      }
+    },
+    "space-within-parens": false,
+    "whitespace": false
   },
   "jsRules": {
     "no-console": false

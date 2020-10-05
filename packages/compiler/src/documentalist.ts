@@ -91,7 +91,7 @@ export class Documentalist<T> {
         // tslint:disable-next-line:no-object-literal-type-assertion
         const documentation = {} as T;
         for (const { pattern, plugin } of this.plugins) {
-            const pluginFiles = files.filter(f => pattern.test(f.path));
+            const pluginFiles = files.filter((f) => pattern.test(f.path));
             const pluginDocumentation = await plugin.compile(pluginFiles, compiler);
             this.mergeInto(documentation, pluginDocumentation);
         }
@@ -103,9 +103,9 @@ export class Documentalist<T> {
      */
     private expandGlobs(filesGlobs: string[]): IFile[] {
         return filesGlobs
-            .map(filesGlob => glob.sync(filesGlob))
+            .map((filesGlob) => glob.sync(filesGlob))
             .reduce((a, b) => a.concat(b))
-            .map(fileName => {
+            .map((fileName) => {
                 const absolutePath = path.resolve(fileName);
                 return {
                     path: absolutePath,

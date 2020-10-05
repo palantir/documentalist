@@ -27,10 +27,7 @@ import {
 export function resolveTypeString(type: Type | undefined): string {
     if (type instanceof ReflectionType) {
         // reflection types include generics and object index signatures
-        return type.declaration
-            .getAllSignatures()
-            .map(resolveSignature)
-            .join(" | ");
+        return type.declaration.getAllSignatures().map(resolveSignature).join(" | ");
     } else if (type instanceof UnionType) {
         return type.types.map(resolveTypeString).join(" | ");
     } else if (type instanceof IntersectionType) {
@@ -62,7 +59,7 @@ function resolveReferenceName(type: ReferenceType): string {
 
 export function resolveSignature(sig: SignatureReflection): string {
     const { parameters = [] } = sig;
-    const paramList = parameters.map(param =>
+    const paramList = parameters.map((param) =>
         // "[...]name[?]: type"
         [
             param.flags.isRest ? "..." : "",

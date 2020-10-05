@@ -36,7 +36,10 @@ describe("NpmPlugin", () => {
         const {
             npm: { doesNotExist },
         } = await dm.documentFiles([
-            { path: "package.json", read: () => `{ "name": "doesNotExist", "version": "1.0.0" }` },
+            {
+                path: "package.json",
+                read: () => `{ "name": "doesNotExist", "version": "1.0.0" }`,
+            },
         ]);
         expect(doesNotExist.name).toBe("doesNotExist");
         expect(doesNotExist.version).toBe("1.0.0");

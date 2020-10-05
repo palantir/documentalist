@@ -23,6 +23,7 @@ import { TypescriptPlugin } from "./plugins/typescript";
 
 // Run something for the VS Code debugger to attach to.
 // Set breakpoints in original .ts source and debug in the editor!
+// tslint:disable prettier
 Documentalist.create()
     .use(".ts", new TypescriptPlugin())
     .use("package.json", new NpmPlugin())
