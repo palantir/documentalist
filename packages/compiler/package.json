@@ -1,6 +1,6 @@
 {
     "name": "@documentalist/compiler",
-    "version": "2.9.0",
+    "version": "3.0.0",
     "description": "The documentalist compiler",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
@@ -17,7 +17,7 @@
         "watch": "yarn compile --watch"
     },
     "dependencies": {
-        "@documentalist/client": "^2.5.0",
+        "@documentalist/client": "^3.0.0",
         "@types/kss": "^3.0.1",
         "glob": "^7.1.6",
         "js-yaml": "^3.14.0",
