@@ -57,8 +57,8 @@ function queryAll(element: Element, selector: string) {
 const nav = document.querySelector("#nav")!;
 function selectCurrent(route: string) {
     try {
-        queryAll(nav, "a").forEach(a => a.classList.toggle("selected", false));
-        queryAll(nav, 'a[href="#' + route + '"]').forEach(a => a.classList.toggle("selected", true));
+        queryAll(nav, "a").forEach((a) => a.classList.toggle("selected", false));
+        queryAll(nav, 'a[href="#' + route + '"]').forEach((a) => a.classList.toggle("selected", true));
     } catch (err) {
         // just bail if this doesn't work (IE)
     }
@@ -66,7 +66,7 @@ function selectCurrent(route: string) {
 
 const router = new Router(document.querySelector<HTMLElement>("#content")!, "overview");
 const routables = queryAll(document.body, "[data-route]");
-routables.forEach(routable => {
+routables.forEach((routable) => {
     const route = routable.getAttribute("data-route")!;
     router.register({
         render: () => routable.innerHTML,

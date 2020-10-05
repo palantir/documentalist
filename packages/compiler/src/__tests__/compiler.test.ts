@@ -22,12 +22,16 @@ describe("Compiler", () => {
 
     describe("objectify", () => {
         it("empty array returns empty object", () => {
-            expect(API.objectify([], x => x)).toEqual({});
+            expect(API.objectify([], (x) => x)).toEqual({});
         });
 
         it("turns an array into an object", () => {
-            const array = [{ name: "Bill", age: 1037 }, { name: "Gilad", age: 456 }, { name: "Robert", age: 21 }];
-            const byName = API.objectify(array, x => x.name);
+            const array = [
+                { name: "Bill", age: 1037 },
+                { name: "Gilad", age: 456 },
+                { name: "Robert", age: 21 },
+            ];
+            const byName = API.objectify(array, (x) => x.name);
             expect(Object.keys(byName)).toEqual(["Bill", "Gilad", "Robert"]);
         });
     });
@@ -65,7 +69,10 @@ describe("Compiler", () => {
         it("converts @tag to object in array", () => {
             const { contents } = API.renderBlock(FILE);
             expect(contents).toHaveLength(3);
-            expect(contents[1]).toEqual({ tag: "interface", value: "IButtonProps" });
+            expect(contents[1]).toEqual({
+                tag: "interface",
+                value: "IButtonProps",
+            });
         });
 
         it("converts @#+ to heading tags in array", () => {
