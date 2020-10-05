@@ -1,5 +1,21 @@
 ## Changelog
 
+### 2020-10-05
+
+`@documentalist/compiler@3.0.0`
+
+- :warning: Minimum version of Node.js is now v10.0
+- :warning: Minimum version of TypeScript is now v3.9
+- [#119](https://github.com/palantir/documentalist/pull/119) upgrade dependencies
+  - typedoc v0.19
+  - typescript v4.0
+  - marked v1.2
+  - kss v3.0
+
+`@documentalist/client@3.0.0`
+
+- Minimum version of Node.js is now v10.0
+
 ### 2020-08-17
 
 `@documentalist/compiler@2.9.0`
