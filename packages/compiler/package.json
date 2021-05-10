@@ -23,7 +23,7 @@
         "js-yaml": "^3.14.0",
         "kss": "^3.0.1",
         "marked": "^1.2.0",
-        "typedoc": "~0.19.2",
+        "typedoc": "~0.20.30",
         "yargs": "^16.0.3"
     },
     "devDependencies": {
@@ -36,10 +36,10 @@
         "jest": "^26.5.0",
         "jest-junit": "^12.0.0",
         "npm-run-all": "^4.1.5",
-        "ts-jest": "^26.4.1",
-        "ts-node": "^9.0.0",
+        "ts-jest": "^26.5.3",
+        "ts-node": "^9.1.1",
         "tslint": "^6.1.3",
-        "typescript": "~4.0.3"
+        "typescript": "~4.2.3"
     },
     "engines": {
         "node": ">=10.0.0"
