@@ -15,12 +15,18 @@
  */
 
 import { ICompiler, IFile, IPlugin, ITypescriptPluginData } from "@documentalist/client";
-import { Application, TSConfigReader, TypeDocReader } from "typedoc";
+import { Application, TSConfigReader, TypeDocOptions, TypeDocReader } from "typedoc";
 import { Visitor } from "./visitor";
 
 export { ITypescriptPluginData };
 
 export interface ITypescriptPluginOptions {
+    /**
+     * List of entry point modules.
+     * @default ["src/index.ts"]
+     */
+    entryPoints?: TypeDocOptions["entryPoints"];
+
     /**
      * Array of patterns (string or RegExp) to exclude members by name.
      * Strings will be converted to regular expressions through `string.match(pattern)`.
@@ -69,13 +75,6 @@ export interface ITypescriptPluginOptions {
      */
     includePrivateMembers?: boolean;
 
-    /**
-     * Whether members not marked `export` should be included in the data.
-     * This is disabled by default as non-exported members typically do not need to be publicly documented.
-     * @default false
-     */
-    includeNonExportedMembers?: boolean;
-
     /** Path to tsconfig file. */
     tsconfigPath?: string;
 
@@ -88,28 +87,20 @@ export interface ITypescriptPluginOptions {
 }
 
 export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
-    private app: Application;
+    private app = new Application();
+
     public constructor(private options: ITypescriptPluginOptions = {}) {
-        const { includeDeclarations = false, includePrivateMembers = false, tsconfigPath, verbose = false } = options;
-        // options docs: https://gist.github.com/mootari/d39895574c8deacc57d0fc04eb0d21ca#file-options-md
-        const typedocOptions: any = {
-            exclude: "**/node_modules/**",
+        const { includePrivateMembers = false, tsconfigPath, verbose = false } = options;
+        const typedocOptions: Partial<TypeDocOptions> = {
+            entryPointStrategy: "expand",
+            entryPoints: options.entryPoints ?? ["src/index.ts"],
+            exclude: options.includeNodeModules ? [] : ["**/node_modules/**"],
             excludePrivate: !includePrivateMembers,
             gitRevision: options.gitBranch,
-            ignoreCompilerErrors: true,
-            includeDeclarations,
             // tslint:disable-next-line no-console
             logger: verbose ? console.log : "none",
-            mode: "modules",
+            tsconfig: tsconfigPath,
         };
-        if (options.includeNodeModules) {
-            delete typedocOptions.exclude;
-        }
-        if (options.tsconfigPath != null) {
-            // typedoc complains if given `undefined`, so only set if necessary
-            typedocOptions.tsconfig = tsconfigPath;
-        }
-        this.app = new Application();
         // Support reading tsconfig.json + typedoc.json
         this.app.options.addReader(new TypeDocReader());
         this.app.options.addReader(new TSConfigReader());
@@ -129,7 +120,7 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     }
 
     private getTypedocProject(files: string[]) {
-        const expanded = this.app.expandInputFiles(files);
-        return this.app.convert(expanded);
+        this.app.options.setValue("includes", files);
+        return this.app.convert();
     }
 }

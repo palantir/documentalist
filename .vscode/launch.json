@@ -2,6 +2,12 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Attach to debugger",
+      "type": "node",
+      "request": "attach",
+      "port": 9229
+    },
+    {
       "name": "Documentalist",
       "type": "node",
       "request": "launch",

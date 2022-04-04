@@ -16,7 +16,7 @@
 
 import { IBlock, ICompiler, IHeadingTag, StringOrTag } from "@documentalist/client";
 import * as yaml from "js-yaml";
-import * as marked from "marked";
+import { marked } from "marked";
 import { relative } from "path";
 
 /**
@@ -102,7 +102,9 @@ export class Compiler implements ICompiler {
         }
 
         const contentsRaw = text.substr(match[0].length);
-        return { contentsRaw, metadata: yaml.load(match[1]) || {} };
+        const yamlObject: any | undefined = yaml.load(match[1]);
+
+        return { contentsRaw, metadata: yamlObject ?? {} };
     }
 
     /**

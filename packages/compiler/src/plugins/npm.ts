@@ -15,7 +15,7 @@
  */
 
 import { ICompiler, IFile, INpmPackage, INpmPluginData, IPlugin } from "@documentalist/client";
-import { spawn } from "child_process";
+import { spawnSync } from "child_process";
 
 export interface INpmPluginOptions {
     /** Whether to exclude packages marked `private`. */
@@ -33,8 +33,8 @@ export interface INpmPluginOptions {
 export class NpmPlugin implements IPlugin<INpmPluginData> {
     public constructor(private options: INpmPluginOptions = {}) {}
 
-    public async compile(packageJsons: IFile[], dm: ICompiler): Promise<INpmPluginData> {
-        const info = await Promise.all(packageJsons.map((pkg) => this.parseNpmInfo(pkg, dm)));
+    public compile(packageJsons: IFile[], dm: ICompiler): INpmPluginData {
+        const info = packageJsons.map((pkg) => this.parseNpmInfo(pkg, dm));
         const { excludeNames, excludePrivate } = this.options;
         const npm = arrayToObject(
             info.filter((pkg) => isNotExcluded(excludeNames, pkg.name) && excludePrivate !== pkg.private),
@@ -43,10 +43,10 @@ export class NpmPlugin implements IPlugin<INpmPluginData> {
         return { npm };
     }
 
-    private parseNpmInfo = async (packageJson: IFile, dm: ICompiler): Promise<INpmPackage> => {
+    private parseNpmInfo = (packageJson: IFile, dm: ICompiler): INpmPackage => {
         const sourcePath = dm.relativePath(packageJson.path);
         const json = JSON.parse(packageJson.read());
-        const data = JSON.parse(await this.getNpmInfo(json.name));
+        const data = this.getNpmInfo(json.name);
         // `npm info` returns an error if it doesn't know the package
         // so we can use package.json data instead
         if (data.error) {
@@ -77,16 +77,18 @@ export class NpmPlugin implements IPlugin<INpmPluginData> {
         };
     };
 
-    private getNpmInfo(packageName: string) {
-        return new Promise<string>((resolve) => {
-            let stdout = "";
-            const child = spawn("npm", ["info", "--json", packageName], {
-                shell: true,
-            });
-            child.stdout.setEncoding("utf8");
-            child.stdout.on("data", (data) => (stdout += data));
-            child.on("close", () => resolve(stdout));
+    private getNpmInfo(packageName: string): Record<string, any> {
+        const info = spawnSync("npm", ["info", "--json", packageName], {
+            shell: true,
         });
+
+        if (info.status === 0) {
+            return JSON.parse(info.stdout.toString());
+        } else {
+            return {
+                error: info.stderr.toString(),
+            };
+        }
     }
 }
 
