@@ -33,14 +33,15 @@ import {
 } from "@documentalist/client";
 import { relative } from "path";
 import {
+    Comment,
     DeclarationReflection,
     ParameterReflection,
     ProjectReflection,
     Reflection,
     ReflectionKind,
     SignatureReflection,
+    UnionType
 } from "typedoc";
-import { Comment, UnionType } from "typedoc/dist/lib/models";
 import { ITypescriptPluginOptions } from "./index";
 import { resolveSignature, resolveTypeString } from "./typestring";
 
