@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
+import { SignatureReflection } from "typedoc";
 import {
     IntersectionType,
     ReferenceType,
     ReflectionKind,
     ReflectionType,
-    SignatureReflection,
     Type,
     UnionType,
-} from "typedoc";
+} from "typedoc/dist/lib/models";
 
 export function resolveTypeString(type: Type | undefined): string {
     if (type instanceof ReflectionType) {

@@ -1,5 +1,5 @@
 {
-    "extends": "../../tsconfig.base.json",
+    "extends": "../../../tsconfig.base.json",
     "compilerOptions": {
         "lib": [
             "dom",
@@ -8,7 +8,7 @@
             "es2015.iterable",
             "es2015.promise"
         ],
-        "outDir": "lib/",
+        "outDir": "../lib/",
         "target": "es2015"
     }
 }

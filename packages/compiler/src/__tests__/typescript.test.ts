@@ -16,7 +16,7 @@
 
 import { isTsClass, isTsInterface, ITypescriptPluginData } from "@documentalist/client";
 import { Documentalist } from "../documentalist";
-import { ITypescriptPluginOptions, TypescriptPlugin } from "../plugins/typescript/index";
+import { ITypescriptPluginOptions, TypescriptPlugin } from "../plugins/typescript/typescriptPlugin";
 
 describe("TypescriptPlugin", () => {
     it("classes snapshot", () => expectSnapshot("classes"));
@@ -62,7 +62,8 @@ async function expectSnapshot(
         ".ts",
         new TypescriptPlugin({
             ...options,
-            entryPoints: [fixtureFilepath],
+            // TODO(adahiya): will be used in TypeDoc v0.22+
+            // entryPoints: [fixtureFilepath],
             gitBranch: "develop",
             tsconfigPath: "src/__tests__/__fixtures__/tsconfig.json",
             // verbose: true,

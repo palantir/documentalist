@@ -10,7 +10,7 @@
     "scripts": {
         "build": "run-s compile",
         "clean": "rm -rf lib",
-        "compile": "tsc --project .",
+        "compile": "tsc --project ./src",
         "lint": "tslint --project .",
         "lint-fix": "yarn lint --fix",
         "test": "jest --config jest.config.json",
@@ -24,7 +24,7 @@
         "js-yaml": "^4.1.0",
         "kss": "^3.0.1",
         "marked": "^4.0.12",
-        "typedoc": "~0.21.10",
+        "typedoc": "~0.19.2",
         "yargs": "^17.4.0"
     },
     "devDependencies": {

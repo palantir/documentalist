@@ -6,7 +6,7 @@
     "types": "lib/index.d.ts",
     "scripts": {
         "build": "run-s compile",
-        "compile": "tsc --project .",
+        "compile": "tsc --project ./src",
         "lint": "tslint --project .",
         "lint-fix": "yarn lint --fix"
     },
