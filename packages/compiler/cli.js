@@ -21,13 +21,10 @@
 // documentalist "./src/**/*"
 
 const yargs = require("yargs");
-const fs = require("fs");
-const glob = require("glob");
 const { Documentalist, KssPlugin, MarkdownPlugin, NpmPlugin, TypescriptPlugin } = require("./lib/");
 
 const argv = yargs
     .alias("v", "version")
-    // @ts-ignore
     .version(require("./package.json").version)
     .usage("$0 [options] <files>")
     .option("md", {
