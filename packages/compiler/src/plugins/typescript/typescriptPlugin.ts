@@ -89,7 +89,7 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     private app = new Application();
 
     public constructor(private options: ITypescriptPluginOptions = {}) {
-        const { includePrivateMembers = false, tsconfigPath, verbose = false } = options;
+        const { includeDeclarations = false, includePrivateMembers = false, tsconfigPath, verbose = false } = options;
         const typedocOptions: Partial<TypeDocOptions> = {
             // TODO(adahiya): will be used in TypeDoc v0.22+
             // entryPointStrategy: "expand",
@@ -97,6 +97,8 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
             exclude: options.includeNodeModules ? [] : ["**/node_modules/**"],
             excludePrivate: !includePrivateMembers,
             gitRevision: options.gitBranch,
+            ignoreCompilerErrors: true,
+            includeDeclarations,
             // tslint:disable-next-line no-console
             logger: verbose ? console.log : "none",
             tsconfig: tsconfigPath,
