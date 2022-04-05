@@ -20,11 +20,10 @@ import { Visitor } from "./visitor";
 
 export interface ITypescriptPluginOptions {
     /**
-     * TODO(adahiya): will be used in TypeDoc v0.22.0+
      * List of entry point modules.
      * @default ["src/index.ts"]
      */
-    // entryPoints?: TypeDocOptions["entryPoints"];
+    entryPoints?: TypeDocOptions["entryPoints"];
 
     /**
      * Array of patterns (string or RegExp) to exclude members by name.
@@ -89,24 +88,29 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     private app = new Application();
 
     public constructor(private options: ITypescriptPluginOptions = {}) {
-        const { includeDeclarations = false, includePrivateMembers = false, tsconfigPath, verbose = false } = options;
-        const typedocOptions: Partial<TypeDocOptions> = {
-            // TODO(adahiya): will be used in TypeDoc v0.22+
-            // entryPointStrategy: "expand",
-            // entryPoints: options.entryPoints ?? ["src/index.ts"],
-            exclude: options.includeNodeModules ? [] : ["**/node_modules/**"],
-            excludePrivate: !includePrivateMembers,
-            gitRevision: options.gitBranch,
-            ignoreCompilerErrors: true,
-            includeDeclarations,
-            // tslint:disable-next-line no-console
-            logger: verbose ? console.log : "none",
-            tsconfig: tsconfigPath,
-        };
+        const { includeDeclarations = false, includeNodeModules = false, includePrivateMembers = false, tsconfigPath, verbose = false } = options;
+
+        const exclude = [];
+        if (!includeNodeModules) {
+            exclude.push("**/node_modules/**");
+        }
+        if (!includeDeclarations) {
+            exclude.push("**/*.d.ts");
+        }
+
         // Support reading tsconfig.json + typedoc.json
         this.app.options.addReader(new TypeDocReader());
         this.app.options.addReader(new TSConfigReader());
-        this.app.bootstrap(typedocOptions);
+        this.app.bootstrap({
+            entryPointStrategy: "expand",
+            entryPoints: options.entryPoints ?? ["src/index.ts"],
+            exclude,
+            excludePrivate: !includePrivateMembers,
+            gitRevision: options.gitBranch,
+            // tslint:disable-next-line no-console
+            logger: verbose ? console.log : "none",
+            tsconfig: tsconfigPath,
+        });
     }
 
     public compile(files: IFile[], compiler: ICompiler): ITypescriptPluginData {
@@ -122,10 +126,7 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     }
 
     private getTypedocProject(files: string[]) {
-        // TODO(adahiya): will be used in TypeDoc v0.22+
-        // const entryPoints = this.app.getEntryPointsForPaths(files);
-        // this.app.options.setValue("entryPoints", files);
-        const expanded = this.app.expandInputFiles(files);
-        return this.app.convert(expanded);
+        this.app.options.setValue("entryPoints", files);
+        return this.app.convert();
     }
 }
