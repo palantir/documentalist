@@ -5,7 +5,16 @@ Object {
   "Animal": Object {
     "accessors": Array [
       Object {
-        "documentation": undefined,
+        "documentation": Object {
+          "contents": Array [
+            "<p>Get the noise of the animal
+Set the noise for the animal</p>
+",
+          ],
+          "contentsRaw": "Get the noise of the animal
+Set the noise for the animal",
+          "metadata": Object {},
+        },
         "fileName": "src/__tests__/__fixtures__/classes.ts",
         "flags": Object {
           "isDeprecated": undefined,
@@ -83,12 +92,12 @@ Object {
               "type": "string",
             },
           ],
-          "returnType": "Animal<>",
-          "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L30",
-          "type": "(noise: string) => Animal<>",
+          "returnType": "Animal",
+          "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L28",
+          "type": "(noise: string) => Animal",
         },
       ],
-      "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L30",
+      "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L28",
     },
     "documentation": undefined,
     "extends": undefined,
@@ -218,7 +227,16 @@ Object {
   "Dog": Object {
     "accessors": Array [
       Object {
-        "documentation": undefined,
+        "documentation": Object {
+          "contents": Array [
+            "<p>Get the noise of the animal
+Set the noise for the animal</p>
+",
+          ],
+          "contentsRaw": "Get the noise of the animal
+Set the noise for the animal",
+          "metadata": Object {},
+        },
         "fileName": "src/__tests__/__fixtures__/classes.ts",
         "flags": Object {
           "isDeprecated": undefined,
@@ -276,16 +294,16 @@ Object {
           "kind": "signature",
           "name": "new Dog",
           "parameters": Array [],
-          "returnType": "Dog<>",
-          "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L54",
-          "type": "() => Dog<>",
+          "returnType": "Dog",
+          "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L53",
+          "type": "() => Dog",
         },
       ],
-      "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L54",
+      "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L53",
     },
     "documentation": undefined,
     "extends": Array [
-      "Animal<>",
+      "Animal",
     ],
     "fileName": "src/__tests__/__fixtures__/classes.ts",
     "flags": Object {
@@ -409,6 +427,184 @@ Object {
     "name": "Dog",
     "properties": Array [],
     "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L53",
+  },
+  "Food": Object {
+    "accessors": Array [],
+    "constructorType": Object {
+      "documentation": undefined,
+      "fileName": "src/__tests__/__fixtures__/classes.ts",
+      "flags": Object {
+        "isDeprecated": undefined,
+        "isExternal": false,
+        "isOptional": false,
+        "isPrivate": false,
+        "isProtected": false,
+        "isPublic": true,
+        "isRest": false,
+        "isStatic": false,
+      },
+      "inheritedFrom": undefined,
+      "kind": "constructor",
+      "name": "constructor",
+      "signatures": Array [
+        Object {
+          "documentation": undefined,
+          "fileName": "src/__tests__/__fixtures__/classes.ts",
+          "flags": undefined,
+          "kind": "signature",
+          "name": "new Food",
+          "parameters": Array [
+            Object {
+              "defaultValue": undefined,
+              "documentation": undefined,
+              "fileName": undefined,
+              "flags": Object {
+                "isDeprecated": undefined,
+                "isExternal": false,
+                "isOptional": false,
+                "isPrivate": false,
+                "isProtected": false,
+                "isPublic": false,
+                "isRest": false,
+                "isStatic": false,
+              },
+              "kind": "parameter",
+              "name": "name",
+              "sourceUrl": undefined,
+              "type": "string",
+            },
+          ],
+          "returnType": "Food",
+          "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L63",
+          "type": "(name: string) => Food",
+        },
+      ],
+      "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L63",
+    },
+    "documentation": undefined,
+    "extends": undefined,
+    "fileName": "src/__tests__/__fixtures__/classes.ts",
+    "flags": Object {
+      "isDeprecated": undefined,
+      "isExternal": false,
+      "isOptional": false,
+      "isPrivate": false,
+      "isProtected": false,
+      "isPublic": false,
+      "isRest": false,
+      "isStatic": false,
+    },
+    "implements": undefined,
+    "indexSignature": undefined,
+    "kind": "class",
+    "methods": Array [
+      Object {
+        "documentation": undefined,
+        "fileName": "src/__tests__/__fixtures__/classes.ts",
+        "flags": Object {
+          "isDeprecated": undefined,
+          "isExternal": false,
+          "isOptional": false,
+          "isPrivate": false,
+          "isProtected": false,
+          "isPublic": true,
+          "isRest": false,
+          "isStatic": true,
+        },
+        "inheritedFrom": undefined,
+        "kind": "method",
+        "name": "retrieve",
+        "signatures": Array [
+          Object {
+            "documentation": undefined,
+            "fileName": "src/__tests__/__fixtures__/classes.ts",
+            "flags": undefined,
+            "kind": "signature",
+            "name": "retrieve",
+            "parameters": Array [
+              Object {
+                "defaultValue": undefined,
+                "documentation": undefined,
+                "fileName": undefined,
+                "flags": Object {
+                  "isDeprecated": undefined,
+                  "isExternal": false,
+                  "isOptional": false,
+                  "isPrivate": false,
+                  "isProtected": false,
+                  "isPublic": false,
+                  "isRest": false,
+                  "isStatic": false,
+                },
+                "kind": "parameter",
+                "name": "name",
+                "sourceUrl": undefined,
+                "type": "string",
+              },
+            ],
+            "returnType": "Food<>",
+            "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L61",
+            "type": "(name: string) => Food<>",
+          },
+        ],
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L61",
+      },
+      Object {
+        "documentation": undefined,
+        "fileName": "src/__tests__/__fixtures__/classes.ts",
+        "flags": Object {
+          "isDeprecated": undefined,
+          "isExternal": false,
+          "isOptional": false,
+          "isPrivate": false,
+          "isProtected": false,
+          "isPublic": true,
+          "isRest": false,
+          "isStatic": false,
+        },
+        "inheritedFrom": undefined,
+        "kind": "method",
+        "name": "destroy",
+        "signatures": Array [
+          Object {
+            "documentation": undefined,
+            "fileName": "src/__tests__/__fixtures__/classes.ts",
+            "flags": undefined,
+            "kind": "signature",
+            "name": "destroy",
+            "parameters": Array [],
+            "returnType": "boolean",
+            "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L67",
+            "type": "() => boolean",
+          },
+        ],
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L67",
+      },
+    ],
+    "name": "Food",
+    "properties": Array [
+      Object {
+        "defaultValue": undefined,
+        "documentation": undefined,
+        "fileName": "src/__tests__/__fixtures__/classes.ts",
+        "flags": Object {
+          "isDeprecated": undefined,
+          "isExternal": false,
+          "isOptional": false,
+          "isPrivate": false,
+          "isProtected": false,
+          "isPublic": true,
+          "isRest": false,
+          "isStatic": false,
+        },
+        "inheritedFrom": undefined,
+        "kind": "property",
+        "name": "name",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L65",
+        "type": "string",
+      },
+    ],
+    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L60",
   },
 }
 `;
@@ -536,76 +732,6 @@ Object {
 
 exports[`TypescriptPlugin functions snapshot 1`] = `
 Object {
-  "MyFunc": Object {
-    "documentation": undefined,
-    "fileName": "src/__tests__/__fixtures__/functions.ts",
-    "flags": Object {
-      "isDeprecated": undefined,
-      "isExternal": false,
-      "isOptional": false,
-      "isPrivate": false,
-      "isProtected": false,
-      "isPublic": false,
-      "isRest": false,
-      "isStatic": false,
-    },
-    "inheritedFrom": undefined,
-    "kind": "method",
-    "name": "MyFunc",
-    "signatures": Array [
-      Object {
-        "documentation": undefined,
-        "fileName": "src/__tests__/__fixtures__/functions.ts",
-        "flags": undefined,
-        "kind": "signature",
-        "name": "MyFunc",
-        "parameters": Array [
-          Object {
-            "defaultValue": undefined,
-            "documentation": undefined,
-            "fileName": undefined,
-            "flags": Object {
-              "isDeprecated": undefined,
-              "isExternal": false,
-              "isOptional": false,
-              "isPrivate": false,
-              "isProtected": false,
-              "isPublic": false,
-              "isRest": false,
-              "isStatic": false,
-            },
-            "kind": "parameter",
-            "name": "str",
-            "sourceUrl": undefined,
-            "type": "string",
-          },
-          Object {
-            "defaultValue": undefined,
-            "documentation": undefined,
-            "fileName": undefined,
-            "flags": Object {
-              "isDeprecated": undefined,
-              "isExternal": false,
-              "isOptional": false,
-              "isPrivate": false,
-              "isProtected": false,
-              "isPublic": false,
-              "isRest": false,
-              "isStatic": false,
-            },
-            "kind": "parameter",
-            "name": "bool",
-            "sourceUrl": undefined,
-            "type": "boolean",
-          },
-        ],
-        "returnType": "string",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L36",
-        "type": "(str: string, bool: boolean) => string",
-      },
-    ],
-    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L36",
-  },
   "numberAndString": Object {
     "documentation": undefined,
     "fileName": "src/__tests__/__fixtures__/functions.ts",
@@ -697,6 +823,97 @@ Object {
     ],
     "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L22",
   },
+  "stringAndBoolean": Object {
+    "documentation": undefined,
+    "fileName": "src/__tests__/__fixtures__/functions.ts",
+    "flags": Object {
+      "isDeprecated": undefined,
+      "isExternal": false,
+      "isOptional": false,
+      "isPrivate": false,
+      "isProtected": false,
+      "isPublic": false,
+      "isRest": false,
+      "isStatic": false,
+    },
+    "inheritedFrom": undefined,
+    "kind": "method",
+    "name": "stringAndBoolean",
+    "signatures": Array [
+      Object {
+        "documentation": Object {
+          "contents": Array [
+            "<p>Non-exported function.</p>
+",
+          ],
+          "contentsRaw": "Non-exported function.",
+          "metadata": Object {},
+        },
+        "fileName": "src/__tests__/__fixtures__/functions.ts",
+        "flags": undefined,
+        "kind": "signature",
+        "name": "stringAndBoolean",
+        "parameters": Array [
+          Object {
+            "defaultValue": undefined,
+            "documentation": Object {
+              "contents": Array [
+                "<p>The string parameter.</p>
+",
+              ],
+              "contentsRaw": "The string parameter.",
+              "metadata": Object {},
+            },
+            "fileName": undefined,
+            "flags": Object {
+              "isDeprecated": undefined,
+              "isExternal": false,
+              "isOptional": false,
+              "isPrivate": false,
+              "isProtected": false,
+              "isPublic": false,
+              "isRest": false,
+              "isStatic": false,
+            },
+            "kind": "parameter",
+            "name": "str",
+            "sourceUrl": undefined,
+            "type": "string",
+          },
+          Object {
+            "defaultValue": undefined,
+            "documentation": Object {
+              "contents": Array [
+                "<p>The boolean parameter.</p>
+",
+              ],
+              "contentsRaw": "The boolean parameter.",
+              "metadata": Object {},
+            },
+            "fileName": undefined,
+            "flags": Object {
+              "isDeprecated": undefined,
+              "isExternal": false,
+              "isOptional": false,
+              "isPrivate": false,
+              "isProtected": false,
+              "isPublic": false,
+              "isRest": false,
+              "isStatic": false,
+            },
+            "kind": "parameter",
+            "name": "bool",
+            "sourceUrl": undefined,
+            "type": "boolean",
+          },
+        ],
+        "returnType": "string",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L31",
+        "type": "(str: string, bool: boolean) => string",
+      },
+    ],
+    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L31",
+  },
 }
 `;
 
@@ -719,66 +936,7 @@ Object {
     "implements": undefined,
     "indexSignature": undefined,
     "kind": "interface",
-    "methods": Array [
-      Object {
-        "documentation": undefined,
-        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
-          "isDeprecated": undefined,
-          "isExternal": false,
-          "isOptional": false,
-          "isPrivate": false,
-          "isProtected": false,
-          "isPublic": false,
-          "isRest": false,
-          "isStatic": false,
-        },
-        "inheritedFrom": undefined,
-        "kind": "method",
-        "name": "onClick",
-        "signatures": Array [
-          Object {
-            "documentation": Object {
-              "contents": Array [
-                "<p>Click event handler.</p>
-",
-              ],
-              "contentsRaw": "Click event handler.",
-              "metadata": Object {},
-            },
-            "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-            "flags": undefined,
-            "kind": "signature",
-            "name": "onClick",
-            "parameters": Array [
-              Object {
-                "defaultValue": undefined,
-                "documentation": undefined,
-                "fileName": undefined,
-                "flags": Object {
-                  "isDeprecated": undefined,
-                  "isExternal": false,
-                  "isOptional": false,
-                  "isPrivate": false,
-                  "isProtected": false,
-                  "isPublic": false,
-                  "isRest": false,
-                  "isStatic": false,
-                },
-                "kind": "parameter",
-                "name": "event",
-                "sourceUrl": undefined,
-                "type": "MouseEvent",
-              },
-            ],
-            "returnType": "void",
-            "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L28",
-            "type": "(event: MouseEvent) => void",
-          },
-        ],
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L28",
-      },
-    ],
+    "methods": Array [],
     "name": "IActionProps",
     "properties": Array [
       Object {
@@ -839,6 +997,33 @@ Object {
         "defaultValue": undefined,
         "documentation": Object {
           "contents": Array [
+            "<p>Click event handler.</p>
+",
+          ],
+          "contentsRaw": "Click event handler.",
+          "metadata": Object {},
+        },
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
+        "flags": Object {
+          "isDeprecated": undefined,
+          "isExternal": false,
+          "isOptional": false,
+          "isPrivate": false,
+          "isProtected": false,
+          "isPublic": false,
+          "isRest": false,
+          "isStatic": false,
+        },
+        "inheritedFrom": undefined,
+        "kind": "property",
+        "name": "onClick",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L28",
+        "type": "(event: MouseEvent) => void",
+      },
+      Object {
+        "defaultValue": undefined,
+        "documentation": Object {
+          "contents": Array [
             "<p>Action text.</p>
 ",
           ],
@@ -868,7 +1053,7 @@ Object {
   "IButtonProps": Object {
     "documentation": undefined,
     "extends": Array [
-      "IActionProps<>",
+      "IActionProps",
     ],
     "fileName": "src/__tests__/__fixtures__/interfaces.ts",
     "flags": Object {
@@ -917,128 +1102,11 @@ Object {
         },
       ],
       "returnType": "any",
-      "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L67",
+      "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L64",
       "type": "{ [x: string]: any }",
     },
     "kind": "interface",
-    "methods": Array [
-      Object {
-        "documentation": undefined,
-        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
-          "isDeprecated": undefined,
-          "isExternal": false,
-          "isOptional": true,
-          "isPrivate": false,
-          "isProtected": false,
-          "isPublic": false,
-          "isRest": false,
-          "isStatic": false,
-        },
-        "inheritedFrom": undefined,
-        "kind": "method",
-        "name": "elementRef",
-        "signatures": Array [
-          Object {
-            "documentation": Object {
-              "contents": Array [
-                "<p>A ref handler that receives the native HTML element backing this component.</p>
-",
-              ],
-              "contentsRaw": "A ref handler that receives the native HTML element backing this component.",
-              "metadata": Object {},
-            },
-            "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-            "flags": undefined,
-            "kind": "signature",
-            "name": "elementRef",
-            "parameters": Array [
-              Object {
-                "defaultValue": undefined,
-                "documentation": undefined,
-                "fileName": undefined,
-                "flags": Object {
-                  "isDeprecated": undefined,
-                  "isExternal": false,
-                  "isOptional": false,
-                  "isPrivate": false,
-                  "isProtected": false,
-                  "isPublic": false,
-                  "isRest": false,
-                  "isStatic": false,
-                },
-                "kind": "parameter",
-                "name": "ref",
-                "sourceUrl": undefined,
-                "type": "HTMLElement",
-              },
-            ],
-            "returnType": "any",
-            "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L43",
-            "type": "(ref: HTMLElement) => any",
-          },
-        ],
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L43",
-      },
-      Object {
-        "documentation": undefined,
-        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
-          "isDeprecated": undefined,
-          "isExternal": false,
-          "isOptional": false,
-          "isPrivate": false,
-          "isProtected": false,
-          "isPublic": false,
-          "isRest": false,
-          "isStatic": false,
-        },
-        "inheritedFrom": "IActionProps.onClick",
-        "kind": "method",
-        "name": "onClick",
-        "signatures": Array [
-          Object {
-            "documentation": Object {
-              "contents": Array [
-                "<p>Click event handler.</p>
-",
-              ],
-              "contentsRaw": "Click event handler.",
-              "metadata": Object {},
-            },
-            "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-            "flags": undefined,
-            "kind": "signature",
-            "name": "onClick",
-            "parameters": Array [
-              Object {
-                "defaultValue": undefined,
-                "documentation": undefined,
-                "fileName": undefined,
-                "flags": Object {
-                  "isDeprecated": undefined,
-                  "isExternal": false,
-                  "isOptional": false,
-                  "isPrivate": false,
-                  "isProtected": false,
-                  "isPublic": false,
-                  "isRest": false,
-                  "isStatic": false,
-                },
-                "kind": "parameter",
-                "name": "event",
-                "sourceUrl": undefined,
-                "type": "MouseEvent",
-              },
-            ],
-            "returnType": "void",
-            "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L28",
-            "type": "(event: MouseEvent) => void",
-          },
-        ],
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L28",
-      },
-    ],
+    "methods": Array [],
     "name": "IButtonProps",
     "properties": Array [
       Object {
@@ -1101,6 +1169,33 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.",
         "defaultValue": undefined,
         "documentation": Object {
           "contents": Array [
+            "<p>A ref handler that receives the native HTML element backing this component.</p>
+",
+          ],
+          "contentsRaw": "A ref handler that receives the native HTML element backing this component.",
+          "metadata": Object {},
+        },
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
+        "flags": Object {
+          "isDeprecated": undefined,
+          "isExternal": false,
+          "isOptional": true,
+          "isPrivate": false,
+          "isProtected": false,
+          "isPublic": false,
+          "isRest": false,
+          "isStatic": false,
+        },
+        "inheritedFrom": undefined,
+        "kind": "property",
+        "name": "elementRef",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L43",
+        "type": "(ref: HTMLElement) => any",
+      },
+      Object {
+        "defaultValue": undefined,
+        "documentation": Object {
+          "contents": Array [
             "<p>Name of the icon (the part after <code>pt-icon-</code>) to add to the button.</p>
 ",
           ],
@@ -1152,6 +1247,33 @@ The width of the button is not affected by the value of this prop.",
         "name": "loading",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L57",
         "type": "boolean",
+      },
+      Object {
+        "defaultValue": undefined,
+        "documentation": Object {
+          "contents": Array [
+            "<p>Click event handler.</p>
+",
+          ],
+          "contentsRaw": "Click event handler.",
+          "metadata": Object {},
+        },
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
+        "flags": Object {
+          "isDeprecated": undefined,
+          "isExternal": false,
+          "isOptional": false,
+          "isPrivate": false,
+          "isProtected": false,
+          "isPublic": false,
+          "isRest": false,
+          "isStatic": false,
+        },
+        "inheritedFrom": "IActionProps.onClick",
+        "kind": "property",
+        "name": "onClick",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L28",
+        "type": "(event: MouseEvent) => void",
       },
       Object {
         "defaultValue": undefined,
@@ -1266,7 +1388,7 @@ Note that this prop has no effect on \`AnchorButton\`; it only affects \`Button\
     "methods": Array [
       Object {
         "documentation": undefined,
-        "fileName": undefined,
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
           "isDeprecated": undefined,
           "isExternal": false,
@@ -1341,11 +1463,11 @@ callback to extract key from each item.",
             "type": "(array: T[], getKey: (item: T) => string) => { [key: string]: T }",
           },
         ],
-        "sourceUrl": undefined,
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L78",
       },
       Object {
         "documentation": undefined,
-        "fileName": undefined,
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
           "isDeprecated": undefined,
           "isExternal": false,
@@ -1428,11 +1550,11 @@ is.",
             "type": "(blockContent: string, reservedTagWords?: string[]) => object",
           },
         ],
-        "sourceUrl": undefined,
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L89",
       },
       Object {
         "documentation": undefined,
-        "fileName": undefined,
+        "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": Object {
           "isDeprecated": undefined,
           "isExternal": false,
@@ -1486,7 +1608,7 @@ is.",
             "type": "(markdown: string) => string",
           },
         ],
-        "sourceUrl": undefined,
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L94",
       },
     ],
     "name": "ICompiler",
@@ -1525,7 +1647,9 @@ exports[`TypescriptPlugin options excludeNames 1`] = `
 Array [
   "active",
   "disabled",
+  "elementRef",
   "loading",
+  "onClick",
   "text",
   "type",
 ]
