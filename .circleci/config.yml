@@ -1,10 +1,9 @@
-version: 2
+version: 2.1
 
-# this block contains anchors to reusable blocks of config.
 references:
   setup_env: &setup_env
     docker:
-      - image: circleci/node:14
+      - image: cimg/node:16.14
   save_cache: &save_cache
     key: v2-dependency-cache-{{ checksum "yarn.lock" }}
     paths:
@@ -22,8 +21,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - attach_workspace:
-          at: '.'
+      - attach_workspace: { at: "." }
       - run: yarn --frozen-lockfile
       - save_cache: *save_cache
       - persist_to_workspace:
@@ -36,8 +34,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - attach_workspace:
-          at: '.'
+      - attach_workspace: { at: "." }
       - run: yarn --frozen-lockfile
       - save_cache: *save_cache
       - run: yarn build
@@ -54,8 +51,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - attach_workspace:
-          at: '.'
+      - attach_workspace: { at: "." }
       - run: mkdir -p ./reports
       - run: yarn lint -- -- --format junit --out ../../reports/tslint.xml
       - store_test_results: *reports_path
@@ -65,8 +61,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - attach_workspace:
-          at: '.'
+      - attach_workspace: { at: "." }
       - run: mkdir -p ./reports
       - run:
           command: yarn test -- -- --ci --testResultsProcessor="jest-junit"
@@ -79,21 +74,21 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - attach_workspace:
-          at: '.'
-      - store_artifacts:
-          path: packages/docs/dist
+      - attach_workspace: { at: "." }
+      - store_artifacts: { path: packages/docs/dist }
       - run:
           name: Submit Github comment with links to built artifacts
-          command: node scripts/circle-build-preview.js
+          command: |
+            artifacts=$(curl -X GET "https://circleci.com/api/v2/project/github/palantir/documentalist/$CIRCLE_BUILD_NUM/artifacts" -H "Accept: application/json" -u "$CIRCLE_AUTH_TOKEN:")
+            echo $artifacts > ./scripts/artifacts.json
+            node ./scripts/circle-build-preview.js
 
   deploy-npm:
     <<: *setup_env
     steps:
       - checkout
       - restore_cache: *restore_cache
-      - attach_workspace:
-          at: '.'
+      - attach_workspace: { at: "." }
       - run: ./scripts/publish-npm-semver-tagged
 
 workflows:

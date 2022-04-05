@@ -14,5 +14,6 @@
  * limitations under the License.
  */
 
-export { ITypescriptPluginData } from "@documentalist/client";
-export { TypescriptPlugin } from "./typescriptPlugin";
+export * from "./classes";
+export * from "./enums";
+export * from "./functions";

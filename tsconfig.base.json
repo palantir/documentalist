@@ -14,13 +14,13 @@
         "noImplicitReturns": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "outDir": "dist/",
         "sourceMap": false,
         "strictNullChecks": true,
         "target": "es5"
     },
     "exclude": [
         "dist",
+        "lib",
         "node_modules"
     ]
 }

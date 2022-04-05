@@ -16,7 +16,7 @@
 
 import { isTsClass, isTsInterface, ITypescriptPluginData } from "@documentalist/client";
 import { Documentalist } from "../documentalist";
-import { ITypescriptPluginOptions, TypescriptPlugin } from "../plugins/typescript/index";
+import { ITypescriptPluginOptions, TypescriptPlugin } from "../plugins/typescript/typescriptPlugin";
 
 describe("TypescriptPlugin", () => {
     it("classes snapshot", () => expectSnapshot("classes"));
@@ -47,13 +47,6 @@ describe("TypescriptPlugin", () => {
                 ({ Animal }) => isTsClass(Animal) && Animal.methods.map((m) => m.name),
             );
         });
-
-        it("includeNonExportedMembers", () => {
-            // expect to see Animal (exported) and Food (not exported) here
-            expectSnapshot("classes", { includeNonExportedMembers: true }, Object.keys);
-            // expect to see both functions here
-            expectSnapshot("functions", { includeNonExportedMembers: true });
-        });
     });
 });
 
@@ -64,7 +57,18 @@ async function expectSnapshot(
     /** a function to transform the DM data, to avoid snapshotting _everything_. defaults to identity function. */
     transform: (data: ITypescriptPluginData["typescript"]) => any = (arg) => arg,
 ) {
-    const dm = Documentalist.create().use(".ts", new TypescriptPlugin({ ...options, gitBranch: "develop" }));
-    const { typescript } = await dm.documentGlobs(`src/__tests__/__fixtures__/${name}.ts`);
+    const fixtureFilepath = `src/__tests__/__fixtures__/${name}.ts`;
+    const dm = Documentalist.create().use(
+        ".ts",
+        new TypescriptPlugin({
+            ...options,
+            // TODO(adahiya): will be used in TypeDoc v0.22+
+            // entryPoints: [fixtureFilepath],
+            gitBranch: "develop",
+            tsconfigPath: "src/__tests__/__fixtures__/tsconfig.json",
+            // verbose: true,
+        }),
+    );
+    const { typescript } = await dm.documentGlobs(fixtureFilepath);
     expect(transform(typescript)).toMatchSnapshot();
 }

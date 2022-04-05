@@ -41,8 +41,7 @@ import {
     SignatureReflection,
 } from "typedoc";
 import { Comment, UnionType } from "typedoc/dist/lib/models";
-import { DefaultValueContainer } from "typedoc/dist/lib/models/reflections/abstract";
-import { ITypescriptPluginOptions } from "./index";
+import { ITypescriptPluginOptions } from "./typescriptPlugin";
 import { resolveSignature, resolveTypeString } from "./typestring";
 
 export class Visitor {
@@ -189,9 +188,8 @@ export class Visitor {
         visitor: (def: DeclarationReflection) => T,
         comparator?: (a: T, b: T) => number,
     ): T[] {
-        const { excludeNames = [], excludePaths = [], includeNonExportedMembers = false } = this.options;
+        const { excludeNames = [], excludePaths = [] } = this.options;
         return children
-            .filter((ref) => ref.flags.isExported || includeNonExportedMembers)
             .map(visitor)
             .filter((doc) => isNotExcluded(excludeNames, doc.name) && isNotExcluded(excludePaths, doc.fileName))
             .sort(comparator);
@@ -230,7 +228,7 @@ function getCommentTag(comment: Comment | undefined, tagName: string) {
     return comment.tags.filter((tag) => tag.tagName === tagName)[0];
 }
 
-function getDefaultValue(ref: DefaultValueContainer): string | undefined {
+function getDefaultValue(ref: ParameterReflection | DeclarationReflection): string | undefined {
     if (ref.defaultValue != null) {
         return ref.defaultValue;
     }
@@ -258,10 +256,9 @@ function getFlags(ref: Reflection): ITsFlags | undefined {
         return undefined;
     }
     const isDeprecated = getIsDeprecated(ref);
-    const { isExported, isExternal, isOptional, isPrivate, isProtected, isPublic, isRest, isStatic } = ref.flags;
+    const { isExternal, isOptional, isPrivate, isProtected, isPublic, isRest, isStatic } = ref.flags;
     return {
         isDeprecated,
-        isExported,
         isExternal,
         isOptional,
         isPrivate,
