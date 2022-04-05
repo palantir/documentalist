@@ -1,5 +1,15 @@
 ## Changelog
 
+### 2022-04-05
+
+`@documentalist/compiler@4.0.0`
+
+- [#144](https://github.com/palantir/documentalist/pull/144) :warning: Minimum version of Node.js is now v12.0, but v16.x is recommended
+
+`@documentalist/client@4.0.0`
+
+- [#144](https://github.com/palantir/documentalist/pull/144) :warning: Minimum version of Node.js is now v12.0, but v16.x is recommended
+
 ### 2020-10-05
 
 `@documentalist/compiler@3.0.0`
