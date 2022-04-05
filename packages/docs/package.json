@@ -10,7 +10,7 @@
         "build:version": "echo v$npm_package_version > theme/version.txt",
         "build:pug": "pug -O docs.json ./theme/index.pug --pretty -o ./dist",
         "build:css": "cp src/*.css dist/",
-        "lint": "tslint --project .",
+        "lint": "tslint --project ./src",
         "lint-fix": "yarn lint --fix"
     },
     "dependencies": {

@@ -11,7 +11,7 @@
         "build": "run-s compile",
         "clean": "rm -rf lib",
         "compile": "tsc --project ./src",
-        "lint": "tslint --project .",
+        "lint": "tslint --project ./src",
         "lint-fix": "yarn lint --fix",
         "test": "jest --config jest.config.json",
         "test:debug": "node --inspect-brk node_modules/.bin/jest --config jest.config.json --runInBand",

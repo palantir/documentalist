@@ -7,7 +7,7 @@
     "scripts": {
         "build": "run-s compile",
         "compile": "tsc --project ./src",
-        "lint": "tslint --project .",
+        "lint": "tslint --project ./src",
         "lint-fix": "yarn lint --fix"
     },
     "devDependencies": {
