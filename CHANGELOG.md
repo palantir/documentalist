@@ -4,11 +4,15 @@
 
 `@documentalist/compiler@4.0.0`
 
-- [#144](https://github.com/palantir/documentalist/pull/144) :warning: Minimum version of Node.js is now v12.0, but v16.x is recommended
+- [#144](https://github.com/palantir/documentalist/pull/144) :warning: break: Minimum version of Node.js is now v12.0
+  - N.B. Node v16.x is recommended
+- [#144](https://github.com/palantir/documentalist/pull/144) :warning: break(`TypescriptPlugin`): `includeNonExportedMembers` option has been removed. TypeDoc is removing support for documenting non-exported members in a future version, so we will have to drop support for this in Documentalist as well.
+- [#144](https://github.com/palantir/documentalist/pull/144) fix(`NpmPlugin`): simplified the plugin to have synchronous execution (replaced `spawn` with `spawnSync`), improving its compatibility with newer versions of Node.js
 
 `@documentalist/client@4.0.0`
 
-- [#144](https://github.com/palantir/documentalist/pull/144) :warning: Minimum version of Node.js is now v12.0, but v16.x is recommended
+- [#144](https://github.com/palantir/documentalist/pull/144) :warning: break: Minimum version of Node.js is now v12.0
+  - N.B. Node v16.x is recommended
 
 ### 2020-10-05
 
