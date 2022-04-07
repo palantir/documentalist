@@ -16,15 +16,12 @@ if [ ! -z "$CIRCLE_TAG" ]; then
 fi
 
 if ! [[ "$branch" == "master" || "$branch" == "develop" || "$branch" == "next" || "$branch" == release/* ]]; then
-    echo "Not on master, develop, next, release/* or a tag - not publishing."
+    echo "Not on master, develop, next, or release/* branch - not publishing."
     exit 1
 fi
 
-echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
-chmod 0600 .npmrc
-
 if [[ "$branch" == "next" ]]; then
-    echo "Publishing with next tag because branch name is next"
+    echo "Publishing with next tag because branch name is 'next'."
     # must set public access for scoped packages
     npm publish --tag next --access public
 else
