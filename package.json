@@ -16,7 +16,7 @@
         "verify": "npm-run-all -s build -p test lint"
     },
     "dependencies": {
-        "@blueprintjs/tslint-config": "^3.2.0",
+        "@blueprintjs/tslint-config": "^3.3.1",
         "circle-github-bot": "^2.1.0",
         "gh-pages": "^4.0.0",
         "lerna": "^4.0.0",
