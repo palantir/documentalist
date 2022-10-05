@@ -300,10 +300,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@blueprintjs/tslint-config@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@blueprintjs/tslint-config/-/tslint-config-3.2.0.tgz#ccf14ece34d5c72001e60a94e81fdd514dd8f690"
-  integrity sha512-EO1LJxJA7UZHiYg/tbEzgjgG8W1brsyGUg4q5IUFdusyG2j0Hm7eM/UUfaIAWPxkrmo5N1cMmquqh2ThNkKwdw==
+"@blueprintjs/tslint-config@^3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/tslint-config/-/tslint-config-3.3.1.tgz#656c64741b468848000b2e9931a96e69e4ee747b"
+  integrity sha512-28T2GNNzWb9GJrGjGMzo+ZrOJ7maoKY8s+opyQR30leEDQRcupYSP3kDayUd+da27lGhsjhfh02AtUfqAEsupw==
   dependencies:
     tslib "~2.3.1"
     tslint-react "^5.0.0"
