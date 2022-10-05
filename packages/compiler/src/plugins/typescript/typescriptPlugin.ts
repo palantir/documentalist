@@ -20,11 +20,10 @@ import { Visitor } from "./visitor";
 
 export interface ITypescriptPluginOptions {
     /**
-     * TODO(adahiya): will be used in TypeDoc v0.22.0+
      * List of entry point modules.
      * @default ["src/index.ts"]
      */
-    // entryPoints?: TypeDocOptions["entryPoints"];
+    entryPoints?: TypeDocOptions["entryPoints"];
 
     /**
      * Array of patterns (string or RegExp) to exclude members by name.
@@ -89,17 +88,17 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     private app = new Application();
 
     public constructor(private options: ITypescriptPluginOptions = {}) {
-        const { includeDeclarations = false, includePrivateMembers = false, tsconfigPath, verbose = false } = options;
+        const { includeDeclarations = false, includeNodeModules = false, includePrivateMembers = false, tsconfigPath, verbose = false } = options;
         const typedocOptions: Partial<TypeDocOptions> = {
-            // TODO(adahiya): will be used in TypeDoc v0.22+
-            // entryPointStrategy: "expand",
-            // entryPoints: options.entryPoints ?? ["src/index.ts"],
-            exclude: options.includeNodeModules ? [] : ["**/node_modules/**"],
+            entryPointStrategy: "expand",
+            entryPoints: options.entryPoints ?? ["src/index.ts"],
+            exclude: [
+                includeNodeModules ? undefined : "**/node_modules/**",
+                includeDeclarations ? undefined : "**/*.d.ts",
+            ].filter(Boolean) as string[],
             excludePrivate: !includePrivateMembers,
             gitRevision: options.gitBranch,
-            ignoreCompilerErrors: true,
-            includeDeclarations,
-            // tslint:disable-next-line no-console
+            skipErrorChecking: true,
             logger: verbose ? console.log : "none",
             tsconfig: tsconfigPath,
         };
@@ -122,10 +121,7 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     }
 
     private getTypedocProject(files: string[]) {
-        // TODO(adahiya): will be used in TypeDoc v0.22+
-        // const entryPoints = this.app.getEntryPointsForPaths(files);
-        // this.app.options.setValue("entryPoints", files);
-        const expanded = this.app.expandInputFiles(files);
-        return this.app.convert(expanded);
+        this.app.options.setValue("entryPoints", files);
+        return this.app.convert();
     }
 }

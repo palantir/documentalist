@@ -33,14 +33,15 @@ import {
 } from "@documentalist/client";
 import { relative } from "path";
 import {
+    Comment,
     DeclarationReflection,
     ParameterReflection,
     ProjectReflection,
     Reflection,
     ReflectionKind,
     SignatureReflection,
+    UnionType,
 } from "typedoc";
-import { Comment, UnionType } from "typedoc/dist/lib/models";
 import { ITypescriptPluginOptions } from "./typescriptPlugin";
 import { resolveSignature, resolveTypeString } from "./typestring";
 
@@ -199,51 +200,36 @@ export class Visitor {
      * Converts a typedoc comment object to a rendered `IBlock`.
      */
     private renderComment(comment: Comment | undefined) {
-        if (!comment) {
-            return undefined;
+        if (comment === undefined) {
+            return;
         }
+
         let documentation = "";
-        if (comment.shortText) {
-            documentation += comment.shortText;
+        documentation += comment.summary.map(part => part.text).join("\n");
+
+        const blockTags = comment.blockTags.filter(tag => tag.tag !== "@default" && tag.tag !== "@deprecated");
+        if (blockTags.length > 0) {
+            documentation += "\n\n";
+            documentation += blockTags.map(tag => `${tag.tag} ${tag.content}`).join("\n");
         }
-        if (comment.text) {
-            documentation += "\n\n" + comment.text;
-        }
-        if (comment.tags) {
-            documentation +=
-                "\n\n" +
-                comment.tags
-                    .filter((tag) => tag.tagName !== "default" && tag.tagName !== "deprecated")
-                    .map((tag) => `@${tag.tagName} ${tag.text}`)
-                    .join("\n");
-        }
+
         return this.compiler.renderBlock(documentation);
     }
 }
 
-function getCommentTag(comment: Comment | undefined, tagName: string) {
-    if (comment == null || comment.tags == null) {
-        return undefined;
-    }
-    return comment.tags.filter((tag) => tag.tagName === tagName)[0];
+function getCommentTagValue(comment: Comment | undefined, tagName: string) {
+    const maybeTag = comment?.getTag(`@${tagName}`);
+    return maybeTag?.content.map(part => part.text.trim()).join("\n");
 }
 
 function getDefaultValue(ref: ParameterReflection | DeclarationReflection): string | undefined {
-    if (ref.defaultValue != null) {
-        return ref.defaultValue;
-    }
-    const defaultValue = getCommentTag(ref.comment, "default");
-    if (defaultValue !== undefined) {
-        return defaultValue.text.trim();
-    }
-    return undefined;
+    return ref.defaultValue ?? getCommentTagValue(ref.comment, "default");
 }
 
 function getSourceFileName({ sources = [] }: Reflection): string | undefined {
-    const source = sources[0];
-    const fileName = source && source.file && source.file.fullFileName;
-    // filename relative to cwd, so it can be saved in a snapshot (machine-independent)
-    return fileName && relative(process.cwd(), fileName);
+    const { fullFileName } = sources[0];
+    // fullFileName relative to cwd, so it can be saved in a snapshot (machine-independent)
+    return fullFileName && relative(process.cwd(), fullFileName);
 }
 
 function getSourceUrl({ sources = [] }: Reflection): string | undefined {
@@ -270,12 +256,9 @@ function getFlags(ref: Reflection): ITsFlags | undefined {
 }
 
 function getIsDeprecated(ref: Reflection) {
-    const deprecatedTag = getCommentTag(ref.comment, "deprecated");
-    if (deprecatedTag === undefined) {
-        return undefined;
-    }
-    const text = deprecatedTag.text.trim();
-    return text === "" ? true : text;
+    const deprecatedTagValue = getCommentTagValue(ref.comment, "deprecated");
+    const deprecatedModifier = ref.comment?.hasModifier("@deprecated");
+    return deprecatedModifier || deprecatedTagValue;
 }
 
 function isConstTypePair(def: DeclarationReflection) {
