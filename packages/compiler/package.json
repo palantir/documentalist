@@ -23,7 +23,7 @@
         "glob": "^8.0.3",
         "js-yaml": "^4.1.0",
         "kss": "^3.0.1",
-        "marked": "^4.0.12",
+        "marked": "^4.1.1",
         "typedoc": "~0.19.2",
         "yargs": "^17.4.0"
     },
@@ -31,7 +31,7 @@
         "@types/glob": "^8.0.0",
         "@types/jest": "^27.4.1",
         "@types/js-yaml": "^4.0.5",
-        "@types/marked": "^4.0.3",
+        "@types/marked": "^4.0.7",
         "@types/node": "^16.11.26",
         "@types/yargs": "^17.0.10",
         "jest": "^27.5.1",
