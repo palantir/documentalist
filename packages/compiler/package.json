@@ -32,7 +32,7 @@
         "@types/jest": "^27.4.1",
         "@types/js-yaml": "^4.0.5",
         "@types/marked": "^4.0.7",
-        "@types/node": "^16.11.26",
+        "@types/node": "^18.11.4",
         "@types/yargs": "^17.0.10",
         "jest": "^27.5.1",
         "jest-junit": "^14.0.1",
