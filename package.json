@@ -8,18 +8,18 @@
     ],
     "scripts": {
         "build": "lerna run build",
-        "clean": "lerna run clean --parallel",
+        "clean": "lerna run clean",
         "deploy": "NODE_DEBUG=gh-pages gh-pages -d packages/docs/dist -b master",
-        "lint": "lerna run lint --parallel",
-        "lint-fix": "lerna run lint-fix --parallel",
-        "test": "lerna run test --parallel",
+        "lint": "lerna run lint",
+        "lint-fix": "lerna run lint-fix",
+        "test": "lerna run test",
         "verify": "npm-run-all -s build -p test lint"
     },
     "dependencies": {
         "@blueprintjs/tslint-config": "^3.3.1",
         "circle-github-bot": "^2.1.0",
         "gh-pages": "^4.0.0",
-        "lerna": "^4.0.0",
+        "lerna": "^6.0.1",
         "npm-run-all": "^4.1.5",
         "prettier": "^2.7.1",
         "tslint-plugin-prettier": "^2.3.0",
