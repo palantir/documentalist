@@ -8,11 +8,11 @@
     ],
     "scripts": {
         "build": "lerna run build",
-        "clean": "lerna run clean --parallel",
+        "clean": "lerna run clean",
         "deploy": "NODE_DEBUG=gh-pages gh-pages -d packages/docs/dist -b master",
-        "lint": "lerna run lint --parallel",
-        "lint-fix": "lerna run lint-fix --parallel",
-        "test": "lerna run test --parallel",
+        "lint": "lerna run lint",
+        "lint-fix": "lerna run lint-fix",
+        "test": "lerna run test",
         "verify": "npm-run-all -s build -p test lint"
     },
     "dependencies": {
