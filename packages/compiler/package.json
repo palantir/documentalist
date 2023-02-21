@@ -20,7 +20,7 @@
     "dependencies": {
         "@documentalist/client": "^4.0.0",
         "@types/kss": "^3.0.2",
-        "glob": "^8.0.3",
+        "glob": "^8.1.0",
         "js-yaml": "^4.1.0",
         "kss": "^3.1.0",
         "marked": "^4.2.5",
@@ -28,7 +28,7 @@
         "yargs": "^17.7.0"
     },
     "devDependencies": {
-        "@types/glob": "^8.0.0",
+        "@types/glob": "^8.0.1",
         "@types/jest": "^27.4.1",
         "@types/js-yaml": "^4.0.5",
         "@types/marked": "^4.0.8",
