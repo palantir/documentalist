@@ -33,7 +33,7 @@
         "@types/js-yaml": "^4.0.5",
         "@types/marked": "^4.0.8",
         "@types/node": "^16.11.26",
-        "@types/yargs": "^17.0.22",
+        "@types/yargs": "^17.0.23",
         "jest": "^27.5.1",
         "jest-junit": "^14.0.1",
         "npm-run-all": "^4.1.5",
