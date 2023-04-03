@@ -35,7 +35,7 @@
         "@types/node": "^16.11.26",
         "@types/yargs": "^17.0.24",
         "jest": "^27.5.1",
-        "jest-junit": "^14.0.1",
+        "jest-junit": "^15.0.0",
         "npm-run-all": "^4.1.5",
         "ts-jest": "^27.1.4",
         "ts-node": "^10.9.1",
