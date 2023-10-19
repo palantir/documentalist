@@ -8,22 +8,22 @@
     ],
     "scripts": {
         "build": "lerna run build",
-        "clean": "lerna run clean --parallel",
+        "clean": "lerna run clean",
         "deploy": "NODE_DEBUG=gh-pages gh-pages -d packages/docs/dist -b master",
-        "lint": "lerna run lint --parallel",
-        "lint-fix": "lerna run lint-fix --parallel",
-        "test": "lerna run test --parallel",
+        "lint": "lerna run lint",
+        "lint-fix": "lerna run lint-fix",
+        "test": "lerna run test",
         "verify": "npm-run-all -s build -p test lint"
     },
     "dependencies": {
-        "@blueprintjs/tslint-config": "^3.2.0",
+        "@blueprintjs/tslint-config": "^3.3.2",
         "circle-github-bot": "^2.1.0",
-        "gh-pages": "^3.2.3",
-        "lerna": "^4.0.0",
+        "gh-pages": "^5.0.0",
+        "lerna": "^6.6.1",
         "npm-run-all": "^4.1.5",
-        "prettier": "^2.6.2",
+        "prettier": "^2.8.4",
         "tslint-plugin-prettier": "^2.3.0",
-        "yarn-deduplicate": "^4.0.0"
+        "yarn-deduplicate": "^6.0.1"
     },
     "author": "Palantir Technologies",
     "repository": {

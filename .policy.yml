@@ -20,21 +20,21 @@ approval_rules:
       allow_contributor: false
     requires:
       count: 1
-      admins: true
+      permissions: ["admin", "maintain"]
 
   - name: two admins have approved
     options:
       allow_contributor: true
     requires:
       count: 2
-      admins: true
+      permissions: ["admin", "maintain"]
 
   - name: changelog only and contributor approval
     options:
       allow_contributor: true
     requires:
       count: 1
-      admins: true
+      permissions: ["admin", "maintain"]
     if:
       only_changed_files:
         paths:
@@ -45,7 +45,7 @@ approval_rules:
       allow_contributor: true
     requires:
       count: 1
-      admins: true
+      permissions: ["admin", "maintain"]
     if:
       has_author_in:
         users: [ "svc-excavator-bot" ]
@@ -71,16 +71,17 @@ approval_rules:
           - "^gradlew.bat$"
           - "^gradle.properties$"
           - "^settings.gradle$"
-          - "^go.mod$"
-          - "^go.sum$"
-          - "^godelw$"
-          - "^godel/config/godel.properties$"
-          - "^godel/config/godel.yml$"
-          - "^vendor/.*$"
+          - "^.*go.mod$"
+          - "^.*go.sum$"
+          - "^.*godelw$"
+          - "^.*godel/config/godel.properties$"
+          - "^.*godel/config/godel.yml$"
+          - "^.*vendor/.*$"
           - "^versions.props$"
           - "^versions.lock$"
           - "^internal/generated/.*"
           - "^internal/generated_src/.*"
+          - "^gradle-baseline-java/src/main/resources/checkstyle.version$"
       has_valid_signatures_by_keys:
         key_ids: ["C9AF124A484882E0"]
 
