@@ -15,7 +15,7 @@
  */
 
 import { ICompiler, IFile, IPlugin, ITypescriptPluginData } from "@documentalist/client";
-import { Application, TSConfigReader, TypeDocOptions, TypeDocReader } from "typedoc";
+import { Application, LogLevel, TSConfigReader, TypeDocOptions, TypeDocReader } from "typedoc";
 import { Visitor } from "./visitor";
 
 export interface ITypescriptPluginOptions {
@@ -85,11 +85,16 @@ export interface ITypescriptPluginOptions {
 }
 
 export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
-    private app = new Application();
+    private app: Application | undefined;
+
+    private typedocOptions: Partial<TypeDocOptions>;
+
+    /** Resolves when the project application has been initialized & bootstrapped succesfully. */
+    private projectInit: Promise<void>;
 
     public constructor(private options: ITypescriptPluginOptions = {}) {
         const { includeDeclarations = false, includeNodeModules = false, includePrivateMembers = false, tsconfigPath, verbose = false } = options;
-        const typedocOptions: Partial<TypeDocOptions> = {
+        this.typedocOptions = {
             entryPointStrategy: "expand",
             entryPoints: options.entryPoints ?? ["src/index.ts"],
             exclude: [
@@ -99,17 +104,20 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
             excludePrivate: !includePrivateMembers,
             gitRevision: options.gitBranch,
             skipErrorChecking: true,
-            logger: verbose ? console.log : "none",
+            logLevel: verbose ? LogLevel.Verbose : LogLevel.Error,
             tsconfig: tsconfigPath,
         };
-        // Support reading tsconfig.json + typedoc.json
-        this.app.options.addReader(new TypeDocReader());
-        this.app.options.addReader(new TSConfigReader());
-        this.app.bootstrap(typedocOptions);
+        this.projectInit = this.initializeTypedoc();
     }
 
-    public compile(files: IFile[], compiler: ICompiler): ITypescriptPluginData {
-        const project = this.getTypedocProject(files.map((f) => f.path));
+    private async initializeTypedoc() {
+        // Support reading tsconfig.json + typedoc.json
+        this.app = await Application.bootstrapWithPlugins(this.typedocOptions, [new TypeDocReader(), new TSConfigReader()]);
+        return;
+    }
+
+    public async compile(files: IFile[], compiler: ICompiler): Promise<ITypescriptPluginData> {
+        const project = await this.getTypedocProject(files.map((f) => f.path));
         const visitor = new Visitor(compiler, this.options);
 
         if (project === undefined) {
@@ -120,7 +128,13 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
         return { typescript };
     }
 
-    private getTypedocProject(files: string[]) {
+    private async getTypedocProject(files: string[]) {
+        await this.projectInit;
+
+        if (this.app === undefined) {
+            return undefined;
+        }
+
         this.app.options.setValue("entryPoints", files);
         return this.app.convert();
     }

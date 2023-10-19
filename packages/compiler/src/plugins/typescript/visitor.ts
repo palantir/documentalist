@@ -40,7 +40,7 @@ import {
     Reflection,
     ReflectionKind,
     SignatureReflection,
-    UnionType,
+    // UnionType,
 } from "typedoc";
 import { ITypescriptPluginOptions } from "./typescriptPlugin";
 import { resolveSignature, resolveTypeString } from "./typestring";
@@ -56,11 +56,11 @@ export class Visitor {
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Enum), this.visitEnum),
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Function), this.visitMethod),
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Interface), this.visitInterface),
-            ...this.visitChildren(
-                // detect if a `const X = { A, B, C }` also has a corresponding `type X = A | B | C`
-                project.getReflectionsByKind(ReflectionKind.ObjectLiteral).filter(isConstTypePair),
-                this.visitConstTypePair,
-            ),
+            // ...this.visitChildren(
+            //     // detect if a `const X = { A, B, C }` also has a corresponding `type X = A | B | C`
+            //     project.getReflectionsByKind(ReflectionKind.ObjectLiteral).filter(isConstTypePair),
+            //     this.visitConstTypePair,
+            // ),
             ...this.visitChildren<ITsTypeAlias>(project.getReflectionsByKind(ReflectionKind.TypeAlias), (def) => ({
                 ...this.makeDocEntry(def, Kind.TypeAlias),
                 type: resolveTypeString(def.type),
@@ -110,14 +110,14 @@ export class Visitor {
         kind: Kind.Constructor,
     });
 
-    private visitConstTypePair = (def: DeclarationReflection): ITsEnum => ({
-        ...this.makeDocEntry(def, Kind.Enum),
-        // ObjectLiteral has Variable children, but we'll expose them as enum members
-        members: this.visitChildren<ITsEnumMember>(def.getChildrenByKind(ReflectionKind.Variable), (m) => ({
-            ...this.makeDocEntry(m, Kind.EnumMember),
-            defaultValue: resolveTypeString(m.type),
-        })),
-    });
+    // private visitConstTypePair = (def: DeclarationReflection): ITsEnum => ({
+    //     ...this.makeDocEntry(def, Kind.Enum),
+    //     // ObjectLiteral has Variable children, but we'll expose them as enum members
+    //     members: this.visitChildren<ITsEnumMember>(def.getChildrenByKind(ReflectionKind.Variable), (m) => ({
+    //         ...this.makeDocEntry(m, Kind.EnumMember),
+    //         defaultValue: resolveTypeString(m.type),
+    //     })),
+    // });
 
     private visitEnum = (def: DeclarationReflection): ITsEnum => ({
         ...this.makeDocEntry(def, Kind.Enum),
@@ -226,15 +226,29 @@ function getDefaultValue(ref: ParameterReflection | DeclarationReflection): stri
     return ref.defaultValue ?? getCommentTagValue(ref.comment, "default");
 }
 
-function getSourceFileName({ sources = [] }: Reflection): string | undefined {
-    const { fullFileName } = sources[0];
-    // fullFileName relative to cwd, so it can be saved in a snapshot (machine-independent)
-    return fullFileName && relative(process.cwd(), fullFileName);
+function getSourceFileName(reflection: Reflection): string | undefined {
+    if (reflection.isDeclaration() || isSignatureReflection(reflection)) {
+        if (reflection.sources !== undefined) {
+            const { fullFileName } = reflection.sources[0];
+            // fullFileName relative to cwd, so it can be saved in a snapshot (machine-independent)
+            return fullFileName && relative(process.cwd(), fullFileName);
+        }
+    }
+    return undefined;
 }
 
-function getSourceUrl({ sources = [] }: Reflection): string | undefined {
-    const source = sources[0];
-    return source && source.url;
+function isSignatureReflection(reflection: Reflection): reflection is SignatureReflection {
+    return reflection.variant === "signature";
+}
+
+function getSourceUrl(reflection: Reflection): string | undefined {
+    if (reflection.isDeclaration() || isSignatureReflection(reflection)) {
+        if (reflection.sources !== undefined) {
+            const source = reflection.sources[0];
+            return source && source.url;
+        }
+    }
+    return undefined;
 }
 
 function getFlags(ref: Reflection): ITsFlags | undefined {
@@ -261,9 +275,9 @@ function getIsDeprecated(ref: Reflection) {
     return deprecatedModifier || deprecatedTagValue;
 }
 
-function isConstTypePair(def: DeclarationReflection) {
-    return def.kind === ReflectionKind.ObjectLiteral && def.type instanceof UnionType;
-}
+// function isConstTypePair(def: DeclarationReflection) {
+//     return def.kind === ReflectionKind.ObjectLiteral && def.type instanceof UnionType;
+// }
 
 /** Returns true if value does not match all patterns. */
 function isNotExcluded(patterns: Array<string | RegExp>, value?: string) {

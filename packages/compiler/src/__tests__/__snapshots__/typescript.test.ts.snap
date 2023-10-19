@@ -1,22 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TypescriptPlugin classes snapshot 1`] = `
-Object {
-  "Animal": Object {
-    "accessors": Array [
-      Object {
-        "documentation": Object {
-          "contents": Array [
-            "<p>Get the noise of the animal
-Set the noise for the animal</p>
-",
-          ],
-          "contentsRaw": "Get the noise of the animal
-Set the noise for the animal",
-          "metadata": Object {},
-        },
+{
+  "Animal": {
+    "accessors": [
+      {
+        "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/classes.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -26,32 +17,32 @@ Set the noise for the animal",
           "isRest": false,
           "isStatic": false,
         },
-        "getDocumentation": Object {
-          "contents": Array [
+        "getDocumentation": {
+          "contents": [
             "<p>Get the noise of the animal</p>
 ",
           ],
           "contentsRaw": "Get the noise of the animal",
-          "metadata": Object {},
+          "metadata": {},
         },
         "kind": "accessor",
         "name": "accessorNoise",
-        "setDocumentation": Object {
-          "contents": Array [
+        "setDocumentation": {
+          "contents": [
             "<p>Set the noise for the animal</p>
 ",
           ],
           "contentsRaw": "Set the noise for the animal",
-          "metadata": Object {},
+          "metadata": {},
         },
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L21",
         "type": "string",
       },
     ],
-    "constructorType": Object {
+    "constructorType": {
       "documentation": undefined,
       "fileName": "src/__tests__/__fixtures__/classes.ts",
-      "flags": Object {
+      "flags": {
         "isDeprecated": undefined,
         "isExternal": false,
         "isOptional": false,
@@ -64,19 +55,19 @@ Set the noise for the animal",
       "inheritedFrom": undefined,
       "kind": "constructor",
       "name": "constructor",
-      "signatures": Array [
-        Object {
+      "signatures": [
+        {
           "documentation": undefined,
           "fileName": "src/__tests__/__fixtures__/classes.ts",
           "flags": undefined,
           "kind": "signature",
           "name": "new Animal",
-          "parameters": Array [
-            Object {
+          "parameters": [
+            {
               "defaultValue": undefined,
               "documentation": undefined,
               "fileName": undefined,
-              "flags": Object {
+              "flags": {
                 "isDeprecated": undefined,
                 "isExternal": false,
                 "isOptional": false,
@@ -92,17 +83,17 @@ Set the noise for the animal",
               "type": "string",
             },
           ],
-          "returnType": "Animal",
-          "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L28",
-          "type": "(noise: string) => Animal",
+          "returnType": "Animal<>",
+          "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L30",
+          "type": "(noise: string) => Animal<>",
         },
       ],
-      "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L28",
+      "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L30",
     },
     "documentation": undefined,
     "extends": undefined,
     "fileName": "src/__tests__/__fixtures__/classes.ts",
-    "flags": Object {
+    "flags": {
       "isDeprecated": undefined,
       "isExternal": false,
       "isOptional": false,
@@ -115,11 +106,11 @@ Set the noise for the animal",
     "implements": undefined,
     "indexSignature": undefined,
     "kind": "class",
-    "methods": Array [
-      Object {
+    "methods": [
+      {
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/classes.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -132,21 +123,21 @@ Set the noise for the animal",
         "inheritedFrom": undefined,
         "kind": "method",
         "name": "bark",
-        "signatures": Array [
-          Object {
-            "documentation": Object {
-              "contents": Array [
+        "signatures": [
+          {
+            "documentation": {
+              "contents": [
                 "<p>Produce a noise.</p>
 ",
               ],
               "contentsRaw": "Produce a noise.",
-              "metadata": Object {},
+              "metadata": {},
             },
             "fileName": "src/__tests__/__fixtures__/classes.ts",
             "flags": undefined,
             "kind": "signature",
             "name": "bark",
-            "parameters": Array [],
+            "parameters": [],
             "returnType": "string",
             "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L33",
             "type": "() => string",
@@ -154,10 +145,10 @@ Set the noise for the animal",
         ],
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L33",
       },
-      Object {
+      {
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/classes.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -170,33 +161,33 @@ Set the noise for the animal",
         "inheritedFrom": undefined,
         "kind": "method",
         "name": "eat",
-        "signatures": Array [
-          Object {
-            "documentation": Object {
-              "contents": Array [
+        "signatures": [
+          {
+            "documentation": {
+              "contents": [
                 "<p>Public method.</p>
 ",
               ],
               "contentsRaw": "Public method.",
-              "metadata": Object {},
+              "metadata": {},
             },
             "fileName": "src/__tests__/__fixtures__/classes.ts",
             "flags": undefined,
             "kind": "signature",
             "name": "eat",
-            "parameters": Array [
-              Object {
+            "parameters": [
+              {
                 "defaultValue": undefined,
-                "documentation": Object {
-                  "contents": Array [
+                "documentation": {
+                  "contents": [
                     "<p>Name of the food to eat.</p>
 ",
                   ],
                   "contentsRaw": "Name of the food to eat.",
-                  "metadata": Object {},
+                  "metadata": {},
                 },
                 "fileName": undefined,
-                "flags": Object {
+                "flags": {
                   "isDeprecated": undefined,
                   "isExternal": false,
                   "isOptional": false,
@@ -221,24 +212,15 @@ Set the noise for the animal",
       },
     ],
     "name": "Animal",
-    "properties": Array [],
+    "properties": [],
     "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L19",
   },
-  "Dog": Object {
-    "accessors": Array [
-      Object {
-        "documentation": Object {
-          "contents": Array [
-            "<p>Get the noise of the animal
-Set the noise for the animal</p>
-",
-          ],
-          "contentsRaw": "Get the noise of the animal
-Set the noise for the animal",
-          "metadata": Object {},
-        },
+  "Dog": {
+    "accessors": [
+      {
+        "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/classes.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -248,32 +230,32 @@ Set the noise for the animal",
           "isRest": false,
           "isStatic": false,
         },
-        "getDocumentation": Object {
-          "contents": Array [
+        "getDocumentation": {
+          "contents": [
             "<p>Get the noise of the animal</p>
 ",
           ],
           "contentsRaw": "Get the noise of the animal",
-          "metadata": Object {},
+          "metadata": {},
         },
         "kind": "accessor",
         "name": "accessorNoise",
-        "setDocumentation": Object {
-          "contents": Array [
+        "setDocumentation": {
+          "contents": [
             "<p>Set the noise for the animal</p>
 ",
           ],
           "contentsRaw": "Set the noise for the animal",
-          "metadata": Object {},
+          "metadata": {},
         },
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L21",
         "type": "string",
       },
     ],
-    "constructorType": Object {
+    "constructorType": {
       "documentation": undefined,
       "fileName": "src/__tests__/__fixtures__/classes.ts",
-      "flags": Object {
+      "flags": {
         "isDeprecated": undefined,
         "isExternal": false,
         "isOptional": false,
@@ -286,27 +268,27 @@ Set the noise for the animal",
       "inheritedFrom": undefined,
       "kind": "constructor",
       "name": "constructor",
-      "signatures": Array [
-        Object {
+      "signatures": [
+        {
           "documentation": undefined,
           "fileName": "src/__tests__/__fixtures__/classes.ts",
           "flags": undefined,
           "kind": "signature",
           "name": "new Dog",
-          "parameters": Array [],
-          "returnType": "Dog",
-          "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L53",
-          "type": "() => Dog",
+          "parameters": [],
+          "returnType": "Dog<>",
+          "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L54",
+          "type": "() => Dog<>",
         },
       ],
-      "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L53",
+      "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L54",
     },
     "documentation": undefined,
-    "extends": Array [
-      "Animal",
+    "extends": [
+      "Animal<>",
     ],
     "fileName": "src/__tests__/__fixtures__/classes.ts",
-    "flags": Object {
+    "flags": {
       "isDeprecated": undefined,
       "isExternal": false,
       "isOptional": false,
@@ -319,11 +301,11 @@ Set the noise for the animal",
     "implements": undefined,
     "indexSignature": undefined,
     "kind": "class",
-    "methods": Array [
-      Object {
+    "methods": [
+      {
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/classes.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -336,21 +318,21 @@ Set the noise for the animal",
         "inheritedFrom": "Animal.bark",
         "kind": "method",
         "name": "bark",
-        "signatures": Array [
-          Object {
-            "documentation": Object {
-              "contents": Array [
+        "signatures": [
+          {
+            "documentation": {
+              "contents": [
                 "<p>Produce a noise.</p>
 ",
               ],
               "contentsRaw": "Produce a noise.",
-              "metadata": Object {},
+              "metadata": {},
             },
             "fileName": "src/__tests__/__fixtures__/classes.ts",
             "flags": undefined,
             "kind": "signature",
             "name": "bark",
-            "parameters": Array [],
+            "parameters": [],
             "returnType": "string",
             "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L33",
             "type": "() => string",
@@ -358,10 +340,10 @@ Set the noise for the animal",
         ],
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L33",
       },
-      Object {
+      {
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/classes.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -374,33 +356,33 @@ Set the noise for the animal",
         "inheritedFrom": "Animal.eat",
         "kind": "method",
         "name": "eat",
-        "signatures": Array [
-          Object {
-            "documentation": Object {
-              "contents": Array [
+        "signatures": [
+          {
+            "documentation": {
+              "contents": [
                 "<p>Public method.</p>
 ",
               ],
               "contentsRaw": "Public method.",
-              "metadata": Object {},
+              "metadata": {},
             },
             "fileName": "src/__tests__/__fixtures__/classes.ts",
             "flags": undefined,
             "kind": "signature",
             "name": "eat",
-            "parameters": Array [
-              Object {
+            "parameters": [
+              {
                 "defaultValue": undefined,
-                "documentation": Object {
-                  "contents": Array [
+                "documentation": {
+                  "contents": [
                     "<p>Name of the food to eat.</p>
 ",
                   ],
                   "contentsRaw": "Name of the food to eat.",
-                  "metadata": Object {},
+                  "metadata": {},
                 },
                 "fileName": undefined,
-                "flags": Object {
+                "flags": {
                   "isDeprecated": undefined,
                   "isExternal": false,
                   "isOptional": false,
@@ -425,196 +407,18 @@ Set the noise for the animal",
       },
     ],
     "name": "Dog",
-    "properties": Array [],
+    "properties": [],
     "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L53",
-  },
-  "Food": Object {
-    "accessors": Array [],
-    "constructorType": Object {
-      "documentation": undefined,
-      "fileName": "src/__tests__/__fixtures__/classes.ts",
-      "flags": Object {
-        "isDeprecated": undefined,
-        "isExternal": false,
-        "isOptional": false,
-        "isPrivate": false,
-        "isProtected": false,
-        "isPublic": true,
-        "isRest": false,
-        "isStatic": false,
-      },
-      "inheritedFrom": undefined,
-      "kind": "constructor",
-      "name": "constructor",
-      "signatures": Array [
-        Object {
-          "documentation": undefined,
-          "fileName": "src/__tests__/__fixtures__/classes.ts",
-          "flags": undefined,
-          "kind": "signature",
-          "name": "new Food",
-          "parameters": Array [
-            Object {
-              "defaultValue": undefined,
-              "documentation": undefined,
-              "fileName": undefined,
-              "flags": Object {
-                "isDeprecated": undefined,
-                "isExternal": false,
-                "isOptional": false,
-                "isPrivate": false,
-                "isProtected": false,
-                "isPublic": false,
-                "isRest": false,
-                "isStatic": false,
-              },
-              "kind": "parameter",
-              "name": "name",
-              "sourceUrl": undefined,
-              "type": "string",
-            },
-          ],
-          "returnType": "Food",
-          "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L63",
-          "type": "(name: string) => Food",
-        },
-      ],
-      "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L63",
-    },
-    "documentation": undefined,
-    "extends": undefined,
-    "fileName": "src/__tests__/__fixtures__/classes.ts",
-    "flags": Object {
-      "isDeprecated": undefined,
-      "isExternal": false,
-      "isOptional": false,
-      "isPrivate": false,
-      "isProtected": false,
-      "isPublic": false,
-      "isRest": false,
-      "isStatic": false,
-    },
-    "implements": undefined,
-    "indexSignature": undefined,
-    "kind": "class",
-    "methods": Array [
-      Object {
-        "documentation": undefined,
-        "fileName": "src/__tests__/__fixtures__/classes.ts",
-        "flags": Object {
-          "isDeprecated": undefined,
-          "isExternal": false,
-          "isOptional": false,
-          "isPrivate": false,
-          "isProtected": false,
-          "isPublic": true,
-          "isRest": false,
-          "isStatic": true,
-        },
-        "inheritedFrom": undefined,
-        "kind": "method",
-        "name": "retrieve",
-        "signatures": Array [
-          Object {
-            "documentation": undefined,
-            "fileName": "src/__tests__/__fixtures__/classes.ts",
-            "flags": undefined,
-            "kind": "signature",
-            "name": "retrieve",
-            "parameters": Array [
-              Object {
-                "defaultValue": undefined,
-                "documentation": undefined,
-                "fileName": undefined,
-                "flags": Object {
-                  "isDeprecated": undefined,
-                  "isExternal": false,
-                  "isOptional": false,
-                  "isPrivate": false,
-                  "isProtected": false,
-                  "isPublic": false,
-                  "isRest": false,
-                  "isStatic": false,
-                },
-                "kind": "parameter",
-                "name": "name",
-                "sourceUrl": undefined,
-                "type": "string",
-              },
-            ],
-            "returnType": "Food<>",
-            "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L61",
-            "type": "(name: string) => Food<>",
-          },
-        ],
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L61",
-      },
-      Object {
-        "documentation": undefined,
-        "fileName": "src/__tests__/__fixtures__/classes.ts",
-        "flags": Object {
-          "isDeprecated": undefined,
-          "isExternal": false,
-          "isOptional": false,
-          "isPrivate": false,
-          "isProtected": false,
-          "isPublic": true,
-          "isRest": false,
-          "isStatic": false,
-        },
-        "inheritedFrom": undefined,
-        "kind": "method",
-        "name": "destroy",
-        "signatures": Array [
-          Object {
-            "documentation": undefined,
-            "fileName": "src/__tests__/__fixtures__/classes.ts",
-            "flags": undefined,
-            "kind": "signature",
-            "name": "destroy",
-            "parameters": Array [],
-            "returnType": "boolean",
-            "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L67",
-            "type": "() => boolean",
-          },
-        ],
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L67",
-      },
-    ],
-    "name": "Food",
-    "properties": Array [
-      Object {
-        "defaultValue": undefined,
-        "documentation": undefined,
-        "fileName": "src/__tests__/__fixtures__/classes.ts",
-        "flags": Object {
-          "isDeprecated": undefined,
-          "isExternal": false,
-          "isOptional": false,
-          "isPrivate": false,
-          "isProtected": false,
-          "isPublic": true,
-          "isRest": false,
-          "isStatic": false,
-        },
-        "inheritedFrom": undefined,
-        "kind": "property",
-        "name": "name",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L65",
-        "type": "string",
-      },
-    ],
-    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/classes.ts#L60",
   },
 }
 `;
 
 exports[`TypescriptPlugin enums snapshot 1`] = `
-Object {
-  "IconName": Object {
+{
+  "IconName": {
     "documentation": undefined,
     "fileName": "src/__tests__/__fixtures__/enums.ts",
-    "flags": Object {
+    "flags": {
       "isDeprecated": undefined,
       "isExternal": false,
       "isOptional": false,
@@ -626,20 +430,20 @@ Object {
     },
     "kind": "type alias",
     "name": "IconName",
-    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L33",
-    "type": "\\"add\\" | \\"remove\\" | \\"plus\\" | \\"minus\\"",
+    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L26",
+    "type": ""add" | "remove" | "plus" | "minus"",
   },
-  "Intent": Object {
-    "documentation": Object {
-      "contents": Array [
+  "Intent": {
+    "documentation": {
+      "contents": [
         "<p>classic typescript enum</p>
 ",
       ],
       "contentsRaw": "classic typescript enum",
-      "metadata": Object {},
+      "metadata": {},
     },
     "fileName": "src/__tests__/__fixtures__/enums.ts",
-    "flags": Object {
+    "flags": {
       "isDeprecated": undefined,
       "isExternal": false,
       "isOptional": false,
@@ -650,12 +454,12 @@ Object {
       "isStatic": false,
     },
     "kind": "enum",
-    "members": Array [
-      Object {
-        "defaultValue": "\\"danger\\"",
+    "members": [
+      {
+        "defaultValue": undefined,
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/enums.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -669,11 +473,11 @@ Object {
         "name": "DANGER",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L22",
       },
-      Object {
-        "defaultValue": "\\"primary\\"",
+      {
+        "defaultValue": undefined,
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/enums.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -687,11 +491,11 @@ Object {
         "name": "PRIMARY",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L19",
       },
-      Object {
-        "defaultValue": "\\"success\\"",
+      {
+        "defaultValue": undefined,
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/enums.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -705,11 +509,11 @@ Object {
         "name": "SUCCESS",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L20",
       },
-      Object {
-        "defaultValue": "\\"warning\\"",
+      {
+        "defaultValue": undefined,
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/enums.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -731,11 +535,102 @@ Object {
 `;
 
 exports[`TypescriptPlugin functions snapshot 1`] = `
-Object {
-  "numberAndString": Object {
+{
+  "MyFunc": {
     "documentation": undefined,
     "fileName": "src/__tests__/__fixtures__/functions.ts",
-    "flags": Object {
+    "flags": {
+      "isDeprecated": undefined,
+      "isExternal": false,
+      "isOptional": false,
+      "isPrivate": false,
+      "isProtected": false,
+      "isPublic": false,
+      "isRest": false,
+      "isStatic": false,
+    },
+    "inheritedFrom": undefined,
+    "kind": "method",
+    "name": "MyFunc",
+    "signatures": [
+      {
+        "documentation": {
+          "contents": [
+            "<p>Non-exported function.</p>
+",
+          ],
+          "contentsRaw": "Non-exported function.",
+          "metadata": {},
+        },
+        "fileName": "src/__tests__/__fixtures__/functions.ts",
+        "flags": undefined,
+        "kind": "signature",
+        "name": "MyFunc",
+        "parameters": [
+          {
+            "defaultValue": undefined,
+            "documentation": {
+              "contents": [
+                "<p>The string parameter.</p>
+",
+              ],
+              "contentsRaw": "The string parameter.",
+              "metadata": {},
+            },
+            "fileName": undefined,
+            "flags": {
+              "isDeprecated": undefined,
+              "isExternal": false,
+              "isOptional": false,
+              "isPrivate": false,
+              "isProtected": false,
+              "isPublic": false,
+              "isRest": false,
+              "isStatic": false,
+            },
+            "kind": "parameter",
+            "name": "str",
+            "sourceUrl": undefined,
+            "type": "string",
+          },
+          {
+            "defaultValue": undefined,
+            "documentation": {
+              "contents": [
+                "<p>The boolean parameter.</p>
+",
+              ],
+              "contentsRaw": "The boolean parameter.",
+              "metadata": {},
+            },
+            "fileName": undefined,
+            "flags": {
+              "isDeprecated": undefined,
+              "isExternal": false,
+              "isOptional": false,
+              "isPrivate": false,
+              "isProtected": false,
+              "isPublic": false,
+              "isRest": false,
+              "isStatic": false,
+            },
+            "kind": "parameter",
+            "name": "bool",
+            "sourceUrl": undefined,
+            "type": "boolean",
+          },
+        ],
+        "returnType": "string",
+        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L31",
+        "type": "(str: string, bool: boolean) => string",
+      },
+    ],
+    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L36",
+  },
+  "numberAndString": {
+    "documentation": undefined,
+    "fileName": "src/__tests__/__fixtures__/functions.ts",
+    "flags": {
       "isDeprecated": undefined,
       "isExternal": false,
       "isOptional": false,
@@ -748,33 +643,33 @@ Object {
     "inheritedFrom": undefined,
     "kind": "method",
     "name": "numberAndString",
-    "signatures": Array [
-      Object {
-        "documentation": Object {
-          "contents": Array [
+    "signatures": [
+      {
+        "documentation": {
+          "contents": [
             "<p>Exported function.</p>
 ",
           ],
           "contentsRaw": "Exported function.",
-          "metadata": Object {},
+          "metadata": {},
         },
         "fileName": "src/__tests__/__fixtures__/functions.ts",
         "flags": undefined,
         "kind": "signature",
         "name": "numberAndString",
-        "parameters": Array [
-          Object {
+        "parameters": [
+          {
             "defaultValue": undefined,
-            "documentation": Object {
-              "contents": Array [
+            "documentation": {
+              "contents": [
                 "<p>The number passed to the function.</p>
 ",
               ],
               "contentsRaw": "The number passed to the function.",
-              "metadata": Object {},
+              "metadata": {},
             },
             "fileName": undefined,
-            "flags": Object {
+            "flags": {
               "isDeprecated": undefined,
               "isExternal": false,
               "isOptional": false,
@@ -789,18 +684,18 @@ Object {
             "sourceUrl": undefined,
             "type": "number",
           },
-          Object {
+          {
             "defaultValue": undefined,
-            "documentation": Object {
-              "contents": Array [
+            "documentation": {
+              "contents": [
                 "<p>The string passed to the function.</p>
 ",
               ],
               "contentsRaw": "The string passed to the function.",
-              "metadata": Object {},
+              "metadata": {},
             },
             "fileName": undefined,
-            "flags": Object {
+            "flags": {
               "isDeprecated": undefined,
               "isExternal": false,
               "isOptional": false,
@@ -823,107 +718,16 @@ Object {
     ],
     "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L22",
   },
-  "stringAndBoolean": Object {
-    "documentation": undefined,
-    "fileName": "src/__tests__/__fixtures__/functions.ts",
-    "flags": Object {
-      "isDeprecated": undefined,
-      "isExternal": false,
-      "isOptional": false,
-      "isPrivate": false,
-      "isProtected": false,
-      "isPublic": false,
-      "isRest": false,
-      "isStatic": false,
-    },
-    "inheritedFrom": undefined,
-    "kind": "method",
-    "name": "stringAndBoolean",
-    "signatures": Array [
-      Object {
-        "documentation": Object {
-          "contents": Array [
-            "<p>Non-exported function.</p>
-",
-          ],
-          "contentsRaw": "Non-exported function.",
-          "metadata": Object {},
-        },
-        "fileName": "src/__tests__/__fixtures__/functions.ts",
-        "flags": undefined,
-        "kind": "signature",
-        "name": "stringAndBoolean",
-        "parameters": Array [
-          Object {
-            "defaultValue": undefined,
-            "documentation": Object {
-              "contents": Array [
-                "<p>The string parameter.</p>
-",
-              ],
-              "contentsRaw": "The string parameter.",
-              "metadata": Object {},
-            },
-            "fileName": undefined,
-            "flags": Object {
-              "isDeprecated": undefined,
-              "isExternal": false,
-              "isOptional": false,
-              "isPrivate": false,
-              "isProtected": false,
-              "isPublic": false,
-              "isRest": false,
-              "isStatic": false,
-            },
-            "kind": "parameter",
-            "name": "str",
-            "sourceUrl": undefined,
-            "type": "string",
-          },
-          Object {
-            "defaultValue": undefined,
-            "documentation": Object {
-              "contents": Array [
-                "<p>The boolean parameter.</p>
-",
-              ],
-              "contentsRaw": "The boolean parameter.",
-              "metadata": Object {},
-            },
-            "fileName": undefined,
-            "flags": Object {
-              "isDeprecated": undefined,
-              "isExternal": false,
-              "isOptional": false,
-              "isPrivate": false,
-              "isProtected": false,
-              "isPublic": false,
-              "isRest": false,
-              "isStatic": false,
-            },
-            "kind": "parameter",
-            "name": "bool",
-            "sourceUrl": undefined,
-            "type": "boolean",
-          },
-        ],
-        "returnType": "string",
-        "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L31",
-        "type": "(str: string, bool: boolean) => string",
-      },
-    ],
-    "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/functions.ts#L31",
-  },
 }
 `;
 
 exports[`TypescriptPlugin interfaces snapshot 1`] = `
-Object {
-  "IActionProps": Object {
+{
+  "IActionProps": {
     "documentation": undefined,
     "extends": undefined,
     "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-    "flags": Object {
+    "flags": {
       "isDeprecated": undefined,
       "isExternal": false,
       "isOptional": false,
@@ -936,21 +740,21 @@ Object {
     "implements": undefined,
     "indexSignature": undefined,
     "kind": "interface",
-    "methods": Array [],
+    "methods": [],
     "name": "IActionProps",
-    "properties": Array [
-      Object {
+    "properties": [
+      {
         "defaultValue": undefined,
-        "documentation": Object {
-          "contents": Array [
+        "documentation": {
+          "contents": [
             "<p>Whether this action is non-interactive.</p>
 ",
           ],
           "contentsRaw": "Whether this action is non-interactive.",
-          "metadata": Object {},
+          "metadata": {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": true,
@@ -966,18 +770,22 @@ Object {
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L22",
         "type": "boolean",
       },
-      Object {
+      {
         "defaultValue": undefined,
-        "documentation": Object {
-          "contents": Array [
-            "<p>Name of the icon (the part after <code>pt-icon-</code>) to add to the button.</p>
+        "documentation": {
+          "contents": [
+            "<p>Name of the icon (the part after 
+<code>pt-icon-</code>
+) to add to the button.</p>
 ",
           ],
-          "contentsRaw": "Name of the icon (the part after \`pt-icon-\`) to add to the button.",
-          "metadata": Object {},
+          "contentsRaw": "Name of the icon (the part after 
+\`pt-icon-\`
+) to add to the button.",
+          "metadata": {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": true,
@@ -993,18 +801,11 @@ Object {
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L25",
         "type": "IconName",
       },
-      Object {
+      {
         "defaultValue": undefined,
-        "documentation": Object {
-          "contents": Array [
-            "<p>Click event handler.</p>
-",
-          ],
-          "contentsRaw": "Click event handler.",
-          "metadata": Object {},
-        },
+        "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -1020,18 +821,18 @@ Object {
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L28",
         "type": "(event: MouseEvent) => void",
       },
-      Object {
+      {
         "defaultValue": undefined,
-        "documentation": Object {
-          "contents": Array [
+        "documentation": {
+          "contents": [
             "<p>Action text.</p>
 ",
           ],
           "contentsRaw": "Action text.",
-          "metadata": Object {},
+          "metadata": {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -1050,13 +851,13 @@ Object {
     ],
     "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L20",
   },
-  "IButtonProps": Object {
+  "IButtonProps": {
     "documentation": undefined,
-    "extends": Array [
-      "IActionProps",
+    "extends": [
+      "IActionProps<>",
     ],
     "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-    "flags": Object {
+    "flags": {
       "isDeprecated": undefined,
       "isExternal": false,
       "isOptional": false,
@@ -1067,25 +868,18 @@ Object {
       "isStatic": false,
     },
     "implements": undefined,
-    "indexSignature": Object {
-      "documentation": Object {
-        "contents": Array [
-          "<p>Index signature for the masses.</p>
-",
-        ],
-        "contentsRaw": "Index signature for the masses.",
-        "metadata": Object {},
-      },
+    "indexSignature": {
+      "documentation": undefined,
       "fileName": "src/__tests__/__fixtures__/interfaces.ts",
       "flags": undefined,
       "kind": "signature",
       "name": "__index",
-      "parameters": Array [
-        Object {
+      "parameters": [
+        {
           "defaultValue": undefined,
           "documentation": undefined,
           "fileName": undefined,
-          "flags": Object {
+          "flags": {
             "isDeprecated": undefined,
             "isExternal": false,
             "isOptional": false,
@@ -1102,27 +896,37 @@ Object {
         },
       ],
       "returnType": "any",
-      "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L64",
+      "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L67",
       "type": "{ [x: string]: any }",
     },
     "kind": "interface",
-    "methods": Array [],
+    "methods": [],
     "name": "IButtonProps",
-    "properties": Array [
-      Object {
-        "defaultValue": "false",
-        "documentation": Object {
-          "contents": Array [
-            "<p>If set to <code>true</code>, the button will display in an active state.
-This is equivalent to setting <code>className=&quot;pt-active&quot;</code>.</p>
+    "properties": [
+      {
+        "defaultValue": "\`\`\`ts
+false
+\`\`\`",
+        "documentation": {
+          "contents": [
+            "<p>If set to 
+<code>true</code>
+, the button will display in an active state.
+This is equivalent to setting 
+<code>className=&quot;pt-active&quot;</code>
+.</p>
 ",
           ],
-          "contentsRaw": "If set to \`true\`, the button will display in an active state.
-This is equivalent to setting \`className=\\"pt-active\\"\`.",
-          "metadata": Object {},
+          "contentsRaw": "If set to 
+\`true\`
+, the button will display in an active state.
+This is equivalent to setting 
+\`className="pt-active"\`
+.",
+          "metadata": {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": true,
@@ -1138,18 +942,18 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L40",
         "type": "boolean",
       },
-      Object {
+      {
         "defaultValue": undefined,
-        "documentation": Object {
-          "contents": Array [
+        "documentation": {
+          "contents": [
             "<p>Whether this action is non-interactive.</p>
 ",
           ],
           "contentsRaw": "Whether this action is non-interactive.",
-          "metadata": Object {},
+          "metadata": {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": true,
@@ -1165,18 +969,11 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L22",
         "type": "boolean",
       },
-      Object {
+      {
         "defaultValue": undefined,
-        "documentation": Object {
-          "contents": Array [
-            "<p>A ref handler that receives the native HTML element backing this component.</p>
-",
-          ],
-          "contentsRaw": "A ref handler that receives the native HTML element backing this component.",
-          "metadata": Object {},
-        },
+        "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": true,
@@ -1192,18 +989,22 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L43",
         "type": "(ref: HTMLElement) => any",
       },
-      Object {
+      {
         "defaultValue": undefined,
-        "documentation": Object {
-          "contents": Array [
-            "<p>Name of the icon (the part after <code>pt-icon-</code>) to add to the button.</p>
+        "documentation": {
+          "contents": [
+            "<p>Name of the icon (the part after 
+<code>pt-icon-</code>
+) to add to the button.</p>
 ",
           ],
-          "contentsRaw": "Name of the icon (the part after \`pt-icon-\`) to add to the button.",
-          "metadata": Object {},
+          "contentsRaw": "Name of the icon (the part after 
+\`pt-icon-\`
+) to add to the button.",
+          "metadata": {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": true,
@@ -1219,21 +1020,27 @@ This is equivalent to setting \`className=\\"pt-active\\"\`.",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L25",
         "type": "IconName",
       },
-      Object {
-        "defaultValue": "false",
-        "documentation": Object {
-          "contents": Array [
-            "<p>If set to <code>true</code>, the button will display a centered loading spinner instead of its contents.
+      {
+        "defaultValue": "\`\`\`ts
+false
+\`\`\`",
+        "documentation": {
+          "contents": [
+            "<p>If set to 
+<code>true</code>
+, the button will display a centered loading spinner instead of its contents.
 The width of the button is not affected by the value of this prop.</p>
 ",
           ],
-          "contentsRaw": "If set to \`true\`, the button will display a centered loading spinner instead of its contents.
+          "contentsRaw": "If set to 
+\`true\`
+, the button will display a centered loading spinner instead of its contents.
 The width of the button is not affected by the value of this prop.",
-          "metadata": Object {},
+          "metadata": {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
-          "isDeprecated": true,
+        "flags": {
+          "isDeprecated": "",
           "isExternal": false,
           "isOptional": true,
           "isPrivate": false,
@@ -1248,18 +1055,11 @@ The width of the button is not affected by the value of this prop.",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L57",
         "type": "boolean",
       },
-      Object {
+      {
         "defaultValue": undefined,
-        "documentation": Object {
-          "contents": Array [
-            "<p>Click event handler.</p>
-",
-          ],
-          "contentsRaw": "Click event handler.",
-          "metadata": Object {},
-        },
+        "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -1275,18 +1075,22 @@ The width of the button is not affected by the value of this prop.",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L28",
         "type": "(event: MouseEvent) => void",
       },
-      Object {
+      {
         "defaultValue": undefined,
-        "documentation": Object {
-          "contents": Array [
-            "<p>Name of the icon (the part after <code>pt-icon-</code>) to add to the button.</p>
+        "documentation": {
+          "contents": [
+            "<p>Name of the icon (the part after 
+<code>pt-icon-</code>
+) to add to the button.</p>
 ",
           ],
-          "contentsRaw": "Name of the icon (the part after \`pt-icon-\`) to add to the button.",
-          "metadata": Object {},
+          "contentsRaw": "Name of the icon (the part after 
+\`pt-icon-\`
+) to add to the button.",
+          "metadata": {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": "since v1.2.3",
           "isExternal": false,
           "isOptional": true,
@@ -1302,18 +1106,18 @@ The width of the button is not affected by the value of this prop.",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L49",
         "type": "IconName",
       },
-      Object {
+      {
         "defaultValue": undefined,
-        "documentation": Object {
-          "contents": Array [
+        "documentation": {
+          "contents": [
             "<p>Action text.</p>
 ",
           ],
           "contentsRaw": "Action text.",
-          "metadata": Object {},
+          "metadata": {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -1329,20 +1133,42 @@ The width of the button is not affected by the value of this prop.",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L31",
         "type": "string",
       },
-      Object {
-        "defaultValue": "\\"button\\"",
-        "documentation": Object {
-          "contents": Array [
-            "<p>HTML <code>type</code> attribute of button. Common values are <code>&quot;button&quot;</code> and <code>&quot;submit&quot;</code>.
-Note that this prop has no effect on <code>AnchorButton</code>; it only affects <code>Button</code>.</p>
+      {
+        "defaultValue": "\`\`\`ts
+"button"
+\`\`\`",
+        "documentation": {
+          "contents": [
+            "<p>HTML 
+<code>type</code>
+ attribute of button. Common values are 
+<code>&quot;button&quot;</code>
+ and 
+<code>&quot;submit&quot;</code>
+.
+Note that this prop has no effect on 
+<code>AnchorButton</code>
+; it only affects 
+<code>Button</code>
+.</p>
 ",
           ],
-          "contentsRaw": "HTML \`type\` attribute of button. Common values are \`\\"button\\"\` and \`\\"submit\\"\`.
-Note that this prop has no effect on \`AnchorButton\`; it only affects \`Button\`.",
-          "metadata": Object {},
+          "contentsRaw": "HTML 
+\`type\`
+ attribute of button. Common values are 
+\`"button"\`
+ and 
+\`"submit"\`
+.
+Note that this prop has no effect on 
+\`AnchorButton\`
+; it only affects 
+\`Button\`
+.",
+          "metadata": {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": true,
@@ -1361,18 +1187,22 @@ Note that this prop has no effect on \`AnchorButton\`; it only affects \`Button\
     ],
     "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L34",
   },
-  "ICompiler": Object {
-    "documentation": Object {
-      "contents": Array [
-        "<p>Each plugin receives a <code>Compiler</code> instance to aid in the processing of source files.</p>
+  "ICompiler": {
+    "documentation": {
+      "contents": [
+        "<p>Each plugin receives a 
+<code>Compiler</code>
+ instance to aid in the processing of source files.</p>
 ",
       ],
-      "contentsRaw": "Each plugin receives a \`Compiler\` instance to aid in the processing of source files.",
-      "metadata": Object {},
+      "contentsRaw": "Each plugin receives a 
+\`Compiler\`
+ instance to aid in the processing of source files.",
+      "metadata": {},
     },
     "extends": undefined,
     "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-    "flags": Object {
+    "flags": {
       "isDeprecated": undefined,
       "isExternal": false,
       "isOptional": false,
@@ -1385,11 +1215,11 @@ Note that this prop has no effect on \`AnchorButton\`; it only affects \`Button\
     "implements": undefined,
     "indexSignature": undefined,
     "kind": "interface",
-    "methods": Array [
-      Object {
+    "methods": [
+      {
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -1402,28 +1232,28 @@ Note that this prop has no effect on \`AnchorButton\`; it only affects \`Button\
         "inheritedFrom": undefined,
         "kind": "method",
         "name": "objectify",
-        "signatures": Array [
-          Object {
-            "documentation": Object {
-              "contents": Array [
+        "signatures": [
+          {
+            "documentation": {
+              "contents": [
                 "<p>Converts an array of entries into a map of key to entry, using given
 callback to extract key from each item.</p>
 ",
               ],
               "contentsRaw": "Converts an array of entries into a map of key to entry, using given
 callback to extract key from each item.",
-              "metadata": Object {},
+              "metadata": {},
             },
             "fileName": "src/__tests__/__fixtures__/interfaces.ts",
             "flags": undefined,
             "kind": "signature",
             "name": "objectify",
-            "parameters": Array [
-              Object {
+            "parameters": [
+              {
                 "defaultValue": undefined,
                 "documentation": undefined,
                 "fileName": undefined,
-                "flags": Object {
+                "flags": {
                   "isDeprecated": undefined,
                   "isExternal": false,
                   "isOptional": false,
@@ -1438,11 +1268,11 @@ callback to extract key from each item.",
                 "sourceUrl": undefined,
                 "type": "T[]",
               },
-              Object {
+              {
                 "defaultValue": undefined,
                 "documentation": undefined,
                 "fileName": undefined,
-                "flags": Object {
+                "flags": {
                   "isDeprecated": undefined,
                   "isExternal": false,
                   "isOptional": false,
@@ -1465,10 +1295,10 @@ callback to extract key from each item.",
         ],
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L78",
       },
-      Object {
+      {
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -1481,36 +1311,40 @@ callback to extract key from each item.",
         "inheritedFrom": undefined,
         "kind": "method",
         "name": "renderBlock",
-        "signatures": Array [
-          Object {
-            "documentation": Object {
-              "contents": Array [
+        "signatures": [
+          {
+            "documentation": {
+              "contents": [
                 "<p>Render a block of content by extracting metadata (YAML front matter) and
-splitting text content into markdown-rendered HTML strings and <code>{ tag, value }</code> objects.</p>
+splitting text content into markdown-rendered HTML strings and 
+<code>{ tag, value }</code>
+ objects.</p>
 <p>To prevent special strings like &quot;@include&quot; from being parsed, a reserved
 tag words array may be provided, in which case the line will be left as
 is.</p>
 ",
               ],
               "contentsRaw": "Render a block of content by extracting metadata (YAML front matter) and
-splitting text content into markdown-rendered HTML strings and \`{ tag,
-value }\` objects.
+splitting text content into markdown-rendered HTML strings and 
+\`{ tag,
+value }\`
+ objects.
 
-To prevent special strings like \\"@include\\" from being parsed, a reserved
+To prevent special strings like "@include" from being parsed, a reserved
 tag words array may be provided, in which case the line will be left as
 is.",
-              "metadata": Object {},
+              "metadata": {},
             },
             "fileName": "src/__tests__/__fixtures__/interfaces.ts",
             "flags": undefined,
             "kind": "signature",
             "name": "renderBlock",
-            "parameters": Array [
-              Object {
+            "parameters": [
+              {
                 "defaultValue": undefined,
                 "documentation": undefined,
                 "fileName": undefined,
-                "flags": Object {
+                "flags": {
                   "isDeprecated": undefined,
                   "isExternal": false,
                   "isOptional": false,
@@ -1525,11 +1359,11 @@ is.",
                 "sourceUrl": undefined,
                 "type": "string",
               },
-              Object {
+              {
                 "defaultValue": undefined,
                 "documentation": undefined,
                 "fileName": undefined,
-                "flags": Object {
+                "flags": {
                   "isDeprecated": undefined,
                   "isExternal": false,
                   "isOptional": true,
@@ -1552,10 +1386,10 @@ is.",
         ],
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L89",
       },
-      Object {
+      {
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-        "flags": Object {
+        "flags": {
           "isDeprecated": undefined,
           "isExternal": false,
           "isOptional": false,
@@ -1568,26 +1402,30 @@ is.",
         "inheritedFrom": undefined,
         "kind": "method",
         "name": "renderMarkdown",
-        "signatures": Array [
-          Object {
-            "documentation": Object {
-              "contents": Array [
-                "<p>Render a string of markdown to HTML, using the options from <code>Documentalist</code>.</p>
+        "signatures": [
+          {
+            "documentation": {
+              "contents": [
+                "<p>Render a string of markdown to HTML, using the options from 
+<code>Documentalist</code>
+.</p>
 ",
               ],
-              "contentsRaw": "Render a string of markdown to HTML, using the options from \`Documentalist\`.",
-              "metadata": Object {},
+              "contentsRaw": "Render a string of markdown to HTML, using the options from 
+\`Documentalist\`
+.",
+              "metadata": {},
             },
             "fileName": "src/__tests__/__fixtures__/interfaces.ts",
             "flags": undefined,
             "kind": "signature",
             "name": "renderMarkdown",
-            "parameters": Array [
-              Object {
+            "parameters": [
+              {
                 "defaultValue": undefined,
                 "documentation": undefined,
                 "fileName": undefined,
-                "flags": Object {
+                "flags": {
                   "isDeprecated": undefined,
                   "isExternal": false,
                   "isOptional": false,
@@ -1612,20 +1450,20 @@ is.",
       },
     ],
     "name": "ICompiler",
-    "properties": Array [],
+    "properties": [],
     "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L73",
   },
-  "IconName": Object {
-    "documentation": Object {
-      "contents": Array [
+  "IconName": {
+    "documentation": {
+      "contents": [
         "<p>All icon identifiers</p>
 ",
       ],
       "contentsRaw": "All icon identifiers",
-      "metadata": Object {},
+      "metadata": {},
     },
     "fileName": "src/__tests__/__fixtures__/interfaces.ts",
-    "flags": Object {
+    "flags": {
       "isDeprecated": undefined,
       "isExternal": false,
       "isOptional": false,
@@ -1638,13 +1476,13 @@ is.",
     "kind": "type alias",
     "name": "IconName",
     "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L18",
-    "type": "\\"add\\" | \\"remove\\" | \\"plus\\" | \\"minus\\"",
+    "type": ""add" | "remove" | "plus" | "minus"",
   },
 }
 `;
 
 exports[`TypescriptPlugin options excludeNames 1`] = `
-Array [
+[
   "active",
   "disabled",
   "elementRef",
@@ -1655,10 +1493,10 @@ Array [
 ]
 `;
 
-exports[`TypescriptPlugin options excludePaths 1`] = `Object {}`;
+exports[`TypescriptPlugin options excludePaths 1`] = `{}`;
 
 exports[`TypescriptPlugin options includePrivateMembers 1`] = `
-Array [
+[
   "bark",
   "consumePrivate",
   "eat",
