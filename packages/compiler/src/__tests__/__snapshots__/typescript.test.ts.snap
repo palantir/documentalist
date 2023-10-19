@@ -819,7 +819,7 @@ exports[`TypescriptPlugin interfaces snapshot 1`] = `
         "kind": "property",
         "name": "onClick",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L28",
-        "type": "(event: MouseEvent) => void",
+        "type": "(event: MouseEvent<>) => void",
       },
       {
         "defaultValue": undefined,
@@ -987,7 +987,7 @@ This is equivalent to setting
         "kind": "property",
         "name": "elementRef",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L43",
-        "type": "(ref: HTMLElement) => any",
+        "type": "(ref: HTMLElement<>) => any",
       },
       {
         "defaultValue": undefined,
@@ -1073,7 +1073,7 @@ The width of the button is not affected by the value of this prop.",
         "kind": "property",
         "name": "onClick",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L28",
-        "type": "(event: MouseEvent) => void",
+        "type": "(event: MouseEvent<>) => void",
       },
       {
         "defaultValue": undefined,
