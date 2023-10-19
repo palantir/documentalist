@@ -32,7 +32,7 @@
         "@types/jest": "^27.4.1",
         "@types/js-yaml": "^4.0.5",
         "@types/marked": "^4.0.8",
-        "@types/node": "^16.11.26",
+        "@types/node": "^18.18.6",
         "@types/yargs": "^17.0.24",
         "jest": "^27.5.1",
         "jest-junit": "^14.0.1",
@@ -43,7 +43,7 @@
         "typescript": "~4.6.2"
     },
     "engines": {
-        "node": ">=12"
+        "node": ">=16"
     },
     "repository": {
         "type": "git",

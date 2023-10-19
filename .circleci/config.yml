@@ -3,7 +3,7 @@ version: 2.1
 references:
   setup_env: &setup_env
     docker:
-      - image: cimg/node:16.14
+      - image: cimg/node:18.18
   save_cache: &save_cache
     key: v2-dependency-cache-{{ checksum "yarn.lock" }}
     paths:
