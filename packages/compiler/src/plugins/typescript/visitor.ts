@@ -205,12 +205,12 @@ export class Visitor {
         }
 
         let documentation = "";
-        documentation += comment.summary.map(part => part.text).join("\n");
+        documentation += comment.summary.map((part) => part.text).join("\n");
 
-        const blockTags = comment.blockTags.filter(tag => tag.tag !== "@default" && tag.tag !== "@deprecated");
+        const blockTags = comment.blockTags.filter((tag) => tag.tag !== "@default" && tag.tag !== "@deprecated");
         if (blockTags.length > 0) {
             documentation += "\n\n";
-            documentation += blockTags.map(tag => `${tag.tag} ${tag.content}`).join("\n");
+            documentation += blockTags.map((tag) => `${tag.tag} ${tag.content}`).join("\n");
         }
 
         return this.compiler.renderBlock(documentation);
@@ -219,7 +219,7 @@ export class Visitor {
 
 function getCommentTagValue(comment: Comment | undefined, tagName: string) {
     const maybeTag = comment?.getTag(`@${tagName}`);
-    return maybeTag?.content.map(part => part.text.trim()).join("\n");
+    return maybeTag?.content.map((part) => part.text.trim()).join("\n");
 }
 
 function getDefaultValue(ref: ParameterReflection | DeclarationReflection): string | undefined {

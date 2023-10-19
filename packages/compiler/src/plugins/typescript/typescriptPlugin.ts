@@ -93,7 +93,13 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     private projectInit: Promise<void>;
 
     public constructor(private options: ITypescriptPluginOptions = {}) {
-        const { includeDeclarations = false, includeNodeModules = false, includePrivateMembers = false, tsconfigPath, verbose = false } = options;
+        const {
+            includeDeclarations = false,
+            includeNodeModules = false,
+            includePrivateMembers = false,
+            tsconfigPath,
+            verbose = false,
+        } = options;
         this.typedocOptions = {
             entryPointStrategy: "expand",
             entryPoints: options.entryPoints ?? ["src/index.ts"],
@@ -103,8 +109,8 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
             ].filter(Boolean) as string[],
             excludePrivate: !includePrivateMembers,
             gitRevision: options.gitBranch,
-            skipErrorChecking: true,
             logLevel: verbose ? LogLevel.Verbose : LogLevel.Error,
+            skipErrorChecking: true,
             tsconfig: tsconfigPath,
         };
         this.projectInit = this.initializeTypedoc();
@@ -112,7 +118,10 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
 
     private async initializeTypedoc() {
         // Support reading tsconfig.json + typedoc.json
-        this.app = await Application.bootstrapWithPlugins(this.typedocOptions, [new TypeDocReader(), new TSConfigReader()]);
+        this.app = await Application.bootstrapWithPlugins(this.typedocOptions, [
+            new TypeDocReader(),
+            new TSConfigReader(),
+        ]);
         return;
     }
 
