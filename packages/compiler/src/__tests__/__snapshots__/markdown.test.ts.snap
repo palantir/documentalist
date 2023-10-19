@@ -1,32 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MarkdownPlugin snapshot 1`] = `
-Object {
-  "_nav": Object {
-    "contents": Array [
-      Object {
+{
+  "_nav": {
+    "contents": [
+      {
         "tag": "page",
         "value": "file",
       },
     ],
     "contentsRaw": "@page file",
-    "metadata": Object {},
+    "metadata": {},
     "reference": "_nav",
     "route": "_nav",
     "sourcePath": "path/to/_nav.md",
     "title": "(untitled)",
   },
-  "file": Object {
-    "contents": Array [
-      Object {
+  "file": {
+    "contents": [
+      {
         "level": 1,
         "route": "file",
         "tag": "heading",
         "value": "I'm special",
       },
-      "<h2 id=\\"im-regular\\">I&#39;m regular</h2>
+      "<h2 id="im-regular">I&#39;m regular</h2>
 ",
-      Object {
+      {
         "tag": "othertag",
         "value": "params",
       },
@@ -37,7 +37,7 @@ Object {
 ## I'm regular
 
 @othertag params",
-    "metadata": Object {
+    "metadata": {
       "key": "value",
     },
     "reference": "file",
