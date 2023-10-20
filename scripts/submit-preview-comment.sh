@@ -26,6 +26,7 @@ if [ -z "${CIRCLE_API_TOKEN}" ]; then
 fi
 
 SCRIPTS_DIR=$(dirname "$(readlink -f "$0")")
+# See https://circleci.com/docs/api/v2/index.html#operation/getJobArtifacts
 artifacts=$(curl --request GET --url "https://circleci.com/api/v2/project/gh/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/artifacts" --header "authorization: $CIRCLE_API_TOKEN")
 
 echo $artifacts > ./scripts/artifacts.json

@@ -26,10 +26,7 @@ if (artifacts.items === undefined) {
 }
 
 const ARTIFACTS = {
-    documentation: "packages/docs-app/dist/index.html",
-    landing: "packages/landing-app/dist/index.html",
-    table: "packages/table-dev-app/dist/index.html",
-    demo: "packages/demo-app/dist/index.html",
+    documentation: "packages/docs/dist/index.html",
 };
 
 function getArtifactAnchorLink(pkg) {
@@ -43,14 +40,13 @@ if (process.env.GITHUB_API_TOKEN) {
     // See https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#creating-a-fine-grained-personal-access-token
     const octokit = new Octokit({ auth: process.env.GITHUB_API_TOKEN });
 
-    const artifactLinks = Object.keys(ARTIFACTS).map(getArtifactAnchorLink).join(" | ");
+    const mainDocumentationLink = getArtifactAnchorLink("documentation");
     const currentGitCommitMessage = execSync('git --no-pager log --pretty=format:"%s" -1')
         .toString()
         .trim()
         .replace(/\\"/g, '\\\\"');
     const commentBody = dedent`
-        <h3>${currentGitCommitMessage}</h3>
-        Build artifact links for this commit: <strong>${artifactLinks}</strong>
+        Build preview link for commit "${currentGitCommitMessage}": <strong>${mainDocumentationLink}</strong>
 
         <em>This is an automated comment from the deploy-preview CircleCI job.</em>
     `;
