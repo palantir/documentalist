@@ -456,7 +456,7 @@ exports[`TypescriptPlugin enums snapshot 1`] = `
     "kind": "enum",
     "members": [
       {
-        "defaultValue": undefined,
+        "defaultValue": "danger",
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/enums.ts",
         "flags": {
@@ -474,7 +474,7 @@ exports[`TypescriptPlugin enums snapshot 1`] = `
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L22",
       },
       {
-        "defaultValue": undefined,
+        "defaultValue": "primary",
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/enums.ts",
         "flags": {
@@ -492,7 +492,7 @@ exports[`TypescriptPlugin enums snapshot 1`] = `
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L19",
       },
       {
-        "defaultValue": undefined,
+        "defaultValue": "success",
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/enums.ts",
         "flags": {
@@ -510,7 +510,7 @@ exports[`TypescriptPlugin enums snapshot 1`] = `
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/enums.ts#L20",
       },
       {
-        "defaultValue": undefined,
+        "defaultValue": "warning",
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/enums.ts",
         "flags": {
