@@ -19,7 +19,6 @@ import { readFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { tsconfigResolverSync } from "tsconfig-resolver";
 import { Application, LogLevel, TSConfigReader, TypeDocOptions, TypeDocReader } from "typedoc";
-import { load as loadMissingExports } from "typedoc-plugin-missing-exports";
 import * as ts from "typescript";
 import { Visitor } from "./visitor";
 
@@ -90,8 +89,6 @@ export interface ITypescriptPluginOptions {
 }
 
 export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
-    private hasLoadedMissingExportsPlugin = false;
-
     private typedocOptions: Partial<TypeDocOptions>;
 
     /*
@@ -134,12 +131,6 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
             tsconfig,
         };
         const app = await Application.bootstrapWithPlugins(options, [new TypeDocReader(), new TSConfigReader()]);
-
-        if (!this.hasLoadedMissingExportsPlugin) {
-            // this plugin can only be loaded once, for some reason, even though we have multiple Applications
-            loadMissingExports(app);
-            this.hasLoadedMissingExportsPlugin = true;
-        }
 
         this.typedocApps.set(tsconfig, app);
 
