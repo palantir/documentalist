@@ -3,7 +3,7 @@ version: 2.1
 references:
   setup_env: &setup_env
     docker:
-      - image: cimg/node:16.14
+      - image: cimg/node:18.18
   save_cache: &save_cache
     key: v2-dependency-cache-{{ checksum "yarn.lock" }}
     paths:
@@ -76,12 +76,7 @@ jobs:
       - restore_cache: *restore_cache
       - attach_workspace: { at: "." }
       - store_artifacts: { path: packages/docs/dist }
-      - run:
-          name: Submit Github comment with links to built artifacts
-          command: |
-            artifacts=$(curl -X GET "https://circleci.com/api/v2/project/github/palantir/documentalist/$CIRCLE_BUILD_NUM/artifacts" -H "Accept: application/json" -u "$CIRCLE_AUTH_TOKEN:")
-            echo $artifacts > ./scripts/artifacts.json
-            node ./scripts/circle-build-preview.js
+      - run: ./scripts/submit-preview-comment.sh
 
   deploy-npm:
     <<: *setup_env
