@@ -101,6 +101,7 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
             verbose = false,
         } = options;
         this.typedocOptions = {
+            commentStyle: "jsdoc",
             entryPointStrategy: "expand",
             entryPoints: options.entryPoints ?? ["src/index.ts"],
             exclude: [
@@ -110,7 +111,7 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
             excludePrivate: !includePrivateMembers,
             gitRevision: options.gitBranch,
             logLevel: verbose ? LogLevel.Verbose : LogLevel.Error,
-            skipErrorChecking: true,
+            skipErrorChecking: false,
             tsconfig: tsconfigPath,
         };
         this.projectInit = this.initializeTypedoc();
