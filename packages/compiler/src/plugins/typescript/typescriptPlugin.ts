@@ -15,8 +15,8 @@
  */
 
 import type { ICompiler, IFile, IPlugin, ITypescriptPluginData, TypeScriptDocEntry } from "@documentalist/client";
-import { readFileSync } from "node:fs";
-import { dirname } from "node:path";
+import { readFileSync } from "fs";
+import { dirname } from "path";
 import { tsconfigResolverSync } from "tsconfig-resolver";
 import { Application, LogLevel, TSConfigReader, TypeDocOptions, TypeDocReader } from "typedoc";
 import * as ts from "typescript";
