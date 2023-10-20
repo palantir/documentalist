@@ -803,7 +803,14 @@ exports[`TypescriptPlugin interfaces snapshot 1`] = `
       },
       {
         "defaultValue": undefined,
-        "documentation": undefined,
+        "documentation": {
+          "contents": [
+            "<p>Click event handler.</p>
+",
+          ],
+          "contentsRaw": "Click event handler.",
+          "metadata": {},
+        },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": {
           "isDeprecated": false,
@@ -971,7 +978,14 @@ This is equivalent to setting
       },
       {
         "defaultValue": undefined,
-        "documentation": undefined,
+        "documentation": {
+          "contents": [
+            "<p>A ref handler that receives the native HTML element backing this component.</p>
+",
+          ],
+          "contentsRaw": "A ref handler that receives the native HTML element backing this component.",
+          "metadata": {},
+        },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": {
           "isDeprecated": false,
@@ -1057,7 +1071,14 @@ The width of the button is not affected by the value of this prop.",
       },
       {
         "defaultValue": undefined,
-        "documentation": undefined,
+        "documentation": {
+          "contents": [
+            "<p>Click event handler.</p>
+",
+          ],
+          "contentsRaw": "Click event handler.",
+          "metadata": {},
+        },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
         "flags": {
           "isDeprecated": false,

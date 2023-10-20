@@ -65,14 +65,28 @@ export class Visitor {
         );
     }
 
-    private makeDocEntry<K extends Kind>(def: Reflection, kind: K): ITsDocBase<K> {
+    private makeDocEntry<K extends Kind>(ref: Reflection, kind: K): ITsDocBase<K> {
+        let comment = ref.comment;
+
+        if (comment == undefined && ref.isDeclaration()) {
+            // special case for interface properties which have function signatures - we need to go one level deeper
+            // to access the comment
+            ref.type?.visit({
+                reflection: (reflectionType) => {
+                    if (reflectionType.declaration.signatures !== undefined) {
+                        comment = reflectionType.declaration.signatures[0].comment;
+                    }
+                }
+            });
+        }
+
         return {
-            documentation: this.renderComment(def.comment),
-            fileName: getSourceFileName(def),
-            flags: getFlags(def),
+            documentation: this.renderComment(comment),
+            fileName: getSourceFileName(ref),
+            flags: getFlags(ref),
             kind,
-            name: def.name,
-            sourceUrl: getSourceUrl(def),
+            name: ref.name,
+            sourceUrl: getSourceUrl(ref),
         };
     }
 
