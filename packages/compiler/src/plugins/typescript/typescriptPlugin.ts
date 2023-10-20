@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
+import type { ICompiler, IFile, IPlugin, ITypescriptPluginData, TypeScriptDocEntry } from "@documentalist/client";
 import { readFileSync } from "node:fs";
 import { dirname } from "node:path";
-import type { ICompiler, IFile, IPlugin, ITypescriptPluginData, TypeScriptDocEntry } from "@documentalist/client";
-import { load as loadMissingExports } from "typedoc-plugin-missing-exports";
 import { tsconfigResolverSync } from "tsconfig-resolver";
 import { Application, LogLevel, TSConfigReader, TypeDocOptions, TypeDocReader } from "typedoc";
+import { load as loadMissingExports } from "typedoc-plugin-missing-exports";
 import * as ts from "typescript";
 import { Visitor } from "./visitor";
 
@@ -133,10 +133,7 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
             entryPoints,
             tsconfig,
         };
-        const app = await Application.bootstrapWithPlugins(options, [
-            new TypeDocReader(),
-            new TSConfigReader(),
-        ]);
+        const app = await Application.bootstrapWithPlugins(options, [new TypeDocReader(), new TSConfigReader()]);
 
         if (!this.hasLoadedMissingExportsPlugin) {
             // this plugin can only be loaded once, for some reason, even though we have multiple Applications
@@ -213,7 +210,11 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
         const visitor = new Visitor(compiler, this.options);
         const project = await app.convert();
         if (project === undefined) {
-            throw new Error(`[Documentalist] unable to generate typescript documentation for project at ${app.options.getValue("tsconfig")}`);
+            throw new Error(
+                `[Documentalist] unable to generate typescript documentation for project at ${app.options.getValue(
+                    "tsconfig",
+                )}`,
+            );
         }
 
         return compiler.objectify(visitor.visitProject(project), (i) => i.name);
@@ -224,10 +225,14 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
 
         switch (reason) {
             case "invalid-config":
-                console.error(`[Documentalist] invalid tsconfig resolved for ${file.path}, skipping documentation of this file`);
+                console.error(
+                    `[Documentalist] invalid tsconfig resolved for ${file.path}, skipping documentation of this file`,
+                );
                 return undefined;
             case "not-found":
-                console.error(`[Documentalist] unable to find any relevant tsconfig for ${file.path}, skipping documentation of this file`);
+                console.error(
+                    `[Documentalist] unable to find any relevant tsconfig for ${file.path}, skipping documentation of this file`,
+                );
                 return undefined;
             default:
                 return path;

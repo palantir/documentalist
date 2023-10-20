@@ -210,7 +210,7 @@ function getCommentTagValue(comment: Comment | undefined, tagName: string) {
 function getDefaultValue(ref: ParameterReflection | DeclarationReflection): string | undefined {
     // N.B. TypeDoc no longer sets defaultValue for enum members as of v0.23, see https://typedoc.org/guides/changelog/#v0.23.0-(2022-06-26)
     // Also, we typically expect enum member values to only have literal types, so we can just use the type value.
-    if (ref.kind === ReflectionKind.EnumMember && ref.type?.type=== "literal") {
+    if (ref.kind === ReflectionKind.EnumMember && ref.type?.type === "literal") {
         return ref.type?.value?.toString();
     }
 
