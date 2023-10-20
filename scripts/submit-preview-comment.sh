@@ -26,7 +26,7 @@ if [ -z "${CIRCLE_API_TOKEN}" ]; then
 fi
 
 SCRIPTS_DIR=$(dirname "$(readlink -f "$0")")
-artifacts=$(curl -X GET "https://circleci.com/api/v2/project/github/palantir/documentalist/$CIRCLE_BUILD_NUM/artifacts" -H "Accept: application/json" -u "$CIRCLE_API_TOKEN:")
+artifacts=$(curl --request GET --url "https://circleci.com/api/v2/project/gh/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/artifacts" --header "authorization: $CIRCLE_API_TOKEN")
 
 echo $artifacts > ./scripts/artifacts.json
 node $SCRIPTS_DIR/submit-comment-with-artifact-links.mjs
