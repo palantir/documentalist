@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
+import { readFileSync } from "node:fs";
 import { dirname } from "node:path";
-import type { ICompiler, IFile, IPlugin, ITypescriptPluginData } from "@documentalist/client";
+import type { ICompiler, IFile, IPlugin, ITypescriptPluginData, TypeScriptDocEntry } from "@documentalist/client";
 import { load as loadMissingExports } from "typedoc-plugin-missing-exports";
 import { tsconfigResolverSync } from "tsconfig-resolver";
 import { Application, LogLevel, TSConfigReader, TypeDocOptions, TypeDocReader } from "typedoc";
+import * as ts from "typescript";
 import { Visitor } from "./visitor";
 
 export interface ITypescriptPluginOptions {
@@ -88,12 +90,18 @@ export interface ITypescriptPluginOptions {
 }
 
 export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
-    private app: Application | undefined;
+    private hasLoadedMissingExportsPlugin = false;
 
     private typedocOptions: Partial<TypeDocOptions>;
 
-    /** Resolves when the project application has been initialized & bootstrapped succesfully. */
-    private projectInit: Promise<void>;
+    /*
+     * Maps of tsconfig.json paths to their TS programs and TypeDoc apps, respectively.
+     *
+     * These are necesary to support compilation of a list of files which may belong to separate TypeScript projects,
+     * a situation which occurs frequently in a monorepo.
+     */
+    private tsPrograms: Map<string, ts.Program> = new Map();
+    private typedocApps: Map<string, Application> = new Map();
 
     public constructor(private options: ITypescriptPluginOptions = {}) {
         const {
@@ -101,7 +109,6 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
             includeDeclarations = false,
             includeNodeModules = false,
             includePrivateMembers = false,
-            tsconfigPath = this.getDefaultTsconfigPath(entryPoints[0]),
             verbose = false,
         } = options;
 
@@ -117,55 +124,111 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
             gitRevision: options.gitBranch,
             logLevel: verbose ? LogLevel.Verbose : LogLevel.Error,
             skipErrorChecking: false,
-            tsconfig: tsconfigPath,
         };
-        this.projectInit = this.initializeTypedoc();
     }
 
-    private async initializeTypedoc() {
-        // Support reading tsconfig.json + typedoc.json
-        this.app = await Application.bootstrapWithPlugins(this.typedocOptions, [
+    private async initializeTypedocAppAndTsProgram(tsconfig: string, entryPoints: string[]) {
+        const options = {
+            ...this.typedocOptions,
+            entryPoints,
+            tsconfig,
+        };
+        const app = await Application.bootstrapWithPlugins(options, [
             new TypeDocReader(),
             new TSConfigReader(),
         ]);
-        loadMissingExports(this.app);
-        return;
+
+        if (!this.hasLoadedMissingExportsPlugin) {
+            // this plugin can only be loaded once, for some reason, even though we have multiple Applications
+            loadMissingExports(app);
+            this.hasLoadedMissingExportsPlugin = true;
+        }
+
+        this.typedocApps.set(tsconfig, app);
+
+        const { config } = ts.readConfigFile(tsconfig, (path) => readFileSync(path, { encoding: "utf-8" }));
+        const program = ts.createProgram(entryPoints, config);
+        this.tsPrograms.set(tsconfig, program);
+
+        return app;
     }
 
     public async compile(files: IFile[], compiler: ICompiler): Promise<ITypescriptPluginData> {
-        const project = await this.getTypedocProject(files.map((f) => f.path));
+        // List of existing projects which contain some of the files to compile
+        const existingProjectsToCompile: string[] = [];
+
+        // Map of (tsconfig path -> list of files to compile)
+        const newProjectsToCreate: Record<string, string[]> = {};
+
+        for (const file of files) {
+            let hasExistingProject = false;
+
+            // attempt to load an existing project which contains this file
+            for (const [tsconfigPath, program] of this.tsPrograms.entries()) {
+                if (program.getRootFileNames().includes(file.path)) {
+                    existingProjectsToCompile.push(tsconfigPath);
+                    hasExistingProject = true;
+                }
+            }
+
+            // if we don't have one, keep track of it in the new projects we must create
+            if (!hasExistingProject) {
+                const tsconfigPath = this.resolveClosestTsconfig(file);
+                if (tsconfigPath !== undefined) {
+                    if (newProjectsToCreate[tsconfigPath] !== undefined) {
+                        newProjectsToCreate[tsconfigPath].push(file.path);
+                    } else {
+                        newProjectsToCreate[tsconfigPath] = [file.path];
+                    }
+                }
+            }
+        }
+
+        const output: Record<string, TypeScriptDocEntry> = {};
+
+        for (const projectPath of existingProjectsToCompile) {
+            const app = this.typedocApps.get(projectPath);
+            if (app === undefined) {
+                throw new Error(`[Documentalist] could not find TypeDoc application for project at ${projectPath}`);
+            }
+
+            const docs = await this.getDocumentationOutput(compiler, app);
+            for (const [key, value] of Object.entries(docs)) {
+                output[key] = value;
+            }
+        }
+
+        for (const [projectPath, files] of Object.entries(newProjectsToCreate)) {
+            const app = await this.initializeTypedocAppAndTsProgram(projectPath, files);
+            const docs = await this.getDocumentationOutput(compiler, app);
+            for (const [key, value] of Object.entries(docs)) {
+                output[key] = value;
+            }
+        }
+
+        return { typescript: output };
+    }
+
+    private async getDocumentationOutput(compiler: ICompiler, app: Application) {
         const visitor = new Visitor(compiler, this.options);
-
+        const project = await app.convert();
         if (project === undefined) {
-            return { typescript: {} };
+            throw new Error(`[Documentalist] unable to generate typescript documentation for project at ${app.options.getValue("tsconfig")}`);
         }
 
-        const typescript = compiler.objectify(visitor.visitProject(project), (i) => i.name);
-        return { typescript };
+        return compiler.objectify(visitor.visitProject(project), (i) => i.name);
     }
 
-    private async getTypedocProject(files: string[]) {
-        await this.projectInit;
+    private resolveClosestTsconfig(file: IFile) {
+        const { path, reason } = tsconfigResolverSync({ cwd: dirname(file.path) });
 
-        if (this.app === undefined) {
-            return undefined;
-        }
-
-        this.app.options.setValue("entryPoints", files);
-        return this.app.convert();
-    }
-
-    /**
-     * @throws if no tsconfig.json found or it has invalid syntax
-     */
-    private getDefaultTsconfigPath(firstEntryPoint: string): string | undefined {
-        console.info(`[Documentalist] Path to tsconfig.json not provided, attempting to resolve from first entry point at '${firstEntryPoint}'`);
-        const { path, reason } = tsconfigResolverSync({ cwd: dirname(firstEntryPoint) });
         switch (reason) {
-            case "not-found":
-                throw new Error(`[Documentalist] Failed to locate tsconfig.json.`);
             case "invalid-config":
-                throw new Error(`[Documentalist] Found invalid tsconfig.json at location: ${path}`);
+                console.error(`[Documentalist] invalid tsconfig resolved for ${file.path}, skipping documentation of this file`);
+                return undefined;
+            case "not-found":
+                console.error(`[Documentalist] unable to find any relevant tsconfig for ${file.path}, skipping documentation of this file`);
+                return undefined;
             default:
                 return path;
         }
