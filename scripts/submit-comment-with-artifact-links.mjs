@@ -37,7 +37,7 @@ function getArtifactAnchorLink(pkg) {
     return `<a href="${artifactInfo?.url}">${pkg}</a>`;
 }
 
-if (process.env.GH_AUTH_TOKEN) {
+if (process.env.GITHUB_API_TOKEN) {
     // We can post a comment on the PR if we have the necessary Github.com personal access token with access to this
     // repository and PR read/write permissions.
     // See https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#creating-a-fine-grained-personal-access-token
