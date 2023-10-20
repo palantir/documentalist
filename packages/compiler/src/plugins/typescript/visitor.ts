@@ -40,7 +40,6 @@ import {
     Reflection,
     ReflectionKind,
     SignatureReflection,
-    // UnionType,
 } from "typedoc";
 import { ITypescriptPluginOptions } from "./typescriptPlugin";
 import { resolveSignature, resolveTypeString } from "./typestring";
@@ -56,11 +55,6 @@ export class Visitor {
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Enum), this.visitEnum),
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Function), this.visitMethod),
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Interface), this.visitInterface),
-            // ...this.visitChildren(
-            //     // detect if a `const X = { A, B, C }` also has a corresponding `type X = A | B | C`
-            //     project.getReflectionsByKind(ReflectionKind.ObjectLiteral).filter(isConstTypePair),
-            //     this.visitConstTypePair,
-            // ),
             ...this.visitChildren<ITsTypeAlias>(project.getReflectionsByKind(ReflectionKind.TypeAlias), (def) => ({
                 ...this.makeDocEntry(def, Kind.TypeAlias),
                 type: resolveTypeString(def.type),
@@ -109,15 +103,6 @@ export class Visitor {
         ...this.visitMethod(def),
         kind: Kind.Constructor,
     });
-
-    // private visitConstTypePair = (def: DeclarationReflection): ITsEnum => ({
-    //     ...this.makeDocEntry(def, Kind.Enum),
-    //     // ObjectLiteral has Variable children, but we'll expose them as enum members
-    //     members: this.visitChildren<ITsEnumMember>(def.getChildrenByKind(ReflectionKind.Variable), (m) => ({
-    //         ...this.makeDocEntry(m, Kind.EnumMember),
-    //         defaultValue: resolveTypeString(m.type),
-    //     })),
-    // });
 
     private visitEnum = (def: DeclarationReflection): ITsEnum => ({
         ...this.makeDocEntry(def, Kind.Enum),
@@ -274,10 +259,6 @@ function getIsDeprecated(ref: Reflection) {
     const deprecatedModifier = ref.comment?.hasModifier("@deprecated");
     return deprecatedModifier || deprecatedTagValue;
 }
-
-// function isConstTypePair(def: DeclarationReflection) {
-//     return def.kind === ReflectionKind.ObjectLiteral && def.type instanceof UnionType;
-// }
 
 /** Returns true if value does not match all patterns. */
 function isNotExcluded(patterns: Array<string | RegExp>, value?: string) {
