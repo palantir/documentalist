@@ -68,7 +68,7 @@ export class Visitor {
     private makeDocEntry<K extends Kind>(ref: Reflection, kind: K): ITsDocBase<K> {
         let comment = ref.comment;
 
-        if (comment == undefined && ref.isDeclaration()) {
+        if (comment === undefined && ref.isDeclaration()) {
             // special case for interface properties which have function signatures - we need to go one level deeper
             // to access the comment
             ref.type?.visit({
@@ -76,7 +76,7 @@ export class Visitor {
                     if (reflectionType.declaration.signatures !== undefined) {
                         comment = reflectionType.declaration.signatures[0].comment;
                     }
-                }
+                },
             });
         }
 
@@ -277,7 +277,7 @@ function getFlags(ref: Reflection): ITsFlags | undefined {
 function getIsDeprecated(ref: Reflection) {
     const deprecatedTagValue = getCommentTagValue(ref.comment, "deprecated");
     const deprecatedModifier = ref.comment?.hasModifier("@deprecated");
-    return deprecatedModifier || (deprecatedTagValue !== undefined);
+    return deprecatedModifier || deprecatedTagValue !== undefined;
 }
 
 /** Returns true if value does not match all patterns. */
