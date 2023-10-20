@@ -263,7 +263,7 @@ function getFlags(ref: Reflection): ITsFlags | undefined {
 function getIsDeprecated(ref: Reflection) {
     const deprecatedTagValue = getCommentTagValue(ref.comment, "deprecated");
     const deprecatedModifier = ref.comment?.hasModifier("@deprecated");
-    return deprecatedModifier || deprecatedTagValue;
+    return deprecatedModifier || (deprecatedTagValue !== undefined);
 }
 
 /** Returns true if value does not match all patterns. */
