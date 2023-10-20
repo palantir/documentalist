@@ -8,7 +8,7 @@ exports[`TypescriptPlugin classes snapshot 1`] = `
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/classes.ts",
         "flags": {
-          "isDeprecated": undefined,
+          "isDeprecated": false,
           "isExternal": false,
           "isOptional": false,
           "isPrivate": false,
@@ -43,7 +43,7 @@ exports[`TypescriptPlugin classes snapshot 1`] = `
       "documentation": undefined,
       "fileName": "src/__tests__/__fixtures__/classes.ts",
       "flags": {
-        "isDeprecated": undefined,
+        "isDeprecated": false,
         "isExternal": false,
         "isOptional": false,
         "isPrivate": false,
@@ -68,7 +68,7 @@ exports[`TypescriptPlugin classes snapshot 1`] = `
               "documentation": undefined,
               "fileName": undefined,
               "flags": {
-                "isDeprecated": undefined,
+                "isDeprecated": false,
                 "isExternal": false,
                 "isOptional": false,
                 "isPrivate": false,
@@ -94,7 +94,7 @@ exports[`TypescriptPlugin classes snapshot 1`] = `
     "extends": undefined,
     "fileName": "src/__tests__/__fixtures__/classes.ts",
     "flags": {
-      "isDeprecated": undefined,
+      "isDeprecated": false,
       "isExternal": false,
       "isOptional": false,
       "isPrivate": false,
@@ -111,7 +111,7 @@ exports[`TypescriptPlugin classes snapshot 1`] = `
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/classes.ts",
         "flags": {
-          "isDeprecated": undefined,
+          "isDeprecated": false,
           "isExternal": false,
           "isOptional": false,
           "isPrivate": false,
@@ -149,7 +149,7 @@ exports[`TypescriptPlugin classes snapshot 1`] = `
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/classes.ts",
         "flags": {
-          "isDeprecated": undefined,
+          "isDeprecated": false,
           "isExternal": false,
           "isOptional": false,
           "isPrivate": false,
@@ -188,7 +188,7 @@ exports[`TypescriptPlugin classes snapshot 1`] = `
                 },
                 "fileName": undefined,
                 "flags": {
-                  "isDeprecated": undefined,
+                  "isDeprecated": false,
                   "isExternal": false,
                   "isOptional": false,
                   "isPrivate": false,
@@ -221,7 +221,7 @@ exports[`TypescriptPlugin classes snapshot 1`] = `
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/classes.ts",
         "flags": {
-          "isDeprecated": undefined,
+          "isDeprecated": false,
           "isExternal": false,
           "isOptional": false,
           "isPrivate": false,
@@ -256,7 +256,7 @@ exports[`TypescriptPlugin classes snapshot 1`] = `
       "documentation": undefined,
       "fileName": "src/__tests__/__fixtures__/classes.ts",
       "flags": {
-        "isDeprecated": undefined,
+        "isDeprecated": false,
         "isExternal": false,
         "isOptional": false,
         "isPrivate": false,
@@ -289,7 +289,7 @@ exports[`TypescriptPlugin classes snapshot 1`] = `
     ],
     "fileName": "src/__tests__/__fixtures__/classes.ts",
     "flags": {
-      "isDeprecated": undefined,
+      "isDeprecated": false,
       "isExternal": false,
       "isOptional": false,
       "isPrivate": false,
@@ -306,7 +306,7 @@ exports[`TypescriptPlugin classes snapshot 1`] = `
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/classes.ts",
         "flags": {
-          "isDeprecated": undefined,
+          "isDeprecated": false,
           "isExternal": false,
           "isOptional": false,
           "isPrivate": false,
@@ -344,7 +344,7 @@ exports[`TypescriptPlugin classes snapshot 1`] = `
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/classes.ts",
         "flags": {
-          "isDeprecated": undefined,
+          "isDeprecated": false,
           "isExternal": false,
           "isOptional": false,
           "isPrivate": false,
@@ -383,7 +383,7 @@ exports[`TypescriptPlugin classes snapshot 1`] = `
                 },
                 "fileName": undefined,
                 "flags": {
-                  "isDeprecated": undefined,
+                  "isDeprecated": false,
                   "isExternal": false,
                   "isOptional": false,
                   "isPrivate": false,
@@ -419,7 +419,7 @@ exports[`TypescriptPlugin enums snapshot 1`] = `
     "documentation": undefined,
     "fileName": "src/__tests__/__fixtures__/enums.ts",
     "flags": {
-      "isDeprecated": undefined,
+      "isDeprecated": false,
       "isExternal": false,
       "isOptional": false,
       "isPrivate": false,
@@ -444,7 +444,7 @@ exports[`TypescriptPlugin enums snapshot 1`] = `
     },
     "fileName": "src/__tests__/__fixtures__/enums.ts",
     "flags": {
-      "isDeprecated": undefined,
+      "isDeprecated": false,
       "isExternal": false,
       "isOptional": false,
       "isPrivate": false,
@@ -460,7 +460,7 @@ exports[`TypescriptPlugin enums snapshot 1`] = `
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/enums.ts",
         "flags": {
-          "isDeprecated": undefined,
+          "isDeprecated": false,
           "isExternal": false,
           "isOptional": false,
           "isPrivate": false,
@@ -478,7 +478,7 @@ exports[`TypescriptPlugin enums snapshot 1`] = `
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/enums.ts",
         "flags": {
-          "isDeprecated": undefined,
+          "isDeprecated": false,
           "isExternal": false,
           "isOptional": false,
           "isPrivate": false,
@@ -496,7 +496,7 @@ exports[`TypescriptPlugin enums snapshot 1`] = `
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/enums.ts",
         "flags": {
-          "isDeprecated": undefined,
+          "isDeprecated": false,
           "isExternal": false,
           "isOptional": false,
           "isPrivate": false,
@@ -514,7 +514,7 @@ exports[`TypescriptPlugin enums snapshot 1`] = `
         "documentation": undefined,
         "fileName": "src/__tests__/__fixtures__/enums.ts",
         "flags": {
-          "isDeprecated": undefined,
+          "isDeprecated": false,
           "isExternal": false,
           "isOptional": false,
           "isPrivate": false,
@@ -540,7 +540,7 @@ exports[`TypescriptPlugin functions snapshot 1`] = `
     "documentation": undefined,
     "fileName": "src/__tests__/__fixtures__/functions.ts",
     "flags": {
-      "isDeprecated": undefined,
+      "isDeprecated": false,
       "isExternal": false,
       "isOptional": false,
       "isPrivate": false,
@@ -579,7 +579,7 @@ exports[`TypescriptPlugin functions snapshot 1`] = `
             },
             "fileName": undefined,
             "flags": {
-              "isDeprecated": undefined,
+              "isDeprecated": false,
               "isExternal": false,
               "isOptional": false,
               "isPrivate": false,
@@ -605,7 +605,7 @@ exports[`TypescriptPlugin functions snapshot 1`] = `
             },
             "fileName": undefined,
             "flags": {
-              "isDeprecated": undefined,
+              "isDeprecated": false,
               "isExternal": false,
               "isOptional": false,
               "isPrivate": false,
@@ -631,7 +631,7 @@ exports[`TypescriptPlugin functions snapshot 1`] = `
     "documentation": undefined,
     "fileName": "src/__tests__/__fixtures__/functions.ts",
     "flags": {
-      "isDeprecated": undefined,
+      "isDeprecated": false,
       "isExternal": false,
       "isOptional": false,
       "isPrivate": false,
@@ -670,7 +670,7 @@ exports[`TypescriptPlugin functions snapshot 1`] = `
             },
             "fileName": undefined,
             "flags": {
-              "isDeprecated": undefined,
+              "isDeprecated": false,
               "isExternal": false,
               "isOptional": false,
               "isPrivate": false,
@@ -696,7 +696,7 @@ exports[`TypescriptPlugin functions snapshot 1`] = `
             },
             "fileName": undefined,
             "flags": {
-              "isDeprecated": undefined,
+              "isDeprecated": false,
               "isExternal": false,
               "isOptional": false,
               "isPrivate": false,
