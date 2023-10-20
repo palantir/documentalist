@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-import { ICompiler, IFile, IPlugin, ITypescriptPluginData } from "@documentalist/client";
+import { dirname } from "node:path";
+import type { ICompiler, IFile, IPlugin, ITypescriptPluginData } from "@documentalist/client";
+import { tsconfigResolverSync } from "tsconfig-resolver";
 import { Application, LogLevel, TSConfigReader, TypeDocOptions, TypeDocReader } from "typedoc";
 import { Visitor } from "./visitor";
 
@@ -94,16 +96,18 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
 
     public constructor(private options: ITypescriptPluginOptions = {}) {
         const {
+            entryPoints = ["src/index.ts"],
             includeDeclarations = false,
             includeNodeModules = false,
             includePrivateMembers = false,
-            tsconfigPath,
+            tsconfigPath = this.getDefaultTsconfigPath(entryPoints[0]),
             verbose = false,
         } = options;
+
         this.typedocOptions = {
             commentStyle: "jsdoc",
             entryPointStrategy: "expand",
-            entryPoints: options.entryPoints ?? ["src/index.ts"],
+            entryPoints,
             exclude: [
                 includeNodeModules ? undefined : "**/node_modules/**",
                 includeDeclarations ? undefined : "**/*.d.ts",
@@ -147,5 +151,21 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
 
         this.app.options.setValue("entryPoints", files);
         return this.app.convert();
+    }
+
+    /**
+     * @throws if no tsconfig.json found or it has invalid syntax
+     */
+    private getDefaultTsconfigPath(firstEntryPoint: string): string | undefined {
+        console.info(`[Documentalist] Path to tsconfig.json not provided, attempting to resolve from first entry point at '${firstEntryPoint}'`);
+        const { path, reason } = tsconfigResolverSync({ cwd: dirname(firstEntryPoint) });
+        switch (reason) {
+            case "not-found":
+                throw new Error(`[Documentalist] Failed to locate tsconfig.json.`);
+            case "invalid-config":
+                throw new Error(`[Documentalist] Found invalid tsconfig.json at location: ${path}`);
+            default:
+                return path;
+        }
     }
 }

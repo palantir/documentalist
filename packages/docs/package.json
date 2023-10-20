@@ -5,7 +5,7 @@
     "private": true,
     "scripts": {
         "build": "npm-run-all -p build:json build:ts build:version -s build:pug build:css",
-        "build:json": "documentalist '../{client,compiler,docs}/src/**/*' > docs.json",
+        "build:json": "documentalist '../{client,compiler,docs}/src/**/*' --out docs.json",
         "build:ts": "tsc --project ./src/tsconfig.json",
         "build:version": "echo v$npm_package_version > theme/version.txt",
         "build:pug": "pug -O docs.json ./theme/index.pug --pretty -o ./dist",
