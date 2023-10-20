@@ -16,6 +16,7 @@
 
 import { dirname } from "node:path";
 import type { ICompiler, IFile, IPlugin, ITypescriptPluginData } from "@documentalist/client";
+import { load as loadMissingExports } from "typedoc-plugin-missing-exports";
 import { tsconfigResolverSync } from "tsconfig-resolver";
 import { Application, LogLevel, TSConfigReader, TypeDocOptions, TypeDocReader } from "typedoc";
 import { Visitor } from "./visitor";
@@ -127,6 +128,7 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
             new TypeDocReader(),
             new TSConfigReader(),
         ]);
+        loadMissingExports(this.app);
         return;
     }
 

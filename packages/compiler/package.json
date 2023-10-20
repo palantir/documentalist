@@ -26,6 +26,7 @@
         "marked": "^4.0.12",
         "tsconfig-resolver": "^3.0.1",
         "typedoc": "~0.25.2",
+        "typedoc-plugin-missing-exports": "^2.1.0",
         "yargs": "^17.4.0"
     },
     "devDependencies": {
