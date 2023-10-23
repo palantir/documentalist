@@ -102,8 +102,8 @@ export class Visitor {
 
     private visitInterface = (def: DeclarationReflection): ITsInterface => ({
         ...this.makeDocEntry(def, Kind.Interface),
-        extends: def.extendedTypes && def.extendedTypes.map(resolveTypeString),
-        implements: def.implementedTypes && def.implementedTypes.map(resolveTypeString),
+        extends: def.extendedTypes?.map(resolveTypeString),
+        implements: def.implementedTypes?.map(resolveTypeString),
         indexSignature: def.indexSignature && this.visitSignature(def.indexSignature),
         methods: this.visitChildren(def.getChildrenByKind(ReflectionKind.Method), this.visitMethod, sortStaticFirst),
         properties: this.visitChildren(
@@ -161,7 +161,7 @@ export class Visitor {
 
         if (param.getSignature) {
             type = resolveTypeString(param.getSignature.type);
-        } else if (param.setSignature && param.setSignature.parameters && param.setSignature.parameters[0]) {
+        } else if (param.setSignature?.parameters && param.setSignature?.parameters[0] !== undefined) {
             type = resolveTypeString(param.setSignature.parameters[0].type);
         } else {
             throw Error("Accessor did neither define get nor set signature.");
@@ -249,8 +249,7 @@ function isSignatureReflection(reflection: Reflection): reflection is SignatureR
 function getSourceUrl(reflection: Reflection): string | undefined {
     if (reflection.isDeclaration() || isSignatureReflection(reflection)) {
         if (reflection.sources !== undefined) {
-            const source = reflection.sources[0];
-            return source && source.url;
+            return reflection.sources[0]?.url;
         }
     }
     return undefined;
