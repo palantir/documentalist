@@ -190,7 +190,7 @@ export interface ITsTypeAlias extends ITsDocBase {
     type: string;
 }
 
-export type TypeScriptDocEntry = ITsClass | ITsInterface | ITsEnum | ITsMethod | ITsTypeAlias;
+export type TypescriptDocEntry = ITsClass | ITsInterface | ITsEnum | ITsMethod | ITsTypeAlias;
 
 /**
  * The `TypescriptPlugin` exports a `typescript` key that contains a map of member name to
@@ -201,7 +201,7 @@ export type TypeScriptDocEntry = ITsClass | ITsInterface | ITsEnum | ITsMethod |
  */
 export interface ITypescriptPluginData {
     typescript: {
-        [name: string]: TypeScriptDocEntry;
+        [name: string]: TypescriptDocEntry;
     };
 }
 

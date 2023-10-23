@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import type { ICompiler, IFile, IPlugin, ITypescriptPluginData, TypeScriptDocEntry } from "@documentalist/client";
+import type { ICompiler, IFile, IPlugin, ITypescriptPluginData, TypescriptDocEntry } from "@documentalist/client";
 import { readFileSync } from "fs";
 import { dirname } from "path";
 import { tsconfigResolverSync } from "tsconfig-resolver";
@@ -172,7 +172,7 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
             }
         }
 
-        const output: Record<string, TypeScriptDocEntry> = {};
+        const output: Record<string, TypescriptDocEntry> = {};
 
         for (const projectPath of existingProjectsToCompile) {
             const app = this.typedocApps.get(projectPath);
