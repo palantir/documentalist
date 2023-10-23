@@ -190,6 +190,8 @@ export interface ITsTypeAlias extends ITsDocBase {
     type: string;
 }
 
+export type TypescriptDocEntry = ITsClass | ITsInterface | ITsEnum | ITsMethod | ITsTypeAlias;
+
 /**
  * The `TypescriptPlugin` exports a `typescript` key that contains a map of member name to
  * `class` or `interface` definition.
@@ -199,7 +201,7 @@ export interface ITsTypeAlias extends ITsDocBase {
  */
 export interface ITypescriptPluginData {
     typescript: {
-        [name: string]: ITsClass | ITsInterface | ITsEnum | ITsMethod | ITsTypeAlias;
+        [name: string]: TypescriptDocEntry;
     };
 }
 
@@ -207,7 +209,6 @@ function typeguard<T extends ITsDocBase>(kind: Kind) {
     return (data: any): data is T => data != null && (data as T).kind === kind;
 }
 
-// wooooo typeguards
 export const isTsClass = typeguard<ITsClass>(Kind.Class);
 export const isTsConstructor = typeguard<ITsConstructor>(Kind.Constructor);
 export const isTsEnum = typeguard<ITsEnum>(Kind.Enum);

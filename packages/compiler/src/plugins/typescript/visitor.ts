@@ -33,6 +33,7 @@ import {
 } from "@documentalist/client";
 import { relative } from "path";
 import {
+    Comment,
     DeclarationReflection,
     ParameterReflection,
     ProjectReflection,
@@ -40,7 +41,6 @@ import {
     ReflectionKind,
     SignatureReflection,
 } from "typedoc";
-import { Comment, UnionType } from "typedoc/dist/lib/models";
 import { ITypescriptPluginOptions } from "./typescriptPlugin";
 import { resolveSignature, resolveTypeString } from "./typestring";
 
@@ -55,11 +55,6 @@ export class Visitor {
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Enum), this.visitEnum),
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Function), this.visitMethod),
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Interface), this.visitInterface),
-            ...this.visitChildren(
-                // detect if a `const X = { A, B, C }` also has a corresponding `type X = A | B | C`
-                project.getReflectionsByKind(ReflectionKind.ObjectLiteral).filter(isConstTypePair),
-                this.visitConstTypePair,
-            ),
             ...this.visitChildren<ITsTypeAlias>(project.getReflectionsByKind(ReflectionKind.TypeAlias), (def) => ({
                 ...this.makeDocEntry(def, Kind.TypeAlias),
                 type: resolveTypeString(def.type),
@@ -70,14 +65,28 @@ export class Visitor {
         );
     }
 
-    private makeDocEntry<K extends Kind>(def: Reflection, kind: K): ITsDocBase<K> {
+    private makeDocEntry<K extends Kind>(ref: Reflection, kind: K): ITsDocBase<K> {
+        let comment = ref.comment;
+
+        if (comment === undefined && ref.isDeclaration()) {
+            // special case for interface properties which have function signatures - we need to go one level deeper
+            // to access the comment
+            ref.type?.visit({
+                reflection: (reflectionType) => {
+                    if (reflectionType.declaration.signatures !== undefined) {
+                        comment = reflectionType.declaration.signatures[0].comment;
+                    }
+                },
+            });
+        }
+
         return {
-            documentation: this.renderComment(def.comment),
-            fileName: getSourceFileName(def),
-            flags: getFlags(def),
+            documentation: this.renderComment(comment),
+            fileName: getSourceFileName(ref),
+            flags: getFlags(ref),
             kind,
-            name: def.name,
-            sourceUrl: getSourceUrl(def),
+            name: ref.name,
+            sourceUrl: getSourceUrl(ref),
         };
     }
 
@@ -93,8 +102,8 @@ export class Visitor {
 
     private visitInterface = (def: DeclarationReflection): ITsInterface => ({
         ...this.makeDocEntry(def, Kind.Interface),
-        extends: def.extendedTypes && def.extendedTypes.map(resolveTypeString),
-        implements: def.implementedTypes && def.implementedTypes.map(resolveTypeString),
+        extends: def.extendedTypes?.map(resolveTypeString),
+        implements: def.implementedTypes?.map(resolveTypeString),
         indexSignature: def.indexSignature && this.visitSignature(def.indexSignature),
         methods: this.visitChildren(def.getChildrenByKind(ReflectionKind.Method), this.visitMethod, sortStaticFirst),
         properties: this.visitChildren(
@@ -107,15 +116,6 @@ export class Visitor {
     private visitConstructor = (def: DeclarationReflection): ITsConstructor => ({
         ...this.visitMethod(def),
         kind: Kind.Constructor,
-    });
-
-    private visitConstTypePair = (def: DeclarationReflection): ITsEnum => ({
-        ...this.makeDocEntry(def, Kind.Enum),
-        // ObjectLiteral has Variable children, but we'll expose them as enum members
-        members: this.visitChildren<ITsEnumMember>(def.getChildrenByKind(ReflectionKind.Variable), (m) => ({
-            ...this.makeDocEntry(m, Kind.EnumMember),
-            defaultValue: resolveTypeString(m.type),
-        })),
     });
 
     private visitEnum = (def: DeclarationReflection): ITsEnum => ({
@@ -161,7 +161,7 @@ export class Visitor {
 
         if (param.getSignature) {
             type = resolveTypeString(param.getSignature.type);
-        } else if (param.setSignature && param.setSignature.parameters && param.setSignature.parameters[0]) {
+        } else if (param.setSignature?.parameters && param.setSignature?.parameters[0] !== undefined) {
             type = resolveTypeString(param.setSignature.parameters[0].type);
         } else {
             throw Error("Accessor did neither define get nor set signature.");
@@ -199,56 +199,60 @@ export class Visitor {
      * Converts a typedoc comment object to a rendered `IBlock`.
      */
     private renderComment(comment: Comment | undefined) {
-        if (!comment) {
-            return undefined;
+        if (comment === undefined) {
+            return;
         }
+
         let documentation = "";
-        if (comment.shortText) {
-            documentation += comment.shortText;
+        documentation += comment.summary.map((part) => part.text).join("\n");
+
+        const blockTags = comment.blockTags.filter((tag) => tag.tag !== "@default" && tag.tag !== "@deprecated");
+        if (blockTags.length > 0) {
+            documentation += "\n\n";
+            documentation += blockTags.map((tag) => `${tag.tag} ${tag.content}`).join("\n");
         }
-        if (comment.text) {
-            documentation += "\n\n" + comment.text;
-        }
-        if (comment.tags) {
-            documentation +=
-                "\n\n" +
-                comment.tags
-                    .filter((tag) => tag.tagName !== "default" && tag.tagName !== "deprecated")
-                    .map((tag) => `@${tag.tagName} ${tag.text}`)
-                    .join("\n");
-        }
+
         return this.compiler.renderBlock(documentation);
     }
 }
 
-function getCommentTag(comment: Comment | undefined, tagName: string) {
-    if (comment == null || comment.tags == null) {
-        return undefined;
-    }
-    return comment.tags.filter((tag) => tag.tagName === tagName)[0];
+function getCommentTagValue(comment: Comment | undefined, tagName: string) {
+    const maybeTag = comment?.getTag(`@${tagName}`);
+    return maybeTag?.content.map((part) => part.text.trim()).join("\n");
 }
 
 function getDefaultValue(ref: ParameterReflection | DeclarationReflection): string | undefined {
-    if (ref.defaultValue != null) {
-        return ref.defaultValue;
+    // N.B. TypeDoc no longer sets defaultValue for enum members as of v0.23, see https://typedoc.org/guides/changelog/#v0.23.0-(2022-06-26)
+    // Also, we typically expect enum member values to only have literal types, so we can just use the type value.
+    if (ref.kind === ReflectionKind.EnumMember && ref.type?.type === "literal") {
+        return ref.type?.value?.toString();
     }
-    const defaultValue = getCommentTag(ref.comment, "default");
-    if (defaultValue !== undefined) {
-        return defaultValue.text.trim();
+
+    return ref.defaultValue ?? getCommentTagValue(ref.comment, "default");
+}
+
+function getSourceFileName(reflection: Reflection): string | undefined {
+    if (reflection.isDeclaration() || isSignatureReflection(reflection)) {
+        if (reflection.sources !== undefined) {
+            const { fullFileName } = reflection.sources[0];
+            // fullFileName relative to cwd, so it can be saved in a snapshot (machine-independent)
+            return fullFileName && relative(process.cwd(), fullFileName);
+        }
     }
     return undefined;
 }
 
-function getSourceFileName({ sources = [] }: Reflection): string | undefined {
-    const source = sources[0];
-    const fileName = source && source.file && source.file.fullFileName;
-    // filename relative to cwd, so it can be saved in a snapshot (machine-independent)
-    return fileName && relative(process.cwd(), fileName);
+function isSignatureReflection(reflection: Reflection): reflection is SignatureReflection {
+    return reflection.variant === "signature";
 }
 
-function getSourceUrl({ sources = [] }: Reflection): string | undefined {
-    const source = sources[0];
-    return source && source.url;
+function getSourceUrl(reflection: Reflection): string | undefined {
+    if (reflection.isDeclaration() || isSignatureReflection(reflection)) {
+        if (reflection.sources !== undefined) {
+            return reflection.sources[0]?.url;
+        }
+    }
+    return undefined;
 }
 
 function getFlags(ref: Reflection): ITsFlags | undefined {
@@ -270,16 +274,9 @@ function getFlags(ref: Reflection): ITsFlags | undefined {
 }
 
 function getIsDeprecated(ref: Reflection) {
-    const deprecatedTag = getCommentTag(ref.comment, "deprecated");
-    if (deprecatedTag === undefined) {
-        return undefined;
-    }
-    const text = deprecatedTag.text.trim();
-    return text === "" ? true : text;
-}
-
-function isConstTypePair(def: DeclarationReflection) {
-    return def.kind === ReflectionKind.ObjectLiteral && def.type instanceof UnionType;
+    const deprecatedTagValue = getCommentTagValue(ref.comment, "deprecated");
+    const deprecatedModifier = ref.comment?.hasModifier("@deprecated");
+    return deprecatedModifier || deprecatedTagValue !== undefined;
 }
 
 /** Returns true if value does not match all patterns. */

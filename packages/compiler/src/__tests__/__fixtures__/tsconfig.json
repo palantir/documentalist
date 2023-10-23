@@ -3,14 +3,11 @@
         "experimentalDecorators": true,
         "lib": [
             "dom",
-            "es5",
-            "es2015.collection",
-            "es2015.iterable",
-            "es2015.promise"
+            "ES2015"
         ],
         "module": "commonjs",
         "moduleResolution": "node",
         "skipLibCheck": true,
-        "target": "es2015"
+        "target": "ES2015"
     }
 }

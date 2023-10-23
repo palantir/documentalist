@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-import { ICompiler, IFile, IPlugin, ITypescriptPluginData } from "@documentalist/client";
-import { Application, TSConfigReader, TypeDocOptions, TypeDocReader } from "typedoc";
+import type { ICompiler, IFile, IPlugin, ITypescriptPluginData, TypescriptDocEntry } from "@documentalist/client";
+import { readFileSync } from "fs";
+import { dirname } from "path";
+import { tsconfigResolverSync } from "tsconfig-resolver";
+import { Application, LogLevel, TSConfigReader, TypeDocOptions, TypeDocReader } from "typedoc";
+import * as ts from "typescript";
 import { Visitor } from "./visitor";
 
 export interface ITypescriptPluginOptions {
     /**
-     * TODO(adahiya): will be used in TypeDoc v0.22.0+
      * List of entry point modules.
      * @default ["src/index.ts"]
      */
-    // entryPoints?: TypeDocOptions["entryPoints"];
+    entryPoints?: TypeDocOptions["entryPoints"];
 
     /**
      * Array of patterns (string or RegExp) to exclude members by name.
@@ -86,46 +89,144 @@ export interface ITypescriptPluginOptions {
 }
 
 export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
-    private app = new Application();
+    private typedocOptions: Partial<TypeDocOptions>;
+
+    /*
+     * Maps of tsconfig.json paths to their TS programs and TypeDoc apps, respectively.
+     *
+     * These are necesary to support compilation of a list of files which may belong to separate TypeScript projects,
+     * a situation which occurs frequently in a monorepo.
+     */
+    private tsPrograms: Map<string, ts.Program> = new Map();
+    private typedocApps: Map<string, Application> = new Map();
 
     public constructor(private options: ITypescriptPluginOptions = {}) {
-        const { includeDeclarations = false, includePrivateMembers = false, tsconfigPath, verbose = false } = options;
-        const typedocOptions: Partial<TypeDocOptions> = {
-            // TODO(adahiya): will be used in TypeDoc v0.22+
-            // entryPointStrategy: "expand",
-            // entryPoints: options.entryPoints ?? ["src/index.ts"],
-            exclude: options.includeNodeModules ? [] : ["**/node_modules/**"],
+        const {
+            entryPoints = ["src/index.ts"],
+            includeDeclarations = false,
+            includeNodeModules = false,
+            includePrivateMembers = false,
+            verbose = false,
+        } = options;
+
+        this.typedocOptions = {
+            commentStyle: "jsdoc",
+            entryPointStrategy: "expand",
+            entryPoints,
+            exclude: [
+                includeNodeModules ? undefined : "**/node_modules/**",
+                includeDeclarations ? undefined : "**/*.d.ts",
+            ].filter(Boolean) as string[],
             excludePrivate: !includePrivateMembers,
             gitRevision: options.gitBranch,
-            ignoreCompilerErrors: true,
-            includeDeclarations,
-            // tslint:disable-next-line no-console
-            logger: verbose ? console.log : "none",
-            tsconfig: tsconfigPath,
+            logLevel: verbose ? LogLevel.Verbose : LogLevel.Error,
+            skipErrorChecking: false,
         };
-        // Support reading tsconfig.json + typedoc.json
-        this.app.options.addReader(new TypeDocReader());
-        this.app.options.addReader(new TSConfigReader());
-        this.app.bootstrap(typedocOptions);
     }
 
-    public compile(files: IFile[], compiler: ICompiler): ITypescriptPluginData {
-        const project = this.getTypedocProject(files.map((f) => f.path));
-        const visitor = new Visitor(compiler, this.options);
+    private async initializeTypedocAppAndTsProgram(tsconfig: string, entryPoints: string[]) {
+        const options = {
+            ...this.typedocOptions,
+            entryPoints,
+            tsconfig,
+        };
+        const app = await Application.bootstrapWithPlugins(options, [new TypeDocReader(), new TSConfigReader()]);
 
-        if (project === undefined) {
-            return { typescript: {} };
+        this.typedocApps.set(tsconfig, app);
+
+        const { config } = ts.readConfigFile(tsconfig, (path) => readFileSync(path, { encoding: "utf-8" }));
+        const program = ts.createProgram(entryPoints, config);
+        this.tsPrograms.set(tsconfig, program);
+
+        return app;
+    }
+
+    public async compile(files: IFile[], compiler: ICompiler): Promise<ITypescriptPluginData> {
+        // List of existing projects which contain some of the files to compile
+        const existingProjectsToCompile: string[] = [];
+
+        // Map of (tsconfig path -> list of files to compile)
+        const newProjectsToCreate: Record<string, string[]> = {};
+
+        for (const file of files) {
+            let hasExistingProject = false;
+
+            // attempt to load an existing project which contains this file
+            for (const [tsconfigPath, program] of this.tsPrograms.entries()) {
+                if (program.getRootFileNames().includes(file.path)) {
+                    existingProjectsToCompile.push(tsconfigPath);
+                    hasExistingProject = true;
+                }
+            }
+
+            // if we don't have one, keep track of it in the new projects we must create
+            if (!hasExistingProject) {
+                const tsconfigPath = this.resolveClosestTsconfig(file);
+                if (tsconfigPath !== undefined) {
+                    if (newProjectsToCreate[tsconfigPath] !== undefined) {
+                        newProjectsToCreate[tsconfigPath].push(file.path);
+                    } else {
+                        newProjectsToCreate[tsconfigPath] = [file.path];
+                    }
+                }
+            }
         }
 
-        const typescript = compiler.objectify(visitor.visitProject(project), (i) => i.name);
-        return { typescript };
+        const output: Record<string, TypescriptDocEntry> = {};
+
+        for (const projectPath of existingProjectsToCompile) {
+            const app = this.typedocApps.get(projectPath);
+            if (app === undefined) {
+                throw new Error(`[Documentalist] could not find TypeDoc application for project at ${projectPath}`);
+            }
+
+            const docs = await this.getDocumentationOutput(compiler, app);
+            for (const [key, value] of Object.entries(docs)) {
+                output[key] = value;
+            }
+        }
+
+        for (const [projectPath, files] of Object.entries(newProjectsToCreate)) {
+            const app = await this.initializeTypedocAppAndTsProgram(projectPath, files);
+            const docs = await this.getDocumentationOutput(compiler, app);
+            for (const [key, value] of Object.entries(docs)) {
+                output[key] = value;
+            }
+        }
+
+        return { typescript: output };
     }
 
-    private getTypedocProject(files: string[]) {
-        // TODO(adahiya): will be used in TypeDoc v0.22+
-        // const entryPoints = this.app.getEntryPointsForPaths(files);
-        // this.app.options.setValue("entryPoints", files);
-        const expanded = this.app.expandInputFiles(files);
-        return this.app.convert(expanded);
+    private async getDocumentationOutput(compiler: ICompiler, app: Application) {
+        const visitor = new Visitor(compiler, this.options);
+        const project = await app.convert();
+        if (project === undefined) {
+            throw new Error(
+                `[Documentalist] unable to generate typescript documentation for project at ${app.options.getValue(
+                    "tsconfig",
+                )}`,
+            );
+        }
+
+        return compiler.objectify(visitor.visitProject(project), (i) => i.name);
+    }
+
+    private resolveClosestTsconfig(file: IFile) {
+        const { path, reason } = tsconfigResolverSync({ cwd: dirname(file.path) });
+
+        switch (reason) {
+            case "invalid-config":
+                console.error(
+                    `[Documentalist] invalid tsconfig resolved for ${file.path}, skipping documentation of this file`,
+                );
+                return undefined;
+            case "not-found":
+                console.error(
+                    `[Documentalist] unable to find any relevant tsconfig for ${file.path}, skipping documentation of this file`,
+                );
+                return undefined;
+            default:
+                return path;
+        }
     }
 }

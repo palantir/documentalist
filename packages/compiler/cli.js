@@ -20,6 +20,7 @@
 // Example Usage
 // documentalist "./src/**/*"
 
+const fs = require("fs");
 const yargs = require("yargs");
 const { Documentalist, KssPlugin, MarkdownPlugin, NpmPlugin, TypescriptPlugin } = require("./lib/");
 
@@ -46,6 +47,10 @@ const argv = yargs
         desc: "use KssPlugin for .(css|less|scss) files",
         type: "boolean",
     })
+    .option("out", {
+        desc: "output file path (defaults to std out)",
+        type: "string",
+    })
     .demandCommand(1, "Requires at least one file")
     .argv;
 
@@ -66,4 +71,13 @@ if (argv.css) {
 
 docs.documentGlobs(...argv._)
     .then((data) => JSON.stringify(data, null, 2))
-    .then(console.log, console.error);
+    .then(
+        (output) => {
+            if (argv.out) {
+                fs.writeFileSync(argv.out, output, "utf-8");
+            } else {
+                console.log(output);
+            }
+        },
+        (failedReason) => console.error(failedReason),
+    );

@@ -62,11 +62,9 @@ async function expectSnapshot(
         ".ts",
         new TypescriptPlugin({
             ...options,
-            // TODO(adahiya): will be used in TypeDoc v0.22+
-            // entryPoints: [fixtureFilepath],
+            entryPoints: [fixtureFilepath],
             gitBranch: "develop",
             tsconfigPath: "src/__tests__/__fixtures__/tsconfig.json",
-            // verbose: true,
         }),
     );
     const { typescript } = await dm.documentGlobs(fixtureFilepath);
