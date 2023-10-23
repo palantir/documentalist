@@ -24,7 +24,7 @@
         "octokit": "^3.1.1",
         "prettier": "^2.8.4",
         "tslint-plugin-prettier": "^2.3.0",
-        "yarn-deduplicate": "^6.0.1"
+        "yarn-deduplicate": "^6.0.2"
     },
     "author": "Palantir Technologies",
     "repository": {
