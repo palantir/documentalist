@@ -39,4 +39,4 @@ pattern to match against source files. The collected matched files will
 be passed to your plugin's `compile` function, along with a `compiler`
 instance that can be used to render blocks of markdown text.
 
-@interface IPlugin
+@interface Plugin

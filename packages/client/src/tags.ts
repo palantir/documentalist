@@ -15,7 +15,7 @@
  */
 
 /** Represents a single `@tag <value>` line from a file. */
-export interface ITag {
+export interface Tag {
     /** Tag name. */
     tag: string;
 
@@ -27,7 +27,7 @@ export interface ITag {
  * The basic components of a navigable resource: a "route" at which it can be accessed and
  * its depth in the layout hierarchy. Heading tags and hierarchy nodes both extend this interface.
  */
-export interface INavigable {
+export interface Navigable {
     /** Fully-qualified route of the heading, which can be used as anchor `href`. */
     route: string;
 
@@ -43,22 +43,22 @@ export interface INavigable {
  * Heading tags include additional information over regular tags: fully-qualified `route` of the
  * heading (which can be used as anchor `href`), and `level` to determine which `<h#>` tag to use.
  */
-export interface IHeadingTag extends ITag, INavigable {
+export interface HeadingTag extends Tag, Navigable {
     tag: "heading";
 }
 
 /** An entry in `contents` array: either an HTML string or an `@tag`. */
-export type StringOrTag = string | ITag;
+export type StringOrTag = string | Tag;
 
 /**
  * Type guard to determine if a `contents` node is an `@tag` statement.
  * Optionally tests tag name too, if `tagName` arg is provided.
  */
-export function isTag(node: any, tagName?: string): node is ITag {
-    return node != null && (node as ITag).tag != null && (tagName == null || (node as ITag).tag === tagName);
+export function isTag(node: any, tagName?: string): node is Tag {
+    return node != null && (node as Tag).tag != null && (tagName == null || (node as Tag).tag === tagName);
 }
 
 /** Type guard to deterimine if a `contents` node is an `@#+` heading tag. */
-export function isHeadingTag(node: any): node is IHeadingTag {
+export function isHeadingTag(node: any): node is HeadingTag {
     return isTag(node, "heading");
 }

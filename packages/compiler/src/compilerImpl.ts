@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { IBlock, ICompiler, IHeadingTag, StringOrTag } from "@documentalist/client";
+import { Block, Compiler, HeadingTag, StringOrTag } from "@documentalist/client";
 import * as yaml from "js-yaml";
 import { marked } from "marked";
 import { relative } from "path";
@@ -31,7 +31,7 @@ const METADATA_REGEX = /^---\n?((?:.|\n)*)\n---\n/;
 const TAG_REGEX = /^@(\S+)(?:\s+([^\n]+))?$/;
 const TAG_SPLIT_REGEX = /^(@\S+(?:\s+[^\n]+)?)$/gm;
 
-export interface ICompilerOptions {
+export interface CompilerOptions {
     /** Options for markdown rendering. See https://github.com/chjj/marked#options-1. */
     markdown?: marked.MarkedOptions;
 
@@ -52,8 +52,8 @@ export interface ICompilerOptions {
     sourceBaseDir?: string;
 }
 
-export class Compiler implements ICompiler {
-    public constructor(private options: ICompilerOptions) {}
+export class CompilerImpl implements Compiler {
+    public constructor(private options: CompilerOptions) {}
 
     public objectify<T>(array: T[], getKey: (item: T) => string) {
         return array.reduce<{ [key: string]: T }>((obj, item) => {
@@ -67,7 +67,7 @@ export class Compiler implements ICompiler {
         return relative(sourceBaseDir, path);
     };
 
-    public renderBlock = (blockContent: string, reservedTagWords = this.options.reservedTags): IBlock => {
+    public renderBlock = (blockContent: string, reservedTagWords = this.options.reservedTags): Block => {
         const { contentsRaw, metadata } = this.extractMetadata(blockContent.trim());
         const contents = this.renderContents(contentsRaw, reservedTagWords);
         return { contents, contentsRaw, metadata };
@@ -128,7 +128,7 @@ export class Compiler implements ICompiler {
                 const value = match[2];
                 if (/#+/.test(tag)) {
                     // NOTE: not enough information to populate `route` field yet
-                    const heading: IHeadingTag = {
+                    const heading: HeadingTag = {
                         level: tag.length,
                         route: "",
                         tag: "heading",

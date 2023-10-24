@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ICompiler, IFile, IKssExample, IKssModifier, IKssPluginData, IPlugin } from "@documentalist/client";
+import { Compiler, File, KssExample, KssModifier, KssPluginData, Plugin } from "@documentalist/client";
 import * as kss from "kss";
 import * as path from "path";
 
@@ -23,19 +23,19 @@ import * as path from "path";
  * It emits an object keyed by the "styleguide [ref]" section of the comment. The documentation, markup, and modifiers
  * sections will all be emitted in the data.
  *
- * @see IKssExample
+ * @see KssExample
  */
-export class KssPlugin implements IPlugin<IKssPluginData> {
+export class KssPlugin implements Plugin<KssPluginData> {
     public constructor(private options: kss.Options = {}) {}
 
-    public compile(cssFiles: IFile[], dm: ICompiler): IKssPluginData {
+    public compile(cssFiles: File[], dm: Compiler): KssPluginData {
         const styleguide = this.parseFiles(cssFiles);
         const sections = styleguide.sections().map(s => convertSection(s, dm));
         const css = dm.objectify(sections, s => s.reference);
         return { css };
     }
 
-    private parseFiles(files: IFile[]) {
+    private parseFiles(files: File[]) {
         const input = files.map<kss.File>(file => ({
             base: path.dirname(file.path),
             contents: file.read(),
@@ -46,7 +46,7 @@ export class KssPlugin implements IPlugin<IKssPluginData> {
     }
 }
 
-function convertSection(section: kss.KssSection, dm: ICompiler): IKssExample {
+function convertSection(section: kss.KssSection, dm: Compiler): KssExample {
     return {
         documentation: dm.renderMarkdown(section.description()),
         markup: section.markup() || "",
@@ -56,7 +56,7 @@ function convertSection(section: kss.KssSection, dm: ICompiler): IKssExample {
     };
 }
 
-function convertModifier(mod: kss.KssModifier, dm: ICompiler): IKssModifier {
+function convertModifier(mod: kss.KssModifier, dm: Compiler): KssModifier {
     return {
         documentation: dm.renderMarkdown(mod.description()),
         name: mod.name(),

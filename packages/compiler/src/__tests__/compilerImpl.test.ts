@@ -15,10 +15,10 @@
  */
 
 import { isHeadingTag } from "@documentalist/client";
-import { Compiler } from "../compiler";
+import { CompilerImpl } from "../compilerImpl";
 
-describe("Compiler", () => {
-    const API = new Compiler({});
+describe("CompilerImpl", () => {
+    const API = new CompilerImpl({});
 
     describe("objectify", () => {
         it("empty array returns empty object", () => {
@@ -71,7 +71,7 @@ describe("Compiler", () => {
             expect(contents).toHaveLength(3);
             expect(contents[1]).toEqual({
                 tag: "interface",
-                value: "IButtonProps",
+                value: "ButtonProps",
             });
         });
 
@@ -94,7 +94,7 @@ describe("Compiler", () => {
             // only one string (reserved @word does not get split to its own entry)
             expect(contents).toHaveLength(1);
             // @tag value comes out exactly as written in source, on its own line
-            expect((contents[0] as string).split("\n")).toContain("@interface IButtonProps");
+            expect((contents[0] as string).split("\n")).toContain("@interface ButtonProps");
         });
     });
 });
@@ -102,7 +102,7 @@ describe("Compiler", () => {
 const FILE = `
 # Title
 description
-@interface IButtonProps
+@interface ButtonProps
 more description
 `;
 
@@ -110,7 +110,7 @@ const HEADING_FILE = `
 @# Title
 description
 @## Section 1
-@interface IButtonProps
+@interface ButtonProps
 more words
 @### Section 1a
 more words

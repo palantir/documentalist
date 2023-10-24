@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { isTsClass, isTsInterface, ITypescriptPluginData } from "@documentalist/client";
+import { isTsClass, isTsInterface, TypescriptPluginData } from "@documentalist/client";
 import { Documentalist } from "../documentalist";
-import { ITypescriptPluginOptions, TypescriptPlugin } from "../plugins/typescript/typescriptPlugin";
+import { TypescriptPlugin, TypescriptPluginOptions } from "../plugins/typescript/typescriptPlugin";
 
 describe("TypescriptPlugin", () => {
     it("classes snapshot", () => expectSnapshot("classes"));
@@ -31,11 +31,11 @@ describe("TypescriptPlugin", () => {
         });
 
         it("excludeNames", () => {
-            // get IButtonProps properties; should be missing a few.
+            // get ButtonProps properties; should be missing a few.
             expectSnapshot(
                 "interfaces",
                 { excludeNames: [/icon/i, "intent"] },
-                ({ IButtonProps }) => isTsInterface(IButtonProps) && IButtonProps.properties.map(p => p.name),
+                ({ ButtonProps }) => isTsInterface(ButtonProps) && ButtonProps.properties.map(p => p.name),
             );
         });
 
@@ -53,9 +53,9 @@ describe("TypescriptPlugin", () => {
 async function expectSnapshot(
     /** name of fixture file to feed into DM */
     name: string,
-    options?: ITypescriptPluginOptions,
+    options?: TypescriptPluginOptions,
     /** a function to transform the DM data, to avoid snapshotting _everything_. defaults to identity function. */
-    transform: (data: ITypescriptPluginData["typescript"]) => any = arg => arg,
+    transform: (data: TypescriptPluginData["typescript"]) => any = arg => arg,
 ) {
     const fixtureFilepath = `src/__tests__/__fixtures__/${name}.ts`;
     const dm = Documentalist.create().use(

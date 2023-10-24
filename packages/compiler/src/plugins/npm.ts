@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { ICompiler, IFile, INpmPackage, INpmPluginData, IPlugin } from "@documentalist/client";
+import { Compiler, File, NpmPackageInfo, NpmPluginData, Plugin } from "@documentalist/client";
 import { spawnSync } from "child_process";
 
-export interface INpmPluginOptions {
+export interface NpmPluginOptions {
     /** Whether to exclude packages marked `private`. */
     excludePrivate?: boolean;
 
@@ -30,10 +30,10 @@ export interface INpmPluginOptions {
  * package. It uses `npm info` to look up data about published packages, and
  * falls back to `package.json` info if the package is private or unpublished.
  */
-export class NpmPlugin implements IPlugin<INpmPluginData> {
-    public constructor(private options: INpmPluginOptions = {}) {}
+export class NpmPlugin implements Plugin<NpmPluginData> {
+    public constructor(private options: NpmPluginOptions = {}) {}
 
-    public compile(packageJsons: IFile[], dm: ICompiler): INpmPluginData {
+    public compile(packageJsons: File[], dm: Compiler): NpmPluginData {
         const info = packageJsons.map(pkg => this.parseNpmInfo(pkg, dm));
         const { excludeNames, excludePrivate } = this.options;
         const npm = arrayToObject(
@@ -43,7 +43,7 @@ export class NpmPlugin implements IPlugin<INpmPluginData> {
         return { npm };
     }
 
-    private parseNpmInfo = (packageJson: IFile, dm: ICompiler): INpmPackage => {
+    private parseNpmInfo = (packageJson: File, dm: Compiler): NpmPackageInfo => {
         const sourcePath = dm.relativePath(packageJson.path);
         const json = JSON.parse(packageJson.read());
         const data = this.getNpmInfo(json.name);

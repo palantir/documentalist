@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { IHeadingNode, IPageData, IPageNode, isHeadingTag, isTag } from "@documentalist/client";
+import { HeadingNode, isHeadingTag, isTag, PageData, PageNode } from "@documentalist/client";
 
 export class PageMap {
-    private store: Map<string, IPageData> = new Map();
+    private store: Map<string, PageData> = new Map();
 
     /** Returns an iterator for all the pages (values) in the map. */
     public pages() {
@@ -42,7 +42,7 @@ export class PageMap {
      * Sets the page data at the given ID, when you already have a full page object.
      * Warns if a page with this ID already exists.
      */
-    public set(id: string, page: IPageData) {
+    public set(id: string, page: PageData) {
         if (this.store.has(id)) {
             console.warn(`Found duplicate page "${id}"; overwriting previous data.`);
             console.warn("Rename headings or use metadata `reference` key to disambiguate.");
@@ -52,14 +52,14 @@ export class PageMap {
 
     /** Returns a JS object mapping page IDs to data. */
     public toObject() {
-        const object: { [key: string]: IPageData } = {};
+        const object: { [key: string]: PageData } = {};
         for (const [key, val] of Array.from(this.store.entries())) {
             object[key] = val;
         }
         return object;
     }
 
-    public toTree(id: string, depth = 0): IPageNode {
+    public toTree(id: string, depth = 0): PageNode {
         const page = this.get(id);
         if (page === undefined) {
             throw new Error(`Unknown @page '${id}' in toTree()`);
@@ -78,12 +78,12 @@ export class PageMap {
     }
 }
 
-function initPageNode({ reference, title }: IPageData, level: number = 0): IPageNode {
+function initPageNode({ reference, title }: PageData, level: number = 0): PageNode {
     // NOTE: `route` may be overwritten in MarkdownPlugin based on nesting.
     return { children: [], level, reference, route: reference, title };
 }
 
-function initHeadingNode(title: string, level: number): IHeadingNode {
+function initHeadingNode(title: string, level: number): HeadingNode {
     // NOTE: `route` will be populated in MarkdownPlugin.
     return { title, level, route: "" };
 }

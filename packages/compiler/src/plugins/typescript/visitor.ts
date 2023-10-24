@@ -15,21 +15,21 @@
  */
 
 import {
-    ICompiler,
-    ITsAccessor,
-    ITsClass,
-    ITsConstructor,
-    ITsDocBase,
-    ITsEnum,
-    ITsEnumMember,
-    ITsFlags,
-    ITsInterface,
-    ITsMethod,
-    ITsParameter,
-    ITsProperty,
-    ITsSignature,
-    ITsTypeAlias,
+    Compiler,
     Kind,
+    TsAccessor,
+    TsClass,
+    TsConstructor,
+    TsDocBase,
+    TsEnum,
+    TsEnumMember,
+    TsFlags,
+    TsInterface,
+    TsMethod,
+    TsParameter,
+    TsProperty,
+    TsSignature,
+    TsTypeAlias,
 } from "@documentalist/client";
 import { relative } from "path";
 import {
@@ -41,13 +41,13 @@ import {
     ReflectionKind,
     SignatureReflection,
 } from "typedoc";
-import { ITypescriptPluginOptions } from "./typescriptPlugin";
+import { TypescriptPluginOptions } from "./typescriptPlugin";
 import { resolveSignature, resolveTypeString } from "./typestring";
 
 export class Visitor {
     public constructor(
-        private compiler: ICompiler,
-        private options: ITypescriptPluginOptions,
+        private compiler: Compiler,
+        private options: TypescriptPluginOptions,
     ) {}
 
     public visitProject(project: ProjectReflection) {
@@ -58,7 +58,7 @@ export class Visitor {
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Enum), this.visitEnum),
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Function), this.visitMethod),
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Interface), this.visitInterface),
-            ...this.visitChildren<ITsTypeAlias>(project.getReflectionsByKind(ReflectionKind.TypeAlias), def => ({
+            ...this.visitChildren<TsTypeAlias>(project.getReflectionsByKind(ReflectionKind.TypeAlias), def => ({
                 ...this.makeDocEntry(def, Kind.TypeAlias),
                 type: resolveTypeString(def.type),
             })),
@@ -68,7 +68,7 @@ export class Visitor {
         );
     }
 
-    private makeDocEntry<K extends Kind>(ref: Reflection, kind: K): ITsDocBase<K> {
+    private makeDocEntry<K extends Kind>(ref: Reflection, kind: K): TsDocBase<K> {
         let comment = ref.comment;
 
         if (comment === undefined && ref.isDeclaration()) {
@@ -93,7 +93,7 @@ export class Visitor {
         };
     }
 
-    private visitClass = (def: DeclarationReflection): ITsClass => ({
+    private visitClass = (def: DeclarationReflection): TsClass => ({
         ...this.visitInterface(def),
         accessors: this.visitChildren(def.getChildrenByKind(ReflectionKind.Accessor), this.visitAccessor),
         constructorType: this.visitChildren(
@@ -103,11 +103,11 @@ export class Visitor {
         kind: Kind.Class,
     });
 
-    private visitInterface = (def: DeclarationReflection): ITsInterface => ({
+    private visitInterface = (def: DeclarationReflection): TsInterface => ({
         ...this.makeDocEntry(def, Kind.Interface),
         extends: def.extendedTypes?.map(resolveTypeString),
         implements: def.implementedTypes?.map(resolveTypeString),
-        indexSignature: def.indexSignature && this.visitSignature(def.indexSignature),
+        indexSignature: def.indexSignature && this.visTsignature(def.indexSignature),
         methods: this.visitChildren(def.getChildrenByKind(ReflectionKind.Method), this.visitMethod, sortStaticFirst),
         properties: this.visitChildren(
             def.getChildrenByKind(ReflectionKind.Property),
@@ -116,33 +116,33 @@ export class Visitor {
         ),
     });
 
-    private visitConstructor = (def: DeclarationReflection): ITsConstructor => ({
+    private visitConstructor = (def: DeclarationReflection): TsConstructor => ({
         ...this.visitMethod(def),
         kind: Kind.Constructor,
     });
 
-    private visitEnum = (def: DeclarationReflection): ITsEnum => ({
+    private visitEnum = (def: DeclarationReflection): TsEnum => ({
         ...this.makeDocEntry(def, Kind.Enum),
-        members: this.visitChildren<ITsEnumMember>(def.getChildrenByKind(ReflectionKind.EnumMember), m => ({
+        members: this.visitChildren<TsEnumMember>(def.getChildrenByKind(ReflectionKind.EnumMember), m => ({
             ...this.makeDocEntry(m, Kind.EnumMember),
             defaultValue: getDefaultValue(m),
         })),
     });
 
-    private visitProperty = (def: DeclarationReflection): ITsProperty => ({
+    private visitProperty = (def: DeclarationReflection): TsProperty => ({
         ...this.makeDocEntry(def, Kind.Property),
         defaultValue: getDefaultValue(def),
         inheritedFrom: def.inheritedFrom && resolveTypeString(def.inheritedFrom),
         type: resolveTypeString(def.type),
     });
 
-    private visitMethod = (def: DeclarationReflection): ITsMethod => ({
+    private visitMethod = (def: DeclarationReflection): TsMethod => ({
         ...this.makeDocEntry(def, Kind.Method),
         inheritedFrom: def.inheritedFrom && resolveTypeString(def.inheritedFrom),
-        signatures: def.signatures !== undefined ? def.signatures.map(sig => this.visitSignature(sig)) : [],
+        signatures: def.signatures !== undefined ? def.signatures.map(sig => this.visTsignature(sig)) : [],
     });
 
-    private visitSignature = (sig: SignatureReflection): ITsSignature => ({
+    private visTsignature = (sig: SignatureReflection): TsSignature => ({
         ...this.makeDocEntry(sig, Kind.Signature),
         flags: undefined,
         parameters: (sig.parameters || []).map(param => this.visitParameter(param)),
@@ -150,14 +150,14 @@ export class Visitor {
         type: resolveSignature(sig),
     });
 
-    private visitParameter = (param: ParameterReflection): ITsParameter => ({
+    private visitParameter = (param: ParameterReflection): TsParameter => ({
         ...this.makeDocEntry(param, Kind.Parameter),
         defaultValue: getDefaultValue(param),
         sourceUrl: undefined,
         type: resolveTypeString(param.type),
     });
 
-    private visitAccessor = (param: DeclarationReflection): ITsAccessor => {
+    private visitAccessor = (param: DeclarationReflection): TsAccessor => {
         let type: string;
         let getDocumentation;
         let setDocumentation;
@@ -185,8 +185,8 @@ export class Visitor {
         };
     };
 
-    /** Visits each child that passes the filter condition (based on options). */
-    private visitChildren<T extends ITsDocBase>(
+    /** VisTs each child that passes the filter condition (based on options). */
+    private visitChildren<T extends TsDocBase>(
         children: Reflection[],
         visitor: (def: DeclarationReflection) => T,
         comparator?: (a: T, b: T) => number,
@@ -199,7 +199,7 @@ export class Visitor {
     }
 
     /**
-     * Converts a typedoc comment object to a rendered `IBlock`.
+     * Converts a typedoc comment object to a rendered `Block`.
      */
     private renderComment(comment: Comment | undefined) {
         if (comment === undefined) {
@@ -258,7 +258,7 @@ function getSourceUrl(reflection: Reflection): string | undefined {
     return undefined;
 }
 
-function getFlags(ref: Reflection): ITsFlags | undefined {
+function getFlags(ref: Reflection): TsFlags | undefined {
     if (ref === undefined || ref.flags === undefined) {
         return undefined;
     }
@@ -288,7 +288,7 @@ function isNotExcluded(patterns: Array<string | RegExp>, value?: string) {
 }
 
 /** Sorts static members (`flags.isStatic`) before non-static members. */
-function sortStaticFirst<T extends ITsDocBase>({ flags: aFlags = {} }: T, { flags: bFlags = {} }: T) {
+function sortStaticFirst<T extends TsDocBase>({ flags: aFlags = {} }: T, { flags: bFlags = {} }: T) {
     if (aFlags.isStatic && bFlags.isStatic) {
         return 0;
     } else if (aFlags.isStatic) {

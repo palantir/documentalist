@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import type { ICompiler, IFile, IPlugin, ITypescriptPluginData, TypescriptDocEntry } from "@documentalist/client";
+import type { Compiler, File, Plugin, TsDocEntry, TypescriptPluginData } from "@documentalist/client";
 import { readFileSync } from "fs";
 import { dirname } from "path";
 import { tsconfigResolverSync } from "tsconfig-resolver";
@@ -22,7 +22,7 @@ import { Application, LogLevel, TSConfigReader, TypeDocOptions, TypeDocReader } 
 import * as ts from "typescript";
 import { Visitor } from "./visitor";
 
-export interface ITypescriptPluginOptions {
+export interface TypescriptPluginOptions {
     /**
      * List of entry point modules.
      * @default ["src/index.ts"]
@@ -88,7 +88,7 @@ export interface ITypescriptPluginOptions {
     verbose?: boolean;
 }
 
-export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
+export class TypescriptPlugin implements Plugin<TypescriptPluginData> {
     private typedocOptions: Partial<TypeDocOptions>;
 
     /*
@@ -100,7 +100,7 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
     private tsPrograms: Map<string, ts.Program> = new Map();
     private typedocApps: Map<string, Application> = new Map();
 
-    public constructor(private options: ITypescriptPluginOptions = {}) {
+    public constructor(private options: TypescriptPluginOptions = {}) {
         const {
             entryPoints = ["src/index.ts"],
             includeDeclarations = false,
@@ -141,7 +141,7 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
         return app;
     }
 
-    public async compile(files: IFile[], compiler: ICompiler): Promise<ITypescriptPluginData> {
+    public async compile(files: File[], compiler: Compiler): Promise<TypescriptPluginData> {
         // List of existing projects which contain some of the files to compile
         const existingProjectsToCompile: string[] = [];
 
@@ -172,7 +172,7 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
             }
         }
 
-        const output: Record<string, TypescriptDocEntry> = {};
+        const output: Record<string, TsDocEntry> = {};
 
         for (const projectPath of existingProjectsToCompile) {
             const app = this.typedocApps.get(projectPath);
@@ -197,7 +197,7 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
         return { typescript: output };
     }
 
-    private async getDocumentationOutput(compiler: ICompiler, app: Application) {
+    private async getDocumentationOutput(compiler: Compiler, app: Application) {
         const visitor = new Visitor(compiler, this.options);
         const project = await app.convert();
         if (project === undefined) {
@@ -211,7 +211,7 @@ export class TypescriptPlugin implements IPlugin<ITypescriptPluginData> {
         return compiler.objectify(visitor.visitProject(project), i => i.name);
     }
 
-    private resolveClosestTsconfig(file: IFile) {
+    private resolveClosestTsconfig(file: File) {
         const { path, reason } = tsconfigResolverSync({ cwd: dirname(file.path) });
 
         switch (reason) {
