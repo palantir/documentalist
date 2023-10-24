@@ -15,7 +15,7 @@
  */
 
 /** A single modifier for an example. */
-export interface IKssModifier {
+export interface KssModifier {
     documentation: string;
     name: string;
 }
@@ -23,7 +23,7 @@ export interface IKssModifier {
 /**
  * A markup/modifiers example parsed from a KSS comment block.
  */
-export interface IKssExample {
+export interface KssExample {
     /** Raw documentation string. */
     documentation: string;
     /**
@@ -37,7 +37,7 @@ export interface IKssExample {
      */
     markupHtml: string;
     /** Array of modifiers supported by HTML markup. */
-    modifiers: IKssModifier[];
+    modifiers: KssModifier[];
     /** Unique reference for addressing this example. */
     reference: string;
 }
@@ -47,8 +47,8 @@ export interface IKssExample {
  *
  * @see KSSPlugin
  */
-export interface IKssPluginData {
+export interface KssPluginData {
     css: {
-        [reference: string]: IKssExample;
+        [reference: string]: KssExample;
     };
 }

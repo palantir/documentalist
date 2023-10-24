@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-import { IFile, IPlugin } from "@documentalist/client";
+import { File, Plugin } from "@documentalist/client";
 import * as fs from "fs";
 import * as glob from "glob";
 import * as path from "path";
-import { Compiler, ICompilerOptions } from "./compiler";
+import { CompilerImpl, CompilerOptions } from "./compilerImpl";
 
 /**
  * Plugins are stored with the regex used to match against file paths.
  */
-export interface IPluginEntry<T> {
+export interface PluginEntry<T> {
     pattern: RegExp;
-    plugin: IPlugin<T>;
+    plugin: Plugin<T>;
 }
 
 export class Documentalist<T> {
@@ -34,11 +34,11 @@ export class Documentalist<T> {
      * This method lends itself particularly well to the chaining syntax:
      * `Documentalist.create(options).use(...)`.
      */
-    public static create(options?: ICompilerOptions): Documentalist<{}> {
+    public static create(options?: CompilerOptions): Documentalist<{}> {
         return new Documentalist(options, []);
     }
 
-    constructor(private options: ICompilerOptions = {}, private plugins: Array<IPluginEntry<T>> = []) {}
+    constructor(private options: CompilerOptions = {}, private plugins: Array<PluginEntry<T>> = []) {}
 
     /**
      * Adds the plugin to Documentalist. Returns a new instance of Documentalist
@@ -53,12 +53,12 @@ export class Documentalist<T> {
      * @param plugin - The plugin implementation
      * @returns A new instance of `Documentalist` with an extended type
      */
-    public use<P>(pattern: RegExp | string, plugin: IPlugin<P>): Documentalist<T & P> {
+    public use<P>(pattern: RegExp | string, plugin: Plugin<P>): Documentalist<T & P> {
         if (typeof pattern === "string") {
             pattern = new RegExp(`${pattern}$`);
         }
 
-        const newPlugins = [...this.plugins, { pattern, plugin }] as Array<IPluginEntry<T & P>>;
+        const newPlugins = [...this.plugins, { pattern, plugin }] as Array<PluginEntry<T & P>>;
         return new Documentalist(this.options, newPlugins);
     }
 
@@ -85,8 +85,8 @@ export class Documentalist<T> {
      *
      * The return type `T` is a union of each plugin's data type.
      */
-    public async documentFiles(files: IFile[]) {
-        const compiler = new Compiler(this.options);
+    public async documentFiles(files: File[]) {
+        const compiler = new CompilerImpl(this.options);
         // need an empty object of correct type that we can merge into
         // tslint:disable-next-line:no-object-literal-type-assertion
         const documentation = {} as T;
@@ -101,7 +101,7 @@ export class Documentalist<T> {
     /**
      * Expands an array of globs and flatten to a single array of files.
      */
-    private expandGlobs(filesGlobs: string[]): IFile[] {
+    private expandGlobs(filesGlobs: string[]): File[] {
         return filesGlobs
             .map((filesGlob) => glob.sync(filesGlob))
             .reduce((a, b) => a.concat(b))

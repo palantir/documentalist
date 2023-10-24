@@ -17,14 +17,14 @@
 /**
  * Route
  */
-interface IRoute {
-    route: string;
+interface Route {
+    path: string;
     render: () => string;
 }
 
 class Router {
-    private routes: Record<string, IRoute> = {};
-    private currentRoute: IRoute | null = null;
+    private routes: Record<string, Route> = {};
+    private currentRoute: Route | null = null;
 
     constructor(public el: HTMLElement, private defaultRoute = "") {}
 
@@ -35,8 +35,8 @@ class Router {
         this.route();
     }
 
-    public register(route: IRoute) {
-        this.routes[route.route] = route;
+    public register(route: Route) {
+        this.routes[route.path] = route;
     }
 
     public route() {
@@ -46,7 +46,7 @@ class Router {
         if (this.el && route && route !== this.currentRoute) {
             this.currentRoute = route;
             this.el.innerHTML = route.render();
-            selectCurrent(route.route);
+            selectCurrent(route.path);
         } else {
             this.currentRoute = null;
         }
@@ -70,10 +70,9 @@ function selectCurrent(route: string) {
 const router = new Router(document.querySelector<HTMLElement>("#content")!, "overview");
 const routables = queryAll(document.body, "[data-route]");
 routables.forEach((routable) => {
-    const route = routable.getAttribute("data-route")!;
     router.register({
+        path: routable.getAttribute("data-route")!,
         render: () => routable.innerHTML,
-        route,
     });
 });
 router.start();
