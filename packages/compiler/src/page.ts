@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { HeadingNode, PageData, PageNode, isHeadingTag, isTag } from "@documentalist/client";
+import { HeadingNode, isHeadingTag, isTag, PageData, PageNode } from "@documentalist/client";
 
 export class PageMap {
     private store: Map<string, PageData> = new Map();

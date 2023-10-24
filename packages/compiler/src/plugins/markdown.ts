@@ -19,12 +19,12 @@ import {
     Compiler,
     File,
     HeadingNode,
+    isHeadingTag,
+    isPageNode,
     MarkdownPluginData,
     PageData,
     PageNode,
     Plugin,
-    isHeadingTag,
-    isPageNode,
     slugify,
 } from "@documentalist/client";
 import * as path from "path";

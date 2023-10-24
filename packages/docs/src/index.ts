@@ -71,8 +71,8 @@ const router = new Router(document.querySelector<HTMLElement>("#content")!, "ove
 const routables = queryAll(document.body, "[data-route]");
 routables.forEach((routable) => {
     router.register({
-        render: () => routable.innerHTML,
         path: routable.getAttribute("data-route")!,
+        render: () => routable.innerHTML,
     });
 });
 router.start();

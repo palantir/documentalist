@@ -16,6 +16,7 @@
 
 import {
     Compiler,
+    Kind,
     TsAccessor,
     TsClass,
     TsConstructor,
@@ -29,7 +30,6 @@ import {
     TsProperty,
     TsSignature,
     TsTypeAlias,
-    Kind,
 } from "@documentalist/client";
 import { relative } from "path";
 import {

@@ -16,7 +16,7 @@
 
 import { isTsClass, isTsInterface, TypescriptPluginData } from "@documentalist/client";
 import { Documentalist } from "../documentalist";
-import { TypescriptPluginOptions, TypescriptPlugin } from "../plugins/typescript/typescriptPlugin";
+import { TypescriptPlugin, TypescriptPluginOptions } from "../plugins/typescript/typescriptPlugin";
 
 describe("TypescriptPlugin", () => {
     it("classes snapshot", () => expectSnapshot("classes"));

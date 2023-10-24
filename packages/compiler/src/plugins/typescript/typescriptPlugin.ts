@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import type { Compiler, File, Plugin, TypescriptPluginData, TsDocEntry } from "@documentalist/client";
+import type { Compiler, File, Plugin, TsDocEntry, TypescriptPluginData } from "@documentalist/client";
 import { readFileSync } from "fs";
 import { dirname } from "path";
 import { tsconfigResolverSync } from "tsconfig-resolver";
