@@ -1,0 +1,5 @@
+type: break
+break:
+  description: Upgrade minimum Node.js engine to v18.x
+  links:
+  - https://github.com/palantir/documentalist/pull/236

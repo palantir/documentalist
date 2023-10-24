@@ -1,0 +1,10 @@
+type: break
+break:
+  description: |-
+    Rename all interfaces to drop the `I` prefix:
+    - `IPluginEntry` -> `PluginEntry`
+    - `IMarkdownPluginOptions` -> `MarkdownPluginOptions`
+    - `INpmPluginOptions` -> `NpmPluginOptions`
+    - `ITypescriptPluginOptions` -> `TypescriptPluginOptions`
+  links:
+  - https://github.com/palantir/documentalist/pull/156
