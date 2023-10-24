@@ -17,7 +17,7 @@
 /** All icon identifiers */
 export type IconName = "add" | "remove" | "plus" | "minus";
 
-export interface IActionProps {
+export interface ActionProps {
     /** Whether this action is non-interactive. */
     disabled?: boolean;
 
@@ -31,7 +31,7 @@ export interface IActionProps {
     text: string;
 }
 
-export interface IButtonProps extends IActionProps {
+export interface ButtonProps extends ActionProps {
     /**
      * If set to `true`, the button will display in an active state.
      * This is equivalent to setting `className="pt-active"`.
@@ -70,7 +70,7 @@ export interface IButtonProps extends IActionProps {
 /**
  * Each plugin receives a `Compiler` instance to aid in the processing of source files.
  */
-export interface ICompiler {
+export interface Compiler {
     /**
      * Converts an array of entries into a map of key to entry, using given
      * callback to extract key from each item.

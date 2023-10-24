@@ -723,7 +723,7 @@ exports[`TypescriptPlugin functions snapshot 1`] = `
 
 exports[`TypescriptPlugin interfaces snapshot 1`] = `
 {
-  "IActionProps": {
+  "ActionProps": {
     "documentation": undefined,
     "extends": undefined,
     "fileName": "src/__tests__/__fixtures__/interfaces.ts",
@@ -741,7 +741,7 @@ exports[`TypescriptPlugin interfaces snapshot 1`] = `
     "indexSignature": undefined,
     "kind": "interface",
     "methods": [],
-    "name": "IActionProps",
+    "name": "ActionProps",
     "properties": [
       {
         "defaultValue": undefined,
@@ -858,10 +858,10 @@ exports[`TypescriptPlugin interfaces snapshot 1`] = `
     ],
     "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L20",
   },
-  "IButtonProps": {
+  "ButtonProps": {
     "documentation": undefined,
     "extends": [
-      "IActionProps<>",
+      "ActionProps<>",
     ],
     "fileName": "src/__tests__/__fixtures__/interfaces.ts",
     "flags": {
@@ -908,7 +908,7 @@ exports[`TypescriptPlugin interfaces snapshot 1`] = `
     },
     "kind": "interface",
     "methods": [],
-    "name": "IButtonProps",
+    "name": "ButtonProps",
     "properties": [
       {
         "defaultValue": "\`\`\`ts
@@ -970,7 +970,7 @@ This is equivalent to setting
           "isRest": false,
           "isStatic": false,
         },
-        "inheritedFrom": "IActionProps.disabled",
+        "inheritedFrom": "ActionProps.disabled",
         "kind": "property",
         "name": "disabled",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L22",
@@ -1028,7 +1028,7 @@ This is equivalent to setting
           "isRest": false,
           "isStatic": false,
         },
-        "inheritedFrom": "IActionProps.iconName",
+        "inheritedFrom": "ActionProps.iconName",
         "kind": "property",
         "name": "iconName",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L25",
@@ -1090,7 +1090,7 @@ The width of the button is not affected by the value of this prop.",
           "isRest": false,
           "isStatic": false,
         },
-        "inheritedFrom": "IActionProps.onClick",
+        "inheritedFrom": "ActionProps.onClick",
         "kind": "property",
         "name": "onClick",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L28",
@@ -1148,7 +1148,7 @@ The width of the button is not affected by the value of this prop.",
           "isRest": false,
           "isStatic": false,
         },
-        "inheritedFrom": "IActionProps.text",
+        "inheritedFrom": "ActionProps.text",
         "kind": "property",
         "name": "text",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L31",
@@ -1208,7 +1208,7 @@ Note that this prop has no effect on
     ],
     "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L34",
   },
-  "ICompiler": {
+  "Compiler": {
     "documentation": {
       "contents": [
         "<p>Each plugin receives a 
@@ -1470,7 +1470,7 @@ is.",
         "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L94",
       },
     ],
-    "name": "ICompiler",
+    "name": "Compiler",
     "properties": [],
     "sourceUrl": "https://github.com/palantir/documentalist/blob/develop/packages/compiler/src/__tests__/__fixtures__/interfaces.ts#L73",
   },

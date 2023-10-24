@@ -19,7 +19,7 @@ import { StringOrTag } from "./tags";
 /**
  * Each plugin receives a `Compiler` instance to aid in the processing of source files.
  */
-export interface ICompiler {
+export interface Compiler {
     /**
      * Converts an array of entries into a map of key to entry, using given
      * callback to extract key from each item.
@@ -40,7 +40,7 @@ export interface ICompiler {
      * tag words array may be provided, in which case the line will be left as
      * is.
      */
-    renderBlock(blockContent: string, reservedTagWords?: string[]): IBlock;
+    renderBlock(blockContent: string, reservedTagWords?: string[]): Block;
 
     /**
      * Render a string of markdown to HTML, using the options from `Documentalist`.
@@ -61,7 +61,7 @@ export interface ICompiler {
  * actual contents of file...
  * ```
  */
-export interface IMetadata {
+export interface Metadata {
     /**
      * Unique ID for addressing this page.
      * @default filename without extension
@@ -82,7 +82,7 @@ export interface IMetadata {
  * The output of `renderBlock` which parses a long form documentation block into
  * metadata, rendered markdown, and tags.
  */
-export interface IBlock {
+export interface Block {
     /** Parsed nodes of source file. An array of markdown-rendered HTML strings or `@tag` objects. */
     contents: StringOrTag[];
 
@@ -90,5 +90,5 @@ export interface IBlock {
     contentsRaw: string;
 
     /** Arbitrary YAML metadata parsed from front matter of source file, if any, or `{}`. */
-    metadata: IMetadata;
+    metadata: Metadata;
 }

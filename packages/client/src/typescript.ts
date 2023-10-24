@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { IBlock } from "./compiler";
+import { Block } from "./compiler";
 
 /** Enumeration describing the various kinds of member supported by this plugin. */
 export enum Kind {
@@ -32,7 +32,7 @@ export enum Kind {
 }
 
 /** Compiler flags about this member. */
-export interface ITsFlags {
+export interface TsFlags {
     /** This flag supports an optional message, typically used to include a version number. */
     isDeprecated?: boolean | string;
     isExported?: boolean;
@@ -46,17 +46,17 @@ export interface ITsFlags {
 }
 
 /** Base type for all typescript documentation members. */
-export interface ITsDocBase<K extends Kind = Kind> {
+export interface TsDocBase<K extends Kind = Kind> {
     /** Type brand indicating kind of member; type guards will reveal further information about it. */
     kind: K;
 
     /** Compiled documentation: `contents` field contains an array of markdown strings or `@tag value` objects. */
-    documentation?: IBlock;
+    documentation?: Block;
 
     /** Original file name in which this member originated, relative to current working directory. */
     fileName?: string;
 
-    flags?: ITsFlags;
+    flags?: TsFlags;
 
     /** Name of this member in code, also used as its identifiers in the data store. */
     name: string;
@@ -72,56 +72,56 @@ export interface ITsDocBase<K extends Kind = Kind> {
 
 /**
  * Common type for a callable member, something that can be invoked.
- * @see ITsConstructor
- * @see ITsMethod
+ * @see TsConstructor
+ * @see TsMethod
  */
-export interface ITsCallable {
+export interface TsCallable {
     /** Type name from which this method was inherited. Typically takes the form `Interface.member`. */
     inheritedFrom?: string;
     /** A method has at least one signature, which describes the parameters and return type and contains documentation. */
-    signatures: ITsSignature[];
+    signatures: TsSignature[];
 }
 
 /** Re-usable interface for Typescript members that support a notion of "default value." */
-export interface ITsDefaultValue {
+export interface TsDefaultValue {
     /** The default value of this property, from an initializer or an `@default` tag. */
     defaultValue?: string;
 }
 
 /** Re-usable interface for Typescript members that look like objects. */
-export interface ITsObjectDefinition {
+export interface TsObjectDefinition {
     /** List of type strings that this definition `extends`. */
     extends?: string[];
     /** List of type names that this definition `implements`. */
     implements?: string[];
     /** Index signature for this object, if declared. */
-    indexSignature?: ITsSignature;
+    indexSignature?: TsSignature;
     /** Property members of this definition. */
-    properties: ITsProperty[];
+    properties: TsProperty[];
     /** Method members of this definiton. */
-    methods: ITsMethod[];
+    methods: TsMethod[];
 }
 
 /**
  * Documentation for a class constructor. See `signatures` array for actual callable signatures and rendered docs.
- * @see ITsClass
+ * @see TsClass
  */
-export interface ITsConstructor extends ITsDocBase, ITsCallable {
+export interface TsConstructor extends TsDocBase, TsCallable {
     kind: Kind.Constructor;
 }
 
-export interface ITsAccessor extends ITsDocBase {
+export interface TsAccessor extends TsDocBase {
     kind: Kind.Accessor;
     /** If a set signature is defined and documented for this accessor, this will contain its documentation. */
-    getDocumentation: IBlock | undefined;
+    getDocumentation: Block | undefined;
     /** If a get signature is defined and documented for this accessor, this will contain its documentation. */
-    setDocumentation: IBlock | undefined;
+    setDocumentation: Block | undefined;
     /** Type of the accessor. */
     type: string;
 }
 
 /** Documentation for a method. See `signatures` array for actual callable signatures and rendered docs. */
-export interface ITsMethod extends ITsDocBase, ITsCallable {
+export interface TsMethod extends TsDocBase, TsCallable {
     kind: Kind.Method;
 }
 
@@ -129,12 +129,12 @@ export interface ITsMethod extends ITsDocBase, ITsCallable {
  * Documentation for a single signature, including parameters, return type, and full type string.
  * Signatures are used for methods and constructors on classes or interfaces, and for index signatures on objects.
  */
-export interface ITsSignature extends ITsDocBase {
+export interface TsSignature extends TsDocBase {
     kind: Kind.Signature;
     /** Signatures do not have flags of their own. Flags can be found on the parent and on each parameter. */
     flags: undefined;
     /** Signature parameters, each with their own docs and data. */
-    parameters: ITsParameter[];
+    parameters: TsParameter[];
     /** Return type of the signature. */
     returnType: string;
     /** Fully qualified type string describing this method, including parameters and return type. */
@@ -142,7 +142,7 @@ export interface ITsSignature extends ITsDocBase {
 }
 
 /** Documentation for a single parameter to a signature. */
-export interface ITsParameter extends ITsDocBase, ITsDefaultValue {
+export interface TsParameter extends TsDocBase, TsDefaultValue {
     kind: Kind.Parameter;
     /** Fully qualified type string describing this parameter. */
     type: string;
@@ -151,7 +151,7 @@ export interface ITsParameter extends ITsDocBase, ITsDefaultValue {
 }
 
 /** Documentation for a property of an object, which may have a default value. */
-export interface ITsProperty extends ITsDocBase, ITsDefaultValue {
+export interface TsProperty extends TsDocBase, TsDefaultValue {
     kind: Kind.Property;
     /** Type name from which this property was inherited. Typically takes the form `Interface.member`. */
     inheritedFrom?: string;
@@ -160,37 +160,37 @@ export interface ITsProperty extends ITsDocBase, ITsDefaultValue {
 }
 
 /** Documentation for an `interface` definition. */
-export interface ITsInterface extends ITsDocBase, ITsObjectDefinition {
+export interface TsInterface extends TsDocBase, TsObjectDefinition {
     kind: Kind.Interface;
 }
 
 /** Documentation for a `class` definition. */
-export interface ITsClass extends ITsDocBase, ITsObjectDefinition {
+export interface TsClass extends TsDocBase, TsObjectDefinition {
     kind: Kind.Class;
     /** Constructor signature of this class. Note the special name here, as `constructor` is a JavaScript keyword. */
-    constructorType: ITsConstructor;
-    accessors: ITsAccessor[];
+    constructorType: TsConstructor;
+    accessors: TsAccessor[];
 }
 /** A member of an `enum` definition. An enum member will have a `defaultValue` if it was declared with an initializer. */
-export interface ITsEnumMember extends ITsDocBase, ITsDefaultValue {
+export interface TsEnumMember extends TsDocBase, TsDefaultValue {
     kind: Kind.EnumMember;
 }
 
 /** Documentation for an `enum` definition. */
-export interface ITsEnum extends ITsDocBase {
+export interface TsEnum extends TsDocBase {
     kind: Kind.Enum;
     /** Enumeration members. */
-    members: ITsEnumMember[];
+    members: TsEnumMember[];
 }
 
 /** A type alias, defined using `export type {name} = {type}.` The `type` property will contain the full type alias as a string. */
-export interface ITsTypeAlias extends ITsDocBase {
+export interface TsTypeAlias extends TsDocBase {
     kind: Kind.TypeAlias;
     /** Type string for which this member is an alias. */
     type: string;
 }
 
-export type TypescriptDocEntry = ITsClass | ITsInterface | ITsEnum | ITsMethod | ITsTypeAlias;
+export type TsDocEntry = TsClass | TsInterface | TsEnum | TsMethod | TsTypeAlias;
 
 /**
  * The `TypescriptPlugin` exports a `typescript` key that contains a map of member name to
@@ -199,23 +199,23 @@ export type TypescriptDocEntry = ITsClass | ITsInterface | ITsEnum | ITsMethod |
  * Only classes and interfaces are provided at this root level, but each member contains full
  * information about its children, such as methods (and signatures and parameters) and properties.
  */
-export interface ITypescriptPluginData {
+export interface TypescriptPluginData {
     typescript: {
-        [name: string]: TypescriptDocEntry;
+        [name: string]: TsDocEntry;
     };
 }
 
-function typeguard<T extends ITsDocBase>(kind: Kind) {
+function typeguard<T extends TsDocBase>(kind: Kind) {
     return (data: any): data is T => data != null && (data as T).kind === kind;
 }
 
-export const isTsClass = typeguard<ITsClass>(Kind.Class);
-export const isTsConstructor = typeguard<ITsConstructor>(Kind.Constructor);
-export const isTsEnum = typeguard<ITsEnum>(Kind.Enum);
-export const isTsEnumMember = typeguard<ITsEnumMember>(Kind.EnumMember);
-export const isTsInterface = typeguard<ITsInterface>(Kind.Interface);
-export const isTsMethod = typeguard<ITsMethod>(Kind.Method);
-export const isTsParameter = typeguard<ITsParameter>(Kind.Parameter);
-export const isTsProperty = typeguard<ITsProperty>(Kind.Property);
-export const isTsSignature = typeguard<ITsSignature>(Kind.Signature);
-export const isTsTypeAlias = typeguard<ITsTypeAlias>(Kind.TypeAlias);
+export const isTsClass = typeguard<TsClass>(Kind.Class);
+export const isTsConstructor = typeguard<TsConstructor>(Kind.Constructor);
+export const isTsEnum = typeguard<TsEnum>(Kind.Enum);
+export const isTsEnumMember = typeguard<TsEnumMember>(Kind.EnumMember);
+export const isTsInterface = typeguard<TsInterface>(Kind.Interface);
+export const isTsMethod = typeguard<TsMethod>(Kind.Method);
+export const isTsParameter = typeguard<TsParameter>(Kind.Parameter);
+export const isTsProperty = typeguard<TsProperty>(Kind.Property);
+export const isTsSignature = typeguard<TsSignature>(Kind.Signature);
+export const isTsTypeAlias = typeguard<TsTypeAlias>(Kind.TypeAlias);

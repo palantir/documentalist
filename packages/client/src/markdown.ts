@@ -14,31 +14,31 @@
  * limitations under the License.
  */
 
-import { IBlock } from "./compiler";
-import { INavigable } from "./tags";
+import { Block } from "./compiler";
+import { Navigable as Navigable } from "./tags";
 
 /**
  * The `MarkdownPlugin` exports a map of markdown `pages` keyed by reference,
  * and a multi-rooted `nav` tree of page nodes.
  */
-export interface IMarkdownPluginData {
+export interface MarkdownPluginData {
     /**
      * An ordered, nested, multi-rooted tree describing the navigation layout
      * of all the pages and their headings. The representation is constructued by
      * tracing `@page` and `@#+` tags.
      */
-    nav: IPageNode[];
+    nav: PageNode[];
 
     /** A map of page reference to data. */
     pages: {
-        [reference: string]: IPageData;
+        [reference: string]: PageData;
     };
 }
 
 /**
  * A single Documentalist page, parsed from a single source file.
  */
-export interface IPageData extends IBlock {
+export interface PageData extends Block {
     /** Unique identifier for addressing this page. */
     reference: string;
 
@@ -53,21 +53,21 @@ export interface IPageData extends IBlock {
 }
 
 /** An `@#+` tag belongs to a specific page. */
-export interface IHeadingNode extends INavigable {
+export interface HeadingNode extends Navigable {
     /** Display title of page heading. */
     title: string;
 }
 
 /** A page has ordered children composed of `@#+` and `@page` tags. */
-export interface IPageNode extends IHeadingNode {
+export interface PageNode extends HeadingNode {
     /** Ordered list of pages and headings that appear on this page. */
-    children: Array<IPageNode | IHeadingNode>;
+    children: Array<PageNode | HeadingNode>;
 
     /** Unique reference of this page, used for retrieval from store. */
     reference: string;
 }
 
-/** Type guard for `IPageNode`, useful for its `children` array. */
-export function isPageNode(node: any): node is IPageNode {
-    return node != null && (node as IPageNode).children != null;
+/** Type guard for `PageNode`, useful for its `children` array. */
+export function isPageNode(node: any): node is PageNode {
+    return node != null && (node as PageNode).children != null;
 }

@@ -15,14 +15,14 @@
  */
 
 import {
-    IBlock,
-    ICompiler,
-    IFile,
-    IHeadingNode,
-    IMarkdownPluginData,
-    IPageData,
-    IPageNode,
-    IPlugin,
+    Block,
+    Compiler,
+    File,
+    HeadingNode,
+    MarkdownPluginData,
+    PageData,
+    PageNode,
+    Plugin,
     isHeadingTag,
     isPageNode,
     slugify,
@@ -30,7 +30,7 @@ import {
 import * as path from "path";
 import { PageMap } from "../page";
 
-export interface IMarkdownPluginOptions {
+export interface MarkdownPluginOptions {
     /**
      * Page reference that lists the nav roots.
      * @default "_nav"
@@ -43,13 +43,13 @@ export interface IMarkdownPluginOptions {
  * This plugin traces `@page` and `@#+` "heading" tags to discover pages (given a single starting `navPage`)
  * and build up a tree representation of those pages.
  *
- * @see IPageData (rendered markdown page)
- * @see IPageNode (node in navigation tree)
+ * @see PageData (rendered markdown page)
+ * @see PageNode (node in navigation tree)
  */
-export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
-    private options: IMarkdownPluginOptions;
+export class MarkdownPlugin implements Plugin<MarkdownPluginData> {
+    private options: MarkdownPluginOptions;
 
-    public constructor(options: Partial<IMarkdownPluginOptions> = {}) {
+    public constructor(options: Partial<MarkdownPluginOptions> = {}) {
         this.options = {
             navPage: "_nav",
             ...options,
@@ -60,7 +60,7 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
      * Reads the given set of markdown files and adds their data to the internal storage.
      * Returns a plain object mapping page references to their data.
      */
-    public compile(markdownFiles: IFile[], compiler: ICompiler): IMarkdownPluginData {
+    public compile(markdownFiles: File[], compiler: Compiler): MarkdownPluginData {
         const pageMap = this.buildPageStore(markdownFiles, compiler);
         // now that we have all known pages, we can resolve @include tags.
         this.resolveIncludeTags(pageMap);
@@ -77,7 +77,7 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
         return { nav, pages };
     }
 
-    private blockToPage(sourcePath: string, block: IBlock): IPageData {
+    private blockToPage(sourcePath: string, block: Block): PageData {
         const reference = getReference(sourcePath, block);
         return {
             reference,
@@ -88,8 +88,8 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
         };
     }
 
-    /** Convert each file to IPageData and populate store. */
-    private buildPageStore(markdownFiles: IFile[], { relativePath, renderBlock }: ICompiler) {
+    /** Convert each file to PageData and populate store. */
+    private buildPageStore(markdownFiles: File[], { relativePath, renderBlock }: Compiler) {
         const pageMap = new PageMap();
         for (const file of markdownFiles) {
             const block = renderBlock(file.read());
@@ -104,7 +104,7 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
      * If node is a page, then it also computes `route` for each heading and recurses through child
      * pages.
      */
-    private recurseRoute(pageMap: PageMap, node: IPageNode | IHeadingNode, parent?: IPageNode) {
+    private recurseRoute(pageMap: PageMap, node: PageNode | HeadingNode, parent?: PageNode) {
         // compute route for page and heading NODES (from nav tree)
         const baseRoute = parent === undefined ? [] : [parent.route];
         const route = isPageNode(node)
@@ -128,7 +128,7 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
         }
     }
 
-    private resolveRoutes(pageMap: PageMap, nav: IPageNode[]) {
+    private resolveRoutes(pageMap: PageMap, nav: PageNode[]) {
         for (const page of nav) {
             // walk the nav tree and compute `route` property for each resource.
             this.recurseRoute(pageMap, page);
@@ -154,14 +154,14 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
     }
 }
 
-function getReference(absolutePath: string, { metadata }: IBlock) {
+function getReference(absolutePath: string, { metadata }: Block) {
     if (metadata.reference != null) {
         return metadata.reference;
     }
     return path.basename(absolutePath, path.extname(absolutePath));
 }
 
-function getTitle(block: IBlock) {
+function getTitle(block: Block) {
     if (block.metadata.title != null) {
         return block.metadata.title;
     }

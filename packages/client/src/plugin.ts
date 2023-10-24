@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ICompiler } from "./compiler";
+import { Compiler } from "./compiler";
 
 /**
  * A Documentalist plugin is an object with a `compile(files, compiler)` function
@@ -24,7 +24,7 @@ import { ICompiler } from "./compiler";
  * to accept options.
  *
  * ```ts
- * import { ICompiler, IFile, IPlugin } from "documentalist/client";
+ * import { Compiler, File, Plugin } from "documentalist/client";
  *
  * export interface MyData {
  *     pluginName: { ... }
@@ -34,24 +34,24 @@ import { ICompiler } from "./compiler";
  *     ...
  * }
  *
- * export class MyPlugin implements IPlugin<MyData> {
+ * export class MyPlugin implements Plugin<MyData> {
  *     public constructor(options: MyOptions = {}) {}
  *
- *     public compile(files: IFile[], compiler: ICompiler) {
+ *     public compile(files: File[], compiler: Compiler) {
  *         return files.map(transformToMyData);
  *     }
  * }
  * ```
  */
-export interface IPlugin<T> {
-    compile(files: IFile[], compiler: ICompiler): T | Promise<T>;
+export interface Plugin<T> {
+    compile(files: File[], compiler: Compiler): T | Promise<T>;
 }
 
 /**
  * Abstract representation of a file, containing absolute path and synchronous `read` operation.
  * This allows plugins to use only the path of a file without reading it.
  */
-export interface IFile {
+export interface File {
     path: string;
     read(): string;
 }

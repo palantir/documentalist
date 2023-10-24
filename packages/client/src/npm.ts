@@ -17,7 +17,7 @@
 /**
  * NPM package metadata
  */
-export interface INpmPackage {
+export interface NpmPackageInfo {
     /** Package name. */
     name: string;
 
@@ -47,12 +47,12 @@ export interface INpmPackage {
 }
 
 /**
- * The `KssPlugin` exports a `css` key that contains a map of styleguide references to markup/modifier examples.
+ * The `NpmPlugin` exports an `npm` key that contains a map of package names to their associated metadata.
  *
- * @see KSSPlugin
+ * @see NpmPlugin
  */
-export interface INpmPluginData {
+export interface NpmPluginData {
     npm: {
-        [packageName: string]: INpmPackage;
+        [packageName: string]: NpmPackageInfo;
     };
 }
