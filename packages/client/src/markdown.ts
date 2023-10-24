@@ -15,7 +15,7 @@
  */
 
 import { Block } from "./compiler";
-import { Navigable as Navigable } from "./tags";
+import { Navigable } from "./tags";
 
 /**
  * The `MarkdownPlugin` exports a map of markdown `pages` keyed by reference,
