@@ -1,33 +1,33 @@
 {
-    "name": "@documentalist/docs",
-    "version": "4.0.0",
-    "description": "Documentation for documentalist",
-    "private": true,
-    "scripts": {
-        "build": "npm-run-all -p build:json build:ts build:version -s build:pug build:css",
-        "build:json": "documentalist '../{client,compiler,docs}/src/**/*' --out docs.json",
-        "build:ts": "tsc --project ./src/tsconfig.json",
-        "build:version": "echo v$npm_package_version > theme/version.txt",
-        "build:pug": "pug -O docs.json ./theme/index.pug --pretty -o ./dist",
-        "build:css": "cp src/*.css dist/",
-        "lint": "tslint --project ./src",
-        "lint-fix": "yarn lint --fix"
-    },
-    "dependencies": {
-        "@documentalist/compiler": "^4.0.0"
-    },
-    "devDependencies": {
-        "npm-run-all": "^4.1.5",
-        "pug-cli": "^1.0.0-alpha6",
-        "tslint": "^6.1.3",
-        "typescript": "~5.2.2"
-    },
-    "engines": {
-        "node": ">=18"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:palantir/documentalist.git"
-    },
-    "author": "Palantir Technologies"
+  "name": "@documentalist/docs",
+  "version": "4.0.0",
+  "description": "Documentation for documentalist",
+  "private": true,
+  "scripts": {
+    "build": "npm-run-all -p build:json build:ts build:version -s build:pug build:css",
+    "build:json": "documentalist '../{client,compiler,docs}/src/**/*' --out docs.json",
+    "build:ts": "tsc --project ./src/tsconfig.json",
+    "build:version": "echo v$npm_package_version > theme/version.txt",
+    "build:pug": "pug -O docs.json ./theme/index.pug --pretty -o ./dist",
+    "build:css": "cp src/*.css dist/",
+    "lint": "tslint --project ./src",
+    "lint-fix": "yarn lint --fix"
+  },
+  "dependencies": {
+    "@documentalist/compiler": "^5.0.0"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "pug-cli": "^1.0.0-alpha6",
+    "tslint": "^6.1.3",
+    "typescript": "~5.2.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:palantir/documentalist.git"
+  },
+  "author": "Palantir Technologies"
 }
