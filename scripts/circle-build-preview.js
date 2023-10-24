@@ -8,11 +8,11 @@ const bot = require("circle-github-bot").create();
 /**
  * @type {Array<{path: string; url: string;}>}
  */
- const artifacts = require("./artifacts.json").items;
+const artifacts = require("./artifacts.json").items;
 
- const ARTIFACTS = {
-     documentation: "packages/docs/dist/index.html",
- };
+const ARTIFACTS = {
+    documentation: "packages/docs/dist/index.html",
+};
 
 if (!process.env.GITHUB_API_TOKEN) {
     // simply log artifact URLs if auth token is missed (typical on forks)

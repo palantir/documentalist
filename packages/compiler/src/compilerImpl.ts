@@ -87,8 +87,8 @@ export class CompilerImpl implements Compiler {
     private renderContents(content: string, reservedTagWords?: string[]) {
         const splitContents = this.parseTags(content, reservedTagWords);
         return splitContents
-            .map((node) => (typeof node === "string" ? this.renderMarkdown(node) : node))
-            .filter((node) => node !== "");
+            .map(node => (typeof node === "string" ? this.renderMarkdown(node) : node))
+            .filter(node => node !== "");
     }
 
     /**

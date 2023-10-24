@@ -22,7 +22,7 @@ describe("CompilerImpl", () => {
 
     describe("objectify", () => {
         it("empty array returns empty object", () => {
-            expect(API.objectify([], (x) => x)).toEqual({});
+            expect(API.objectify([], x => x)).toEqual({});
         });
 
         it("turns an array into an object", () => {
@@ -31,7 +31,7 @@ describe("CompilerImpl", () => {
                 { name: "Gilad", age: 456 },
                 { name: "Robert", age: 21 },
             ];
-            const byName = API.objectify(array, (x) => x.name);
+            const byName = API.objectify(array, x => x.name);
             expect(Object.keys(byName)).toEqual(["Bill", "Gilad", "Robert"]);
         });
     });

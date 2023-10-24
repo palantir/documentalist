@@ -35,7 +35,7 @@ describe("TypescriptPlugin", () => {
             expectSnapshot(
                 "interfaces",
                 { excludeNames: [/icon/i, "intent"] },
-                ({ ButtonProps }) => isTsInterface(ButtonProps) && ButtonProps.properties.map((p) => p.name),
+                ({ ButtonProps }) => isTsInterface(ButtonProps) && ButtonProps.properties.map(p => p.name),
             );
         });
 
@@ -44,7 +44,7 @@ describe("TypescriptPlugin", () => {
             expectSnapshot(
                 "classes",
                 { includePrivateMembers: true },
-                ({ Animal }) => isTsClass(Animal) && Animal.methods.map((m) => m.name),
+                ({ Animal }) => isTsClass(Animal) && Animal.methods.map(m => m.name),
             );
         });
     });
@@ -55,7 +55,7 @@ async function expectSnapshot(
     name: string,
     options?: TypescriptPluginOptions,
     /** a function to transform the DM data, to avoid snapshotting _everything_. defaults to identity function. */
-    transform: (data: TypescriptPluginData["typescript"]) => any = (arg) => arg,
+    transform: (data: TypescriptPluginData["typescript"]) => any = arg => arg,
 ) {
     const fixtureFilepath = `src/__tests__/__fixtures__/${name}.ts`;
     const dm = Documentalist.create().use(

@@ -134,7 +134,7 @@ export class TypescriptPlugin implements Plugin<TypescriptPluginData> {
 
         this.typedocApps.set(tsconfig, app);
 
-        const { config } = ts.readConfigFile(tsconfig, (path) => readFileSync(path, { encoding: "utf-8" }));
+        const { config } = ts.readConfigFile(tsconfig, path => readFileSync(path, { encoding: "utf-8" }));
         const program = ts.createProgram(entryPoints, config);
         this.tsPrograms.set(tsconfig, program);
 
@@ -208,7 +208,7 @@ export class TypescriptPlugin implements Plugin<TypescriptPluginData> {
             );
         }
 
-        return compiler.objectify(visitor.visitProject(project), (i) => i.name);
+        return compiler.objectify(visitor.visitProject(project), i => i.name);
     }
 
     private resolveClosestTsconfig(file: File) {
