@@ -34,11 +34,11 @@ export class NpmPlugin implements IPlugin<INpmPluginData> {
     public constructor(private options: INpmPluginOptions = {}) {}
 
     public compile(packageJsons: IFile[], dm: ICompiler): INpmPluginData {
-        const info = packageJsons.map((pkg) => this.parseNpmInfo(pkg, dm));
+        const info = packageJsons.map(pkg => this.parseNpmInfo(pkg, dm));
         const { excludeNames, excludePrivate } = this.options;
         const npm = arrayToObject(
-            info.filter((pkg) => isNotExcluded(excludeNames, pkg.name) && excludePrivate !== pkg.private),
-            (pkg) => pkg.name,
+            info.filter(pkg => isNotExcluded(excludeNames, pkg.name) && excludePrivate !== pkg.private),
+            pkg => pkg.name,
         );
         return { npm };
     }
@@ -94,11 +94,11 @@ export class NpmPlugin implements IPlugin<INpmPluginData> {
 
 function arrayToObject<T>(array: T[], keyFn: (item: T) => string) {
     const obj: { [key: string]: T } = {};
-    array.forEach((item) => (obj[keyFn(item)] = item));
+    array.forEach(item => (obj[keyFn(item)] = item));
     return obj;
 }
 
 /** Returns true if value does not match all patterns. */
 function isNotExcluded(patterns: Array<string | RegExp> = [], value?: string) {
-    return value === undefined || patterns.every((p) => value.match(p) == null);
+    return value === undefined || patterns.every(p => value.match(p) == null);
 }

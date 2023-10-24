@@ -45,7 +45,10 @@ import { ITypescriptPluginOptions } from "./typescriptPlugin";
 import { resolveSignature, resolveTypeString } from "./typestring";
 
 export class Visitor {
-    public constructor(private compiler: ICompiler, private options: ITypescriptPluginOptions) {}
+    public constructor(
+        private compiler: ICompiler,
+        private options: ITypescriptPluginOptions,
+    ) {}
 
     public visitProject(project: ProjectReflection) {
         const { excludePaths = [] } = this.options;
@@ -55,13 +58,13 @@ export class Visitor {
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Enum), this.visitEnum),
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Function), this.visitMethod),
             ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Interface), this.visitInterface),
-            ...this.visitChildren<ITsTypeAlias>(project.getReflectionsByKind(ReflectionKind.TypeAlias), (def) => ({
+            ...this.visitChildren<ITsTypeAlias>(project.getReflectionsByKind(ReflectionKind.TypeAlias), def => ({
                 ...this.makeDocEntry(def, Kind.TypeAlias),
                 type: resolveTypeString(def.type),
             })),
         ].filter(
             // remove members excluded by path option
-            (ref) => isNotExcluded(excludePaths, ref.fileName),
+            ref => isNotExcluded(excludePaths, ref.fileName),
         );
     }
 
@@ -72,7 +75,7 @@ export class Visitor {
             // special case for interface properties which have function signatures - we need to go one level deeper
             // to access the comment
             ref.type?.visit({
-                reflection: (reflectionType) => {
+                reflection: reflectionType => {
                     if (reflectionType.declaration.signatures !== undefined) {
                         comment = reflectionType.declaration.signatures[0].comment;
                     }
@@ -120,7 +123,7 @@ export class Visitor {
 
     private visitEnum = (def: DeclarationReflection): ITsEnum => ({
         ...this.makeDocEntry(def, Kind.Enum),
-        members: this.visitChildren<ITsEnumMember>(def.getChildrenByKind(ReflectionKind.EnumMember), (m) => ({
+        members: this.visitChildren<ITsEnumMember>(def.getChildrenByKind(ReflectionKind.EnumMember), m => ({
             ...this.makeDocEntry(m, Kind.EnumMember),
             defaultValue: getDefaultValue(m),
         })),
@@ -136,13 +139,13 @@ export class Visitor {
     private visitMethod = (def: DeclarationReflection): ITsMethod => ({
         ...this.makeDocEntry(def, Kind.Method),
         inheritedFrom: def.inheritedFrom && resolveTypeString(def.inheritedFrom),
-        signatures: def.signatures !== undefined ? def.signatures.map((sig) => this.visitSignature(sig)) : [],
+        signatures: def.signatures !== undefined ? def.signatures.map(sig => this.visitSignature(sig)) : [],
     });
 
     private visitSignature = (sig: SignatureReflection): ITsSignature => ({
         ...this.makeDocEntry(sig, Kind.Signature),
         flags: undefined,
-        parameters: (sig.parameters || []).map((param) => this.visitParameter(param)),
+        parameters: (sig.parameters || []).map(param => this.visitParameter(param)),
         returnType: resolveTypeString(sig.type),
         type: resolveSignature(sig),
     });
@@ -191,7 +194,7 @@ export class Visitor {
         const { excludeNames = [], excludePaths = [] } = this.options;
         return children
             .map(visitor)
-            .filter((doc) => isNotExcluded(excludeNames, doc.name) && isNotExcluded(excludePaths, doc.fileName))
+            .filter(doc => isNotExcluded(excludeNames, doc.name) && isNotExcluded(excludePaths, doc.fileName))
             .sort(comparator);
     }
 
@@ -204,12 +207,12 @@ export class Visitor {
         }
 
         let documentation = "";
-        documentation += comment.summary.map((part) => part.text).join("\n");
+        documentation += comment.summary.map(part => part.text).join("\n");
 
-        const blockTags = comment.blockTags.filter((tag) => tag.tag !== "@default" && tag.tag !== "@deprecated");
+        const blockTags = comment.blockTags.filter(tag => tag.tag !== "@default" && tag.tag !== "@deprecated");
         if (blockTags.length > 0) {
             documentation += "\n\n";
-            documentation += blockTags.map((tag) => `${tag.tag} ${tag.content}`).join("\n");
+            documentation += blockTags.map(tag => `${tag.tag} ${tag.content}`).join("\n");
         }
 
         return this.compiler.renderBlock(documentation);
@@ -218,7 +221,7 @@ export class Visitor {
 
 function getCommentTagValue(comment: Comment | undefined, tagName: string) {
     const maybeTag = comment?.getTag(`@${tagName}`);
-    return maybeTag?.content.map((part) => part.text.trim()).join("\n");
+    return maybeTag?.content.map(part => part.text.trim()).join("\n");
 }
 
 function getDefaultValue(ref: ParameterReflection | DeclarationReflection): string | undefined {
@@ -281,7 +284,7 @@ function getIsDeprecated(ref: Reflection) {
 
 /** Returns true if value does not match all patterns. */
 function isNotExcluded(patterns: Array<string | RegExp>, value?: string) {
-    return value === undefined || patterns.every((p) => value.match(p) == null);
+    return value === undefined || patterns.every(p => value.match(p) == null);
 }
 
 /** Sorts static members (`flags.isStatic`) before non-static members. */

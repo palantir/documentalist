@@ -25,8 +25,8 @@ and `await` your magical blob of documentation data!
 
 This project contains multiple NPM packages:
 
-- [`@documentalist/compiler`](#compiler)
-- [`@documentalist/client`](#client)
+-   [`@documentalist/compiler`](#compiler)
+-   [`@documentalist/client`](#client)
 
 ## License
 

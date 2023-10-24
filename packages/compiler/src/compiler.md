@@ -11,11 +11,11 @@ const { Documentalist, MarkdownPlugin, TypescriptPlugin } = require("@documental
 const { writeFileSync } = require("fs");
 
 new Documentalist()
-  .use(".md", new MarkdownPlugin())
-  .use(/\.tsx?$/, new TypescriptPlugin({ excludeNames: [/I.+State$/] }))
-  .documentGlobs("src/**/*") // ← async operation, returns a Promise
-  .then(docs => JSON.stringify(docs, null, 2))
-  .then(json => writeFileSync("docs.json", json))
+    .use(".md", new MarkdownPlugin())
+    .use(/\.tsx?$/, new TypescriptPlugin({ excludeNames: [/I.+State$/] }))
+    .documentGlobs("src/**/*") // ← async operation, returns a Promise
+    .then(docs => JSON.stringify(docs, null, 2))
+    .then(json => writeFileSync("docs.json", json));
 ```
 
 @interface Documentalist
@@ -25,7 +25,7 @@ new Documentalist()
 On the command line, the Markdown and Typescript plugins are enabled by default.
 The CSS plugin can be enabled with `--css`. Plugins can be disabled with the `no-` prefix.
 
-> __Options are not supported__ via the command line interface :sob:.
+> **Options are not supported** via the command line interface :sob:.
 
 ```sh
 documentalist "src/**/*" --css --no-ts > docs.json

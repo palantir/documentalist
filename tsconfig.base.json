@@ -4,10 +4,7 @@
         "declaration": true,
         "esModuleInterop": true,
         "experimentalDecorators": true,
-        "lib": [
-            "dom",
-            "ES2015"
-        ],
+        "lib": ["dom", "ES2015"],
         "module": "commonjs",
         "moduleResolution": "node",
         "noFallthroughCasesInSwitch": true,
@@ -19,9 +16,5 @@
         "strictNullChecks": true,
         "target": "ES2015"
     },
-    "exclude": [
-        "dist",
-        "lib",
-        "node_modules"
-    ]
+    "exclude": ["dist", "lib", "node_modules"]
 }

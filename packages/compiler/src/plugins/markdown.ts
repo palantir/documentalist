@@ -117,14 +117,14 @@ export class MarkdownPlugin implements IPlugin<IMarkdownPluginData> {
             const page = pageMap.get(node.reference)!;
             page.route = route;
 
-            page.contents.forEach((content) => {
+            page.contents.forEach(content => {
                 // inject `route` field into heading TAGS (from page contents)
                 if (isHeadingTag(content)) {
                     // h1 tags do not get nested as they are used as page title
                     content.route = content.level > 1 ? [route, slugify(content.value)].join(".") : route;
                 }
             });
-            node.children.forEach((child) => this.recurseRoute(pageMap, child, node));
+            node.children.forEach(child => this.recurseRoute(pageMap, child, node));
         }
     }
 

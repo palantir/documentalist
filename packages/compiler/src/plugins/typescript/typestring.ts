@@ -59,7 +59,7 @@ function resolveReferenceName(type: ReferenceType): string {
 
 export function resolveSignature(sig: SignatureReflection): string {
     const { parameters = [] } = sig;
-    const paramList = parameters.map((param) =>
+    const paramList = parameters.map(param =>
         // "[...]name[?]: type"
         [
             param.flags.isRest ? "..." : "",

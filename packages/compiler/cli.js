@@ -51,8 +51,7 @@ const argv = yargs
         desc: "output file path (defaults to std out)",
         type: "string",
     })
-    .demandCommand(1, "Requires at least one file")
-    .argv;
+    .demandCommand(1, "Requires at least one file").argv;
 
 let docs = Documentalist.create();
 
@@ -70,14 +69,14 @@ if (argv.css) {
 }
 
 docs.documentGlobs(...argv._)
-    .then((data) => JSON.stringify(data, null, 2))
+    .then(data => JSON.stringify(data, null, 2))
     .then(
-        (output) => {
+        output => {
             if (argv.out) {
                 fs.writeFileSync(argv.out, output, "utf-8");
             } else {
                 console.log(output);
             }
         },
-        (failedReason) => console.error(failedReason),
+        failedReason => console.error(failedReason),
     );
