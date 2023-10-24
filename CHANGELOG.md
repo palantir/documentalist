@@ -1,5 +1,21 @@
 ## Changelog
 
+_Release versions v5.0.0+ are documented in the [Releases page](https://github.com/palantir/documentalist/releases) and in package-specific [`changelog/` folders](https://github.com/palantir/documentalist/tree/develop/packages/compiler/changelog)_.
+
+### 2023-10-24
+
+`@documentalist/compiler@5.0.0`
+
+- [#156](https://github.com/palantir/documentalist/pull/156) ⚠️ break: Upgrade to typedoc to v0.25.x, which supports TypeScript v4.6 - v5.2
+- [#236](https://github.com/palantir/documentalist/pull/236) ⚠️ break: Upgrade minimum Node.js engine to v18.x
+- [#239](https://github.com/palantir/documentalist/pull/239) ⚠️ break: drop `I` prefix from all interface names
+
+`@documentalist/client@5.0.0`
+
+- [#156](https://github.com/palantir/documentalist/pull/156) feat: Export new type alias `TsDocEntry`
+- [#236](https://github.com/palantir/documentalist/pull/236) ⚠️ break: Upgrade minimum Node.js engine to v18.x
+- [#239](https://github.com/palantir/documentalist/pull/239) ⚠️ break: drop `I` prefix from all interface names
+
 ### 2022-04-05
 
 `@documentalist/compiler@4.0.0`
