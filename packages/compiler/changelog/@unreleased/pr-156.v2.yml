@@ -1,0 +1,5 @@
+type: break
+break:
+  description: Upgrade to typedoc to v0.25.x, which supports TypeScript v4.6 - v5.2
+  links:
+  - https://github.com/palantir/documentalist/pull/156

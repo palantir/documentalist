@@ -1,0 +1,5 @@
+type: feature
+feature:
+  description: Export new type alias `TsDocEntry`
+  links:
+  - https://github.com/palantir/documentalist/pull/156

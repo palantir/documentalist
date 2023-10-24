@@ -1,0 +1,38 @@
+type: break
+break:
+  description: |-
+    Rename all interfaces to drop the `I` prefix:
+    - `ICompiler` -> `Compiler`
+    - `IMetadata` -> `Metadata`
+    - `IBlock` -> `Block`
+    - `IKssModifier` -> `KssModifier`
+    - `IKSSExample` -> `KSSExample`
+    - `IKSSPluginData` -> `KSSPluginData`
+    - `IMarkdownPluginData` -> `MarkdownPluginData`
+    - `IPageNode` -> `PageNode`
+    - `IPageData` -> `PageData`
+    - `INavigable` -> `Navigable`
+    - `IHeadingNode` -> `HeadingNode`
+    - `INpmPackage` -> `NpmPackageInfo`
+    - `INpmPluginData` -> `NpmPluginData`
+    - `IPlugin` -> `Plugin`
+    - `IFile` -> `File`
+    - `ITag` -> `Tag`
+    - `IHeadingTag` -> `HeadingTag`
+    - `ITsFlags` -> `TsFlags`
+    - `ITsDocBase` -> `TsDocBase`
+    - `ITsConstructor` -> `TsConstructor`
+    - `ITsMethod` -> `TsMethod`
+    - `ITsCallable` -> `TsCallable`
+    - `ITsSignature` -> `TsSignature`
+    - `ITsDefaultValue` -> `TsDefaultValue`
+    - `ITsObjectDefinition` -> `TsObjectDefinition`
+    - `ITsProperty` -> `TsProperty`
+    - `ITsParameter` -> `TsParameter`
+    - `ITsClass` -> `TsClass`
+    - `ITsAccessor` -> `TsAccessor`
+    - `ITsEnumMember` -> `TsEnumMember`
+    - `ITsEnum` -> `TsEnum`
+    - `ITypescriptPluginData` -> `TypescriptPluginData`
+  links:
+  - https://github.com/palantir/documentalist/pull/156
