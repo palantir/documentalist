@@ -16,7 +16,7 @@
 
 import { Block, Compiler, HeadingTag, StringOrTag } from "@documentalist/client";
 import * as yaml from "js-yaml";
-import { marked } from "marked";
+import { marked, MarkedOptions } from "marked";
 import { relative } from "path";
 
 /**
@@ -33,7 +33,7 @@ const TAG_SPLIT_REGEX = /^(@\S+(?:\s+[^\n]+)?)$/gm;
 
 export interface CompilerOptions {
     /** Options for markdown rendering. See https://github.com/chjj/marked#options-1. */
-    markdown?: marked.MarkedOptions;
+    markdown?: MarkedOptions;
 
     /**
      * Reserved @tags that should be preserved in the contents string.
@@ -73,11 +73,7 @@ export class CompilerImpl implements Compiler {
         return { contents, contentsRaw, metadata };
     };
 
-    public renderMarkdown = (markdown: string) =>
-        marked(markdown, {
-            highlight: null as any,
-            ...this.options.markdown,
-        });
+    public renderMarkdown = (markdown: string) => marked(markdown, this.options.markdown);
 
     /**
      * Converts the content string into an array of `ContentNode`s. If the
