@@ -1,0 +1,5 @@
+type: feature
+feature:
+  description: Upgrade to Marked v9.0
+  links:
+    - https://github.com/palantir/documentalist/pull/247

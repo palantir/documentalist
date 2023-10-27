@@ -24,7 +24,7 @@ exports[`MarkdownPlugin snapshot 1`] = `
         "tag": "heading",
         "value": "I'm special",
       },
-      "<h2 id="im-regular">I&#39;m regular</h2>
+      "<h2>I&#39;m regular</h2>
 ",
       {
         "tag": "othertag",
