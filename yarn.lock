@@ -305,13 +305,14 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@blueprintjs/tslint-config@^3.3.2":
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/@blueprintjs/tslint-config/-/tslint-config-3.3.2.tgz#a45bda96b52ed506c5a3f3e0bd135ba8685883e0"
-  integrity sha512-cJKBYuk0unpVz5O5N2nMedqzwpjQX7K387vTwFCRe4jZSa/Wdr/nnxVMG3oDwHAwxqCUchwtQh0AEesQV+QCKQ==
+"@blueprintjs/tslint-config@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/tslint-config/-/tslint-config-4.0.1.tgz#752296bbeae9d25e6e8548412040ff603c8d1b4e"
+  integrity sha512-r3oX8Uo8eUFzRR/GoK7+xNX5jVOYtzztbiMGfNYStcNVCCkoFOi7GSjV5fjf0OCKWHLRysWgH/VHPI5ZdX0DqQ==
   dependencies:
     tslib "~2.5.0"
     tslint-react "^5.0.0"
+    tsutils "^3.21.0"
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
@@ -6425,10 +6426,10 @@ tsutils@^2.29.0:
   dependencies:
     tslib "^1.8.1"
 
-tsutils@^3.17.1:
-  version "3.17.1"
-  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-3.17.1.tgz#ed719917f11ca0dee586272b2ac49e015a2dd759"
-  integrity sha512-kzeQ5B8H3w60nFY2g8cJIuH7JDpsALXySGtwGJ0p2LSjLgay3NdIpqq5SoOBe46bKDW2iq25irHCr8wjomUS2g==
+tsutils@^3.17.1, tsutils@^3.21.0:
+  version "3.21.0"
+  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-3.21.0.tgz#b48717d394cea6c1e096983eed58e9d61715b623"
+  integrity sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==
   dependencies:
     tslib "^1.8.1"
 
