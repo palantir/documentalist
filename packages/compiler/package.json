@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@documentalist/client": "^5.0.0",
-    "@types/kss": "^3.0.2",
+    "@types/kss": "^3.0.3",
     "glob": "^10.3.10",
     "js-yaml": "^4.1.0",
     "kss": "^3.0.1",
