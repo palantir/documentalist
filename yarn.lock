@@ -1414,10 +1414,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/kss@^3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@types/kss/-/kss-3.0.3.tgz#73dec154cf106175c7b92e235ec7dcb850b97dc2"
-  integrity sha512-yhpBAij/E9Cfu1bUpk9xx86LlCIyGib6bY/wXPLWcmxM0Tq8P0J5YZmIZtbWkfBcZIVn1NvhK+iTBfDzaB5dvQ==
+"@types/kss@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@types/kss/-/kss-3.0.4.tgz#d404037f1a7e21cdff94e77093188793118c7f56"
+  integrity sha512-mwAQG3IFgl4s6PT1FyD4Ml6GyMl9E+uEwU2uasl+8VdgSbCweZHh1pKzyXnK01fyo0xMpPc0njLkxq5DfI5tcg==
 
 "@types/minimatch@^3.0.3":
   version "3.0.5"
