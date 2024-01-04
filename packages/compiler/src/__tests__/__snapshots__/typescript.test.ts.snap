@@ -1523,3 +1523,15 @@ exports[`TypescriptPlugin options includePrivateMembers 1`] = `
   "eat",
 ]
 `;
+
+exports[`TypescriptPlugin options includePrivateMembers 2`] = `
+[
+  "active",
+  "disabled",
+  "elementRef",
+  "loading",
+  "onClick",
+  "text",
+  "type",
+]
+`;

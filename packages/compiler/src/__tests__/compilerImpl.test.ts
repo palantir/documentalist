@@ -41,33 +41,33 @@ describe("CompilerImpl", () => {
         const MARKDOWN = "# Title\nbody body body";
         const OBJECT = { hello: "world", size: 1000 };
 
-        it("extracts contentsRaw and parses metadata", () => {
-            const data = API.renderBlock(METADATA + MARKDOWN);
+        it("extracts contentsRaw and parses metadata", async () => {
+            const data = await API.renderBlock(METADATA + MARKDOWN);
             expect(data.contentsRaw).toBe(MARKDOWN);
             expect(data.metadata).toEqual(OBJECT);
         });
 
-        it("supports empty metadata block", () => {
-            const data = API.renderBlock("---\n---\n" + MARKDOWN);
+        it("supports empty metadata block", async () => {
+            const data = await API.renderBlock("---\n---\n" + MARKDOWN);
             expect(data.contentsRaw).toBe(MARKDOWN);
             expect(data.metadata).toEqual({});
         });
 
-        it("metadata block is optional", () => {
-            const data = API.renderBlock(MARKDOWN);
+        it("metadata block is optional", async () => {
+            const data = await API.renderBlock(MARKDOWN);
             expect(data.contentsRaw).toBe(MARKDOWN);
             expect(data.metadata).toEqual({});
         });
     });
 
     describe("rendered contents", () => {
-        it("returns a single-element array for string without @tags", () => {
-            const { contents } = API.renderBlock("simple string");
+        it("returns a single-element array for string without @tags", async () => {
+            const { contents } = await API.renderBlock("simple string");
             expect(contents).toEqual(["<p>simple string</p>\n"]);
         });
 
-        it("converts @tag to object in array", () => {
-            const { contents } = API.renderBlock(FILE);
+        it("converts @tag to object in array", async () => {
+            const { contents } = await API.renderBlock(FILE);
             expect(contents).toHaveLength(3);
             expect(contents[1]).toEqual({
                 tag: "interface",
@@ -75,8 +75,8 @@ describe("CompilerImpl", () => {
             });
         });
 
-        it("converts @#+ to heading tags in array", () => {
-            const { contents } = API.renderBlock(HEADING_FILE);
+        it("converts @#+ to heading tags in array", async () => {
+            const { contents } = await API.renderBlock(HEADING_FILE);
             expect(contents).toHaveLength(9);
             const headings = contents.filter(isHeadingTag);
             expect(headings).toHaveLength(4);
@@ -89,8 +89,8 @@ describe("CompilerImpl", () => {
             });
         });
 
-        it("reservedWords will ignore matching @tag", () => {
-            const { contents } = API.renderBlock(FILE, ["interface"]);
+        it("reservedWords will ignore matching @tag", async () => {
+            const { contents } = await API.renderBlock(FILE, ["interface"]);
             // only one string (reserved @word does not get split to its own entry)
             expect(contents).toHaveLength(1);
             // @tag value comes out exactly as written in source, on its own line

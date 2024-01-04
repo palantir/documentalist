@@ -39,7 +39,7 @@ describe("TypescriptPlugin", () => {
             );
         });
 
-        it("includePrivateMembers", () => {
+        it.only("includePrivateMembers", () => {
             // class Animal has a private method
             expectSnapshot(
                 "classes",

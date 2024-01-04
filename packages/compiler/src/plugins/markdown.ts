@@ -27,7 +27,7 @@ import {
     Plugin,
     slugify,
 } from "@documentalist/client";
-import * as path from "path";
+import { basename, extname } from "node:path";
 import { PageMap } from "../page";
 
 export interface MarkdownPluginOptions {
@@ -60,8 +60,8 @@ export class MarkdownPlugin implements Plugin<MarkdownPluginData> {
      * Reads the given set of markdown files and adds their data to the internal storage.
      * Returns a plain object mapping page references to their data.
      */
-    public compile(markdownFiles: File[], compiler: Compiler): MarkdownPluginData {
-        const pageMap = this.buildPageStore(markdownFiles, compiler);
+    public async compile(markdownFiles: File[], compiler: Compiler): Promise<MarkdownPluginData> {
+        const pageMap = await this.buildPageStore(markdownFiles, compiler);
         // now that we have all known pages, we can resolve @include tags.
         this.resolveIncludeTags(pageMap);
         // generate navigation tree after all pages loaded and processed.
@@ -89,10 +89,10 @@ export class MarkdownPlugin implements Plugin<MarkdownPluginData> {
     }
 
     /** Convert each file to PageData and populate store. */
-    private buildPageStore(markdownFiles: File[], { relativePath, renderBlock }: Compiler) {
+    private async buildPageStore(markdownFiles: File[], { relativePath, renderBlock }: Compiler) {
         const pageMap = new PageMap();
         for (const file of markdownFiles) {
-            const block = renderBlock(file.read());
+            const block = await renderBlock(file.read());
             const page = this.blockToPage(relativePath(file.path), block);
             pageMap.set(page.reference, page);
         }
@@ -158,7 +158,7 @@ function getReference(absolutePath: string, { metadata }: Block) {
     if (metadata.reference != null) {
         return metadata.reference;
     }
-    return path.basename(absolutePath, path.extname(absolutePath));
+    return basename(absolutePath, extname(absolutePath));
 }
 
 function getTitle(block: Block) {
