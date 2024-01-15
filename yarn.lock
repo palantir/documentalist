@@ -305,15 +305,15 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@blueprintjs/tslint-config@^4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@blueprintjs/tslint-config/-/tslint-config-4.1.1.tgz#01a7d40bbb9f9591921dc3c0cc29c56632e9725f"
-  integrity sha512-z48VWHwOrTG+xCh5v8wKruIL+F7Za2F/Mj/MO3fxaLCxrx3Ps4imH1FPsixMx0IunhV9psPxAj0yGSNO/QK/AA==
+"@blueprintjs/tslint-config@^4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/tslint-config/-/tslint-config-4.1.2.tgz#b53326d43c8dbc81a5c0375471771a6ee99e2e7e"
+  integrity sha512-0qILGuGaUYhvvYQBs3GQcHtGfvThK1q+zmZ9pbXY7SrBYnmjD3c3vjHC34Bro+MdO8TEaXt1LaF9yXs8dIGmAw==
   dependencies:
     tslib "~2.6.2"
     tslint-react "^5.0.0"
     tsutils "^3.21.0"
-    typescript "~5.2.2"
+    typescript "~5.3.3"
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
@@ -6573,7 +6573,12 @@ typedoc@~0.25.2:
     minimatch "^9.0.3"
     shiki "^0.14.1"
 
-"typescript@>=3 < 6", typescript@~5.2.2:
+"typescript@>=3 < 6", typescript@~5.3.3:
+  version "5.3.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.3.3.tgz#b3ce6ba258e72e6305ba66f5c9b452aaee3ffe37"
+  integrity sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==
+
+typescript@~5.2.2:
   version "5.2.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.2.2.tgz#5ebb5e5a5b75f085f22bc3f8460fba308310fa78"
   integrity sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==
