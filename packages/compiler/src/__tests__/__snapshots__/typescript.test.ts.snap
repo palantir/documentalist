@@ -1502,27 +1502,7 @@ is.",
 }
 `;
 
-exports[`TypescriptPlugin options excludeNames 1`] = `
-[
-  "active",
-  "disabled",
-  "elementRef",
-  "loading",
-  "onClick",
-  "text",
-  "type",
-]
-`;
-
-exports[`TypescriptPlugin options excludePaths 1`] = `{}`;
-
-exports[`TypescriptPlugin options includePrivateMembers 1`] = `
-[
-  "bark",
-  "consumePrivate",
-  "eat",
-]
-`;
+exports[`TypescriptPlugin options includePrivateMembers 1`] = `{}`;
 
 exports[`TypescriptPlugin options includePrivateMembers 2`] = `
 [
