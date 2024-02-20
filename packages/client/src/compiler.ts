@@ -40,12 +40,13 @@ export interface Compiler {
      * tag words array may be provided, in which case the line will be left as
      * is.
      */
-    renderBlock(blockContent: string, reservedTagWords?: string[]): Block;
+    renderBlock(blockContent: string, reservedTagWords?: string[]): Promise<Block>;
 
     /**
      * Render a string of markdown to HTML, using the options from `Documentalist`.
+     * If any `marked` plugin is set to `async: true`, the return value will be a Promise.
      */
-    renderMarkdown(markdown: string): string;
+    renderMarkdown(markdown: string): string | Promise<string>;
 }
 
 /**

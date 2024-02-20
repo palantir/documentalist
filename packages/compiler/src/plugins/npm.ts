@@ -15,7 +15,7 @@
  */
 
 import { Compiler, File, NpmPackageInfo, NpmPluginData, Plugin } from "@documentalist/client";
-import { spawnSync } from "child_process";
+import { spawnSync } from "node:child_process";
 
 export interface NpmPluginOptions {
     /** Whether to exclude packages marked `private`. */

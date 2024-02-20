@@ -15,11 +15,12 @@
  */
 
 import type { Compiler, File, Plugin, TsDocEntry, TypescriptPluginData } from "@documentalist/client";
-import { readFileSync } from "fs";
-import { dirname } from "path";
+import { readFileSync } from "node:fs";
+import { dirname } from "node:path";
 import { tsconfigResolverSync } from "tsconfig-resolver";
 import { Application, LogLevel, TSConfigReader, TypeDocOptions, TypeDocReader } from "typedoc";
 import * as ts from "typescript";
+
 import { Visitor } from "./visitor";
 
 export interface TypescriptPluginOptions {
@@ -208,7 +209,7 @@ export class TypescriptPlugin implements Plugin<TypescriptPluginData> {
             );
         }
 
-        return compiler.objectify(visitor.visitProject(project), i => i.name);
+        return compiler.objectify(await visitor.visitProject(project), i => i.name);
     }
 
     private resolveClosestTsconfig(file: File) {
