@@ -1,14 +1,21 @@
 /* NATIVE ELEMENT STYLES */
-
 html,
 body {
   margin: 0;
 }
 
 body {
-  background-color: #F5F5F5;
-  color: #555;
-  font-family: Helvetica, Arial, sans-serif;
+  --background-color: #ffffff;
+  --nav-width: 250px;
+  --outline-width: 250px;
+  --webkit-font-smoothing: antialiased;
+  width: 100vw;
+  background-color: var(--background-color);
+  color: #111418;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 a {
@@ -59,19 +66,127 @@ blockquote {
 
 /* LAYOUT */
 
-#content {
-  margin-left: 250px;
-  max-width: 50em;
-  padding: 20px;
+.wrapper {
+  max-width: 1280px;
+  width: 100%;
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--nav-width) minmax(0, 1fr);
+  column-gap: 1.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.nav-wrapper {
+  display: block;
 }
 
 #nav {
   position: fixed;
-  top: 0;
-  bottom: 0;
-  width: 200px;
-  overflow: auto;
-  padding: 20px;
+  top: 30px;
+  height: 100svh;
+  flex-shrink: 0;
+  padding: 10px 25px;
+  background-color: var(--background-color);
+  font-size: 12px;
+}
+
+
+.main-container {
+  position: relative;
+  display: block;
+  min-height: 100%;
+  flex: 1;
+  overflow: visible;
+}
+
+.content-wrapper {
+  display: flex;
+  column-gap: 1.5rem;
+  position: relative;
+}
+
+#page-outline {
+  top: 30px;
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: fit-content;
+  flex-shrink: 0;
+  width: var(--outline-width);
+  padding: 10px;
+  font-size: 12px;
+  background-color: var(--background-color);
+  align-self: flex-start;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 750px;
+  padding-top: 40px;
+  overflow-y: auto;
+}
+
+#page-outline h4 {
+  margin-top: 1em;
+  font-size: 0.85em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+  margin-bottom: 1em;
+  padding-left: 2px;
+}
+
+.outline-items {
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-left: 1px solid #E5E7EB;
+}
+
+.outline-item {
+  display: block;
+  text-decoration: none;
+  font-size: 0.85em;
+  color: #8F99A8;
+  border-radius: 3px;
+  transition: all 0.15s ease;
+  position: relative;
+  
+  &:hover {
+    color: #5F6B7C !important;
+  }
+
+  &.active {
+    font-weight: 500;
+    color: #111418 !important;
+    position: relative;
+  }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+#page-outline::-webkit-scrollbar {
+  width: 6px;
+}
+
+#page-outline::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#page-outline::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+/* For Firefox */
+#page-outline {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
 }
 
 .nav-item {

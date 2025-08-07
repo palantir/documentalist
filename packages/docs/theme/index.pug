@@ -1,6 +1,7 @@
 include mixins
 
 - var toc = Object.keys(typescript).sort((a, b) => a.localeCompare(b))
+- var isPageNode = function(node) { return node && node.children !== undefined; }
 
 mixin listing(title, kind)
   h4= title
@@ -13,22 +14,34 @@ html
     title Documentalist
     link(rel='stylesheet', href='index.css')
   body
-    #nav
-      each item in nav
-        h3: a(href="#" + item.reference)= item.title
+    .wrapper
+      div.nav-wrapper
+        nav#nav
+          each item in nav
+            h3: a(href="#" + item.reference)= item.title
+            //- Only show page-level children, not headings
+            each child in item.children.filter(isPageNode)
+              a.nav-item(href='#' + child.reference)= child.title
 
-      h3 API Reference
-      +listing("Classes", "class")
-      +listing("Interfaces", "interface")
-      +listing("Enums", "enum")
-      +listing("Aliases", "type alias")
+          h3 API Reference
+          +listing("Classes", "class")
+          +listing("Interfaces", "interface")
+          +listing("Enums", "enum")
+          +listing("Aliases", "type alias")
 
-      //- include current package.json version from text file (see npm script docs:version)
-      h4:  include version.txt
+          //- include current package.json version from text file (see npm script docs:version)
+          h4:  include version.txt
 
-      .copyright &copy; Copyright 2017-present Palantir
+          .copyright &copy; Copyright 2017-present Palantir
 
-    #content
+      main.main-container
+        div.content-wrapper
+          div.content-container
+            article#content
+          
+          aside#page-outline
+            h4 On this page
+            .outline-items
 
     each page in pages
       article(data-route=page.reference,hidden=true)
