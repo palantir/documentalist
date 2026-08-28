@@ -17,7 +17,7 @@
 import { Block, Compiler, HeadingTag, StringOrTag } from "@documentalist/client";
 import * as yaml from "js-yaml";
 import { marked, MarkedOptions } from "marked";
-import { relative } from "path";
+import { relative } from "node:path";
 
 /**
  * Matches the triple-dash metadata block on the first line of markdown file.
@@ -67,9 +67,9 @@ export class CompilerImpl implements Compiler {
         return relative(sourceBaseDir, path);
     };
 
-    public renderBlock = (blockContent: string, reservedTagWords = this.options.reservedTags): Block => {
+    public renderBlock = async (blockContent: string, reservedTagWords = this.options.reservedTags): Promise<Block> => {
         const { contentsRaw, metadata } = this.extractMetadata(blockContent.trim());
-        const contents = this.renderContents(contentsRaw, reservedTagWords);
+        const contents = await this.renderContents(contentsRaw, reservedTagWords);
         return { contents, contentsRaw, metadata };
     };
 
@@ -80,11 +80,12 @@ export class CompilerImpl implements Compiler {
      * `contents` option is `html`, the string nodes will also be rendered with
      * markdown.
      */
-    private renderContents(content: string, reservedTagWords?: string[]) {
+    private async renderContents(content: string, reservedTagWords?: string[]) {
         const splitContents = this.parseTags(content, reservedTagWords);
-        return splitContents
-            .map(node => (typeof node === "string" ? this.renderMarkdown(node) : node))
-            .filter(node => node !== "");
+        const renderedContents = await Promise.all(
+            splitContents.map(node => Promise.resolve(typeof node === "string" ? this.renderMarkdown(node) : node)),
+        );
+        return renderedContents.filter(node => node !== "");
     }
 
     /**

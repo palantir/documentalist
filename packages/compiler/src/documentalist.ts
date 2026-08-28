@@ -15,9 +15,10 @@
  */
 
 import { File, Plugin } from "@documentalist/client";
-import * as fs from "fs";
 import * as glob from "glob";
-import * as path from "path";
+import { readFileSync } from "node:fs";
+import * as path from "node:path";
+
 import { CompilerImpl, CompilerOptions } from "./compilerImpl";
 
 /**
@@ -112,7 +113,7 @@ export class Documentalist<T> {
                 const absolutePath = path.resolve(fileName);
                 return {
                     path: absolutePath,
-                    read: () => fs.readFileSync(absolutePath, "utf8"),
+                    read: () => readFileSync(absolutePath, "utf8"),
                 };
             });
     }

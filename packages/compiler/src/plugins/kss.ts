@@ -15,8 +15,8 @@
  */
 
 import { Compiler, File, KssExample, KssModifier, KssPluginData, Plugin } from "@documentalist/client";
-import * as kss from "kss";
-import * as path from "path";
+import kss from "kss";
+import { dirname } from "node:path";
 
 /**
  * The `KssPlugin` extracts [KSS doc comments](http://warpspire.com/kss/syntax/) from CSS code (or similar languages).
@@ -28,16 +28,16 @@ import * as path from "path";
 export class KssPlugin implements Plugin<KssPluginData> {
     public constructor(private options: kss.Options = {}) {}
 
-    public compile(cssFiles: File[], dm: Compiler): KssPluginData {
+    public async compile(cssFiles: File[], dm: Compiler): Promise<KssPluginData> {
         const styleguide = this.parseFiles(cssFiles);
-        const sections = styleguide.sections().map(s => convertSection(s, dm));
+        const sections = await Promise.all(styleguide.sections().map(s => convertSection(s, dm)));
         const css = dm.objectify(sections, s => s.reference);
         return { css };
     }
 
     private parseFiles(files: File[]) {
         const input = files.map<kss.File>(file => ({
-            base: path.dirname(file.path),
+            base: dirname(file.path),
             contents: file.read(),
             path: file.path,
         }));
@@ -46,19 +46,19 @@ export class KssPlugin implements Plugin<KssPluginData> {
     }
 }
 
-function convertSection(section: kss.KssSection, dm: Compiler): KssExample {
+async function convertSection(section: kss.KssSection, dm: Compiler): Promise<KssExample> {
     return {
-        documentation: dm.renderMarkdown(section.description()),
+        documentation: await dm.renderMarkdown(section.description()),
         markup: section.markup() || "",
-        markupHtml: dm.renderMarkdown(`\`\`\`html\n${section.markup() || ""}\n\`\`\``),
-        modifiers: section.modifiers().map(mod => convertModifier(mod, dm)),
+        markupHtml: await dm.renderMarkdown(`\`\`\`html\n${section.markup() || ""}\n\`\`\``),
+        modifiers: await Promise.all(section.modifiers().map(mod => convertModifier(mod, dm))),
         reference: section.reference(),
     };
 }
 
-function convertModifier(mod: kss.KssModifier, dm: Compiler): KssModifier {
+async function convertModifier(mod: kss.KssModifier, dm: Compiler): Promise<KssModifier> {
     return {
-        documentation: dm.renderMarkdown(mod.description()),
+        documentation: await dm.renderMarkdown(mod.description()),
         name: mod.name(),
     };
 }

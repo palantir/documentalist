@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import * as path from "path";
+import { join } from "node:path";
+
 import { Documentalist } from "./documentalist";
 import { NpmPlugin } from "./plugins/npm";
 import { TypescriptPlugin } from "./plugins/typescript";
@@ -28,9 +29,9 @@ Documentalist.create()
     .use(".ts", new TypescriptPlugin())
     .use("package.json", new NpmPlugin())
     .documentGlobs(
-        path.join(__dirname, "..", "package.json"),
+        join(__dirname, "..", "package.json"),
         // compile test fixtures:
-        path.join(__dirname, "__tests__", "__fixtures__", "*.ts"),
+        join(__dirname, "__tests__", "__fixtures__", "*.ts"),
         // compile our own source code:
         // path.join(__dirname, "..", "src", "index.ts"),
     );

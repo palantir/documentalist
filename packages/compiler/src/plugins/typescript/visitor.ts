@@ -31,7 +31,7 @@ import {
     TsSignature,
     TsTypeAlias,
 } from "@documentalist/client";
-import { relative } from "path";
+import { relative } from "node:path";
 import {
     Comment,
     DeclarationReflection,
@@ -41,6 +41,7 @@ import {
     ReflectionKind,
     SignatureReflection,
 } from "typedoc";
+
 import { TypescriptPluginOptions } from "./typescriptPlugin";
 import { resolveSignature, resolveTypeString } from "./typestring";
 
@@ -50,25 +51,28 @@ export class Visitor {
         private options: TypescriptPluginOptions,
     ) {}
 
-    public visitProject(project: ProjectReflection) {
+    public async visitProject(project: ProjectReflection) {
         const { excludePaths = [] } = this.options;
         // get top-level members of typedoc project
         return [
-            ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Class), this.visitClass),
-            ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Enum), this.visitEnum),
-            ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Function), this.visitMethod),
-            ...this.visitChildren(project.getReflectionsByKind(ReflectionKind.Interface), this.visitInterface),
-            ...this.visitChildren<TsTypeAlias>(project.getReflectionsByKind(ReflectionKind.TypeAlias), def => ({
-                ...this.makeDocEntry(def, Kind.TypeAlias),
-                type: resolveTypeString(def.type),
-            })),
+            ...(await this.visitChildren(project.getReflectionsByKind(ReflectionKind.Class), this.visitClass)),
+            ...(await this.visitChildren(project.getReflectionsByKind(ReflectionKind.Enum), this.visitEnum)),
+            ...(await this.visitChildren(project.getReflectionsByKind(ReflectionKind.Function), this.visitMethod)),
+            ...(await this.visitChildren(project.getReflectionsByKind(ReflectionKind.Interface), this.visitInterface)),
+            ...(await this.visitChildren<TsTypeAlias>(
+                project.getReflectionsByKind(ReflectionKind.TypeAlias),
+                async def => ({
+                    ...(await this.makeDocEntry(def, Kind.TypeAlias)),
+                    type: resolveTypeString(def.type),
+                }),
+            )),
         ].filter(
             // remove members excluded by path option
             ref => isNotExcluded(excludePaths, ref.fileName),
         );
     }
 
-    private makeDocEntry<K extends Kind>(ref: Reflection, kind: K): TsDocBase<K> {
+    private async makeDocEntry<K extends Kind>(ref: Reflection, kind: K): Promise<TsDocBase<K>> {
         let comment = ref.comment;
 
         if (comment === undefined && ref.isDeclaration()) {
@@ -84,7 +88,7 @@ export class Visitor {
         }
 
         return {
-            documentation: this.renderComment(comment),
+            documentation: await this.renderComment(comment),
             fileName: getSourceFileName(ref),
             flags: getFlags(ref),
             kind,
@@ -93,71 +97,74 @@ export class Visitor {
         };
     }
 
-    private visitClass = (def: DeclarationReflection): TsClass => ({
-        ...this.visitInterface(def),
-        accessors: this.visitChildren(def.getChildrenByKind(ReflectionKind.Accessor), this.visitAccessor),
-        constructorType: this.visitChildren(
-            def.getChildrenByKind(ReflectionKind.Constructor),
-            this.visitConstructor,
+    private visitClass = async (def: DeclarationReflection): Promise<TsClass> => ({
+        ...(await this.visitInterface(def)),
+        accessors: await this.visitChildren(def.getChildrenByKind(ReflectionKind.Accessor), this.visitAccessor),
+        constructorType: (
+            await this.visitChildren(def.getChildrenByKind(ReflectionKind.Constructor), this.visitConstructor)
         )[0],
         kind: Kind.Class,
     });
 
-    private visitInterface = (def: DeclarationReflection): TsInterface => ({
-        ...this.makeDocEntry(def, Kind.Interface),
+    private visitInterface = async (def: DeclarationReflection): Promise<TsInterface> => ({
+        ...(await this.makeDocEntry(def, Kind.Interface)),
         extends: def.extendedTypes?.map(resolveTypeString),
         implements: def.implementedTypes?.map(resolveTypeString),
-        indexSignature: def.indexSignature && this.visTsignature(def.indexSignature),
-        methods: this.visitChildren(def.getChildrenByKind(ReflectionKind.Method), this.visitMethod, sortStaticFirst),
-        properties: this.visitChildren(
+        indexSignature: def.indexSignature && (await this.visitSignature(def.indexSignature)),
+        methods: await this.visitChildren(
+            def.getChildrenByKind(ReflectionKind.Method),
+            this.visitMethod,
+            sortStaticFirst,
+        ),
+        properties: await this.visitChildren(
             def.getChildrenByKind(ReflectionKind.Property),
             this.visitProperty,
             sortStaticFirst,
         ),
     });
 
-    private visitConstructor = (def: DeclarationReflection): TsConstructor => ({
-        ...this.visitMethod(def),
+    private visitConstructor = async (def: DeclarationReflection): Promise<TsConstructor> => ({
+        ...(await this.visitMethod(def)),
         kind: Kind.Constructor,
     });
 
-    private visitEnum = (def: DeclarationReflection): TsEnum => ({
-        ...this.makeDocEntry(def, Kind.Enum),
-        members: this.visitChildren<TsEnumMember>(def.getChildrenByKind(ReflectionKind.EnumMember), m => ({
-            ...this.makeDocEntry(m, Kind.EnumMember),
+    private visitEnum = async (def: DeclarationReflection): Promise<TsEnum> => ({
+        ...(await this.makeDocEntry(def, Kind.Enum)),
+        members: await this.visitChildren<TsEnumMember>(def.getChildrenByKind(ReflectionKind.EnumMember), async m => ({
+            ...(await this.makeDocEntry(m, Kind.EnumMember)),
             defaultValue: getDefaultValue(m),
         })),
     });
 
-    private visitProperty = (def: DeclarationReflection): TsProperty => ({
-        ...this.makeDocEntry(def, Kind.Property),
+    private visitProperty = async (def: DeclarationReflection): Promise<TsProperty> => ({
+        ...(await this.makeDocEntry(def, Kind.Property)),
         defaultValue: getDefaultValue(def),
         inheritedFrom: def.inheritedFrom && resolveTypeString(def.inheritedFrom),
         type: resolveTypeString(def.type),
     });
 
-    private visitMethod = (def: DeclarationReflection): TsMethod => ({
-        ...this.makeDocEntry(def, Kind.Method),
+    private visitMethod = async (def: DeclarationReflection): Promise<TsMethod> => ({
+        ...(await this.makeDocEntry(def, Kind.Method)),
         inheritedFrom: def.inheritedFrom && resolveTypeString(def.inheritedFrom),
-        signatures: def.signatures !== undefined ? def.signatures.map(sig => this.visTsignature(sig)) : [],
+        signatures: await Promise.all((def.signatures ?? []).map(sig => this.visitSignature(sig))),
     });
 
-    private visTsignature = (sig: SignatureReflection): TsSignature => ({
-        ...this.makeDocEntry(sig, Kind.Signature),
+    private visitSignature = async (sig: SignatureReflection): Promise<TsSignature> => ({
+        ...(await this.makeDocEntry(sig, Kind.Signature)),
         flags: undefined,
-        parameters: (sig.parameters || []).map(param => this.visitParameter(param)),
+        parameters: await Promise.all((sig.parameters || []).map(param => this.visitParameter(param))),
         returnType: resolveTypeString(sig.type),
         type: resolveSignature(sig),
     });
 
-    private visitParameter = (param: ParameterReflection): TsParameter => ({
-        ...this.makeDocEntry(param, Kind.Parameter),
+    private visitParameter = async (param: ParameterReflection): Promise<TsParameter> => ({
+        ...(await this.makeDocEntry(param, Kind.Parameter)),
         defaultValue: getDefaultValue(param),
         sourceUrl: undefined,
         type: resolveTypeString(param.type),
     });
 
-    private visitAccessor = (param: DeclarationReflection): TsAccessor => {
+    private visitAccessor = async (param: DeclarationReflection): Promise<TsAccessor> => {
         let type: string;
         let getDocumentation;
         let setDocumentation;
@@ -171,29 +178,29 @@ export class Visitor {
         }
 
         if (param.getSignature) {
-            getDocumentation = this.renderComment(param.getSignature.comment);
+            getDocumentation = await this.renderComment(param.getSignature.comment);
         }
         if (param.setSignature) {
-            setDocumentation = this.renderComment(param.setSignature.comment);
+            setDocumentation = await this.renderComment(param.setSignature.comment);
         }
 
         return {
-            ...this.makeDocEntry(param, Kind.Accessor),
+            ...(await this.makeDocEntry(param, Kind.Accessor)),
             getDocumentation,
             setDocumentation,
             type,
         };
     };
 
-    /** VisTs each child that passes the filter condition (based on options). */
-    private visitChildren<T extends TsDocBase>(
+    /** Visits each child that passes the filter condition (based on options). */
+    private async visitChildren<T extends TsDocBase>(
         children: Reflection[],
-        visitor: (def: DeclarationReflection) => T,
+        visitor: (def: DeclarationReflection) => T | Promise<T>,
         comparator?: (a: T, b: T) => number,
-    ): T[] {
+    ): Promise<T[]> {
         const { excludeNames = [], excludePaths = [] } = this.options;
-        return children
-            .map(visitor)
+        const visited = await Promise.all(children.map(visitor));
+        return visited
             .filter(doc => isNotExcluded(excludeNames, doc.name) && isNotExcluded(excludePaths, doc.fileName))
             .sort(comparator);
     }
