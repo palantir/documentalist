@@ -15,7 +15,7 @@
  */
 
 import { isTsClass, isTsInterface, TypescriptPluginData } from "@documentalist/client";
-import { copyFile, mkdtemp, rm, writeFile } from "fs/promises";
+import { promises as fs } from "fs";
 import { join } from "path";
 import { Documentalist } from "../documentalist";
 import { TypescriptPlugin, TypescriptPluginOptions } from "../plugins/typescript/typescriptPlugin";
@@ -27,11 +27,11 @@ describe("TypescriptPlugin", () => {
     it("functions snapshot", () => expectSnapshot("functions"));
 
     it("preserves markdown whitespace around code in property comments", async () => {
-        const fixtureDirectory = await mkdtemp("src/__tests__/__fixtures__/markdown-");
+        const fixtureDirectory = await fs.mkdtemp("src/__tests__/__fixtures__/markdown-");
         const fixtureFilepath = join(fixtureDirectory, "example.ts");
         try {
-            await copyFile("src/__tests__/__fixtures__/tsconfig.json", join(fixtureDirectory, "tsconfig.json"));
-            await writeFile(
+            await fs.copyFile("src/__tests__/__fixtures__/tsconfig.json", join(fixtureDirectory, "tsconfig.json"));
+            await fs.writeFile(
                 fixtureFilepath,
                 [
                     "export interface MarkdownComments {",
@@ -94,7 +94,7 @@ describe("TypescriptPlugin", () => {
                 'Example using `value`:\n\n```ts\nconst value = "example";\n```\n\nReturn `value` unchanged.',
             );
         } finally {
-            await rm(fixtureDirectory, { recursive: true, force: true });
+            await fs.rm(fixtureDirectory, { recursive: true, force: true });
         }
     });
 
