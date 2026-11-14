@@ -24,6 +24,43 @@ describe("TypescriptPlugin", () => {
     it("interfaces snapshot", () => expectSnapshot("interfaces"));
     it("functions snapshot", () => expectSnapshot("functions"));
 
+    it("preserves markdown whitespace around code in property comments", async () => {
+        const fixtureFilepath = "src/__tests__/__fixtures__/interfaces.ts";
+        const dm = Documentalist.create().use(
+            ".ts",
+            new TypescriptPlugin({
+                entryPoints: [fixtureFilepath],
+                tsconfigPath: "src/__tests__/__fixtures__/tsconfig.json",
+            }),
+        );
+        const { typescript } = await dm.documentGlobs(fixtureFilepath);
+        const { MarkdownComments } = typescript;
+        if (!isTsInterface(MarkdownComments)) {
+            throw new Error("Expected MarkdownComments interface");
+        }
+        const inputProps = MarkdownComments.properties.find(prop => prop.name === "inputProps")!;
+        expect(inputProps.documentation?.contentsRaw).toBe(
+            "Props for the [input component](#input).\n\n" +
+                "Some properties are unavailable:\n" +
+                "- `inputProps.value`: use `query` instead\n" +
+                "- `inputProps.disabled`: use `disabled` instead\n\n" +
+                "Other notes:\n" +
+                "- `inputProps.tagName` overrides `popoverProps.targetTagName`.",
+        );
+        expect(inputProps.documentation?.contents).toEqual([
+            '<p>Props for the <a href="#input">input component</a>.</p>\n' +
+                "<p>Some properties are unavailable:</p>\n<ul>\n" +
+                "<li><code>inputProps.value</code>: use <code>query</code> instead</li>\n" +
+                "<li><code>inputProps.disabled</code>: use <code>disabled</code> instead</li>\n</ul>\n" +
+                "<p>Other notes:</p>\n<ul>\n" +
+                "<li><code>inputProps.tagName</code> overrides <code>popoverProps.targetTagName</code>.</li>\n</ul>\n",
+        ]);
+        const example = MarkdownComments.properties.find(prop => prop.name === "example")!;
+        expect(example.documentation?.contentsRaw).toBe(
+            'Example using `value`:\n\n```ts\nconst value = "example";\n```\n\nReturn `value` unchanged.',
+        );
+    });
+
     describe("options", () => {
         it("excludePaths", () => {
             // this snapshot is empty: everything is excluded.

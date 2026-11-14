@@ -207,7 +207,7 @@ export class Visitor {
         }
 
         let documentation = "";
-        documentation += comment.summary.map(part => part.text).join("\n");
+        documentation += comment.summary.map(part => part.text).join("");
 
         const blockTags = comment.blockTags.filter(tag => tag.tag !== "@default" && tag.tag !== "@deprecated");
         if (blockTags.length > 0) {
