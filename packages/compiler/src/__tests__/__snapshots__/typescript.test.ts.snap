@@ -774,14 +774,10 @@ exports[`TypescriptPlugin interfaces snapshot 1`] = `
         "defaultValue": undefined,
         "documentation": {
           "contents": [
-            "<p>Name of the icon (the part after 
-<code>pt-icon-</code>
-) to add to the button.</p>
+            "<p>Name of the icon (the part after <code>pt-icon-</code>) to add to the button.</p>
 ",
           ],
-          "contentsRaw": "Name of the icon (the part after 
-\`pt-icon-\`
-) to add to the button.",
+          "contentsRaw": "Name of the icon (the part after \`pt-icon-\`) to add to the button.",
           "metadata": {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
@@ -916,20 +912,12 @@ false
 \`\`\`",
         "documentation": {
           "contents": [
-            "<p>If set to 
-<code>true</code>
-, the button will display in an active state.
-This is equivalent to setting 
-<code>className=&quot;pt-active&quot;</code>
-.</p>
+            "<p>If set to <code>true</code>, the button will display in an active state.
+This is equivalent to setting <code>className=&quot;pt-active&quot;</code>.</p>
 ",
           ],
-          "contentsRaw": "If set to 
-\`true\`
-, the button will display in an active state.
-This is equivalent to setting 
-\`className="pt-active"\`
-.",
+          "contentsRaw": "If set to \`true\`, the button will display in an active state.
+This is equivalent to setting \`className="pt-active"\`.",
           "metadata": {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
@@ -1007,14 +995,10 @@ This is equivalent to setting
         "defaultValue": undefined,
         "documentation": {
           "contents": [
-            "<p>Name of the icon (the part after 
-<code>pt-icon-</code>
-) to add to the button.</p>
+            "<p>Name of the icon (the part after <code>pt-icon-</code>) to add to the button.</p>
 ",
           ],
-          "contentsRaw": "Name of the icon (the part after 
-\`pt-icon-\`
-) to add to the button.",
+          "contentsRaw": "Name of the icon (the part after \`pt-icon-\`) to add to the button.",
           "metadata": {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
@@ -1040,15 +1024,11 @@ false
 \`\`\`",
         "documentation": {
           "contents": [
-            "<p>If set to 
-<code>true</code>
-, the button will display a centered loading spinner instead of its contents.
+            "<p>If set to <code>true</code>, the button will display a centered loading spinner instead of its contents.
 The width of the button is not affected by the value of this prop.</p>
 ",
           ],
-          "contentsRaw": "If set to 
-\`true\`
-, the button will display a centered loading spinner instead of its contents.
+          "contentsRaw": "If set to \`true\`, the button will display a centered loading spinner instead of its contents.
 The width of the button is not affected by the value of this prop.",
           "metadata": {},
         },
@@ -1100,14 +1080,10 @@ The width of the button is not affected by the value of this prop.",
         "defaultValue": undefined,
         "documentation": {
           "contents": [
-            "<p>Name of the icon (the part after 
-<code>pt-icon-</code>
-) to add to the button.</p>
+            "<p>Name of the icon (the part after <code>pt-icon-</code>) to add to the button.</p>
 ",
           ],
-          "contentsRaw": "Name of the icon (the part after 
-\`pt-icon-\`
-) to add to the button.",
+          "contentsRaw": "Name of the icon (the part after \`pt-icon-\`) to add to the button.",
           "metadata": {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
@@ -1160,32 +1136,12 @@ The width of the button is not affected by the value of this prop.",
 \`\`\`",
         "documentation": {
           "contents": [
-            "<p>HTML 
-<code>type</code>
- attribute of button. Common values are 
-<code>&quot;button&quot;</code>
- and 
-<code>&quot;submit&quot;</code>
-.
-Note that this prop has no effect on 
-<code>AnchorButton</code>
-; it only affects 
-<code>Button</code>
-.</p>
+            "<p>HTML <code>type</code> attribute of button. Common values are <code>&quot;button&quot;</code> and <code>&quot;submit&quot;</code>.
+Note that this prop has no effect on <code>AnchorButton</code>; it only affects <code>Button</code>.</p>
 ",
           ],
-          "contentsRaw": "HTML 
-\`type\`
- attribute of button. Common values are 
-\`"button"\`
- and 
-\`"submit"\`
-.
-Note that this prop has no effect on 
-\`AnchorButton\`
-; it only affects 
-\`Button\`
-.",
+          "contentsRaw": "HTML \`type\` attribute of button. Common values are \`"button"\` and \`"submit"\`.
+Note that this prop has no effect on \`AnchorButton\`; it only affects \`Button\`.",
           "metadata": {},
         },
         "fileName": "src/__tests__/__fixtures__/interfaces.ts",
@@ -1211,14 +1167,10 @@ Note that this prop has no effect on
   "Compiler": {
     "documentation": {
       "contents": [
-        "<p>Each plugin receives a 
-<code>Compiler</code>
- instance to aid in the processing of source files.</p>
+        "<p>Each plugin receives a <code>Compiler</code> instance to aid in the processing of source files.</p>
 ",
       ],
-      "contentsRaw": "Each plugin receives a 
-\`Compiler\`
- instance to aid in the processing of source files.",
+      "contentsRaw": "Each plugin receives a \`Compiler\` instance to aid in the processing of source files.",
       "metadata": {},
     },
     "extends": undefined,
@@ -1337,19 +1289,15 @@ callback to extract key from each item.",
             "documentation": {
               "contents": [
                 "<p>Render a block of content by extracting metadata (YAML front matter) and
-splitting text content into markdown-rendered HTML strings and 
-<code>{ tag, value }</code>
- objects.</p>
+splitting text content into markdown-rendered HTML strings and <code>{ tag, value }</code> objects.</p>
 <p>To prevent special strings like &quot;@include&quot; from being parsed, a reserved
 tag words array may be provided, in which case the line will be left as
 is.</p>
 ",
               ],
               "contentsRaw": "Render a block of content by extracting metadata (YAML front matter) and
-splitting text content into markdown-rendered HTML strings and 
-\`{ tag,
-value }\`
- objects.
+splitting text content into markdown-rendered HTML strings and \`{ tag,
+value }\` objects.
 
 To prevent special strings like "@include" from being parsed, a reserved
 tag words array may be provided, in which case the line will be left as
@@ -1427,14 +1375,10 @@ is.",
           {
             "documentation": {
               "contents": [
-                "<p>Render a string of markdown to HTML, using the options from 
-<code>Documentalist</code>
-.</p>
+                "<p>Render a string of markdown to HTML, using the options from <code>Documentalist</code>.</p>
 ",
               ],
-              "contentsRaw": "Render a string of markdown to HTML, using the options from 
-\`Documentalist\`
-.",
+              "contentsRaw": "Render a string of markdown to HTML, using the options from \`Documentalist\`.",
               "metadata": {},
             },
             "fileName": "src/__tests__/__fixtures__/interfaces.ts",
