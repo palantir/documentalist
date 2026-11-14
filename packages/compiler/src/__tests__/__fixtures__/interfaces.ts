@@ -93,28 +93,3 @@ export interface Compiler {
      */
     renderMarkdown(markdown: string): string;
 }
-
-export interface MarkdownComments {
-    /**
-     * Props for the [input component](#input).
-     *
-     * Some properties are unavailable:
-     * - `inputProps.value`: use `query` instead
-     * - `inputProps.disabled`: use `disabled` instead
-     *
-     * Other notes:
-     * - `inputProps.tagName` overrides `popoverProps.targetTagName`.
-     */
-    inputProps?: object;
-
-    /**
-     * Example using `value`:
-     *
-     * ```ts
-     * const value = "example";
-     * ```
-     *
-     * Return `value` unchanged.
-     */
-    example?: string;
-}
